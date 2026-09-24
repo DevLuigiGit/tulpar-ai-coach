@@ -1,0 +1,148 @@
+{
+ "summary": {
+  "n": 9,
+  "first_try_valid": 77.8,
+  "final_valid": 88.9,
+  "avg_drafts": 1.33,
+  "request_respected": 88.9,
+  "p50_ms": 3146,
+  "llm_calls": 12,
+  "tokens_in": 74386,
+  "tokens_out": 6390,
+  "cost_usd": 0.048936,
+  "fallbacks": 0,
+  "gate": true
+ },
+ "rows": [
+  {
+   "client": "demo-student",
+   "request": "Колено беспокоит: замени приседания и выпады на щадящие упражнения",
+   "ops": 2,
+   "drafts": 1,
+   "respected": false,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Меняю приседания со штангой и жим ногами на щадящие для колена упражнения в день ног.",
+   "ms": 2690
+  },
+  {
+   "client": "demo-student",
+   "request": "Убери из программы упражнения, опасные для больного колена, и замени на щадящие",
+   "ops": 3,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "Убираем приседания со штангой и жим ногами в день ног; заменяем на безопасные для колена варианты.",
+   "ms": 7918
+  },
+  {
+   "client": "demo-student",
+   "request": "Добавь кардио в конец дня ног, 1 упражнение",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "Добавляю в конец дня ног кардио без нагрузки на колено — гребной тренажёр. Бег, прыжки и бёрпи исключены из-за жалобы на левое колено.",
+   "ms": 3679
+  },
+  {
+   "client": "demo-student",
+   "request": "Клиент устаёт: уменьши объём в тяговом дне на один подход",
+   "ops": 5,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В тяговом дне (day_index=1) уменьшаю на один подход во всех упражнениях: 4→3, 3→2. Запрос именно про объём, замены не требуются.",
+   "ms": 2819
+  },
+  {
+   "client": "demo-student",
+   "request": "Замени жим штанги лёжа на вариант с гантелями",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "Заменяю жим штанги лёжа на жим гантелей лёжа в день Push (day_index=0), сохраняя объём 4×8.",
+   "ms": 1706
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Тренируется дома: замени всё, что требует тренажёров или штанги",
+   "ops": 3,
+   "drafts": 3,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": false,
+   "errors": [
+    "E_VOLUME"
+   ],
+   "warnings": [],
+   "summary": "Заменяю ягодичный мост со штангой на ягодичный мост с резинкой/собственным весом. Всё остальное в плане уже подходит для дома (гантели и резинка разрешены).",
+   "ms": 16891
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Добавь упражнение на пресс во второй день",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Добавляю во второй день (Среда, day_index=1) одно упражнение на пресс — V-складку, 3×15. День уже содержит упражнения на пресс и кор, но тренер просит дополнительное.",
+   "ms": 2562
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Хочет больше кардио: добавь по одному кардио-упражнению в каждый день",
+   "ops": 3,
+   "drafts": 2,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Добавляю по одному кардио-упражнению в каждый день: в Пн и Ср — Джампинг-джек 3×40 сек, в Пт — Выпрыгивания из приседа 3×40 сек (веса нет — кардио на время, 40 секунд в одном подходе).",
+   "ms": 19207
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Сделай первый день чуть легче для новичка",
+   "ops": 2,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Делаю понедельник легче: уменьшаю объём воздушных приседаний и ягодичного моста, планку и скручивания оставляю как есть, остальные упражнения не трогаю.",
+   "ms": 3146
+  }
+ ]
+}

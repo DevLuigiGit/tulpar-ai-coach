@@ -1,0 +1,1105 @@
+{
+ "summary": {
+  "n": 80,
+  "models": "ollama:minimax-m3",
+  "top1": 63.8,
+  "top3": 71.2,
+  "errors": 5,
+  "p50_ms": 3587.5,
+  "by_group": {
+   "g1": {
+    "n": 12,
+    "top1": 83.3
+   },
+   "g2": {
+    "n": 20,
+    "top1": 70.0
+   },
+   "g3": {
+    "n": 12,
+    "top1": 41.7
+   },
+   "g4": {
+    "n": 12,
+    "top1": 41.7
+   },
+   "g5": {
+    "n": 12,
+    "top1": 83.3
+   },
+   "g6": {
+    "n": 12,
+    "top1": 58.3
+   }
+  },
+  "llm_calls": 75,
+  "tokens_in": 211585,
+  "tokens_out": 8729,
+  "cost_usd": 0.131731,
+  "fallbacks": 0,
+  "gate": true
+ },
+ "rows": [
+  {
+   "file": "g1/01.jpg",
+   "group": "g1",
+   "truth": "пицца",
+   "pred": [
+    "Пицца с салями и беконом",
+    "Пицца с говядиной и овощами",
+    "Пластиковый стакан"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4354
+  },
+  {
+   "file": "g1/02.jpg",
+   "group": "g1",
+   "truth": "шаурма",
+   "pred": [
+    "шаурма",
+    "огурцы маринованные",
+    "мясо жареное"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4129
+  },
+  {
+   "file": "g1/03.jpg",
+   "group": "g1",
+   "truth": "картофель фри",
+   "pred": [
+    "картофель фри",
+    "кетчуп",
+    "Coca-Cola"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3813
+  },
+  {
+   "file": "g1/04.jpg",
+   "group": "g1",
+   "truth": "бургер",
+   "pred": [
+    "Бургер с котлетой",
+    "Котлета",
+    "Салат айсберг"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4703
+  },
+  {
+   "file": "g1/05.jpg",
+   "group": "g1",
+   "truth": "пицца пепперони с грибами",
+   "pred": [
+    "Пицца с колбасой и сосисками"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3717
+  },
+  {
+   "file": "g1/06.jpg",
+   "group": "g1",
+   "truth": "пицца с морепродуктами",
+   "pred": [],
+   "error": true,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3384
+  },
+  {
+   "file": "g1/07.jpg",
+   "group": "g1",
+   "truth": "пицца",
+   "pred": [
+    "Пицца"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3004
+  },
+  {
+   "file": "g1/08.jpg",
+   "group": "g1",
+   "truth": "бургер",
+   "pred": [
+    "гамбургер"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 6150
+  },
+  {
+   "file": "g1/09.jpg",
+   "group": "g1",
+   "truth": "бургер",
+   "pred": [
+    "Шаурма"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3445
+  },
+  {
+   "file": "g1/10.jpg",
+   "group": "g1",
+   "truth": "хот-дог",
+   "pred": [
+    "хот-дог",
+    "кетчуп",
+    "майонез"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3635
+  },
+  {
+   "file": "g1/11.jpg",
+   "group": "g1",
+   "truth": "судак",
+   "pred": [
+    "Рыба под сливочным соусом с пюре",
+    "Кукурузный суп-пюре",
+    "Лимон"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4831
+  },
+  {
+   "file": "g1/12.jpg",
+   "group": "g1",
+   "truth": "стейк на кости",
+   "pred": [
+    "стейк на кости",
+    "запечённые овощи",
+    "кетчуп"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4308
+  },
+  {
+   "file": "g2/01.jpg",
+   "group": "g2",
+   "truth": "бешбармак",
+   "pred": [
+    "Бешбармак",
+    "Морковь отварная",
+    "Картофель отварной"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2209
+  },
+  {
+   "file": "g2/02.jpg",
+   "group": "g2",
+   "truth": "бешбармак",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": false,
+   "top3": false,
+   "ms": 2035
+  },
+  {
+   "file": "g2/03.jpg",
+   "group": "g2",
+   "truth": "бешбармак с кониной",
+   "pred": [
+    "Бешбармак",
+    "Зелень (зеленый лук)",
+    "Фрукты в вазе"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2556
+  },
+  {
+   "file": "g2/04.jpg",
+   "group": "g2",
+   "truth": "шашлык",
+   "pred": [
+    "шашлык из баранины",
+    "шашлык из курицы"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3149
+  },
+  {
+   "file": "g2/05.jpg",
+   "group": "g2",
+   "truth": "шашлык",
+   "pred": [
+    "Жареный фарш с луком"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 2970
+  },
+  {
+   "file": "g2/06.jpg",
+   "group": "g2",
+   "truth": "шашлык",
+   "pred": [
+    "Говяжий стейк на гриле",
+    "Шашлык из говядины",
+    "Свежий лук"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 4096
+  },
+  {
+   "file": "g2/07.jpg",
+   "group": "g2",
+   "truth": "шашлык",
+   "pred": [
+    "Шашлык из свинины",
+    "Лук репчатый"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2493
+  },
+  {
+   "file": "g2/08.jpg",
+   "group": "g2",
+   "truth": "лагман",
+   "pred": [
+    "Лагман с говядиной"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2064
+  },
+  {
+   "file": "g2/09.jpg",
+   "group": "g2",
+   "truth": "жареные манты",
+   "pred": [
+    "Манты жареные",
+    "Помидоры свежие",
+    "Чай"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3471
+  },
+  {
+   "file": "g2/10.jpg",
+   "group": "g2",
+   "truth": "цомян",
+   "pred": [
+    "Удон с курицей и овощами в остром соусе",
+    "Перец болгарский",
+    "Курица"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3866
+  },
+  {
+   "file": "g2/11.jpg",
+   "group": "g2",
+   "truth": "плов",
+   "pred": [
+    "плов"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3074
+  },
+  {
+   "file": "g2/12.jpg",
+   "group": "g2",
+   "truth": "самса",
+   "pred": [
+    "самса"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3344
+  },
+  {
+   "file": "g2/13.jpg",
+   "group": "g2",
+   "truth": "плов",
+   "pred": [
+    "плов"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4508
+  },
+  {
+   "file": "g2/14.jpg",
+   "group": "g2",
+   "truth": "плов",
+   "pred": [
+    "плов"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3630
+  },
+  {
+   "file": "g2/15.jpg",
+   "group": "g2",
+   "truth": "самса с мясом",
+   "pred": [
+    "Самса"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3688
+  },
+  {
+   "file": "g2/16.jpg",
+   "group": "g2",
+   "truth": "цомян",
+   "pred": [
+    "лагман"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3539
+  },
+  {
+   "file": "g2/17.jpg",
+   "group": "g2",
+   "truth": "шашлык",
+   "pred": [
+    "шашлык",
+    "репчатый лук",
+    "соус красный"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3564
+  },
+  {
+   "file": "g2/18.jpg",
+   "group": "g2",
+   "truth": "лагман",
+   "pred": [
+    "Удон с говядиной и овощами",
+    "Говядина",
+    "Лапша удон"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 4738
+  },
+  {
+   "file": "g2/19.jpg",
+   "group": "g2",
+   "truth": "манты",
+   "pred": [
+    "манты",
+    "томатный соус"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3244
+  },
+  {
+   "file": "g2/20.jpg",
+   "group": "g2",
+   "truth": "стейк из конины",
+   "pred": [
+    "Мясная нарезка (ростбиф/буженина)",
+    "Салат с рисом и овощами",
+    "Красная икра"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3611
+  },
+  {
+   "file": "g3/01.jpg",
+   "group": "g3",
+   "truth": "баурсаки и жареные пирожки",
+   "pred": [
+    "Самса",
+    "Шашлык из рыбы",
+    "Салат из свежих овощей"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3472
+  },
+  {
+   "file": "g3/02.jpg",
+   "group": "g3",
+   "truth": "лагман",
+   "pred": [
+    "плов",
+    "мясо (говядина или баранина)",
+    "морковь"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3249
+  },
+  {
+   "file": "g3/03.jpg",
+   "group": "g3",
+   "truth": "лагман",
+   "pred": [
+    "лагман"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2910
+  },
+  {
+   "file": "g3/04.jpg",
+   "group": "g3",
+   "truth": "нарын",
+   "pred": [
+    "Лук репчатый",
+    "Лед"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 4027
+  },
+  {
+   "file": "g3/05.jpg",
+   "group": "g3",
+   "truth": "нарын",
+   "pred": [
+    "бешбармак"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3478
+  },
+  {
+   "file": "g3/06.jpg",
+   "group": "g3",
+   "truth": "плов",
+   "pred": [
+    "Плов с говядиной"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4045
+  },
+  {
+   "file": "g3/07.jpg",
+   "group": "g3",
+   "truth": "шашлык с лепёшкой",
+   "pred": [
+    "шашлык из свинины",
+    "лаваш",
+    "картофель фри"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3711
+  },
+  {
+   "file": "g3/08.jpg",
+   "group": "g3",
+   "truth": "самса с курицей",
+   "pred": [
+    "шаурма"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3668
+  },
+  {
+   "file": "g3/09.jpg",
+   "group": "g3",
+   "truth": "манты",
+   "pred": [
+    "манты"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4043
+  },
+  {
+   "file": "g3/10.jpg",
+   "group": "g3",
+   "truth": "кальцоне",
+   "pred": [
+    "Шаурма",
+    "Вода бутилированная"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 4121
+  },
+  {
+   "file": "g3/11.jpg",
+   "group": "g3",
+   "truth": "бургер",
+   "pred": [
+    "Бургер с кунжутной булочкой"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2708
+  },
+  {
+   "file": "g3/12.jpg",
+   "group": "g3",
+   "truth": "пицца",
+   "pred": [
+    "Сэндвич с лососем и сыром на гриле"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3944
+  },
+  {
+   "file": "g4/01.jpg",
+   "group": "g4",
+   "truth": "плов, самса, баурсаки и салаты",
+   "pred": [],
+   "error": true,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3906
+  },
+  {
+   "file": "g4/02.jpg",
+   "group": "g4",
+   "truth": "плов, баурсаки, самса и салаты",
+   "pred": [
+    "Чебуреки",
+    "Самса",
+    "Салат из свежих овощей"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 4864
+  },
+  {
+   "file": "g4/03.jpg",
+   "group": "g4",
+   "truth": "плов и салат",
+   "pred": [
+    "плов",
+    "помидоры",
+    "лук репчатый"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3321
+  },
+  {
+   "file": "g4/04.jpg",
+   "group": "g4",
+   "truth": "манты, баурсаки и салат",
+   "pred": [
+    "Манты",
+    "Салат с креветками и яйцом",
+    "Пирожки"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4255
+  },
+  {
+   "file": "g4/05.jpg",
+   "group": "g4",
+   "truth": "манты, мясо, выпечка и салаты",
+   "pred": [
+    "Самса",
+    "Манты",
+    "Салат со свёклой и брынзой"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 3797
+  },
+  {
+   "file": "g4/06.jpg",
+   "group": "g4",
+   "truth": "самса, рис и овощи",
+   "pred": [],
+   "error": true,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 2892
+  },
+  {
+   "file": "g4/07.jpg",
+   "group": "g4",
+   "truth": "самса, баурсаки и салаты",
+   "pred": [],
+   "error": true,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3654
+  },
+  {
+   "file": "g4/08.jpg",
+   "group": "g4",
+   "truth": "бешбармак, рыба, салаты и выпечка",
+   "pred": [],
+   "error": true,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 5454
+  },
+  {
+   "file": "g4/09.jpg",
+   "group": "g4",
+   "truth": "манты, салат и лепёшка",
+   "pred": [
+    "Манты",
+    "Салат из помидоров с луком",
+    "Греческий салат"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3663
+  },
+  {
+   "file": "g4/10.jpg",
+   "group": "g4",
+   "truth": "плов, мясо и салат",
+   "pred": [
+    "корейская жареная курица с овощами на бумаге (будак ччиге/так)",
+    "варёный рис",
+    "салат"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 5599
+  },
+  {
+   "file": "g4/11.jpg",
+   "group": "g4",
+   "truth": "плов и казан-кебаб",
+   "pred": [
+    "плов",
+    "запечённые куриные ножки и крылышки",
+    "хлеб"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 4202
+  },
+  {
+   "file": "g4/12.jpg",
+   "group": "g4",
+   "truth": "плов, баурсаки и салаты",
+   "pred": [
+    "плов",
+    "булочка",
+    "варёное яйцо"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 5423
+  },
+  {
+   "file": "g5/01.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 3774
+  },
+  {
+   "file": "g5/02.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 2293
+  },
+  {
+   "file": "g5/03.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 3109
+  },
+  {
+   "file": "g5/04.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 3172
+  },
+  {
+   "file": "g5/05.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 4392
+  },
+  {
+   "file": "g5/06.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [
+    "Комбо",
+    "Айран Fresh",
+    "Баурсаки"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 4855
+  },
+  {
+   "file": "g5/07.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 4542
+  },
+  {
+   "file": "g5/08.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [
+    "Капучино"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 3461
+  },
+  {
+   "file": "g5/09.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 4490
+  },
+  {
+   "file": "g5/10.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 4742
+  },
+  {
+   "file": "g5/11.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 3275
+  },
+  {
+   "file": "g5/12.jpg",
+   "group": "g5",
+   "truth": "не определено",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": true,
+   "top3": true,
+   "ms": 4344
+  },
+  {
+   "file": "g6/01.jpg",
+   "group": "g6",
+   "truth": "творог детский Агуша классический 4,5%",
+   "pred": [
+    "Детский творог «Агуша» классический 4,5%"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3353
+  },
+  {
+   "file": "g6/02.jpg",
+   "group": "g6",
+   "truth": "кефир ВкусВилл 1%",
+   "pred": [
+    "Кефир 1%"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2030
+  },
+  {
+   "file": "g6/03.jpg",
+   "group": "g6",
+   "truth": "протеиновый батончик Must Have Strawberry",
+   "pred": [
+    "Протеиновый батончик со вкусом клубники"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2004
+  },
+  {
+   "file": "g6/04.jpg",
+   "group": "g6",
+   "truth": "крупа гречневая Агро-Альянс Экстра",
+   "pred": [
+    "Гречневая крупа"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2292
+  },
+  {
+   "file": "g6/05.jpg",
+   "group": "g6",
+   "truth": "икра нерки Восточный берег",
+   "pred": [
+    "Икра зернистая"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": true,
+   "ms": 1836
+  },
+  {
+   "file": "g6/06.jpg",
+   "group": "g6",
+   "truth": "молоко Большая Кружка 2,5%",
+   "pred": [
+    "Молоко ультрапастеризованное 2,5%"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 3245
+  },
+  {
+   "file": "g6/07.jpg",
+   "group": "g6",
+   "truth": "батон молочный Первый хлебокомбинат",
+   "pred": [
+    "Сухарики в упаковке"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": false,
+   "top3": false,
+   "ms": 1903
+  },
+  {
+   "file": "g6/08.jpg",
+   "group": "g6",
+   "truth": "сыр творожный President сливочный",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": false,
+   "top3": false,
+   "ms": 1979
+  },
+  {
+   "file": "g6/09.jpg",
+   "group": "g6",
+   "truth": "йогурт MolKom абрикос",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": false,
+   "top3": false,
+   "ms": 1612
+  },
+  {
+   "file": "g6/10.jpg",
+   "group": "g6",
+   "truth": "фисташки жареные солёные Семушка",
+   "pred": [],
+   "error": false,
+   "refused": true,
+   "top1": false,
+   "top3": false,
+   "ms": 2905
+  },
+  {
+   "file": "g6/11.jpg",
+   "group": "g6",
+   "truth": "макаронные изделия МАКФА Спирали 400 г",
+   "pred": [
+    "Спирали (макароны)"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2547
+  },
+  {
+   "file": "g6/12.jpg",
+   "group": "g6",
+   "truth": "шоколад Рахат Казахстанский молочный 100 г",
+   "pred": [
+    "Шоколад молочный «Казахстан» с изюмом и орехами"
+   ],
+   "error": false,
+   "refused": false,
+   "top1": true,
+   "top3": true,
+   "ms": 2576
+  }
+ ]
+}

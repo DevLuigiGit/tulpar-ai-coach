@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     route_max_tokens: int = 200
     answer_temperature: float = 0.2
     answer_top_p: float = 0.9
-    answer_max_tokens: int = 700
+    answer_max_tokens: int = 400
     draft_temperature: float = 0.2
     draft_top_p: float = 0.9
     draft_max_tokens: int = 1500

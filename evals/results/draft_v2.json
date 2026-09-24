@@ -1,0 +1,151 @@
+{
+ "summary": {
+  "n": 9,
+  "first_try_valid": 77.8,
+  "final_valid": 100.0,
+  "avg_drafts": 1.33,
+  "request_respected": 100.0,
+  "p50_ms": 8274,
+  "llm_calls": 12,
+  "tokens_in": 75603,
+  "tokens_out": 6880,
+  "cost_usd": 0.049597,
+  "fallbacks": 1,
+  "gate": true
+ },
+ "rows": [
+  {
+   "client": "demo-student",
+   "request": "Колено беспокоит: замени приседания и выпады на щадящие упражнения",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В день ног заменяю приседания со штангой на жим ногами узкой постановкой, выпады в плане отсутствуют — добавлять не буду. Жим ногами уже есть, по согласованию с тренером клиент делает его в неполной а",
+   "ms": 5824
+  },
+  {
+   "client": "demo-student",
+   "request": "Убери из программы упражнения, опасные для больного колена, и замени на щадящие",
+   "ops": 2,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "В день Legs заменяем приседания со штангой на выпады с гантелями и жим ногами – на выпады ходьбой, чтобы снять нагрузку с колена",
+   "ms": 9498
+  },
+  {
+   "client": "demo-student",
+   "request": "Добавь кардио в конец дня ног, 1 упражнение",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В конец дня ног добавляю одно кардио-упражнение, безопасное для левого колена — велосипед на гребном тренажёре.",
+   "ms": 4838
+  },
+  {
+   "client": "demo-student",
+   "request": "Клиент устаёт: уменьши объём в тяговом дне на один подход",
+   "ops": 5,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В тяговом дне (Pull, спина-бицепс) убираем по одному подходу в каждом упражнении: было 4×6, 3×8, 3×10, 3×12, 3×12 — станет 3×6, 3×8, 3×10, 3×12, 3×12. Тренировка станет короче и легче.",
+   "ms": 6535
+  },
+  {
+   "client": "demo-student",
+   "request": "Замени жим штанги лёжа на вариант с гантелями",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В дне Push заменяю жим штанги лёжа на жим гантелей лёжа, сохраняя 4×8.",
+   "ms": 1909
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Тренируется дома: замени всё, что требует тренажёров или штанги",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Заменяю в плане «ягодичный мост со штангой» на мост с гантелью или собственным весом, чтобы убрать упражнение со штангой. Остальные движения укладываются в домашний набор (гантели и резинка).",
+   "ms": 10561
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Добавь упражнение на пресс во второй день",
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL"
+   ],
+   "summary": "Добавляю одно упражнение на пресс в среду (второй день). Подходящие варианты без инвентаря уже есть в каталоге.",
+   "ms": 8274
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Хочет больше кардио: добавь по одному кардио-упражнению в каждый день",
+   "ops": 6,
+   "drafts": 2,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL",
+    "W_VOLUME_LEVEL"
+   ],
+   "summary": "В каждый из трёх дней добавляем по одному кардио-упражнению без инвентаря, ставим их в конец дня по 3 подхода.",
+   "ms": 16149
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Сделай первый день чуть легче для новичка",
+   "ops": 2,
+   "drafts": 3,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "В Понедельнике снижаем объём до 3×10–12, чтобы первая тренировка была легче: приседания и ягодичный мост по 3×12 вместо 3×15.",
+   "ms": 17991
+  }
+ ]
+}

@@ -35,7 +35,7 @@ INTENTS = {"meal_text", "question", "program_request", "escalate", "other"}
 
 # HARD markers force a human regardless of the model; SOFT markers are only a hint for the router.
 HARD = re.compile(r"стероид|анабол|тестостерон|рвот|не ем(?:\s+уже)?\s+\d+\s*(?:дн|день|дня|дней|сут)|не ела?\s+\d+\s*(?:дн|день|дня|дней|сут)|"
-                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|кровь|кровотеч|давит в груди|боль в сердц", re.I)
+                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц", re.I)
 SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады", re.I)
 INJECTION = re.compile(r"игнорируй (все )?(инструкц|правил)|ignore (all |previous )?instructions|системн\w* промпт|"
                        r"system prompt|покажи (телефон|номер|данные) клиент|you are now|ты теперь", re.I)

@@ -229,6 +229,7 @@ async def suite_program(args) -> dict:
 
 # ── draft (LLM program changes on demo clients) ──────────────────────────────
 DRAFT_REQUESTS = [
+    ("demo-student", "Колено беспокоит: замени приседания и выпады на щадящие упражнения"),
     ("demo-student", "Убери из программы упражнения, опасные для больного колена, и замени на щадящие"),
     ("demo-student", "Добавь кардио в конец дня ног, 1 упражнение"),
     ("demo-student", "Клиент устаёт: уменьши объём в тяговом дне на один подход"),
@@ -275,7 +276,9 @@ async def suite_draft(args) -> dict:
             ms = int((time.perf_counter() - t0) * 1000)
         calls_all += calls
         errs = [v for v in st["violations"] if v["severity"] == "error"]
+        cat = {e.id: e.model_dump() for e in gw.exercises()}
         rows.append({"client": tg, "request": req, "ops": len(st["draft"]["ops"]), "drafts": st["draft_attempts"],
+                     "respected": request_respected(req, st["draft"]["ops"], cat),
                      "first_try_valid": first_ok, "final_valid": not errs and bool(st["draft"]["ops"]),
                      "errors": [e["code"] for e in errs], "warnings": [v["code"] for v in st["violations"] if v["severity"] == "warning"],
                      "summary": st["draft"]["summary"][:200], "ms": ms})
@@ -283,12 +286,29 @@ async def suite_draft(args) -> dict:
     summary = {"n": len(rows), "first_try_valid": pct(r["first_try_valid"] for r in rows),
                "final_valid": pct(r["final_valid"] for r in rows),
                "avg_drafts": round(statistics.mean([r["drafts"] for r in rows]), 2) if rows else 0,
+               "request_respected": pct(r["respected"] for r in rows),
                "p50_ms": statistics.median([r["ms"] for r in rows]) if rows else 0, **usage_stats(calls_all)}
     summary["gate"] = summary["final_valid"] >= 75
     return {"summary": summary, "rows": rows}
 
 
 # ── vision (food photos from Tulpar's labelled bench) ────────────────────────
+BANNED = {"присед": "присед", "выпад": "выпад", "прыж": "прыж"}
+
+
+def request_respected(req: str, ops: list[dict], catalog: dict) -> bool:
+    """A movement the request asks to remove must not come back as a variant («выпады» → «обратные выпады»)."""
+    banned = [stem for stem in BANNED if stem in req.lower()]
+    if not banned:
+        return True
+    for op in ops:
+        if op.get("op") in ("replace_exercise", "add_exercise"):
+            name = (catalog.get(op.get("exercise_id") or "", {}).get("name") or "").lower()
+            if any(stem in name for stem in banned):
+                return False
+    return True
+
+
 def _norm(t: str) -> set[str]:
     return {w[:6] for w in re.sub(r"[^0-9a-zа-я]+", " ", (t or "").lower().replace("ё", "е")).split() if len(w) > 1}
 
@@ -365,7 +385,7 @@ EXPERIMENTS = {
 KEYS = {"router": ["n", "intent_accuracy", "escalation_recall", "false_escalation_rate", "stability", "p50_ms", "cost_usd"],
         "qa": ["n", "embedder", "rerank", "temperature", "top_p", "pdf_chunk", "hit_at_4", "mrr", "keyfact_accuracy",
                "correct_refusal_rate", "faithfulness_avg", "correctness_avg", "p50_ms", "out_tokens_p95", "cost_per_question_usd"],
-        "program": ["n", "exact_match"], "draft": ["n", "first_try_valid", "final_valid", "avg_drafts", "p50_ms", "cost_usd"],
+        "program": ["n", "exact_match"], "draft": ["n", "first_try_valid", "final_valid", "request_respected", "avg_drafts", "p50_ms", "cost_usd"],
         "vision": ["n", "models", "top1", "top3", "errors", "p50_ms"]}
 
 

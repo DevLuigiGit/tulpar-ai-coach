@@ -1,0 +1,122 @@
+{
+ "summary": {
+  "n": 8,
+  "first_try_valid": 62.5,
+  "final_valid": 100.0,
+  "avg_drafts": 1.5,
+  "p50_ms": 6126.0,
+  "llm_calls": 12,
+  "tokens_in": 73499,
+  "tokens_out": 6247,
+  "cost_usd": 0.0483,
+  "fallbacks": 0,
+  "gate": true
+ },
+ "rows": [
+  {
+   "client": "demo-student",
+   "request": "Убери из программы упражнения, опасные для больного колена, и замени на щадящие",
+   "ops": 2,
+   "drafts": 1,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "На дне ног убираем приседания со штангой и жим ногами, ставим щадящие альтернативы. Остальные дни не трогаем — на колено они не влияют.",
+   "ms": 6262
+  },
+  {
+   "client": "demo-student",
+   "request": "Добавь кардио в конец дня ног, 1 упражнение",
+   "ops": 1,
+   "drafts": 1,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "Добавляем в конец дня ног кардио без нагрузки на колено и без прыжков: гребной тренажёр.",
+   "ms": 4984
+  },
+  {
+   "client": "demo-student",
+   "request": "Клиент устаёт: уменьши объём в тяговом дне на один подход",
+   "ops": 5,
+   "drafts": 1,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "В тяговом дне (day_index=1) уменьшаю на 1 подход каждое упражнение. Клиент среднего уровня — занижать ниже 3×8 не нужно, оставляю нижнюю границу для inter.",
+   "ms": 5990
+  },
+  {
+   "client": "demo-student",
+   "request": "Замени жим штанги лёжа на вариант с гантелями",
+   "ops": 1,
+   "drafts": 1,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "summary": "Заменяю жим штанги лёжа на жим гантелей лёжа в Push-дне, оставляю 4×8.",
+   "ms": 2762
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Тренируется дома: замени всё, что требует тренажёров или штанги",
+   "ops": 1,
+   "drafts": 2,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Заменяю «Ягодичный мост со штангой» на ягодичный мост с гантелей, чтобы убрать штангу из плана.",
+   "ms": 6773
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Добавь упражнение на пресс во второй день",
+   "ops": 1,
+   "drafts": 1,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Добавляю одно упражнение на пресс во второй день (Среда, day_index=1).",
+   "ms": 1996
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Хочет больше кардио: добавь по одному кардио-упражнению в каждый день",
+   "ops": 3,
+   "drafts": 3,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "В каждый из трёх дней добавляем по одному кардио-упражнению (берпи) по 3×10. План у новичка уже содержит 5 упражнений в дне при норме до 4 — это предупреждение для тренера.",
+   "ms": 20698
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Сделай первый день чуть легче для новичка",
+   "ops": 3,
+   "drafts": 2,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "summary": "Делаю Понедельник легче: убираю ягодичный мост со штангой (тренажёр не подходит для дома и тяжеловат для первого дня) и снижаю повторы в приседаниях и скручиваниях.",
+   "ms": 10457
+  }
+ ]
+}

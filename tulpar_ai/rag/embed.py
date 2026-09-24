@@ -7,6 +7,7 @@ mentor's laptop). The fallback is also a baseline arm in the RAG A/B.
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import math
 import re
@@ -18,6 +19,21 @@ from langsmith import traceable
 from ..config import get_settings
 
 JINA = "https://api.jina.ai/v1"
+
+
+async def _post(c: httpx.AsyncClient, path: str, body: dict, attempts: int = 5) -> dict:
+    """Jina free tier answers 429 under bursts: back off (honouring Retry-After) instead of failing the turn."""
+    s = get_settings()
+    delay = 1.0
+    for i in range(attempts):
+        r = await c.post(f"{JINA}{path}", headers={"Authorization": f"Bearer {s.jina_api_key}"}, json=body)
+        if r.status_code not in (429, 500, 502, 503, 504) or i == attempts - 1:
+            r.raise_for_status()
+            return r.json()
+        wait = float(r.headers.get("retry-after") or delay)
+        await asyncio.sleep(min(wait, 20.0))
+        delay *= 2
+    raise RuntimeError("unreachable")
 
 
 class Embedder(Protocol):
@@ -43,10 +59,8 @@ class JinaEmbedder:
         out: list[list[float]] = []
         async with httpx.AsyncClient(timeout=60) as c:
             for i in range(0, len(texts), 64):
-                r = await c.post(f"{JINA}/embeddings", headers={"Authorization": f"Bearer {s.jina_api_key}"},
-                                 json={"model": s.embed_model, "task": task, "input": texts[i:i + 64]})
-                r.raise_for_status()
-                out.extend(d["embedding"] for d in sorted(r.json()["data"], key=lambda d: d["index"]))
+                data = await _post(c, "/embeddings", {"model": s.embed_model, "task": task, "input": texts[i:i + 64]})
+                out.extend(d["embedding"] for d in sorted(data["data"], key=lambda d: d["index"]))
         return out
 
 
@@ -57,10 +71,8 @@ class JinaReranker:
     async def rerank(self, query: str, docs: list[str], top_n: int) -> list[tuple[int, float]]:
         s = get_settings()
         async with httpx.AsyncClient(timeout=60) as c:
-            r = await c.post(f"{JINA}/rerank", headers={"Authorization": f"Bearer {s.jina_api_key}"},
-                             json={"model": s.rerank_model, "query": query, "documents": docs, "top_n": top_n})
-        r.raise_for_status()
-        return [(x["index"], float(x["relevance_score"])) for x in r.json()["results"]]
+            data = await _post(c, "/rerank", {"model": s.rerank_model, "query": query, "documents": docs, "top_n": top_n})
+        return [(x["index"], float(x["relevance_score"])) for x in data["results"]]
 
 
 _WORD = re.compile(r"[0-9a-zа-яё]+")

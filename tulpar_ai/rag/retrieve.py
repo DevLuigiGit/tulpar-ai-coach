@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from langsmith import traceable
+from langsmith.run_helpers import get_current_run_tree
 
 from ..config import get_settings
 from .embed import get_reranker
@@ -34,8 +35,14 @@ async def retrieve(query: str, *, top_k: int | None = None, top_n: int | None = 
     if not hits:
         return []
     if rerank:
-        order = await get_reranker(idx.embedder).rerank(query, [h["text"] for h in hits], top_n)
-        out = [{**hits[i], "rerank_score": sc} for i, sc in order]
+        try:
+            order = await get_reranker(idx.embedder).rerank(query, [h["text"] for h in hits], top_n)
+            out = [{**hits[i], "rerank_score": sc} for i, sc in order]
+        except Exception:  # reranker down or rate-limited → dense order, still an answer
+            rt = get_current_run_tree()
+            if rt is not None:
+                rt.metadata["rerank_fallback"] = True
+            out = [{**h, "rerank_score": h["score"]} for h in hits[:top_n]]
     else:
         out = [{**h, "rerank_score": h["score"]} for h in hits[:top_n]]
     return out
