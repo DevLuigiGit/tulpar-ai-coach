@@ -82,7 +82,7 @@ def load_chunks(pdf_chunk: int = 800, pdf_overlap: int = 120) -> list[Chunk]:
 
 
 class Index:
-    def __init__(self, embedder: Embedder | None = None, path: Path | None = None, pdf_chunk: int = 800):
+    def __init__(self, embedder: Embedder | None = None, path: Path | None = None, pdf_chunk: int = 400):
         s = get_settings()
         self.embedder = embedder or get_embedder()
         self.pdf_chunk = pdf_chunk

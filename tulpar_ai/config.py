@@ -85,7 +85,7 @@ class Settings(BaseSettings):
     rag_embedder: str = "auto"  # auto | jina | local
     rag_top_k: int = 20
     rag_top_n: int = 4
-    rag_rerank: bool = True
+    rag_rerank: str = "auto"  # auto: on for the local embedder, off for Jina — both by A/B (EVALS.md); on | off
     rag_min_score: float = 0.2
     rag_max_rewrites: int = 2
 

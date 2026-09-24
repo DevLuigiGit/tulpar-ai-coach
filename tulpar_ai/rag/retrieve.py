@@ -6,7 +6,7 @@ from langsmith import traceable
 from langsmith.run_helpers import get_current_run_tree
 
 from ..config import get_settings
-from .embed import get_reranker
+from .embed import JinaEmbedder, get_reranker
 from .index import Index
 
 _index: Index | None = None
@@ -24,13 +24,23 @@ def get_index() -> Index:
     return _index
 
 
+def effective_rerank(idx: Index | None = None) -> bool:
+    """A/B: the reranker helps the weak local embedder and adds nothing but latency on top of Jina."""
+    mode = str(get_settings().rag_rerank).lower()
+    if mode in ("on", "true", "1"):
+        return True
+    if mode in ("off", "false", "0"):
+        return False
+    return not isinstance((idx or get_index()).embedder, JinaEmbedder)
+
+
 @traceable(run_type="retriever", name="retrieve")
 async def retrieve(query: str, *, top_k: int | None = None, top_n: int | None = None, rerank: bool | None = None,
                    index: Index | None = None) -> list[dict]:
     s = get_settings()
     idx = index or get_index()
     top_k, top_n = top_k or s.rag_top_k, top_n or s.rag_top_n
-    rerank = s.rag_rerank if rerank is None else rerank
+    rerank = effective_rerank(idx) if rerank is None else rerank
     hits = await idx.search(query, top_k)
     if not hits:
         return []

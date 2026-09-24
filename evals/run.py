@@ -73,7 +73,7 @@ def boot_settings(args) -> None:
     for k in ("route_temperature", "answer_temperature", "answer_top_p", "answer_max_tokens", "rag_rerank"):
         v = getattr(args, k, None)
         if v is not None:
-            setattr(s, k, v)
+            setattr(s, k, ("on" if v else "off") if k == "rag_rerank" else v)
 
 
 # ── router ───────────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ async def suite_qa(args) -> dict:
     from tulpar_ai.config import get_settings
     from tulpar_ai.graph import chat as g
     from tulpar_ai.rag.index import Index
-    from tulpar_ai.rag.retrieve import set_index
+    from tulpar_ai.rag.retrieve import effective_rerank, set_index
 
     s = get_settings()
     idx = Index(pdf_chunk=args.pdf_chunk, path=Path(s.ai_data_dir) / "qdrant")
@@ -193,7 +193,7 @@ async def suite_qa(args) -> dict:
     corr = [r["correctness"] for r in rows if r.get("correctness")]
     outs = [r["out_tokens"] for r in rows if r["out_tokens"]]
     summary = {
-        "n": len(rows), "rerank": s.rag_rerank, "temperature": s.answer_temperature, "top_p": s.answer_top_p,
+        "n": len(rows), "rerank": effective_rerank(idx), "temperature": s.answer_temperature, "top_p": s.answer_top_p,
         "max_tokens": s.answer_max_tokens, "pdf_chunk": args.pdf_chunk, "embedder": idx.embedder.id,
         "hit_at_4": pct(r["rank"] is not None and r["rank"] <= 4 for r in ans),
         "mrr": round(sum(1 / r["rank"] for r in ans if r["rank"]) / (len(ans) or 1), 3),
@@ -417,7 +417,7 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--top-p", type=float, dest="answer_top_p")
     ap.add_argument("--max-tokens", type=int, dest="answer_max_tokens")
     ap.add_argument("--route-temperature", type=float)
-    ap.add_argument("--pdf-chunk", type=int, default=800)
+    ap.add_argument("--pdf-chunk", type=int, default=400)
     ap.add_argument("--no-judge", dest="judge", action="store_false")
     ap.add_argument("--retrieval-only", action="store_true")
     ap.add_argument("--images-dir")

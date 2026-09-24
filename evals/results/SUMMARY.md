@@ -98,3 +98,18 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | jina_answer_v3 | 56 | jina3 | True | 0.2 | 0.9 | 800 | 80.4 | 0.725 | 78.4 | 100.0 | 4.78 | 4.54 | 3264.0 | 225 | 0.000873 |
+
+## exp_route_temperature_llm — 2026-09-24 23:55
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_temperature=0.0, repeats=3 | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1317.0 | 0.090418 |
+| route_temperature=0.7, repeats=3 | 66 | 100.0 | 100.0 | 0.0 | 98.5 | 1313.0 | 0.090376 |
+
+## exp_chunk_size_jina — 2026-09-24 23:57
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| pdf_chunk=400, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 400 | 86.3 | 0.791 | 0.0 | 100.0 | None | None | 970.0 | 0 | 3.9e-05 |
+| pdf_chunk=800, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 800 | 82.4 | 0.758 | 0.0 | 100.0 | None | None | 989.0 | 0 | 4.5e-05 |
+| pdf_chunk=1200, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 1200 | 82.4 | 0.768 | 0.0 | 100.0 | None | None | 1067.0 | 0 | 4.2e-05 |
