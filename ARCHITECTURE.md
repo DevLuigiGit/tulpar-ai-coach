@@ -148,7 +148,7 @@ flowchart TD
 | Роль | Основная модель | Резерв | Параметры |
 |---|---|---|---|
 | route — маршрут сообщения | Ollama Cloud `minimax-m3` | Groq `openai/gpt-oss-20b` | temperature 0, max_tokens 200 |
-| text — ответы | Ollama Cloud `minimax-m3` | Groq `openai/gpt-oss-120b` | t 0.2, top_p 0.9, max_tokens 400 |
+| text — ответы | Ollama Cloud `minimax-m3` | Groq `openai/gpt-oss-120b` | t 0, top_p 0.9, max_tokens 400 |
 | text — черновики программ | Ollama Cloud `minimax-m3` | Groq `openai/gpt-oss-120b` | t 0.2, top_p 0.9, max_tokens 1500 |
 | vision — фото еды | Ollama Cloud `kimi-k2.7-code` | `kimi-k2.6`, затем `minimax-m3` | t 0, max_tokens 300 |
 | judge — оценка в евалах | Ollama Cloud `qwen3.5:397b` | Groq `openai/gpt-oss-120b` | t 0 |

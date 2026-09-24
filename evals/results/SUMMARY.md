@@ -113,3 +113,18 @@
 | pdf_chunk=400, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 400 | 86.3 | 0.791 | 0.0 | 100.0 | None | None | 970.0 | 0 | 3.9e-05 |
 | pdf_chunk=800, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 800 | 82.4 | 0.758 | 0.0 | 100.0 | None | None | 989.0 | 0 | 4.5e-05 |
 | pdf_chunk=1200, judge=False, retrieval_only=True | 56 | jina3 | True | 0.2 | 0.9 | 1200 | 82.4 | 0.768 | 0.0 | 100.0 | None | None | 1067.0 | 0 | 4.2e-05 |
+
+## exp_answer_top_p_jina — 2026-09-25 00:11
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_top_p=0.9 | 56 | jina3 | True | 0.2 | 0.9 | 800 | 82.4 | 0.758 | 82.4 | 100.0 | 4.83 | 4.48 | 3587.0 | 228 | 0.000887 |
+| answer_top_p=1.0 | 56 | jina3 | True | 0.2 | 1.0 | 800 | 82.4 | 0.768 | 74.5 | 100.0 | 4.73 | 4.56 | 3215.0 | 240 | 0.000873 |
+
+## exp_answer_temperature_jina — 2026-09-25 01:06
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_temperature=0.0, repeats=3 | 168 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 81.7 | 100.0 | 4.74 | 4.4 | 2457.0 | 217 | 0.000829 |
+| answer_temperature=0.2, repeats=3 | 168 | jina3 | False | 0.2 | 0.9 | 400 | 86.3 | 0.781 | 80.4 | 100.0 | 4.72 | 4.43 | 2463.5 | 212 | 0.000834 |
+| answer_temperature=0.7, repeats=3 | 168 | jina3 | False | 0.7 | 0.9 | 400 | 86.3 | 0.781 | 82.4 | 100.0 | 4.76 | 4.47 | 3078.0 | 238 | 0.000835 |

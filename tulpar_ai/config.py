@@ -69,7 +69,7 @@ class Settings(BaseSettings):
     # ── hyperparameters (chosen by experiments, see EVALS.md) ──────────────────
     route_temperature: float = 0.0
     route_max_tokens: int = 200
-    answer_temperature: float = 0.2
+    answer_temperature: float = 0.0
     answer_top_p: float = 0.9
     answer_max_tokens: int = 400
     draft_temperature: float = 0.2
