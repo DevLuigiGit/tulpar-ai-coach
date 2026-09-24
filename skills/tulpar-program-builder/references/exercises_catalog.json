@@ -1,0 +1,1766 @@
+[
+ {
+  "id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+  "name": "Жим штанги лёжа",
+  "muscle_group": "грудь",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "При травмах плеч, локтей или болях в груди работайте с малым весом и обязательно используйте страховку или раму безопасности."
+ },
+ {
+  "id": "821649c5-f01e-547e-9e47-d264185d53e4",
+  "name": "Приседания со штангой",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при болях в пояснице и проблемах с коленями — снизьте вес и строго следите за техникой."
+ },
+ {
+  "id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+  "name": "Становая тяга",
+  "muscle_group": "спина",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "С осторожностью при грыжах и проблемах с поясницей; начинайте с малых весов и безупречной техники, держа спину нейтральной."
+ },
+ {
+  "id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+  "name": "Подтягивания",
+  "muscle_group": "спина",
+  "equipment": "bodyweight",
+  "is_compound": true,
+  "measurement_type": "reps",
+  "contraindications": "С осторожностью при проблемах с плечевыми и локтевыми суставами; при недостатке силы используйте резину или гравитрон."
+ },
+ {
+  "id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+  "name": "Отжимания",
+  "muscle_group": "грудь",
+  "equipment": "bodyweight",
+  "is_compound": true,
+  "measurement_type": "reps",
+  "contraindications": "При болях в запястьях, плечах или пояснице делайте упор на кулаки/упоры и не допускайте провисания таза."
+ },
+ {
+  "id": "9eb892b3-0a77-5e6e-b600-88f23e81e332",
+  "name": "Жим гантелей сидя",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "При проблемах с плечевыми суставами и пояснице используйте умеренный вес, жёсткую опору на спинку и контролируйте амплитуду."
+ },
+ {
+  "id": "645085a8-06bf-58fd-ab2e-a4c55e06c6a6",
+  "name": "Тяга верхнего блока",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Не заводите рукоять за голову при проблемах с плечами; не используйте инерцию и рывки корпусом."
+ },
+ {
+  "id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+  "name": "Планка",
+  "muscle_group": "кор",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": "При болях в пояснице, грыжах или повышенном давлении выполняйте осторожно и не допускайте прогиба поясницы."
+ },
+ {
+  "id": "dfc034c7-589a-50f8-9206-b1b3bc9f0dd6",
+  "name": "Выпады",
+  "muscle_group": "ноги",
+  "equipment": "dumbbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при болях в коленях — не выводите колено за носок и контролируйте движение."
+ },
+ {
+  "id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+  "name": "Жим ногами",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при проблемах с коленями — не опускайте платформу слишком глубоко и не отрывайте таз от спинки."
+ },
+ {
+  "id": "52d8c6d3-cb4a-5915-8716-4b6a5db9f5d8",
+  "name": "Бег на дорожке",
+  "muscle_group": "кардио",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "distance",
+  "contraindications": "При болях в коленях, голеностопе или пояснице снизьте скорость и наклон или замените на ходьбу."
+ },
+ {
+  "id": "74008cc5-881c-50c6-840f-40375ffcee51",
+  "name": "Велотренажёр",
+  "muscle_group": "кардио",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": "При болях в коленях или пояснице уменьшите сопротивление и проверьте высоту седла."
+ },
+ {
+  "id": "5fc2ae76-9d8c-535f-911b-828508757f31",
+  "name": "Гиперэкстензия",
+  "muscle_group": "спина",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "При болях в пояснице не переразгибайте спину в верхней точке и работайте без дополнительного отягощения."
+ },
+ {
+  "id": "2e04782a-e0df-5f50-8c0d-1e2f55a7a651",
+  "name": "Жим гантелей лёжа",
+  "muscle_group": "грудь",
+  "equipment": "dumbbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "При нестабильности или болях в плечах берите умеренный вес и не опускайте гантели слишком глубоко."
+ },
+ {
+  "id": "471fe918-0dd7-5ca8-8a7d-f3166c5e27cf",
+  "name": "Сведение рук в кроссовере",
+  "muscle_group": "грудь",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в плечах уменьшите вес и амплитуду, избегая чрезмерного заведения рук назад."
+ },
+ {
+  "id": "072b9c3b-eec1-5180-b02b-d8af51c4c54e",
+  "name": "Отжимания на брусьях",
+  "muscle_group": "грудь",
+  "equipment": "bodyweight",
+  "is_compound": true,
+  "measurement_type": "reps",
+  "contraindications": "При болях в плечах или грудино-ключичной зоне не опускайтесь слишком глубоко и осваивайте упражнение без отягощения."
+ },
+ {
+  "id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+  "name": "Тяга штанги в наклоне",
+  "muscle_group": "спина",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "С осторожностью при проблемах с поясницей; держите спину нейтральной и не округляйте её под нагрузкой."
+ },
+ {
+  "id": "6cd4c7da-4fd3-5ac7-a1b1-ed1ccd5258f8",
+  "name": "Тяга гантели одной рукой",
+  "muscle_group": "спина",
+  "equipment": "dumbbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Избегайте скручивания и рывков корпусом; при болях в пояснице обеспечьте надёжную опору рукой и коленом."
+ },
+ {
+  "id": "f431392e-ced7-5c1d-8f4c-0f903c7f691b",
+  "name": "Горизонтальная тяга в блоке",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Не отклоняйтесь корпусом назад за счёт инерции; при болях в пояснице держите спину нейтральной."
+ },
+ {
+  "id": "4541e68a-825c-5ff7-b2cc-104ce74b7ee4",
+  "name": "Шраги со штангой",
+  "muscle_group": "спина",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "Не делайте круговых движений плечами во избежание травмы; при проблемах с шеей снизьте вес."
+ },
+ {
+  "id": "fbc257ce-8594-557e-9405-8af26e687915",
+  "name": "Пуловер с гантелью",
+  "muscle_group": "спина",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "С осторожностью при проблемах с плечевыми суставами; не опускайте гантель слишком глубоко и контролируйте амплитуду."
+ },
+ {
+  "id": "981801ad-16f3-5236-8029-3e03a01ff219",
+  "name": "Румынская тяга",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при болях в пояснице — снизьте вес, не округляйте спину и держите штангу близко к телу."
+ },
+ {
+  "id": "b1d0a9ee-2fa8-5023-9567-889ad666a2cb",
+  "name": "Сгибание ног в тренажёре",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при дискомфорте под коленом — работайте с умеренным весом без рывков."
+ },
+ {
+  "id": "a16071dc-28f3-5315-8d41-5e49743ae82d",
+  "name": "Болгарские выпады",
+  "muscle_group": "ноги",
+  "equipment": "dumbbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при проблемах с коленями и нарушении равновесия — начинайте без отягощения и держитесь за опору."
+ },
+ {
+  "id": "f7116d6a-20bb-5df9-b212-b7d6e1e2bfd2",
+  "name": "Жим в Гакк-тренажёре",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "Осторожно при проблемах с коленями и поясницей — не опускайтесь слишком глубоко и контролируйте движение."
+ },
+ {
+  "id": "29358be6-9b71-5b7b-a641-cb11d1f12529",
+  "name": "Армейский жим стоя",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": true,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в пояснице или плечах снизьте вес, держите пресс напряжённым и избегайте переразгибания в спине."
+ },
+ {
+  "id": "cd9a6f11-122d-5271-97b9-925a7dd6f944",
+  "name": "Подъёмы гантелей перед собой",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в плечах снизьте вес и не поднимайте руки выше уровня плеч, исключая раскачивание корпусом."
+ },
+ {
+  "id": "58fdb798-1fe2-5282-a368-bf62faf1d340",
+  "name": "Тяга штанги к подбородку",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в плечах или проблемах с вращательной манжетой используйте более широкий хват, не поднимайте локти выше плеч или замените упражнение."
+ },
+ {
+  "id": "1b7b4b90-3896-56ec-a85a-c407a4deee79",
+  "name": "Разведение в наклоне",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в пояснице держите спину прямой и используйте умеренный вес либо выполняйте с опорой грудью о наклонную скамью."
+ },
+ {
+  "id": "783a8ba1-02cc-55e2-8151-6d156ecc393a",
+  "name": "Молотковые сгибания",
+  "muscle_group": "руки",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в запястьях или локтях уменьшите вес и следите за нейтральным положением кистей."
+ },
+ {
+  "id": "a6e638ea-a65e-50bf-8696-4c9cbf6b8117",
+  "name": "Отжимания узким хватом",
+  "muscle_group": "руки",
+  "equipment": "bodyweight",
+  "is_compound": true,
+  "measurement_type": "reps",
+  "contraindications": "При болях в запястьях, локтях или плечах уменьшите амплитуду или выполняйте с колен, контролируя технику."
+ },
+ {
+  "id": "5f3d1b75-3677-5549-8808-a5b4652e9b66",
+  "name": "Подъём ног в висе",
+  "muscle_group": "пресс",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "При проблемах с поясницей или плечами сгибайте колени и избегайте раскачивания и рывков."
+ },
+ {
+  "id": "c7a7a491-5f41-54ee-8581-8461f6a57c99",
+  "name": "Скручивания на блоке",
+  "muscle_group": "пресс",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "При болях в пояснице снизьте вес, не тяните блок руками и следите за округлением спины, а не наклоном бёдер."
+ },
+ {
+  "id": "765fcc3f-62e6-5069-b8d9-dafb81920263",
+  "name": "Боковая планка",
+  "muscle_group": "кор",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": "При проблемах с плечевым суставом или болях в пояснице снижайте время удержания и контролируйте технику."
+ },
+ {
+  "id": "f175a7bc-4f28-54bb-9803-3745a8de1183",
+  "name": "Гребной тренажёр",
+  "muscle_group": "кардио",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": "При проблемах с поясницей сохраняйте нейтральную спину и не тяните рывком за счёт прогиба."
+ },
+ {
+  "id": "556fa84f-b14a-5440-9613-1de4541ca668",
+  "name": "Скакалка",
+  "muscle_group": "кардио",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": "При проблемах с коленями, голеностопом или варикозе ограничьте объём и приземляйтесь мягко на носок."
+ },
+ {
+  "id": "66cde1ab-0aa8-5553-96fb-e3f6f0678a4d",
+  "name": "Бёрпи",
+  "muscle_group": "кардио",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "При проблемах с поясницей, коленями или запястьями уберите отжимание и прыжок, выполняя движение в облегчённом варианте."
+ },
+ {
+  "id": "0121284e-7693-5792-9b61-1bd7ab342968",
+  "name": "Прыжки на тумбу",
+  "muscle_group": "кардио",
+  "equipment": "bodyweight",
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "При проблемах с коленями или голеностопом снизьте высоту тумбы и не спрыгивайте вниз во избежание ударной нагрузки."
+ },
+ {
+  "id": "1b78685f-7542-5ff4-86c6-8b54420cba19",
+  "name": "Жим штанги на наклонной скамье вверх",
+  "muscle_group": "грудь",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "769c789d-48cd-565f-ac83-2ea248544e71",
+  "name": "Жим штанги на наклонной скамье вниз",
+  "muscle_group": "грудь",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "332ca263-99da-55b6-992d-05efb4818998",
+  "name": "Жим гантелей на наклонной вверх",
+  "muscle_group": "грудь",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "4ab1e818-eaad-560c-8c24-08153821586d",
+  "name": "Разводка гантелей лёжа",
+  "muscle_group": "грудь",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "3fce1b65-dadb-52e8-b6a5-ab136e35fac2",
+  "name": "Разводка гантелей на наклонной",
+  "muscle_group": "грудь",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "36fe0af3-aa35-5c2b-8196-b58e366cf2d9",
+  "name": "Сведение в тренажёре бабочка",
+  "muscle_group": "грудь",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "8a97d8e1-15a2-5459-bdad-4dd53b984264",
+  "name": "Жим в тренажёре Хаммер",
+  "muscle_group": "грудь",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "047cee20-dc8e-5c41-8f1c-166663c171b2",
+  "name": "Отжимания на брусьях (грудь)",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "7b8aa3b2-ec8c-5481-adc9-c25617691c47",
+  "name": "Отжимания широким хватом",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "9dfb7e00-fb89-5efc-a515-403f05086658",
+  "name": "Отжимания с колен",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "ee44bbe9-dd2b-5dc1-bf15-ab5198150954",
+  "name": "Жим в смите на грудь",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "1cd8b4fa-6e3d-5e5b-944d-4f69db946ec7",
+  "name": "Отжимания с хлопком",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "7dc38b20-79e4-5a6b-a038-cae834413e39",
+  "name": "Тяга Т-грифа",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "eb624073-c0c7-5e3e-9f45-d6b4e4d982dd",
+  "name": "Тяга верхнего блока к груди",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "af11341f-74e3-55e8-83d0-15d9ed918dbe",
+  "name": "Тяга верхнего блока за голову",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "3e4a60f0-cde8-57f1-aa88-a7e9009b6a50",
+  "name": "Тяга горизонтального блока",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "40c409a9-1c8f-5598-8f95-5f487320c73c",
+  "name": "Подтягивания широким хватом",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "9c4effcc-7f4b-51b0-97e2-b1352e44d8f6",
+  "name": "Подтягивания узким хватом",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "96fc52b4-5d67-55bc-90db-6d4c5b9b6012",
+  "name": "Подтягивания обратным хватом",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "e346ce05-4e28-563b-b819-46dbcc7dce59",
+  "name": "Австралийские подтягивания",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "36496b4d-279b-577b-afde-3b42bc920b5b",
+  "name": "Гиперэкстензия с весом",
+  "muscle_group": "спина",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "c69b5a5e-db78-5d8e-943c-443cfcd22834",
+  "name": "Шраги с гантелями",
+  "muscle_group": "спина",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "d40c462c-3889-5ef3-b6a2-67f3ec745e38",
+  "name": "Пуловер на блоке",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ecb47c00-6bb1-5f12-bfcc-0dd5e6b02bb1",
+  "name": "Фронтальные приседания",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "9cf074d3-2543-5cce-babb-1532fc5f17f9",
+  "name": "Приседания в смите",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "a19fd7d0-2270-57c4-96ad-c8e5d9d0070d",
+  "name": "Жим ногами узкой постановкой",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ba00f4bd-33a4-5f08-801c-88079e4abc4f",
+  "name": "Разгибания ног в тренажёре",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+  "name": "Сгибания ног лёжа",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "79a3494f-cb8c-5624-8678-5b25b35517a1",
+  "name": "Сгибания ног сидя",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "8f93a289-bff6-5723-995e-47c5a81e7e0c",
+  "name": "Выпады со штангой",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "e06760c5-a9c3-572e-be42-c4db58ed7012",
+  "name": "Выпады с гантелями",
+  "muscle_group": "ноги",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "f8a79d46-3dd6-514f-abdc-365057fb579c",
+  "name": "Выпады ходьбой",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+  "name": "Ягодичный мост со штангой",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "dc3cb6b1-0a75-5698-864b-47c11436aad7",
+  "name": "Румынская тяга с гантелями",
+  "muscle_group": "ноги",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "dd8a72f5-4184-559c-ae66-56023222a580",
+  "name": "Подъёмы на носки стоя",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "1fc6973e-7a41-5be5-a36f-1bfe9471b870",
+  "name": "Подъёмы на носки сидя",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "2b45e599-549d-5def-accb-372b8e84bcea",
+  "name": "Приседания с гантелью (гоблет)",
+  "muscle_group": "ноги",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "7c169de3-ee1e-51c9-bc81-b0f979d3b23b",
+  "name": "Зашагивания на платформу",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "5eede831-88b1-5e99-958a-0a7d3010dc8a",
+  "name": "Приседания сумо со штангой",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "242460f1-e164-5e3b-9498-1bd7ff8ab0bf",
+  "name": "Воздушные приседания",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "ff7e6ce0-88fe-5089-a0df-5bd863992339",
+  "name": "Приседания-пистолетик",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "2ec0f010-b8ca-54bb-9b22-404d487b765f",
+  "name": "Отведение ноги назад в кроссовере",
+  "muscle_group": "ноги",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "752684dd-db1a-5cc3-8cf0-8826cd7e886d",
+  "name": "Разведение ног в тренажёре",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "9cffb899-4b8d-5805-a089-d1627508b4cd",
+  "name": "Сведение ног в тренажёре",
+  "muscle_group": "ноги",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+  "name": "Жим штанги стоя (армейский)",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "7b37e145-29a6-555c-9dd3-26275dd99534",
+  "name": "Жим штанги из-за головы",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "da8cfc0d-c799-53d6-bf6e-eb061d8aa586",
+  "name": "Жим Арнольда",
+  "muscle_group": "плечи",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+  "name": "Махи гантелями в стороны",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "Травмы плеч."
+ },
+ {
+  "id": "0becb183-7bbf-56bc-a18e-ff025ccd7e9a",
+  "name": "Махи в наклоне (задняя дельта)",
+  "muscle_group": "плечи",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "6e9d76d1-0c27-5342-b5df-0c7b501d1f9f",
+  "name": "Обратные разведения в тренажёре",
+  "muscle_group": "плечи",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "9ee058b0-5e3c-5a43-acca-74c021de08ed",
+  "name": "Жим в тренажёре на плечи",
+  "muscle_group": "плечи",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "c761cb44-9ea2-5f37-aa8a-ed6912263439",
+  "name": "Махи в стороны на блоке",
+  "muscle_group": "плечи",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "0f7a4e7b-24e2-5888-9586-7dfdf2dd6ecc",
+  "name": "Жим гантелей стоя",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+  "name": "Подъём штанги на бицепс",
+  "muscle_group": "руки",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "6ea81bbc-472e-5c31-9ab4-acc130eea535",
+  "name": "Подъём гантелей на бицепс",
+  "muscle_group": "руки",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ee26895a-be39-55a6-8c87-ced1629554ae",
+  "name": "Подъём на бицепс на скамье Скотта",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "b0e4ae24-9420-5e52-86f2-f9765ff810ca",
+  "name": "Концентрированный подъём на бицепс",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "4de7c899-5138-5973-9f0a-9aedf5792579",
+  "name": "Сгибания на бицепс на блоке",
+  "muscle_group": "руки",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "186e85ed-9ce3-5e9c-ac78-ef9d7b04ff27",
+  "name": "Подъём EZ-штанги на бицепс",
+  "muscle_group": "руки",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+  "name": "Французский жим лёжа",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ec5ff8e8-fda8-5b08-b7ee-85bc8a7b6e32",
+  "name": "Французский жим сидя",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "65ac2b86-c16e-5a8b-a2da-35f3a6b90b29",
+  "name": "Разгибания на трицепс на блоке",
+  "muscle_group": "руки",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "Боли в локтях."
+ },
+ {
+  "id": "0e2c0c7d-861d-5e22-b955-5d4cc7961e91",
+  "name": "Разгибания на трицепс из-за головы",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "bfb76920-6d93-58b8-8172-3a4fba9ff75b",
+  "name": "Отжимания на брусьях (трицепс)",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "1871af91-445e-5126-a261-7f63fcfa7049",
+  "name": "Обратные отжимания от скамьи",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "c127bfff-56a4-580f-92c1-e30e3dc5932a",
+  "name": "Разгибание гантели в наклоне (кикбэк)",
+  "muscle_group": "руки",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "4dbc757a-34ea-58d1-af1f-9405ce0fdd03",
+  "name": "Сгибания запястий со штангой",
+  "muscle_group": "руки",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "eb85c7fe-ade6-524c-94fc-d2d13877d018",
+  "name": "Разгибания запястий со штангой",
+  "muscle_group": "руки",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "e914380a-f8dc-5f8f-93c1-f78ce53bd8af",
+  "name": "Молот на канате",
+  "muscle_group": "руки",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "a7071628-140e-587e-95df-cb1ff030723c",
+  "name": "Скручивания лёжа",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "df81ddfd-3801-5935-9ff1-d8b807d22bda",
+  "name": "Обратные скручивания",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "5b9a2241-afb6-5e1e-89ee-559bb91b9102",
+  "name": "Скручивания на римском стуле",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "69b88bb9-f909-5914-82af-8a85ef5650ca",
+  "name": "Подъёмы коленей в висе",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+  "name": "Велосипед",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "ef9f83cb-273b-52ea-9905-b20ffc4146d4",
+  "name": "Русский твист",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "325cda81-876f-584d-a3a7-353110a0a1de",
+  "name": "Русский твист с весом",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "254dca15-7921-511a-a0bb-f6cd465ce60c",
+  "name": "Планка с подтягиванием колена",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "d77517e8-2537-5518-8e71-da3fd7ef6568",
+  "name": "Подъём корпуса (сит-ап)",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "495859ac-26ef-573f-87f5-8f696ba3df95",
+  "name": "Ножницы",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "dee65ae6-cb1b-531d-a234-e613d6ebee27",
+  "name": "Вакуум живота",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "ac78fa4f-6655-5418-bdb1-14b7b92abd65",
+  "name": "Подъём ног лёжа",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "e37b9d60-75dc-5181-9cde-05f3ef74db0c",
+  "name": "Планка на локтях с раскачкой",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "fa972b1a-e9ab-5975-8db9-b6103b7cec15",
+  "name": "Скалолаз (mountain climber)",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "3515f89d-b278-5c06-98ea-d613166c857f",
+  "name": "Дровосек на блоке",
+  "muscle_group": "пресс",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "bdf43c74-00d2-5cf5-ae66-9b6c34cca9d4",
+  "name": "V-складка",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "7de46cdb-d7b1-54fb-954f-9035d2e90307",
+  "name": "Бег трусцой",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "distance",
+  "contraindications": null
+ },
+ {
+  "id": "1d6e5d5f-30ca-574a-80e7-15d4c9849295",
+  "name": "Спринт",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "distance",
+  "contraindications": null
+ },
+ {
+  "id": "1c944d0c-13ff-59a0-9740-0965c16f3a36",
+  "name": "Ходьба быстрым шагом",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "distance",
+  "contraindications": null
+ },
+ {
+  "id": "62f5b43a-f56f-5e4e-af17-fa0c4c350faf",
+  "name": "Ходьба в горку",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "distance",
+  "contraindications": null
+ },
+ {
+  "id": "4d530de0-386a-58da-92cd-227e8edcd378",
+  "name": "Эллиптический тренажёр",
+  "muscle_group": "кардио",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "a29de1e6-d137-5a56-81bc-be251b95c104",
+  "name": "Джампинг-джек",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "a83514a3-fab7-520e-bb10-a35eae3dd111",
+  "name": "Выпрыгивания из приседа",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "b268ebcc-13b2-5efe-8080-33fb9a5e62bd",
+  "name": "Бёрпи с отжиманием",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "6e0b0e68-b5f0-52af-972d-0fa6fbbbb3fe",
+  "name": "Степпер",
+  "muscle_group": "кардио",
+  "equipment": "machine",
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "fd90fa65-28fc-5d2e-8e27-3bc7f25e98d9",
+  "name": "Трастеры со штангой",
+  "muscle_group": "кардио",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "32f03c21-a647-57c6-9f75-fe0bc46422a2",
+  "name": "Свинги с гирей",
+  "muscle_group": "кардио",
+  "equipment": "kettlebell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "fc1b0c7f-92ae-5ae6-8ba6-12b43ee78a8c",
+  "name": "Махи гирей одной рукой",
+  "muscle_group": "кардио",
+  "equipment": "kettlebell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "f0633079-ca6a-555a-bafe-6b6df83df4dd",
+  "name": "Рывок гири",
+  "muscle_group": "кардио",
+  "equipment": "kettlebell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "78c2c635-3384-5d78-9756-010e85a7168f",
+  "name": "Заброс мяча (wall ball)",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "9e38471b-4995-58d3-85f1-ce79bb7faead",
+  "name": "Прыжки на месте (high knees)",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "7cff40b1-476f-52c7-838f-bc616d8d0b48",
+  "name": "Планка-джек",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "84d8a7a0-9f4c-5dbf-bcf5-ac455b4d948d",
+  "name": "Медвежья походка",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "8f39a297-b611-5387-bc3d-5a0780a24043",
+  "name": "Растяжка подколенных сухожилий",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "03566b9c-6a24-55d8-bcb5-755edb7cd1da",
+  "name": "Растяжка квадрицепса стоя",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "f739c580-12aa-56a6-9ca5-7472a8ba6276",
+  "name": "Растяжка грудных у стены",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "6c228fc7-1117-522a-b8d7-21126acd8466",
+  "name": "Поза кошки-коровы",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "ace59390-0d9c-5021-9ca0-a32017cf0e17",
+  "name": "Наклон вперёд сидя",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "e7c2ee25-5b75-5ac1-bc81-ef851a4be2f8",
+  "name": "Растяжка ягодиц лёжа",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "188caf9a-5f38-5216-8ef6-2f25ff77789d",
+  "name": "Поза ребёнка",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "fb50e25b-6cd4-5b4a-9267-19c68ea4fc5c",
+  "name": "Скручивание позвоночника лёжа",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "fd398606-4863-52fd-bb12-ac4b4a984c3e",
+  "name": "Жим гантелей на наклонной вниз",
+  "muscle_group": "грудь",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ebfa67a7-9d7c-594c-b599-ef09cd103ac4",
+  "name": "Отжимания на кольцах",
+  "muscle_group": "грудь",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "410ee52c-b94e-5385-8647-bdc96fe5e440",
+  "name": "Жим штанги лёжа узким хватом",
+  "muscle_group": "грудь",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "8577ffd3-653b-5c30-b2d5-7886335056a8",
+  "name": "Сведение рук в кроссовере снизу",
+  "muscle_group": "грудь",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "de5594e5-3fca-5e49-b20d-b4bf2e8bb78e",
+  "name": "Тяга гантелей в наклоне двумя руками",
+  "muscle_group": "спина",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "2be245c5-dd81-5812-8de6-c0510109e580",
+  "name": "Тяга штанги обратным хватом",
+  "muscle_group": "спина",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "86d4376a-06e0-5a3d-aca2-14ffdb4478fa",
+  "name": "Тяга блока одной рукой",
+  "muscle_group": "спина",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "7bad01ec-f86c-55f3-8549-5bb76141fa65",
+  "name": "Подтягивания нейтральным хватом",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "bb3a801e-bb97-5aab-ba45-05cf12bf9df2",
+  "name": "Становая тяга сумо",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ad771829-1588-51f3-8ca7-cc2ca96f9002",
+  "name": "Становая тяга на прямых ногах",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "09e96430-7204-53c4-9826-c7f19f176b64",
+  "name": "Рычажная тяга в Хаммере",
+  "muscle_group": "спина",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "d41aa785-677b-5c17-b64f-5c5fd37ecc0d",
+  "name": "Приседания с гирей",
+  "muscle_group": "ноги",
+  "equipment": "kettlebell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "9039e609-1967-5f4a-9cc1-95a097ab6f97",
+  "name": "Обратные выпады со штангой",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "3a9b5f43-f699-5a25-b64a-76533294461a",
+  "name": "Боковые выпады",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "3050e89a-beb3-5829-a6a3-fecea94272f7",
+  "name": "Подъёмы на носки в жиме ногами",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "ec30dfbc-cd4d-52bb-941e-891cf53f1652",
+  "name": "Прогулка фермера",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "cc21f91f-38ef-5837-878d-591260dfe6b2",
+  "name": "Ягодичный мост на одной ноге",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "c776751b-91b0-5890-86cd-0892f0da4823",
+  "name": "Приседания у стены (стульчик)",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "104b556d-f160-54c1-a8f7-7b0ae4b5660c",
+  "name": "Наклоны со штангой (гуд-морнинг)",
+  "muscle_group": "ноги",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "2c231089-0fa7-5fb5-bc50-cc0813c8951b",
+  "name": "Жим гантелей стоя попеременно",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "b9126dfc-be2c-5919-8c07-4e210563285f",
+  "name": "Разведение в наклоне на блоке",
+  "muscle_group": "плечи",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "c32442d4-e61e-55db-8795-3d78f17e97dd",
+  "name": "Подъём штанги перед собой",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "37e29d41-87db-5a28-b51a-e128d49824af",
+  "name": "Протяжка с гантелями",
+  "muscle_group": "плечи",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "6a3122a9-fd72-5b91-a8a5-d836c642a0ee",
+  "name": "Жим Бредфорда",
+  "muscle_group": "плечи",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "83010c37-bb9c-5e1b-b2d9-d3fa5638bb46",
+  "name": "Изолированные махи лёжа на боку",
+  "muscle_group": "плечи",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "f3383bbf-3e48-5a02-b2ba-deb59b26eec8",
+  "name": "Подъём на бицепс широким хватом",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "af339e86-576c-5b80-9246-346b218cf809",
+  "name": "Подъём на бицепс узким хватом",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "02ab4225-d4dd-5015-9a55-9239bd0e4244",
+  "name": "Разгибания на трицепс одной рукой на блоке",
+  "muscle_group": "руки",
+  "equipment": "cable",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "767e1666-50e2-5bfa-9e33-83eb62973a35",
+  "name": "Обратные сгибания на бицепс",
+  "muscle_group": "руки",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "b3e36e74-10d5-5f67-971b-af968d152fa1",
+  "name": "Подъёмы ног на брусьях",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "9ea0d512-9c78-566e-bdcd-4c307d88e6f0",
+  "name": "Планка боковая с подъёмом бедра",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "6c6fb950-5a4f-57c5-ad56-09666dd828f2",
+  "name": "Складка лёжа",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "d5a78377-0b8c-5572-8f8f-78cd461d5496",
+  "name": "Касания пяток лёжа",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "8814eaab-b622-55ae-acfa-e328fbf7416d",
+  "name": "Удержание корпуса (hollow hold)",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "058feaf7-88df-5c1c-bf34-bfcb5f7e5663",
+  "name": "Дровосек с гантелью",
+  "muscle_group": "пресс",
+  "equipment": "dumbbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": null
+ },
+ {
+  "id": "c13d1da5-c306-5f97-904c-b4537fc4b17c",
+  "name": "Планка с переходом на прямые руки",
+  "muscle_group": "пресс",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "3c3d3053-0a04-53b0-9c39-4f2eaeb2eeaf",
+  "name": "Прыжки в длину с места",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "93fca37b-cd22-53ab-ba9c-d3850cfadda9",
+  "name": "Конькобежец (skater jumps)",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "da3f1f13-61e2-52b1-8c10-c744145097e6",
+  "name": "Приседания с выпрыгиванием и разворотом",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "24086f97-bdef-5af6-a58c-bf7c2099dd56",
+  "name": "Двойные прыжки на скакалке",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "50737478-1ddc-5d64-830b-2e4b5475419b",
+  "name": "Спринт на месте",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "e5677cc1-d2d0-5448-a093-cd86aacd16d0",
+  "name": "Прыжки через барьеры",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": null
+ },
+ {
+  "id": "93cec40b-da77-5765-84e0-d6a897e2e380",
+  "name": "Растяжка сгибателей бедра (выпад)",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "38366feb-e951-5132-a26a-fa629125e8e0",
+  "name": "Растяжка плеч поперёк тела",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "090ae0c7-d58b-5d36-ac2d-dcf6b0e2fbf5",
+  "name": "Поза голубя",
+  "muscle_group": "растяжка",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "time",
+  "contraindications": null
+ },
+ {
+  "id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+  "name": "Берпи",
+  "muscle_group": "кардио",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "Травмы коленей и запястий, проблемы с сердцем."
+ },
+ {
+  "id": "640fa081-db7d-56a9-b2f1-565d551c657a",
+  "name": "Жим штанги стоя",
+  "muscle_group": "плечи",
+  "equipment": "barbell",
+  "is_compound": false,
+  "measurement_type": "weight_reps",
+  "contraindications": "Травмы плеч и поясницы."
+ },
+ {
+  "id": "8375447f-e4a1-51a1-aa2e-e939ed21c7f3",
+  "name": "Ягодичный мостик",
+  "muscle_group": "ноги",
+  "equipment": null,
+  "is_compound": false,
+  "measurement_type": "reps",
+  "contraindications": "Нет существенных."
+ }
+]

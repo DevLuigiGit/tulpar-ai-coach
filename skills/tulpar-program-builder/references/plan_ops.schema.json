@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tulpar plan change",
+  "type": "object",
+  "required": ["summary", "rationale", "ops"],
+  "properties": {
+    "summary": {"type": "string", "description": "1–2 предложения для тренера"},
+    "rationale": {"type": "string"},
+    "ops": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["op", "day_index"],
+        "properties": {
+          "op": {"enum": ["replace_exercise", "set_volume", "remove_exercise", "add_exercise"]},
+          "day_index": {"type": "integer", "minimum": 0},
+          "wex_id": {"type": "string", "description": "id упражнения в плане: для replace_exercise, set_volume, remove_exercise"},
+          "exercise_id": {"type": "string", "description": "id из каталога: для replace_exercise и add_exercise"},
+          "sets": {"type": ["integer", "null"], "minimum": 1, "maximum": 8},
+          "reps": {"type": ["integer", "null"], "minimum": 1, "maximum": 30},
+          "reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}

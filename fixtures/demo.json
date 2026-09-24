@@ -1,0 +1,2368 @@
+{
+ "note": "Демо-данные, сгенерированные детерминированно из сидов Tulpar. Реальных людей здесь нет.",
+ "today": "2026-09-24",
+ "trainer": {
+  "id": "a1d88ba8-6cb7-5c66-be87-3ad9202dc0e1",
+  "role": "trainer",
+  "name": "Арман Тренер",
+  "telegram_id": "demo-trainer",
+  "gym": "Iron Gym Almaty"
+ },
+ "clients": [
+  {
+   "id": "9b7e3eaa-00df-554a-8c3d-83edffe6ca5e",
+   "role": "client",
+   "name": "Айдар Ким",
+   "telegram_id": "demo-student",
+   "sex": "male",
+   "age": 29,
+   "height_cm": 178,
+   "goal": "cut",
+   "level": "inter",
+   "place": "gym",
+   "training_days": [
+    0,
+    2,
+    4
+   ],
+   "activity": "moderate",
+   "weight_kg": 84.2,
+   "goal_weight_kg": 79,
+   "trainer_note": {
+    "injury": true,
+    "body": "Жалуется на левое колено после бега. Глубокие приседания со штангой и прыжки пока исключаем, жим ногами — только в неполной амплитуде."
+   },
+   "active_plan": {
+    "id": "38da3c2a-4bef-58db-9903-eac79e3ce231",
+    "title": "PPL — тяни / толкай / ноги",
+    "mode": "scheduled",
+    "meta": {
+     "goal": "gain",
+     "level": "inter",
+     "place": "gym",
+     "days_per_week": 3,
+     "subtitle": "Классический сплит на массу"
+    },
+    "days": [
+     {
+      "id": "a50d3b3c-7225-5ab9-b564-6962260cb7dd",
+      "day_index": 0,
+      "title": "Push (грудь-плечи-трицепс)",
+      "weekday": 0,
+      "exercises": [
+       {
+        "id": "230f870e-254d-50fd-a0ee-c4c63390ca08",
+        "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+        "exercise_name": "Жим штанги лёжа",
+        "muscle_group": "грудь",
+        "equipment": "barbell",
+        "target_sets": 4,
+        "target_reps": 8
+       },
+       {
+        "id": "69b0c6c7-715d-52c8-814a-78cc7c3bb6ef",
+        "exercise_id": "1b78685f-7542-5ff4-86c6-8b54420cba19",
+        "exercise_name": "Жим штанги на наклонной скамье вверх",
+        "muscle_group": "грудь",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "9de79b18-2769-59b2-a4c4-d1af3024fe29",
+        "exercise_id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+        "exercise_name": "Жим штанги стоя (армейский)",
+        "muscle_group": "плечи",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "79e016b8-3205-5063-b302-83015d0b1a97",
+        "exercise_id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+        "exercise_name": "Махи гантелями в стороны",
+        "muscle_group": "плечи",
+        "equipment": "dumbbell",
+        "target_sets": 3,
+        "target_reps": 15
+       },
+       {
+        "id": "ac84b2fe-4853-5cc7-b272-882042ff20da",
+        "exercise_id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+        "exercise_name": "Французский жим лёжа",
+        "muscle_group": "руки",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 12
+       }
+      ]
+     },
+     {
+      "id": "a6b8efa9-13b7-5bbf-a567-9ea45074c1af",
+      "day_index": 1,
+      "title": "Pull (спина-бицепс)",
+      "weekday": 2,
+      "exercises": [
+       {
+        "id": "1248683e-bba1-543b-a1ee-403a6d05e6bb",
+        "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+        "exercise_name": "Становая тяга",
+        "muscle_group": "спина",
+        "equipment": "barbell",
+        "target_sets": 4,
+        "target_reps": 6
+       },
+       {
+        "id": "37a45b33-ecd2-551e-b7c0-b3c30b819f22",
+        "exercise_id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+        "exercise_name": "Подтягивания",
+        "muscle_group": "спина",
+        "equipment": "bodyweight",
+        "target_sets": 3,
+        "target_reps": 8
+       },
+       {
+        "id": "3fb8d29a-c7d3-5ac1-8979-e200de939747",
+        "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+        "exercise_name": "Тяга штанги в наклоне",
+        "muscle_group": "спина",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "37c27a9a-d266-5bbd-a4ae-2b075aa9c699",
+        "exercise_id": "eb624073-c0c7-5e3e-9f45-d6b4e4d982dd",
+        "exercise_name": "Тяга верхнего блока к груди",
+        "muscle_group": "спина",
+        "equipment": "cable",
+        "target_sets": 3,
+        "target_reps": 12
+       },
+       {
+        "id": "78d3c294-6cd4-5411-8ec8-00a1ae9f1bdd",
+        "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+        "exercise_name": "Подъём штанги на бицепс",
+        "muscle_group": "руки",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 12
+       }
+      ]
+     },
+     {
+      "id": "a2559fef-e513-5421-b23c-1e3c7024cd56",
+      "day_index": 2,
+      "title": "Legs (ноги)",
+      "weekday": 4,
+      "exercises": [
+       {
+        "id": "fae17368-2cdc-5bb2-9966-10e9a109a11a",
+        "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+        "exercise_name": "Приседания со штангой",
+        "muscle_group": "ноги",
+        "equipment": "barbell",
+        "target_sets": 4,
+        "target_reps": 8
+       },
+       {
+        "id": "3b751230-374a-50bd-a046-2794708b4641",
+        "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+        "exercise_name": "Жим ногами",
+        "muscle_group": "ноги",
+        "equipment": "machine",
+        "target_sets": 3,
+        "target_reps": 12
+       },
+       {
+        "id": "8af87348-d2d1-5ebd-9fbd-0963d685fe80",
+        "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+        "exercise_name": "Румынская тяга",
+        "muscle_group": "ноги",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "7ebbfb27-dcf3-58a2-82d9-11de4a7d22c3",
+        "exercise_id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+        "exercise_name": "Сгибания ног лёжа",
+        "muscle_group": "ноги",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 12
+       },
+       {
+        "id": "0d020cb0-3fd4-54ed-af65-fbbeba42991a",
+        "exercise_id": "dd8a72f5-4184-559c-ae66-56023222a580",
+        "exercise_name": "Подъёмы на носки стоя",
+        "muscle_group": "ноги",
+        "equipment": null,
+        "target_sets": 4,
+        "target_reps": 15
+       }
+      ]
+     }
+    ]
+   },
+   "diary": [
+    {
+     "on_date": "2026-09-10",
+     "meal": "breakfast",
+     "food_id": "21a285c9-7b26-56fe-93ae-d816073acf59",
+     "name": "Лагман",
+     "grams": 150,
+     "kcal": 130,
+     "protein": 5,
+     "fat": 5,
+     "carbs": 16
+    },
+    {
+     "on_date": "2026-09-10",
+     "meal": "lunch",
+     "food_id": "9ee65b23-df24-5a00-9bf5-dee1f767823c",
+     "name": "Рис пропаренный сырой",
+     "grams": 200,
+     "kcal": 341,
+     "protein": 7.4,
+     "fat": 0.9,
+     "carbs": 76
+    },
+    {
+     "on_date": "2026-09-10",
+     "meal": "dinner",
+     "food_id": "0bb661e3-08e6-5f33-9c19-d4ff9187374a",
+     "name": "Желудки куриные сырые",
+     "grams": 200,
+     "kcal": 94,
+     "protein": 17.7,
+     "fat": 2.1,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "breakfast",
+     "food_id": "42b42604-7d3e-5ade-ab64-a96cb682bec2",
+     "name": "Плов",
+     "grams": 150,
+     "kcal": 215,
+     "protein": 7,
+     "fat": 9,
+     "carbs": 27
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "lunch",
+     "food_id": "4f390422-7e03-5b13-b6ce-94976c38f84d",
+     "name": "Салат из огурцов и помидоров с маслом",
+     "grams": 300,
+     "kcal": 92,
+     "protein": 1.2,
+     "fat": 7,
+     "carbs": 5.5
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "dinner",
+     "food_id": "4fbbb980-5433-5fa2-beae-cb71489b9476",
+     "name": "Творог 9%",
+     "grams": 150,
+     "kcal": 169,
+     "protein": 18,
+     "fat": 9,
+     "carbs": 3
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "breakfast",
+     "food_id": "f2172eb3-8f44-5ad4-890a-f7e0022489ac",
+     "name": "Салат листовой",
+     "grams": 200,
+     "kcal": 15,
+     "protein": 1.4,
+     "fat": 0.2,
+     "carbs": 1.3
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "lunch",
+     "food_id": "5cb9232e-5d0c-5ff5-bea1-10497b386395",
+     "name": "Рис белый длиннозёрный сырой",
+     "grams": 150,
+     "kcal": 344,
+     "protein": 6.7,
+     "fat": 0.7,
+     "carbs": 78.9
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "dinner",
+     "food_id": "99ea8316-0243-5a0a-9730-546a2d678262",
+     "name": "Плов вегетарианский с нутом",
+     "grams": 200,
+     "kcal": 165,
+     "protein": 4,
+     "fat": 5.5,
+     "carbs": 25
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "breakfast",
+     "food_id": "f57fc6b2-256b-564b-84b3-29c9a5711f39",
+     "name": "Перец фаршированный мясом с рисом",
+     "grams": 300,
+     "kcal": 125,
+     "protein": 6,
+     "fat": 6.8,
+     "carbs": 9.5
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "lunch",
+     "food_id": "07438791-c4e1-5b9b-8a87-49008ace0a5d",
+     "name": "Сердце куриное сырое",
+     "grams": 300,
+     "kcal": 153,
+     "protein": 15.8,
+     "fat": 9.3,
+     "carbs": 0.7
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "dinner",
+     "food_id": "ad7657ef-cf8e-53cb-b8b8-13275d71f490",
+     "name": "Салат из свежих овощей со сметаной",
+     "grams": 250,
+     "kcal": 68,
+     "protein": 1.5,
+     "fat": 4.5,
+     "carbs": 5.5
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "breakfast",
+     "food_id": "41a0b023-530d-5047-80db-d43ea3cc72cc",
+     "name": "Куриная грудка",
+     "grams": 200,
+     "kcal": 165,
+     "protein": 31,
+     "fat": 3.6,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "lunch",
+     "food_id": "b7abc59d-af8f-5a93-8064-c1ecf40fa5ca",
+     "name": "Хлебцы ржаные",
+     "grams": 250,
+     "kcal": 294,
+     "protein": 11,
+     "fat": 2.5,
+     "carbs": 57
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "dinner",
+     "food_id": "76214d60-80ba-5d7a-9abf-f3cc089a443d",
+     "name": "Рис для суши сырой",
+     "grams": 200,
+     "kcal": 349,
+     "protein": 6.5,
+     "fat": 0.8,
+     "carbs": 79
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "breakfast",
+     "food_id": "0d0764b0-e893-50c2-9868-32945c1911a5",
+     "name": "Печень куриная жареная",
+     "grams": 250,
+     "kcal": 172,
+     "protein": 24,
+     "fat": 7.5,
+     "carbs": 2
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "lunch",
+     "food_id": "42b42604-7d3e-5ade-ab64-a96cb682bec2",
+     "name": "Плов",
+     "grams": 150,
+     "kcal": 215,
+     "protein": 7,
+     "fat": 9,
+     "carbs": 27
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "dinner",
+     "food_id": "a307faf4-a5a4-5ea1-a515-7de77dc41239",
+     "name": "Хлеб гречневый",
+     "grams": 150,
+     "kcal": 219,
+     "protein": 8,
+     "fat": 3,
+     "carbs": 40
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "breakfast",
+     "food_id": "baa12ce6-2e1e-56d8-be4d-90af767e1638",
+     "name": "Хлеб ржано-пшеничный (Дарницкий)",
+     "grams": 250,
+     "kcal": 200,
+     "protein": 6.6,
+     "fat": 1.1,
+     "carbs": 41
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "lunch",
+     "food_id": "655c6c63-16b7-54f8-8d41-b42b1b1fc23b",
+     "name": "Нектар бананово-яблочный",
+     "grams": 250,
+     "kcal": 60,
+     "protein": 0.3,
+     "fat": 0.1,
+     "carbs": 14.4
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "dinner",
+     "food_id": "a8c760ad-262a-5b38-914b-c6b3e533f71b",
+     "name": "Кефир 2.5%",
+     "grams": 300,
+     "kcal": 50,
+     "protein": 2.9,
+     "fat": 2.5,
+     "carbs": 4
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "breakfast",
+     "food_id": "c355797d-d7c6-5d86-9bdc-e93e1ee8acac",
+     "name": "Ежики с рисом",
+     "grams": 150,
+     "kcal": 165,
+     "protein": 9.5,
+     "fat": 9,
+     "carbs": 10.5
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "lunch",
+     "food_id": "69fb2b0a-85a6-5419-8110-bb305ef53f83",
+     "name": "Хлеб кукурузный",
+     "grams": 150,
+     "kcal": 267,
+     "protein": 7,
+     "fat": 7,
+     "carbs": 44
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "dinner",
+     "food_id": "c2d0654a-dcba-5554-9cfd-0dd7cf565f0e",
+     "name": "Плов узбекский свадебный",
+     "grams": 250,
+     "kcal": 225,
+     "protein": 6.8,
+     "fat": 12.5,
+     "carbs": 21
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "breakfast",
+     "food_id": "c1b8be82-ea84-511c-984c-3e143c4d8145",
+     "name": "Вино игристое полусладкое",
+     "grams": 250,
+     "kcal": 88,
+     "protein": 0.2,
+     "fat": 0,
+     "carbs": 21.8
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "lunch",
+     "food_id": "da0cd9cf-dc41-5187-ad84-71ebc78f3e00",
+     "name": "Салат Цезарь с креветками",
+     "grams": 200,
+     "kcal": 165,
+     "protein": 9.5,
+     "fat": 11,
+     "carbs": 6.5
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "dinner",
+     "food_id": "39018050-8d71-5136-b77d-9be1cdb2e80a",
+     "name": "Хлеб белый",
+     "grams": 150,
+     "kcal": 265,
+     "protein": 8,
+     "fat": 3,
+     "carbs": 49
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "breakfast",
+     "food_id": "c625539e-6680-5217-83bd-368446d6dc32",
+     "name": "Сердечки куриные жареные",
+     "grams": 250,
+     "kcal": 185,
+     "protein": 20,
+     "fat": 11,
+     "carbs": 1
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "lunch",
+     "food_id": "1e55e981-60bd-54f0-b61d-e4bc7130f9d4",
+     "name": "Хлебцы",
+     "grams": 200,
+     "kcal": 295,
+     "protein": 9,
+     "fat": 2,
+     "carbs": 57
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "dinner",
+     "food_id": "b9c9f16e-f363-51e7-858f-46441d465236",
+     "name": "Яблоко",
+     "grams": 300,
+     "kcal": 52,
+     "protein": 0.3,
+     "fat": 0.2,
+     "carbs": 14
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "breakfast",
+     "food_id": "76214d60-80ba-5d7a-9abf-f3cc089a443d",
+     "name": "Рис для суши сырой",
+     "grams": 300,
+     "kcal": 349,
+     "protein": 6.5,
+     "fat": 0.8,
+     "carbs": 79
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "lunch",
+     "food_id": "ded45001-8627-50d8-a363-eef301838253",
+     "name": "Хлеб отрубной",
+     "grams": 200,
+     "kcal": 231,
+     "protein": 9,
+     "fat": 2.6,
+     "carbs": 43
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "dinner",
+     "food_id": "4c442e1d-b588-594e-b2eb-bc1a9779d211",
+     "name": "Хлеб зерновой с семенами",
+     "grams": 250,
+     "kcal": 257,
+     "protein": 10,
+     "fat": 5,
+     "carbs": 43
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "breakfast",
+     "food_id": "d2443ace-eea3-565d-8504-014c5d680d29",
+     "name": "Куриная кожа",
+     "grams": 250,
+     "kcal": 349,
+     "protein": 13.3,
+     "fat": 32.4,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "lunch",
+     "food_id": "8e73ad8c-b6c2-51d1-88a6-3f0b590c647c",
+     "name": "Хлеб ржаной",
+     "grams": 200,
+     "kcal": 174,
+     "protein": 6,
+     "fat": 1.2,
+     "carbs": 33
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "dinner",
+     "food_id": "321a08e3-23a6-51f1-a36e-785268168171",
+     "name": "Котлеты куриные жареные",
+     "grams": 200,
+     "kcal": 220,
+     "protein": 15,
+     "fat": 14,
+     "carbs": 8.5
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "breakfast",
+     "food_id": "a34f703b-ccb0-5657-b54d-e5248f721299",
+     "name": "Яйцо перепелиное",
+     "grams": 300,
+     "kcal": 168,
+     "protein": 11.9,
+     "fat": 13.1,
+     "carbs": 0.6
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "lunch",
+     "food_id": "a307faf4-a5a4-5ea1-a515-7de77dc41239",
+     "name": "Хлеб гречневый",
+     "grams": 250,
+     "kcal": 219,
+     "protein": 8,
+     "fat": 3,
+     "carbs": 40
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "dinner",
+     "food_id": "35612862-f251-513c-af00-5fab73757604",
+     "name": "Плов с сухофруктами сладкий",
+     "grams": 200,
+     "kcal": 205,
+     "protein": 3.5,
+     "fat": 6.5,
+     "carbs": 33
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "breakfast",
+     "food_id": "f6220693-13bf-541d-901f-dbc8b6f2912b",
+     "name": "Овсяные отруби сырые",
+     "grams": 150,
+     "kcal": 320,
+     "protein": 17,
+     "fat": 7,
+     "carbs": 48
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "lunch",
+     "food_id": "c625539e-6680-5217-83bd-368446d6dc32",
+     "name": "Сердечки куриные жареные",
+     "grams": 150,
+     "kcal": 185,
+     "protein": 20,
+     "fat": 11,
+     "carbs": 1
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "dinner",
+     "food_id": "90c2020a-3597-5c43-8e1e-787616d781a3",
+     "name": "Овсяные хлопья Геркулес сырые",
+     "grams": 300,
+     "kcal": 352,
+     "protein": 12.3,
+     "fat": 6.2,
+     "carbs": 61.8
+    }
+   ],
+   "sessions": [
+    {
+     "completed_at": "2026-09-12",
+     "day_title": "Push (грудь-плечи-трицепс)",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Жим штанги лёжа",
+       "set_index": 1,
+       "reps": 7,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим штанги лёжа",
+       "set_index": 2,
+       "reps": 7,
+       "weight": 20,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Жим штанги лёжа",
+       "set_index": 3,
+       "reps": 6,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим штанги лёжа",
+       "set_index": 4,
+       "reps": 7,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим штанги на наклонной скамье вверх",
+       "set_index": 1,
+       "reps": 9,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Жим штанги на наклонной скамье вверх",
+       "set_index": 2,
+       "reps": 8,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим штанги на наклонной скамье вверх",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Жим штанги стоя (армейский)",
+       "set_index": 1,
+       "reps": 10,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Жим штанги стоя (армейский)",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Жим штанги стоя (армейский)",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Махи гантелями в стороны",
+       "set_index": 1,
+       "reps": 13,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Махи гантелями в стороны",
+       "set_index": 2,
+       "reps": 15,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Махи гантелями в стороны",
+       "set_index": 3,
+       "reps": 14,
+       "weight": null,
+       "rpe": 8
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-14",
+     "day_title": "Pull (спина-бицепс)",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 1,
+       "reps": 4,
+       "weight": 20,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 2,
+       "reps": 6,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 3,
+       "reps": 6,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 4,
+       "reps": 6,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 1,
+       "reps": 8,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 2,
+       "reps": 6,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 3,
+       "reps": 7,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 1,
+       "reps": 12,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 2,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 3,
+       "reps": 11,
+       "weight": 40,
+       "rpe": 8
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-17",
+     "day_title": "Pull (спина-бицепс)",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 1,
+       "reps": 4,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 2,
+       "reps": 6,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 3,
+       "reps": 6,
+       "weight": 30,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Становая тяга",
+       "set_index": 4,
+       "reps": 6,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 1,
+       "reps": 8,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 2,
+       "reps": 8,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Подтягивания",
+       "set_index": 3,
+       "reps": 7,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 1,
+       "reps": 9,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Тяга штанги в наклоне",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 1,
+       "reps": 12,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Тяга верхнего блока к груди",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 7
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-19",
+     "day_title": "Legs (ноги)",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 1,
+       "reps": 8,
+       "weight": null,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 2,
+       "reps": 7,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 3,
+       "reps": 8,
+       "weight": 20,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 4,
+       "reps": 8,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 1,
+       "reps": 11,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 2,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 3,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 2,
+       "reps": 8,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 1,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 3,
+       "reps": 11,
+       "weight": 40,
+       "rpe": 9
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-22",
+     "day_title": "Legs (ноги)",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 1,
+       "reps": 8,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 2,
+       "reps": 8,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 3,
+       "reps": 7,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Приседания со штангой",
+       "set_index": 4,
+       "reps": 6,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 1,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 2,
+       "reps": 12,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Жим ногами",
+       "set_index": 3,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 50,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Румынская тяга",
+       "set_index": 3,
+       "reps": 9,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 1,
+       "reps": 12,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 2,
+       "reps": 12,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Сгибания ног лёжа",
+       "set_index": 3,
+       "reps": 11,
+       "weight": null,
+       "rpe": 7
+      }
+     ]
+    }
+   ],
+   "weights": [
+    {
+     "measured_at": "2026-08-25",
+     "weight_kg": 85.8
+    },
+    {
+     "measured_at": "2026-08-28",
+     "weight_kg": 85.8
+    },
+    {
+     "measured_at": "2026-08-31",
+     "weight_kg": 85.7
+    },
+    {
+     "measured_at": "2026-09-03",
+     "weight_kg": 85.1
+    },
+    {
+     "measured_at": "2026-09-06",
+     "weight_kg": 85.0
+    },
+    {
+     "measured_at": "2026-09-09",
+     "weight_kg": 84.9
+    },
+    {
+     "measured_at": "2026-09-12",
+     "weight_kg": 85.0
+    },
+    {
+     "measured_at": "2026-09-15",
+     "weight_kg": 84.8
+    },
+    {
+     "measured_at": "2026-09-18",
+     "weight_kg": 84.7
+    },
+    {
+     "measured_at": "2026-09-21",
+     "weight_kg": 84.3
+    }
+   ]
+  },
+  {
+   "id": "e9d058b1-54b9-5392-b261-f20c84f886ff",
+   "role": "client",
+   "name": "Дана Сейткали",
+   "telegram_id": "demo-student-2",
+   "sex": "female",
+   "age": 34,
+   "height_cm": 165,
+   "goal": "keep",
+   "level": "beginner",
+   "place": "home",
+   "training_days": [
+    1,
+    3,
+    5
+   ],
+   "activity": "light",
+   "weight_kg": 61.5,
+   "goal_weight_kg": 60,
+   "trainer_note": {
+    "injury": false,
+    "body": "Тренируется дома: гантели и резинка. Хочет больше кардио."
+   },
+   "active_plan": {
+    "id": "fe6889c5-915b-5ad2-afbb-7b1625f1b2a3",
+    "title": "Новичок дома — без железа",
+    "mode": "scheduled",
+    "meta": {
+     "goal": "keep",
+     "level": "beginner",
+     "place": "home",
+     "days_per_week": 3,
+     "subtitle": "3 дня, только своё тело"
+    },
+    "days": [
+     {
+      "id": "b3b6a271-d3c9-5bae-845d-08953b3c3c7a",
+      "day_index": 0,
+      "title": "Понедельник",
+      "weekday": 0,
+      "exercises": [
+       {
+        "id": "4c432883-b557-5e07-965a-2d6cb387a9c8",
+        "exercise_id": "242460f1-e164-5e3b-9498-1bd7ff8ab0bf",
+        "exercise_name": "Воздушные приседания",
+        "muscle_group": "ноги",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 15
+       },
+       {
+        "id": "2b6284ea-b4a0-5456-b647-bde1f57aacd1",
+        "exercise_id": "9dfb7e00-fb89-5efc-a515-403f05086658",
+        "exercise_name": "Отжимания с колен",
+        "muscle_group": "грудь",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "2e87ae8d-9213-579d-9ffd-d0117bb88ca8",
+        "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+        "exercise_name": "Ягодичный мост со штангой",
+        "muscle_group": "ноги",
+        "equipment": "barbell",
+        "target_sets": 3,
+        "target_reps": 15
+       },
+       {
+        "id": "fd119c32-fc47-55bb-924e-a29423efac40",
+        "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+        "exercise_name": "Планка",
+        "muscle_group": "кор",
+        "equipment": "bodyweight",
+        "target_sets": 3,
+        "target_reps": 40
+       },
+       {
+        "id": "ab5fba7a-5e29-5030-9a1b-125ec4a0f77e",
+        "exercise_id": "a7071628-140e-587e-95df-cb1ff030723c",
+        "exercise_name": "Скручивания лёжа",
+        "muscle_group": "пресс",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 15
+       }
+      ]
+     },
+     {
+      "id": "09417776-0b5b-5af3-b779-eabc935b1e0c",
+      "day_index": 1,
+      "title": "Среда",
+      "weekday": 2,
+      "exercises": [
+       {
+        "id": "9cd5ba29-4787-5b45-b0e4-21860f3e0cbb",
+        "exercise_id": "f8a79d46-3dd6-514f-abdc-365057fb579c",
+        "exercise_name": "Выпады ходьбой",
+        "muscle_group": "ноги",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 12
+       },
+       {
+        "id": "7f11b068-ea60-5e05-b081-4b4d0983c464",
+        "exercise_id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+        "exercise_name": "Отжимания",
+        "muscle_group": "грудь",
+        "equipment": "bodyweight",
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "a6292c5a-207e-525e-b3ac-7a076a2a1357",
+        "exercise_id": "1871af91-445e-5126-a261-7f63fcfa7049",
+        "exercise_name": "Обратные отжимания от скамьи",
+        "muscle_group": "руки",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 12
+       },
+       {
+        "id": "ce9689bf-c944-5e42-9c24-6c9fdea62090",
+        "exercise_id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+        "exercise_name": "Велосипед",
+        "muscle_group": "пресс",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 20
+       },
+       {
+        "id": "4a96b418-2a25-54d8-9290-eee9a5565bd2",
+        "exercise_id": "765fcc3f-62e6-5069-b8d9-dafb81920263",
+        "exercise_name": "Боковая планка",
+        "muscle_group": "кор",
+        "equipment": "bodyweight",
+        "target_sets": 3,
+        "target_reps": 30
+       }
+      ]
+     },
+     {
+      "id": "1c153a8b-987d-5957-8174-7524f574f2b6",
+      "day_index": 2,
+      "title": "Пятница",
+      "weekday": 4,
+      "exercises": [
+       {
+        "id": "45b8faa3-5195-5a7a-b888-b78ea6b6e640",
+        "exercise_id": "ff7e6ce0-88fe-5089-a0df-5bd863992339",
+        "exercise_name": "Приседания-пистолетик",
+        "muscle_group": "ноги",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 6
+       },
+       {
+        "id": "590fff83-9906-5775-8368-b285bf8557b2",
+        "exercise_id": "7b8aa3b2-ec8c-5481-adc9-c25617691c47",
+        "exercise_name": "Отжимания широким хватом",
+        "muscle_group": "грудь",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "9429b44c-9fdb-565d-9c65-f37cb4ba3ee6",
+        "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+        "exercise_name": "Берпи",
+        "muscle_group": "кардио",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 10
+       },
+       {
+        "id": "7a633445-44fb-56d3-a15a-adacd9e5f88a",
+        "exercise_id": "ac78fa4f-6655-5418-bdb1-14b7b92abd65",
+        "exercise_name": "Подъём ног лёжа",
+        "muscle_group": "пресс",
+        "equipment": null,
+        "target_sets": 3,
+        "target_reps": 15
+       },
+       {
+        "id": "64854cf1-d57f-55f0-b0e3-805b1abccffd",
+        "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+        "exercise_name": "Планка",
+        "muscle_group": "кор",
+        "equipment": "bodyweight",
+        "target_sets": 3,
+        "target_reps": 45
+       }
+      ]
+     }
+    ]
+   },
+   "diary": [
+    {
+     "on_date": "2026-09-10",
+     "meal": "breakfast",
+     "food_id": "48991efd-6372-59c3-8bae-5f08e917c1ab",
+     "name": "Творог зернёный",
+     "grams": 300,
+     "kcal": 98,
+     "protein": 12.7,
+     "fat": 4,
+     "carbs": 2.4
+    },
+    {
+     "on_date": "2026-09-10",
+     "meal": "lunch",
+     "food_id": "f57fc6b2-256b-564b-84b3-29c9a5711f39",
+     "name": "Перец фаршированный мясом с рисом",
+     "grams": 250,
+     "kcal": 125,
+     "protein": 6,
+     "fat": 6.8,
+     "carbs": 9.5
+    },
+    {
+     "on_date": "2026-09-10",
+     "meal": "dinner",
+     "food_id": "6ddb7617-5874-5d30-81c4-222bc2699e2d",
+     "name": "Смузи фруктовый (банан-ягоды)",
+     "grams": 150,
+     "kcal": 65,
+     "protein": 0.9,
+     "fat": 0.4,
+     "carbs": 14.5
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "breakfast",
+     "food_id": "c2d0654a-dcba-5554-9cfd-0dd7cf565f0e",
+     "name": "Плов узбекский свадебный",
+     "grams": 250,
+     "kcal": 225,
+     "protein": 6.8,
+     "fat": 12.5,
+     "carbs": 21
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "lunch",
+     "food_id": "42b42604-7d3e-5ade-ab64-a96cb682bec2",
+     "name": "Плов",
+     "grams": 200,
+     "kcal": 215,
+     "protein": 7,
+     "fat": 9,
+     "carbs": 27
+    },
+    {
+     "on_date": "2026-09-11",
+     "meal": "dinner",
+     "food_id": "a6a7f58b-0655-5126-9a33-c4a6ed360c0e",
+     "name": "Рис дикий сырой",
+     "grams": 150,
+     "kcal": 357,
+     "protein": 14.7,
+     "fat": 1.1,
+     "carbs": 68.7
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "breakfast",
+     "food_id": "031f80ea-8f88-5348-a185-c32c387ca34f",
+     "name": "Манты",
+     "grams": 200,
+     "kcal": 215,
+     "protein": 9,
+     "fat": 11,
+     "carbs": 20
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "lunch",
+     "food_id": "53cd21b3-6282-543c-8e02-0dadfcecae97",
+     "name": "Рис красный сырой",
+     "grams": 250,
+     "kcal": 350,
+     "protein": 8.1,
+     "fat": 2.2,
+     "carbs": 72
+    },
+    {
+     "on_date": "2026-09-12",
+     "meal": "dinner",
+     "food_id": "655c6c63-16b7-54f8-8d41-b42b1b1fc23b",
+     "name": "Нектар бананово-яблочный",
+     "grams": 200,
+     "kcal": 60,
+     "protein": 0.3,
+     "fat": 0.1,
+     "carbs": 14.4
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "breakfast",
+     "food_id": "8832b2d8-c424-5e8c-9e63-599d311eba02",
+     "name": "Лапша рисовая варёная",
+     "grams": 200,
+     "kcal": 108,
+     "protein": 0.9,
+     "fat": 0.2,
+     "carbs": 24.9
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "lunch",
+     "food_id": "a6a7f58b-0655-5126-9a33-c4a6ed360c0e",
+     "name": "Рис дикий сырой",
+     "grams": 300,
+     "kcal": 357,
+     "protein": 14.7,
+     "fat": 1.1,
+     "carbs": 68.7
+    },
+    {
+     "on_date": "2026-09-13",
+     "meal": "dinner",
+     "food_id": "bcd845fd-7479-58b7-be56-0f500c23f4bd",
+     "name": "Рис басмати сырой",
+     "grams": 150,
+     "kcal": 350,
+     "protein": 7.5,
+     "fat": 0.9,
+     "carbs": 78
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "breakfast",
+     "food_id": "f2172eb3-8f44-5ad4-890a-f7e0022489ac",
+     "name": "Салат листовой",
+     "grams": 300,
+     "kcal": 15,
+     "protein": 1.4,
+     "fat": 0.2,
+     "carbs": 1.3
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "lunch",
+     "food_id": "9ee65b23-df24-5a00-9bf5-dee1f767823c",
+     "name": "Рис пропаренный сырой",
+     "grams": 150,
+     "kcal": 341,
+     "protein": 7.4,
+     "fat": 0.9,
+     "carbs": 76
+    },
+    {
+     "on_date": "2026-09-14",
+     "meal": "dinner",
+     "food_id": "f0dd21b7-7d80-55a2-9001-57ba900342fe",
+     "name": "Говядина постная отварная",
+     "grams": 250,
+     "kcal": 175,
+     "protein": 25,
+     "fat": 8,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "breakfast",
+     "food_id": "f657cdfb-e85c-5633-929f-ee6c725e4625",
+     "name": "Яблоко печёное",
+     "grams": 250,
+     "kcal": 66,
+     "protein": 0.5,
+     "fat": 0.5,
+     "carbs": 14.8
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "lunch",
+     "food_id": "a34f703b-ccb0-5657-b54d-e5248f721299",
+     "name": "Яйцо перепелиное",
+     "grams": 300,
+     "kcal": 168,
+     "protein": 11.9,
+     "fat": 13.1,
+     "carbs": 0.6
+    },
+    {
+     "on_date": "2026-09-15",
+     "meal": "dinner",
+     "food_id": "c2d0654a-dcba-5554-9cfd-0dd7cf565f0e",
+     "name": "Плов узбекский свадебный",
+     "grams": 300,
+     "kcal": 225,
+     "protein": 6.8,
+     "fat": 12.5,
+     "carbs": 21
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "breakfast",
+     "food_id": "99ea8316-0243-5a0a-9730-546a2d678262",
+     "name": "Плов вегетарианский с нутом",
+     "grams": 150,
+     "kcal": 165,
+     "protein": 4,
+     "fat": 5.5,
+     "carbs": 25
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "lunch",
+     "food_id": "21a285c9-7b26-56fe-93ae-d816073acf59",
+     "name": "Лагман",
+     "grams": 150,
+     "kcal": 130,
+     "protein": 5,
+     "fat": 5,
+     "carbs": 16
+    },
+    {
+     "on_date": "2026-09-16",
+     "meal": "dinner",
+     "food_id": "499bbb93-23dd-5a54-86d1-81bf469ed9ab",
+     "name": "Кефир обезжиренный",
+     "grams": 150,
+     "kcal": 30,
+     "protein": 3,
+     "fat": 0.1,
+     "carbs": 3.8
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "breakfast",
+     "food_id": "4c442e1d-b588-594e-b2eb-bc1a9779d211",
+     "name": "Хлеб зерновой с семенами",
+     "grams": 200,
+     "kcal": 257,
+     "protein": 10,
+     "fat": 5,
+     "carbs": 43
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "lunch",
+     "food_id": "dff27b9b-9026-56b2-a4f5-6bd2b6700248",
+     "name": "Слойка с творогом",
+     "grams": 200,
+     "kcal": 372,
+     "protein": 8,
+     "fat": 20,
+     "carbs": 40
+    },
+    {
+     "on_date": "2026-09-17",
+     "meal": "dinner",
+     "food_id": "9366d122-77e1-5933-bf75-4424d12238bc",
+     "name": "Кефир 1%",
+     "grams": 250,
+     "kcal": 40,
+     "protein": 3,
+     "fat": 1,
+     "carbs": 4
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "breakfast",
+     "food_id": "ded45001-8627-50d8-a363-eef301838253",
+     "name": "Хлеб отрубной",
+     "grams": 150,
+     "kcal": 231,
+     "protein": 9,
+     "fat": 2.6,
+     "carbs": 43
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "lunch",
+     "food_id": "baa12ce6-2e1e-56d8-be4d-90af767e1638",
+     "name": "Хлеб ржано-пшеничный (Дарницкий)",
+     "grams": 200,
+     "kcal": 200,
+     "protein": 6.6,
+     "fat": 1.1,
+     "carbs": 41
+    },
+    {
+     "on_date": "2026-09-18",
+     "meal": "dinner",
+     "food_id": "64db26ef-4a79-55d0-9fa8-ca80780ddfed",
+     "name": "Рис бурый варёный",
+     "grams": 150,
+     "kcal": 111,
+     "protein": 2.6,
+     "fat": 0.9,
+     "carbs": 22.8
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "breakfast",
+     "food_id": "2833ee85-f83e-5d5b-9018-77ae05714a9e",
+     "name": "Хлеб пшеничный белый",
+     "grams": 300,
+     "kcal": 237,
+     "protein": 8,
+     "fat": 1,
+     "carbs": 49
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "lunch",
+     "food_id": "c322fb8f-c497-5811-a09d-668ec1339803",
+     "name": "Банановый молочный коктейль",
+     "grams": 200,
+     "kcal": 100,
+     "protein": 3,
+     "fat": 2.5,
+     "carbs": 16.5
+    },
+    {
+     "on_date": "2026-09-19",
+     "meal": "dinner",
+     "food_id": "b6740133-5e0a-5608-8ce7-52c814318a1d",
+     "name": "Рис белый круглозёрный сырой",
+     "grams": 200,
+     "kcal": 344,
+     "protein": 6.6,
+     "fat": 0.7,
+     "carbs": 79
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "breakfast",
+     "food_id": "69a43d6e-bcae-57d3-b940-8752ad4e4ede",
+     "name": "Говядина лопатка сырая",
+     "grams": 300,
+     "kcal": 137,
+     "protein": 20,
+     "fat": 6,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "lunch",
+     "food_id": "82758f1f-6120-5037-9483-cf032201727a",
+     "name": "Творог 2%",
+     "grams": 200,
+     "kcal": 103,
+     "protein": 18,
+     "fat": 2,
+     "carbs": 3.3
+    },
+    {
+     "on_date": "2026-09-20",
+     "meal": "dinner",
+     "food_id": "4202626c-7772-5285-bc04-c09e8349dab1",
+     "name": "Толокно овсяное",
+     "grams": 300,
+     "kcal": 363,
+     "protein": 12.5,
+     "fat": 5,
+     "carbs": 64.9
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "breakfast",
+     "food_id": "64db26ef-4a79-55d0-9fa8-ca80780ddfed",
+     "name": "Рис бурый варёный",
+     "grams": 250,
+     "kcal": 111,
+     "protein": 2.6,
+     "fat": 0.9,
+     "carbs": 22.8
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "lunch",
+     "food_id": "48991efd-6372-59c3-8bae-5f08e917c1ab",
+     "name": "Творог зернёный",
+     "grams": 150,
+     "kcal": 98,
+     "protein": 12.7,
+     "fat": 4,
+     "carbs": 2.4
+    },
+    {
+     "on_date": "2026-09-21",
+     "meal": "dinner",
+     "food_id": "a307faf4-a5a4-5ea1-a515-7de77dc41239",
+     "name": "Хлеб гречневый",
+     "grams": 150,
+     "kcal": 219,
+     "protein": 8,
+     "fat": 3,
+     "carbs": 40
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "breakfast",
+     "food_id": "33ca8e2c-c8a0-5c5c-b453-e1714f07bb6b",
+     "name": "Ирис тянучка",
+     "grams": 200,
+     "kcal": 407,
+     "protein": 3,
+     "fat": 8,
+     "carbs": 80
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "lunch",
+     "food_id": "f3d69f9b-386d-5428-9a82-b85280ada94c",
+     "name": "Говядина отварная",
+     "grams": 300,
+     "kcal": 254,
+     "protein": 25.8,
+     "fat": 16.8,
+     "carbs": 0
+    },
+    {
+     "on_date": "2026-09-22",
+     "meal": "dinner",
+     "food_id": "0312bf88-3afe-5dc2-a63a-c48798c50aa3",
+     "name": "Каша рисовая на воде",
+     "grams": 250,
+     "kcal": 78,
+     "protein": 1.5,
+     "fat": 0.1,
+     "carbs": 17
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "breakfast",
+     "food_id": "c625539e-6680-5217-83bd-368446d6dc32",
+     "name": "Сердечки куриные жареные",
+     "grams": 200,
+     "kcal": 185,
+     "protein": 20,
+     "fat": 11,
+     "carbs": 1
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "lunch",
+     "food_id": "82758f1f-6120-5037-9483-cf032201727a",
+     "name": "Творог 2%",
+     "grams": 200,
+     "kcal": 103,
+     "protein": 18,
+     "fat": 2,
+     "carbs": 3.3
+    },
+    {
+     "on_date": "2026-09-23",
+     "meal": "dinner",
+     "food_id": "4522502e-04d7-55d9-9262-f04df3ad8b6f",
+     "name": "Хлеб украинский",
+     "grams": 250,
+     "kcal": 205,
+     "protein": 6.5,
+     "fat": 1.2,
+     "carbs": 42
+    }
+   ],
+   "sessions": [
+    {
+     "completed_at": "2026-09-12",
+     "day_title": "Понедельник",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Воздушные приседания",
+       "set_index": 1,
+       "reps": 14,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Воздушные приседания",
+       "set_index": 2,
+       "reps": 14,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Воздушные приседания",
+       "set_index": 3,
+       "reps": 14,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Отжимания с колен",
+       "set_index": 1,
+       "reps": 9,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания с колен",
+       "set_index": 2,
+       "reps": 10,
+       "weight": null,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Отжимания с колен",
+       "set_index": 3,
+       "reps": 9,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Ягодичный мост со штангой",
+       "set_index": 1,
+       "reps": 15,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Ягодичный мост со штангой",
+       "set_index": 2,
+       "reps": 14,
+       "weight": null,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Ягодичный мост со штангой",
+       "set_index": 3,
+       "reps": 15,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Планка",
+       "set_index": 1,
+       "reps": 39,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Планка",
+       "set_index": 2,
+       "reps": 39,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Планка",
+       "set_index": 3,
+       "reps": 40,
+       "weight": 30,
+       "rpe": 8
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-14",
+     "day_title": "Среда",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 2,
+       "reps": 11,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 3,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 2,
+       "reps": 8,
+       "weight": 50,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 3,
+       "reps": 9,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 3,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 1,
+       "reps": 20,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 2,
+       "reps": 19,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 3,
+       "reps": 19,
+       "weight": 20,
+       "rpe": 8
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-17",
+     "day_title": "Среда",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 1,
+       "reps": 12,
+       "weight": null,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 2,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Выпады ходьбой",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 1,
+       "reps": 8,
+       "weight": 40,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Отжимания",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 1,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 2,
+       "reps": 12,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Обратные отжимания от скамьи",
+       "set_index": 3,
+       "reps": 12,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 1,
+       "reps": 18,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 2,
+       "reps": 18,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Велосипед",
+       "set_index": 3,
+       "reps": 18,
+       "weight": 20,
+       "rpe": 9
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-19",
+     "day_title": "Пятница",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 1,
+       "reps": 4,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 2,
+       "reps": 5,
+       "weight": 50,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 3,
+       "reps": 6,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 2,
+       "reps": 9,
+       "weight": 30,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 2,
+       "reps": 10,
+       "weight": null,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 3,
+       "reps": 8,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 1,
+       "reps": 13,
+       "weight": null,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 2,
+       "reps": 13,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 3,
+       "reps": 13,
+       "weight": 40,
+       "rpe": 7
+      }
+     ]
+    },
+    {
+     "completed_at": "2026-09-22",
+     "day_title": "Пятница",
+     "avg_rpe": 8,
+     "sets": [
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 1,
+       "reps": 5,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 2,
+       "reps": 4,
+       "weight": 50,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Приседания-пистолетик",
+       "set_index": 3,
+       "reps": 4,
+       "weight": 20,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 1,
+       "reps": 8,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 2,
+       "reps": 8,
+       "weight": 30,
+       "rpe": 9
+      },
+      {
+       "exercise_name": "Отжимания широким хватом",
+       "set_index": 3,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 1,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 2,
+       "reps": 10,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Берпи",
+       "set_index": 3,
+       "reps": 8,
+       "weight": 20,
+       "rpe": 7
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 1,
+       "reps": 14,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 2,
+       "reps": 15,
+       "weight": 40,
+       "rpe": 8
+      },
+      {
+       "exercise_name": "Подъём ног лёжа",
+       "set_index": 3,
+       "reps": 14,
+       "weight": 40,
+       "rpe": 8
+      }
+     ]
+    }
+   ],
+   "weights": [
+    {
+     "measured_at": "2026-08-25",
+     "weight_kg": 63.2
+    },
+    {
+     "measured_at": "2026-08-28",
+     "weight_kg": 63.1
+    },
+    {
+     "measured_at": "2026-08-31",
+     "weight_kg": 62.7
+    },
+    {
+     "measured_at": "2026-09-03",
+     "weight_kg": 62.5
+    },
+    {
+     "measured_at": "2026-09-06",
+     "weight_kg": 62.3
+    },
+    {
+     "measured_at": "2026-09-09",
+     "weight_kg": 62.3
+    },
+    {
+     "measured_at": "2026-09-12",
+     "weight_kg": 62.3
+    },
+    {
+     "measured_at": "2026-09-15",
+     "weight_kg": 61.9
+    },
+    {
+     "measured_at": "2026-09-18",
+     "weight_kg": 61.9
+    },
+    {
+     "measured_at": "2026-09-21",
+     "weight_kg": 61.8
+    }
+   ]
+  }
+ ]
+}

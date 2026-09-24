@@ -1,0 +1,2145 @@
+[
+ {
+  "id": "de2914e6-c672-56c3-b5aa-a5a1cafe04fb",
+  "title": "Новичок — всё тело",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "keep",
+   "level": "beginner",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "3 дня, база на всё тело — старт с нуля"
+  },
+  "days": [
+   {
+    "id": "ef2d89ee-43e0-510d-bca3-fe7eb609c4ce",
+    "day_index": 0,
+    "title": "День A",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "916c6232-f8a7-55de-b4b3-97d160f087be",
+      "exercise_id": "2b45e599-549d-5def-accb-372b8e84bcea",
+      "exercise_name": "Приседания с гантелью (гоблет)",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "b3d4c3c2-d3e0-55e4-b9c2-709b4f464499",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "e2553967-43d0-546a-ba20-24b877465066",
+      "exercise_id": "3e4a60f0-cde8-57f1-aa88-a7e9009b6a50",
+      "exercise_name": "Тяга горизонтального блока",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "1f5a0880-962c-5df9-b271-94af4b6852b5",
+      "exercise_id": "9eb892b3-0a77-5e6e-b600-88f23e81e332",
+      "exercise_name": "Жим гантелей сидя",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "61fddd7e-7d8c-5766-a38a-54dfe164b620",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 40
+     }
+    ]
+   },
+   {
+    "id": "22630bca-a3e4-59e7-9c35-d31593fcb531",
+    "day_index": 1,
+    "title": "День B",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "fb0a2623-3254-5f92-ba09-4f07ea7a36c2",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "f838d699-3759-5568-805d-31c45f05bd85",
+      "exercise_id": "eb624073-c0c7-5e3e-9f45-d6b4e4d982dd",
+      "exercise_name": "Тяга верхнего блока к груди",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "088a5777-52d1-5dd1-b738-8690473546fe",
+      "exercise_id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+      "exercise_name": "Отжимания",
+      "muscle_group": "грудь",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "9ac05b29-763e-5be0-9f5e-701266f3e594",
+      "exercise_id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+      "exercise_name": "Сгибания ног лёжа",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "ddcff22a-6e88-5b6e-8bfa-7bab537ea951",
+      "exercise_id": "a7071628-140e-587e-95df-cb1ff030723c",
+      "exercise_name": "Скручивания лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     }
+    ]
+   },
+   {
+    "id": "9c3ae31c-4e97-59a3-9199-f44d8cd967da",
+    "day_index": 2,
+    "title": "День C",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "6a0c8ee2-c9a2-5a54-96f8-f4254b409da5",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "f09a1d41-0f43-50ba-a460-1180ba8f5afc",
+      "exercise_id": "2e04782a-e0df-5f50-8c0d-1e2f55a7a651",
+      "exercise_name": "Жим гантелей лёжа",
+      "muscle_group": "грудь",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "d42302b4-6613-5978-8203-8ce831903be3",
+      "exercise_id": "5fc2ae76-9d8c-535f-911b-828508757f31",
+      "exercise_name": "Гиперэкстензия",
+      "muscle_group": "спина",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "3f9f6ceb-f5ed-59b2-848b-d56a81453af6",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "b6c78b5b-0919-5806-82db-47c60adf4e96",
+      "exercise_id": "ef9f83cb-273b-52ea-9905-b20ffc4146d4",
+      "exercise_name": "Русский твист",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 20
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "92f4aec0-d9cb-5aac-82f9-eecc586fd61d",
+  "title": "Новичок дома — без железа",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "keep",
+   "level": "beginner",
+   "place": "home",
+   "days_per_week": 3,
+   "subtitle": "3 дня, только своё тело"
+  },
+  "days": [
+   {
+    "id": "af8c3c6e-a634-554e-aef0-8200aa41586b",
+    "day_index": 0,
+    "title": "Понедельник",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "40da7e72-9bbd-5bd4-afa2-d9ab1ef87ac3",
+      "exercise_id": "242460f1-e164-5e3b-9498-1bd7ff8ab0bf",
+      "exercise_name": "Воздушные приседания",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "66a30ab0-c539-59e7-881e-498ad57172d0",
+      "exercise_id": "9dfb7e00-fb89-5efc-a515-403f05086658",
+      "exercise_name": "Отжимания с колен",
+      "muscle_group": "грудь",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "4f2cc39c-36f9-5f6f-878a-55da42e83052",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "f5ca7003-ee84-584f-befb-693d5fc8c5ba",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 40
+     },
+     {
+      "id": "d51d2fef-154c-5c86-b922-56f3fe8dad6e",
+      "exercise_id": "a7071628-140e-587e-95df-cb1ff030723c",
+      "exercise_name": "Скручивания лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     }
+    ]
+   },
+   {
+    "id": "e41b2366-98ec-51f2-be58-b5938e8e3a5c",
+    "day_index": 1,
+    "title": "Среда",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "b153bd91-563c-5201-af81-f04c7955c1e8",
+      "exercise_id": "f8a79d46-3dd6-514f-abdc-365057fb579c",
+      "exercise_name": "Выпады ходьбой",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "b23a68e7-fc23-5e3d-a959-0d4b8070adf0",
+      "exercise_id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+      "exercise_name": "Отжимания",
+      "muscle_group": "грудь",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "28c30c02-2e54-5075-8674-6faff14fcd98",
+      "exercise_id": "1871af91-445e-5126-a261-7f63fcfa7049",
+      "exercise_name": "Обратные отжимания от скамьи",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "fdfba292-fed5-59ef-9d61-7796ceb663b4",
+      "exercise_id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+      "exercise_name": "Велосипед",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 20
+     },
+     {
+      "id": "d3540a46-54ed-567e-8a0e-daa50bf80512",
+      "exercise_id": "765fcc3f-62e6-5069-b8d9-dafb81920263",
+      "exercise_name": "Боковая планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 30
+     }
+    ]
+   },
+   {
+    "id": "8e0d1321-cec6-5461-998c-42d8200f82a7",
+    "day_index": 2,
+    "title": "Пятница",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "9a569182-1a61-593c-aebb-a21aa67e4d3f",
+      "exercise_id": "ff7e6ce0-88fe-5089-a0df-5bd863992339",
+      "exercise_name": "Приседания-пистолетик",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 6
+     },
+     {
+      "id": "d2be311b-c213-5f27-9083-66527a531de4",
+      "exercise_id": "7b8aa3b2-ec8c-5481-adc9-c25617691c47",
+      "exercise_name": "Отжимания широким хватом",
+      "muscle_group": "грудь",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "4aa068b0-c8fa-5846-9b8b-08b4e702fa98",
+      "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+      "exercise_name": "Берпи",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "5db7ea2a-52ec-5a80-87ff-66ec31223234",
+      "exercise_id": "ac78fa4f-6655-5418-bdb1-14b7b92abd65",
+      "exercise_name": "Подъём ног лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "38508a3b-2043-5240-8ef0-aeba70bb76d7",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 45
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "889c6123-a5e1-5f27-8e3a-bd0b89925ac1",
+  "title": "PPL — тяни / толкай / ноги",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "gain",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "Классический сплит на массу"
+  },
+  "days": [
+   {
+    "id": "4e5b0594-1859-5c34-82c0-f743016f4fc4",
+    "day_index": 0,
+    "title": "Push (грудь-плечи-трицепс)",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "35fabe1e-9045-5050-8d14-2592029b0358",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "25ed365c-3836-54ef-b63b-be3ad9611b32",
+      "exercise_id": "1b78685f-7542-5ff4-86c6-8b54420cba19",
+      "exercise_name": "Жим штанги на наклонной скамье вверх",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "bddcbe21-51b7-5ad0-8e3d-58842cb91700",
+      "exercise_id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+      "exercise_name": "Жим штанги стоя (армейский)",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "2333ba37-0fab-5430-846a-6728270bde31",
+      "exercise_id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+      "exercise_name": "Махи гантелями в стороны",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "80491869-2054-56b6-9413-a6a264952ac4",
+      "exercise_id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+      "exercise_name": "Французский жим лёжа",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "1179ba15-4a30-52f4-8669-28dd6f9f1712",
+    "day_index": 1,
+    "title": "Pull (спина-бицепс)",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "7b141f61-e5cf-56bd-98ad-fdaf8d458613",
+      "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+      "exercise_name": "Становая тяга",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 6
+     },
+     {
+      "id": "a21b93b2-26be-5fb6-bd8e-e25851f1c3ce",
+      "exercise_id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+      "exercise_name": "Подтягивания",
+      "muscle_group": "спина",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 8
+     },
+     {
+      "id": "0d8ffe75-06bd-526b-aed3-42aee9679165",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "021f4442-2a6a-5e8a-a6ca-64692d282823",
+      "exercise_id": "eb624073-c0c7-5e3e-9f45-d6b4e4d982dd",
+      "exercise_name": "Тяга верхнего блока к груди",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "5b462535-bb90-5fb0-87eb-dd5d0bd3cc7c",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "39f665ff-8041-51ed-8f7e-b99728442375",
+    "day_index": 2,
+    "title": "Legs (ноги)",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "36ebdb6a-c57a-5bb5-88ca-5e573c7e634b",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "4260994e-e45e-5f3b-82cb-10ee631fcc22",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "9bfac5a2-7a46-5b44-b5c3-91696d398d52",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "453b3077-9953-5347-adc5-81031a1d95f3",
+      "exercise_id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+      "exercise_name": "Сгибания ног лёжа",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "5367c155-5958-54f5-ba34-cdc11828b1ec",
+      "exercise_id": "dd8a72f5-4184-559c-ae66-56023222a580",
+      "exercise_name": "Подъёмы на носки стоя",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 15
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fd4ceef5-bf99-5c09-8932-a6b7789d1d4d",
+  "title": "Верх / Низ — 4 дня",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "gain",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 4,
+   "subtitle": "Верх и низ дважды в неделю"
+  },
+  "days": [
+   {
+    "id": "09985f1c-7f85-5062-a5d0-4d4fb34ab8c1",
+    "day_index": 0,
+    "title": "Верх A",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "709d59ed-f588-515f-a2fe-39732d6f9b27",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "8a230717-63a3-58db-9cf1-4c4976200d15",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "872f44df-6e97-55c6-9dbc-6f96c56ab84c",
+      "exercise_id": "9eb892b3-0a77-5e6e-b600-88f23e81e332",
+      "exercise_name": "Жим гантелей сидя",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "79a5d9f9-f060-57b3-ad56-d00ae3a1a295",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "dbed84a2-96a3-5bed-89cb-858f9d9a45f0",
+      "exercise_id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+      "exercise_name": "Французский жим лёжа",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "ac3ddb95-2841-5050-ade9-3937a063d472",
+    "day_index": 1,
+    "title": "Низ A",
+    "weekday": 1,
+    "exercises": [
+     {
+      "id": "54f5efad-41db-5d33-8ea6-990a15ef2683",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "4af30776-9229-531b-88a6-4cca02020244",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "e218146a-b3c9-575e-a4fb-3eb365846e67",
+      "exercise_id": "e06760c5-a9c3-572e-be42-c4db58ed7012",
+      "exercise_name": "Выпады с гантелями",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "479a105c-8d3c-5497-a528-695e9daad480",
+      "exercise_id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+      "exercise_name": "Сгибания ног лёжа",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "6140bf33-e034-5755-89fc-ca8d1e4ffd60",
+      "exercise_id": "dd8a72f5-4184-559c-ae66-56023222a580",
+      "exercise_name": "Подъёмы на носки стоя",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 15
+     }
+    ]
+   },
+   {
+    "id": "6fc17c0a-f93d-5a03-84c6-605f9f3a3aca",
+    "day_index": 2,
+    "title": "Верх B",
+    "weekday": 3,
+    "exercises": [
+     {
+      "id": "7098f606-d1b9-5c21-808e-390fb6c1f771",
+      "exercise_id": "1b78685f-7542-5ff4-86c6-8b54420cba19",
+      "exercise_name": "Жим штанги на наклонной скамье вверх",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "e6e28a02-abea-5a8b-b6ec-29c15052af3d",
+      "exercise_id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+      "exercise_name": "Подтягивания",
+      "muscle_group": "спина",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "650419bd-0d59-5994-aeab-73c8a24f0ae7",
+      "exercise_id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+      "exercise_name": "Махи гантелями в стороны",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "f00f767c-e36e-5346-b943-4a2512d9bf53",
+      "exercise_id": "783a8ba1-02cc-55e2-8151-6d156ecc393a",
+      "exercise_name": "Молотковые сгибания",
+      "muscle_group": "руки",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "5a60660b-a7f5-5c21-9d9c-a295e4589cd6",
+      "exercise_id": "65ac2b86-c16e-5a8b-a2da-35f3a6b90b29",
+      "exercise_name": "Разгибания на трицепс на блоке",
+      "muscle_group": "руки",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 15
+     }
+    ]
+   },
+   {
+    "id": "afec9d0f-ceb8-5cf8-88de-76dc6eebaf3d",
+    "day_index": 3,
+    "title": "Низ B",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "0f088732-9821-5bd8-a5ca-04546a3d6018",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "44cad526-ee62-580e-a924-8e9c15102cc3",
+      "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+      "exercise_name": "Становая тяга",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 6
+     },
+     {
+      "id": "6189a120-e5b3-5bda-a246-ecb12031f97c",
+      "exercise_id": "a16071dc-28f3-5315-8d41-5e49743ae82d",
+      "exercise_name": "Болгарские выпады",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "48d8b5d4-65a8-5602-9ea7-4c4457591641",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "b1c0caa3-63a7-5677-8fd9-c6d56dd96c9c",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 45
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "0d800ee8-a10e-5ff8-9a26-219c46c2d004",
+  "title": "Сплит 5 дней — по группам",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "gain",
+   "level": "adv",
+   "place": "gym",
+   "days_per_week": 5,
+   "subtitle": "Продвинутый сплит на объём"
+  },
+  "days": [
+   {
+    "id": "9a0176ad-3004-5ae7-b461-5b6f6650d317",
+    "day_index": 0,
+    "title": "Грудь",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "c33f61e7-757d-5e2d-a4bc-1fe9583140cb",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "3a3d091b-6c22-56d5-aab1-a5a25145977d",
+      "exercise_id": "332ca263-99da-55b6-992d-05efb4818998",
+      "exercise_name": "Жим гантелей на наклонной вверх",
+      "muscle_group": "грудь",
+      "equipment": "dumbbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "83272f05-0f6a-54d7-9558-3ff76ca8b4c3",
+      "exercise_id": "4ab1e818-eaad-560c-8c24-08153821586d",
+      "exercise_name": "Разводка гантелей лёжа",
+      "muscle_group": "грудь",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "efe04ffe-16a2-557e-ae9c-0a1f4e583a38",
+      "exercise_id": "047cee20-dc8e-5c41-8f1c-166663c171b2",
+      "exercise_name": "Отжимания на брусьях (грудь)",
+      "muscle_group": "грудь",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 10
+     }
+    ]
+   },
+   {
+    "id": "9d4dcda6-d488-513e-aa55-cfb8c332410a",
+    "day_index": 1,
+    "title": "Спина",
+    "weekday": 1,
+    "exercises": [
+     {
+      "id": "0c93f7ac-0497-5a14-9159-f2fba149022b",
+      "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+      "exercise_name": "Становая тяга",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 6
+     },
+     {
+      "id": "7a18512a-e904-5a4c-8abe-e7eef7df52e4",
+      "exercise_id": "40c409a9-1c8f-5598-8f95-5f487320c73c",
+      "exercise_name": "Подтягивания широким хватом",
+      "muscle_group": "спина",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "0d7d21a6-b080-54af-ae6f-a276956992bb",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "a2756b6d-e33d-58db-ab18-be3a7d880b74",
+      "exercise_id": "3e4a60f0-cde8-57f1-aa88-a7e9009b6a50",
+      "exercise_name": "Тяга горизонтального блока",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "15d82ff3-d9b6-5db8-8726-62b92a21fa8a",
+    "day_index": 2,
+    "title": "Ноги",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "d69424a4-5306-5581-b8bb-cb90fc7e74d4",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "4842688e-c93a-5b62-abc5-a9d4e953c16b",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "9e307568-8ef6-5761-be05-fd2a33781888",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "58cd7cc1-fdbf-5e68-aad9-a41d5c8437b6",
+      "exercise_id": "ba00f4bd-33a4-5f08-801c-88079e4abc4f",
+      "exercise_name": "Разгибания ног в тренажёре",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "a5340443-aba4-5d29-8d90-3da23564c186",
+      "exercise_id": "dd8a72f5-4184-559c-ae66-56023222a580",
+      "exercise_name": "Подъёмы на носки стоя",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 15
+     }
+    ]
+   },
+   {
+    "id": "178ab3bd-d0b6-54ee-851a-9553f570f3c9",
+    "day_index": 3,
+    "title": "Плечи",
+    "weekday": 3,
+    "exercises": [
+     {
+      "id": "23085d6a-bc80-54bf-b693-8f4d9d96bc41",
+      "exercise_id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+      "exercise_name": "Жим штанги стоя (армейский)",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "ae2f2f14-1d7c-5528-acff-8d6cbdda67fe",
+      "exercise_id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+      "exercise_name": "Махи гантелями в стороны",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 4,
+      "target_reps": 15
+     },
+     {
+      "id": "5fdbff8f-f771-5352-ac38-364c69b8c500",
+      "exercise_id": "0becb183-7bbf-56bc-a18e-ff025ccd7e9a",
+      "exercise_name": "Махи в наклоне (задняя дельта)",
+      "muscle_group": "плечи",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "654de929-61a5-5cbf-b1e9-326fbd27e933",
+      "exercise_id": "58fdb798-1fe2-5282-a368-bf62faf1d340",
+      "exercise_name": "Тяга штанги к подбородку",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "08dbc164-cbf0-5245-b5a0-4540e871c037",
+    "day_index": 4,
+    "title": "Руки",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "b3c82a04-7c38-5bdb-a3be-e1f5d55896bd",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "4766af28-d1e7-52ec-be3c-ec466df770b8",
+      "exercise_id": "783a8ba1-02cc-55e2-8151-6d156ecc393a",
+      "exercise_name": "Молотковые сгибания",
+      "muscle_group": "руки",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "9d275228-a293-5198-8df6-62269910f923",
+      "exercise_id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+      "exercise_name": "Французский жим лёжа",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "dd1d3d4d-f74f-5e00-8c29-d37050d11689",
+      "exercise_id": "65ac2b86-c16e-5a8b-a2da-35f3a6b90b29",
+      "exercise_name": "Разгибания на трицепс на блоке",
+      "muscle_group": "руки",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 15
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "533b9300-ca76-5c22-9daa-3498795ab7c0",
+  "title": "Сила 5×5",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "strength",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "Базовая сила, тяжёлые пятёрки"
+  },
+  "days": [
+   {
+    "id": "99834d7d-783c-52ca-a794-4cffa2bc80f2",
+    "day_index": 0,
+    "title": "День A",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "0d7de71f-1cf6-56af-8954-7537403f1097",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "7c92e06b-90d6-557f-afc4-e1288b2a6282",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "3e76f7d6-a72f-53bd-bc59-433084b52968",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     }
+    ]
+   },
+   {
+    "id": "67d3c197-3bb5-5862-b37a-bef61782bd06",
+    "day_index": 1,
+    "title": "День B",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "a88d3404-8a9f-5b29-a9c4-f68c688e5e20",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "f80e00ad-60cf-5545-9d59-9b49a1b6faca",
+      "exercise_id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+      "exercise_name": "Жим штанги стоя (армейский)",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "55e66532-15ba-5794-9628-0a8c2d304da9",
+      "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+      "exercise_name": "Становая тяга",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 1,
+      "target_reps": 5
+     }
+    ]
+   },
+   {
+    "id": "fcefddd2-0977-5044-89b7-580afc622bb9",
+    "day_index": 2,
+    "title": "День C",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "b1a2a00b-7aa4-516f-9ba2-1c966cdba553",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "484f061e-06d0-557c-b4ab-928267061912",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     },
+     {
+      "id": "d42b20c7-ee3c-5fe7-bbb8-841754637212",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 5,
+      "target_reps": 5
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "32e95291-e194-5209-b1b7-cacf48ff1ec7",
+  "title": "Жиросжигание — зал",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "cut",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 4,
+   "subtitle": "Круговые + кардио на рельеф"
+  },
+  "days": [
+   {
+    "id": "615c9cc9-1b78-577e-9412-3156a8224646",
+    "day_index": 0,
+    "title": "Круг верх",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "4df26c01-d701-5a15-8760-0e12348b1243",
+      "exercise_id": "2e04782a-e0df-5f50-8c0d-1e2f55a7a651",
+      "exercise_name": "Жим гантелей лёжа",
+      "muscle_group": "грудь",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "41bfcc08-eed0-5de1-a90b-5047b32a2812",
+      "exercise_id": "3e4a60f0-cde8-57f1-aa88-a7e9009b6a50",
+      "exercise_name": "Тяга горизонтального блока",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "3eb5219f-e74b-5172-ab51-48aebcbc8139",
+      "exercise_id": "9eb892b3-0a77-5e6e-b600-88f23e81e332",
+      "exercise_name": "Жим гантелей сидя",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "adb3bbd9-62fd-584e-9ecf-088491d0b548",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "d39b9833-c21a-5452-a800-79a326043837",
+      "exercise_id": "f175a7bc-4f28-54bb-9803-3745a8de1183",
+      "exercise_name": "Гребной тренажёр",
+      "muscle_group": "кардио",
+      "equipment": "machine",
+      "target_sets": 1,
+      "target_reps": 1500
+     }
+    ]
+   },
+   {
+    "id": "34fa49aa-4666-55fc-8cd7-c20322765dfc",
+    "day_index": 1,
+    "title": "Круг низ",
+    "weekday": 1,
+    "exercises": [
+     {
+      "id": "5ce23811-fadf-5527-8d5a-a39fa255a992",
+      "exercise_id": "2b45e599-549d-5def-accb-372b8e84bcea",
+      "exercise_name": "Приседания с гантелью (гоблет)",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "a2a067f5-06f2-54d9-af76-edf3dde543da",
+      "exercise_id": "e06760c5-a9c3-572e-be42-c4db58ed7012",
+      "exercise_name": "Выпады с гантелями",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "b0c64da9-021f-54a4-a033-9e7f9b724458",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "459ea53d-674f-56ee-a826-25c5d5553e2d",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "9df49a45-bc8a-574c-82f8-cd1dd8d60527",
+      "exercise_id": "556fa84f-b14a-5440-9613-1de4541ca668",
+      "exercise_name": "Скакалка",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 60
+     }
+    ]
+   },
+   {
+    "id": "528e9651-d876-5a98-917b-3243231aeb37",
+    "day_index": 2,
+    "title": "HIIT кор",
+    "weekday": 3,
+    "exercises": [
+     {
+      "id": "034cd6a1-6b9d-51de-b7b8-6ddd484f623c",
+      "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+      "exercise_name": "Берпи",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "996e997c-c618-5f0e-9769-c18943f331f8",
+      "exercise_id": "fa972b1a-e9ab-5975-8db9-b6103b7cec15",
+      "exercise_name": "Скалолаз (mountain climber)",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 30
+     },
+     {
+      "id": "e3dbb440-e62d-52f4-ac1d-e441e7f1f16e",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 45
+     },
+     {
+      "id": "06c6927f-e1a2-5e70-9db1-35fc261bbc26",
+      "exercise_id": "ef9f83cb-273b-52ea-9905-b20ffc4146d4",
+      "exercise_name": "Русский твист",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 20
+     }
+    ]
+   },
+   {
+    "id": "39aca7c9-ee78-5205-87d2-5b1723ae2145",
+    "day_index": 3,
+    "title": "Кардио + ноги",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "8935c9ab-87d2-5721-9c5f-247bf22d2f53",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "b25454a4-fe56-5056-8d26-15a448bbc8fb",
+      "exercise_id": "7c169de3-ee1e-51c9-bc81-b0f979d3b23b",
+      "exercise_name": "Зашагивания на платформу",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "e3f14e5e-6f9b-52d5-b8d7-3d4fd5117983",
+      "exercise_id": "52d8c6d3-cb4a-5915-8716-4b6a5db9f5d8",
+      "exercise_name": "Бег на дорожке",
+      "muscle_group": "кардио",
+      "equipment": "machine",
+      "target_sets": 1,
+      "target_reps": 3000
+     },
+     {
+      "id": "304cffd2-b4a5-55b7-b8a6-56a6255276a6",
+      "exercise_id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+      "exercise_name": "Велосипед",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 1,
+      "target_reps": 600
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "52aa6966-6252-5d12-bf18-044a4f1e7cf5",
+  "title": "Жиросжигание — дома",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "cut",
+   "level": "beginner",
+   "place": "home",
+   "days_per_week": 4,
+   "subtitle": "HIIT без оборудования"
+  },
+  "days": [
+   {
+    "id": "7db46f31-908f-5107-b6d5-0660235ca847",
+    "day_index": 0,
+    "title": "Табата верх",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "497b3ac2-1b9a-5b0e-ad58-7108fff87b04",
+      "exercise_id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+      "exercise_name": "Отжимания",
+      "muscle_group": "грудь",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "eb5cb46d-0d9b-5285-8d93-59ff4b833a81",
+      "exercise_id": "1871af91-445e-5126-a261-7f63fcfa7049",
+      "exercise_name": "Обратные отжимания от скамьи",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "52967562-51ac-5937-b98a-c417382c2030",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 45
+     },
+     {
+      "id": "315aea92-002b-585d-8622-40d923012791",
+      "exercise_id": "a29de1e6-d137-5a56-81bc-be251b95c104",
+      "exercise_name": "Джампинг-джек",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 40
+     }
+    ]
+   },
+   {
+    "id": "e6d95f71-1e59-547f-88cc-0a326738ee03",
+    "day_index": 1,
+    "title": "Табата низ",
+    "weekday": 1,
+    "exercises": [
+     {
+      "id": "0d4a2bb2-52b6-5dbc-8406-9a28adfd0117",
+      "exercise_id": "242460f1-e164-5e3b-9498-1bd7ff8ab0bf",
+      "exercise_name": "Воздушные приседания",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 20
+     },
+     {
+      "id": "f61862fd-c589-508d-9fc6-92fea00b7504",
+      "exercise_id": "f8a79d46-3dd6-514f-abdc-365057fb579c",
+      "exercise_name": "Выпады ходьбой",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 14
+     },
+     {
+      "id": "62911ef0-ce00-57db-ac09-21102b29f0e3",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 20
+     },
+     {
+      "id": "903c4cba-fbb0-5b29-81f0-58bdcc0182e8",
+      "exercise_id": "556fa84f-b14a-5440-9613-1de4541ca668",
+      "exercise_name": "Скакалка",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 60
+     }
+    ]
+   },
+   {
+    "id": "1139b126-d40d-5788-a056-16c00065dbb5",
+    "day_index": 2,
+    "title": "Кор",
+    "weekday": 3,
+    "exercises": [
+     {
+      "id": "dcd29db9-29ed-5372-8099-3a1d4020dd79",
+      "exercise_id": "a7071628-140e-587e-95df-cb1ff030723c",
+      "exercise_name": "Скручивания лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 20
+     },
+     {
+      "id": "5e254294-190e-538c-8ede-c723f7fc9f75",
+      "exercise_id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+      "exercise_name": "Велосипед",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 24
+     },
+     {
+      "id": "a3dd7f7e-9e20-5607-b362-30d7357e41d6",
+      "exercise_id": "ac78fa4f-6655-5418-bdb1-14b7b92abd65",
+      "exercise_name": "Подъём ног лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "8ce8575c-443a-5098-94e6-77782f7fb58a",
+      "exercise_id": "765fcc3f-62e6-5069-b8d9-dafb81920263",
+      "exercise_name": "Боковая планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 30
+     }
+    ]
+   },
+   {
+    "id": "021cc272-fdf8-5b7c-b7be-090ebd473237",
+    "day_index": 3,
+    "title": "Финишер HIIT",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "dea36d06-a042-5d84-a916-6092ff2c62b4",
+      "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+      "exercise_name": "Берпи",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 5,
+      "target_reps": 12
+     },
+     {
+      "id": "eed60e10-d934-5d2d-a909-c74865c57836",
+      "exercise_id": "fa972b1a-e9ab-5975-8db9-b6103b7cec15",
+      "exercise_name": "Скалолаз (mountain climber)",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 30
+     },
+     {
+      "id": "7709648f-9456-5a95-956b-5cfbe1be55b9",
+      "exercise_id": "0121284e-7693-5792-9b61-1bd7ab342968",
+      "exercise_name": "Прыжки на тумбу",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "555b3b78-1d6a-5e48-8ad4-767e962f88ae",
+      "exercise_id": "a29de1e6-d137-5a56-81bc-be251b95c104",
+      "exercise_name": "Джампинг-джек",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 40
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "17df5add-00f2-5a0a-a06e-40340a6fca63",
+  "title": "Ягодицы и ноги",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "gain",
+   "level": "beginner",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "Акцент на ягодицы и заднюю поверхность"
+  },
+  "days": [
+   {
+    "id": "a396ad0c-dad0-51d9-8ebe-c0e706524106",
+    "day_index": 0,
+    "title": "Ягодицы A",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "e04ff557-ad43-5a06-9637-0b3bc0b854b7",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "02d73952-8ec3-5037-8854-aa44c28f2b31",
+      "exercise_id": "981801ad-16f3-5236-8029-3e03a01ff219",
+      "exercise_name": "Румынская тяга",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "5b443b25-e484-5a49-b1a6-700435cd33e5",
+      "exercise_id": "a16071dc-28f3-5315-8d41-5e49743ae82d",
+      "exercise_name": "Болгарские выпады",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "e3d3b0e6-33d6-5e28-b06e-b708e550c8d5",
+      "exercise_id": "2ec0f010-b8ca-54bb-9b22-404d487b765f",
+      "exercise_name": "Отведение ноги назад в кроссовере",
+      "muscle_group": "ноги",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "87a1311d-eaee-5395-bec6-3f763fb8334d",
+      "exercise_id": "8d7ceb6f-b1ca-57d9-b1db-da4d46cc2dd3",
+      "exercise_name": "Сгибания ног лёжа",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "0f7323f1-6dc3-5d19-9f46-b8f51355c409",
+    "day_index": 1,
+    "title": "Ноги",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "9a44f361-4de2-5681-8d5d-7888c69915d9",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "e4ef8395-43a3-55ac-abe9-f4952fdabdc8",
+      "exercise_id": "f7fb916f-f968-5c70-8237-ab90fca74d3d",
+      "exercise_name": "Жим ногами",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "fbe40b83-36a7-5212-b159-6223b371266d",
+      "exercise_id": "e06760c5-a9c3-572e-be42-c4db58ed7012",
+      "exercise_name": "Выпады с гантелями",
+      "muscle_group": "ноги",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "12c83e95-bf7b-50b0-a83f-8f5a828ea3dc",
+      "exercise_id": "ba00f4bd-33a4-5f08-801c-88079e4abc4f",
+      "exercise_name": "Разгибания ног в тренажёре",
+      "muscle_group": "ноги",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "86b2a981-c634-54ef-ae04-8ce1ab374d82",
+      "exercise_id": "dd8a72f5-4184-559c-ae66-56023222a580",
+      "exercise_name": "Подъёмы на носки стоя",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 20
+     }
+    ]
+   },
+   {
+    "id": "a12d08b5-a040-51a4-8aa5-edf909a3f9f1",
+    "day_index": 2,
+    "title": "Ягодицы B",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "5326a1af-9fb0-5b87-8d96-c63990a7396f",
+      "exercise_id": "cc21f91f-38ef-5837-878d-591260dfe6b2",
+      "exercise_name": "Ягодичный мост на одной ноге",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "51929976-41c5-5d09-8feb-641a0eda014f",
+      "exercise_id": "5eede831-88b1-5e99-958a-0a7d3010dc8a",
+      "exercise_name": "Приседания сумо со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 12
+     },
+     {
+      "id": "7a0cbaf1-c261-5ec8-b7a5-52126c6fb85a",
+      "exercise_id": "7c169de3-ee1e-51c9-bc81-b0f979d3b23b",
+      "exercise_name": "Зашагивания на платформу",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "3d72cbce-b7d5-5be7-8e9e-88d53e6111f2",
+      "exercise_id": "5fc2ae76-9d8c-535f-911b-828508757f31",
+      "exercise_name": "Гиперэкстензия",
+      "muscle_group": "спина",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "78dd756e-8638-5563-8342-37ec748e10d4",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 45
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "49eac647-b4ed-5084-b41a-1fef440e02f9",
+  "title": "Верх тела — акцент",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "gain",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "Грудь, спина, плечи, руки"
+  },
+  "days": [
+   {
+    "id": "8e0352a6-234c-59a2-9222-f3bbe9da365c",
+    "day_index": 0,
+    "title": "Толкающие",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "e2aacc8c-b078-53b5-bddf-900346b773c2",
+      "exercise_id": "70e89bbc-954a-5b75-aefe-dd5522235f77",
+      "exercise_name": "Жим штанги лёжа",
+      "muscle_group": "грудь",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "dcd5f89d-97d8-5774-8edf-43ed4c77a493",
+      "exercise_id": "482fb0f3-a700-58d7-bb0f-d3f6025367cd",
+      "exercise_name": "Жим штанги стоя (армейский)",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "6ba798ab-2612-5a0f-b68b-9d9e725a9818",
+      "exercise_id": "4ab1e818-eaad-560c-8c24-08153821586d",
+      "exercise_name": "Разводка гантелей лёжа",
+      "muscle_group": "грудь",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "57a0b7a7-cf9c-5a73-bd81-966c76ed7bab",
+      "exercise_id": "e630421b-4646-5d8c-9259-58abcd7b5dec",
+      "exercise_name": "Махи гантелями в стороны",
+      "muscle_group": "плечи",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "0ca4755e-9b83-570f-8cd7-455fc1ccf81c",
+      "exercise_id": "5ccbab97-6f98-5429-b595-bee60d39452e",
+      "exercise_name": "Французский жим лёжа",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "d1c6b1bc-f4d5-53aa-8aac-0ccfaf1f4be3",
+    "day_index": 1,
+    "title": "Тянущие",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "7ee4f604-9c5b-5898-9e02-937ade55ee60",
+      "exercise_id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+      "exercise_name": "Подтягивания",
+      "muscle_group": "спина",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "3c0e19f5-0234-57e7-9045-6a1eb923e27f",
+      "exercise_id": "7992f914-0727-530f-9dcb-a03a3e75d7ec",
+      "exercise_name": "Тяга штанги в наклоне",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "1d094de5-410b-5fa6-8117-b02c2cba3d4b",
+      "exercise_id": "3e4a60f0-cde8-57f1-aa88-a7e9009b6a50",
+      "exercise_name": "Тяга горизонтального блока",
+      "muscle_group": "спина",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "c3dbcb33-2bfe-5438-8bce-d6ae569d8cdc",
+      "exercise_id": "b4e12710-e119-5d14-968e-3be0d8a6c810",
+      "exercise_name": "Подъём штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "70d58ae9-f813-5d12-8ef4-45feb50eaf37",
+      "exercise_id": "783a8ba1-02cc-55e2-8151-6d156ecc393a",
+      "exercise_name": "Молотковые сгибания",
+      "muscle_group": "руки",
+      "equipment": "dumbbell",
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "56d5f276-c939-548b-b362-8213b1308a5d",
+    "day_index": 2,
+    "title": "Плечи и руки",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "06c73f46-7a0f-5ab0-90d3-099960529000",
+      "exercise_id": "da8cfc0d-c799-53d6-bf6e-eb061d8aa586",
+      "exercise_name": "Жим Арнольда",
+      "muscle_group": "плечи",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "e26fb3d9-e187-5be7-9244-30bc494cdde5",
+      "exercise_id": "58fdb798-1fe2-5282-a368-bf62faf1d340",
+      "exercise_name": "Тяга штанги к подбородку",
+      "muscle_group": "плечи",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "92beb1ac-578a-52ed-a0d7-def59e0fe63c",
+      "exercise_id": "6e9d76d1-0c27-5342-b5df-0c7b501d1f9f",
+      "exercise_name": "Обратные разведения в тренажёре",
+      "muscle_group": "плечи",
+      "equipment": "machine",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "960e2c82-55bb-5f81-9b58-b438900f6e0a",
+      "exercise_id": "186e85ed-9ce3-5e9c-ac78-ef9d7b04ff27",
+      "exercise_name": "Подъём EZ-штанги на бицепс",
+      "muscle_group": "руки",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "7422b7b6-17dc-5afa-a0dc-b46a25d3fc7e",
+      "exercise_id": "65ac2b86-c16e-5a8b-a2da-35f3a6b90b29",
+      "exercise_name": "Разгибания на трицепс на блоке",
+      "muscle_group": "руки",
+      "equipment": "cable",
+      "target_sets": 3,
+      "target_reps": 15
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "b47c3959-a727-58b8-943e-701015963fa9",
+  "title": "Функционал — 3 дня",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "keep",
+   "level": "inter",
+   "place": "gym",
+   "days_per_week": 3,
+   "subtitle": "Сила + выносливость, кроссфит-лайт"
+  },
+  "days": [
+   {
+    "id": "fddbddbf-234d-5cbf-bd27-2491a765996a",
+    "day_index": 0,
+    "title": "Мощность",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "c7511115-9175-55a6-a25d-3b709d500488",
+      "exercise_id": "ed65a804-afe1-5705-a013-d8b7ccdaf9b7",
+      "exercise_name": "Становая тяга",
+      "muscle_group": "спина",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 5
+     },
+     {
+      "id": "8b5d9ab4-3d0d-5e1a-8181-151d5279bf1a",
+      "exercise_id": "fd90fa65-28fc-5d2e-8e27-3bc7f25e98d9",
+      "exercise_name": "Трастеры со штангой",
+      "muscle_group": "кардио",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 10
+     },
+     {
+      "id": "3bd8236d-2cdb-5d67-8a26-165c1dd75d5b",
+      "exercise_id": "32f03c21-a647-57c6-9f75-fe0bc46422a2",
+      "exercise_name": "Свинги с гирей",
+      "muscle_group": "кардио",
+      "equipment": "kettlebell",
+      "target_sets": 4,
+      "target_reps": 15
+     },
+     {
+      "id": "965f42b0-56ba-5ddc-9959-052536e692e9",
+      "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+      "exercise_name": "Берпи",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     }
+    ]
+   },
+   {
+    "id": "b8abbe8b-bcce-5d75-a587-5c1eab15de12",
+    "day_index": 1,
+    "title": "Выносливость",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "4410f637-7c7f-543b-a85e-a95b68098413",
+      "exercise_id": "f175a7bc-4f28-54bb-9803-3745a8de1183",
+      "exercise_name": "Гребной тренажёр",
+      "muscle_group": "кардио",
+      "equipment": "machine",
+      "target_sets": 1,
+      "target_reps": 2000
+     },
+     {
+      "id": "1b67cc26-dd76-55a3-870b-b66c9a2b6e03",
+      "exercise_id": "556fa84f-b14a-5440-9613-1de4541ca668",
+      "exercise_name": "Скакалка",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 60
+     },
+     {
+      "id": "8ca6562c-daef-5309-8a56-88cd8bf33fd9",
+      "exercise_id": "78c2c635-3384-5d78-9756-010e85a7168f",
+      "exercise_name": "Заброс мяча (wall ball)",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 4,
+      "target_reps": 15
+     },
+     {
+      "id": "532e5da0-8b9a-53b5-a706-896e6093ecd5",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 60
+     }
+    ]
+   },
+   {
+    "id": "060eab09-daf4-53dc-8543-0e6975677964",
+    "day_index": 2,
+    "title": "Сила-кор",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "28bd74d5-3567-5e35-a899-3dbf600e3336",
+      "exercise_id": "821649c5-f01e-547e-9e47-d264185d53e4",
+      "exercise_name": "Приседания со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "6cc46316-eea2-57f2-97ab-2a44d20a9774",
+      "exercise_id": "1a37eb6e-3a4c-55b9-846a-d250e5b2e262",
+      "exercise_name": "Подтягивания",
+      "muscle_group": "спина",
+      "equipment": "bodyweight",
+      "target_sets": 4,
+      "target_reps": 8
+     },
+     {
+      "id": "e49e27b7-6b6e-58d1-8126-84a33ad5b13a",
+      "exercise_id": "f0633079-ca6a-555a-bafe-6b6df83df4dd",
+      "exercise_name": "Рывок гири",
+      "muscle_group": "кардио",
+      "equipment": "kettlebell",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "d9493cd7-4293-5eef-9c31-c188cc74ae18",
+      "exercise_id": "325cda81-876f-584d-a3a7-353110a0a1de",
+      "exercise_name": "Русский твист с весом",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 20
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "733ff503-e39f-52b4-b574-387e501041c0",
+  "title": "Экспресс 20 минут",
+  "mode": "scheduled",
+  "meta": {
+   "goal": "keep",
+   "level": "beginner",
+   "place": "home",
+   "days_per_week": 3,
+   "subtitle": "Быстро, всё тело, дома"
+  },
+  "days": [
+   {
+    "id": "cc7655df-7f7f-5ed0-a6f0-128e82472af7",
+    "day_index": 0,
+    "title": "Комплекс A",
+    "weekday": 0,
+    "exercises": [
+     {
+      "id": "7bd1e75e-c971-5a97-a8cd-94ee0d851ed6",
+      "exercise_id": "242460f1-e164-5e3b-9498-1bd7ff8ab0bf",
+      "exercise_name": "Воздушные приседания",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "b7180a9d-b54a-5128-9c17-df6de9d2977b",
+      "exercise_id": "17c05039-3430-5ed5-a0bc-9d7bb95c6a6d",
+      "exercise_name": "Отжимания",
+      "muscle_group": "грудь",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 10
+     },
+     {
+      "id": "ea30664a-57d0-58fe-ae5b-759ca7d2e2ec",
+      "exercise_id": "431718cc-85a5-5a7a-89dd-e3c462f203ca",
+      "exercise_name": "Планка",
+      "muscle_group": "кор",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 40
+     },
+     {
+      "id": "2dd3e9f4-4c89-5f43-97f3-dad025b74a6a",
+      "exercise_id": "a29de1e6-d137-5a56-81bc-be251b95c104",
+      "exercise_name": "Джампинг-джек",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 40
+     }
+    ]
+   },
+   {
+    "id": "dacc523b-0586-5727-874e-a18901a9554f",
+    "day_index": 1,
+    "title": "Комплекс B",
+    "weekday": 2,
+    "exercises": [
+     {
+      "id": "da4d11c1-705c-5e72-8dc9-47a471a0f92d",
+      "exercise_id": "f8a79d46-3dd6-514f-abdc-365057fb579c",
+      "exercise_name": "Выпады ходьбой",
+      "muscle_group": "ноги",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "17de4434-ffda-5422-b555-0eb72310dc54",
+      "exercise_id": "1871af91-445e-5126-a261-7f63fcfa7049",
+      "exercise_name": "Обратные отжимания от скамьи",
+      "muscle_group": "руки",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "fe392a08-4c2e-5c54-9bdc-1116adbf2720",
+      "exercise_id": "a7071628-140e-587e-95df-cb1ff030723c",
+      "exercise_name": "Скручивания лёжа",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "50a1bddd-b362-585a-b2c4-2f065c77f431",
+      "exercise_id": "863594fd-d48b-50c5-beb7-003d9f7c9356",
+      "exercise_name": "Берпи",
+      "muscle_group": "кардио",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 10
+     }
+    ]
+   },
+   {
+    "id": "4676896c-2631-52a7-8d24-3501dfddc7d3",
+    "day_index": 2,
+    "title": "Комплекс C",
+    "weekday": 4,
+    "exercises": [
+     {
+      "id": "8350fa33-4c57-58b9-a2a1-652555f2c24e",
+      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
+      "exercise_name": "Ягодичный мост со штангой",
+      "muscle_group": "ноги",
+      "equipment": "barbell",
+      "target_sets": 3,
+      "target_reps": 15
+     },
+     {
+      "id": "a5f2d362-333e-5117-9bd5-325d6cb0cbf0",
+      "exercise_id": "9dfb7e00-fb89-5efc-a515-403f05086658",
+      "exercise_name": "Отжимания с колен",
+      "muscle_group": "грудь",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 12
+     },
+     {
+      "id": "9c57936c-cbe0-5b47-8c5b-23648cc6e908",
+      "exercise_id": "22dd0d34-9159-552d-b950-6ef50c03d208",
+      "exercise_name": "Велосипед",
+      "muscle_group": "пресс",
+      "equipment": null,
+      "target_sets": 3,
+      "target_reps": 20
+     },
+     {
+      "id": "18f4f46c-43dc-542e-8850-af83bc200fe2",
+      "exercise_id": "556fa84f-b14a-5440-9613-1de4541ca668",
+      "exercise_name": "Скакалка",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight",
+      "target_sets": 3,
+      "target_reps": 60
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,11 @@
+[project]
+name = "tulpar-ai-coach"
+version = "0.1.0"
+description = "AI Coach for the Tulpar fitness platform: LangGraph agent with trainer-in-the-loop, MCP, Skill, RAG, evals"
+requires-python = "==3.12.*"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
