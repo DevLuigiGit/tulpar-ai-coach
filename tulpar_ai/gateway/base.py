@@ -148,11 +148,20 @@ def tokens(text: str) -> set[str]:
     return {w[:6] for w in t.split() if w and w not in _STOP}
 
 
+def _same(x: str, y: str) -> bool:
+    """Russian cases differ in endings: «плова» ~ «плов», «гречки» ~ «гречка». Common prefix of ≥4 letters."""
+    if x == y:
+        return True
+    short, long_ = sorted((x, y), key=len)
+    return len(short) >= 4 and long_.startswith(short[: max(4, len(short) - 1)])
+
+
 def food_score(query: str, name: str) -> float:
     a, b = tokens(query), tokens(name)
     if not a or not b:
         return 0.0
-    score = len(a & b) / len(a | b)
+    matched = sum(1 for x in a if any(_same(x, y) for y in b))
+    score = matched / (len(a) + len(b) - matched)
     if (name or "").lower().startswith((query or "").lower().strip()):
         score += 0.15
     return min(score, 1.0)

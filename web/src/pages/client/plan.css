@@ -1,0 +1,122 @@
+/* Вкладка «Программа» клиента: шапка программы, призыв к действию, запросы на изменение. */
+
+.client-plan { display: flex; flex-direction: column; gap: var(--s-4); padding-bottom: var(--s-6); }
+.plan-error { display: flex; align-items: center; gap: var(--s-3); }
+
+.plan-hero {
+  position: relative;
+  overflow: hidden;
+  padding: var(--s-5) var(--s-4) var(--s-4);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-strong);
+  background:
+    radial-gradient(360px 160px at 100% 0%, rgba(255, 80, 0, 0.2), transparent 70%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+.plan-hero-title { margin-top: 6px; font-size: 24px; letter-spacing: -0.02em; }
+.plan-hero-sub { margin-top: 4px; color: var(--text-2); font-size: var(--fs-sm); }
+
+.plan-stats { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--s-5); margin-top: var(--s-4); }
+.plan-stat { display: flex; flex-direction: column; }
+.plan-stat-value { font-size: var(--fs-xl); font-weight: 700; line-height: 1.1; }
+.plan-stat-label { font-size: var(--fs-xs); color: var(--muted); }
+.plan-weekdays { display: flex; gap: 4px; margin-left: auto; }
+.plan-weekday {
+  min-width: 30px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.plan-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: 14px var(--s-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+}
+.plan-cta:hover { background: rgba(255, 80, 0, 0.18); }
+.plan-cta svg { color: var(--accent); flex: 0 0 auto; }
+.plan-cta-text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.plan-cta-title { font-weight: 650; }
+.plan-cta-sub { font-size: var(--fs-sm); color: var(--text-2); }
+
+.plan-section { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-2); }
+.plan-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
+.plan-noprops {
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  border: 1px dashed var(--border-strong);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- Запрос на изменение ---------- */
+
+.prop { display: flex; flex-direction: column; gap: 10px; box-shadow: none; }
+.prop-pending { border-color: var(--amber-line); }
+.prop-applied { border-color: var(--green-line); }
+.prop-top { display: flex; align-items: center; gap: var(--s-2); min-width: 0; }
+.prop-src { font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
+.prop-time { font-size: var(--fs-xs); color: var(--faint); white-space: nowrap; }
+.prop-request { font-weight: 550; overflow-wrap: anywhere; }
+.prop-label {
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.prop-summary,
+.prop-comment {
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+.prop-comment { border-left: 3px solid var(--accent); }
+
+.prop-changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.prop-change { display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-sm); }
+.prop-change-op {
+  flex: 0 0 auto;
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: var(--fs-2xs);
+  font-weight: 650;
+}
+.prop-change-body { min-width: 0; overflow-wrap: anywhere; color: var(--text-2); }
+.prop-change-day { color: var(--muted); }
+.prop-change-was { text-decoration: line-through; color: var(--faint); }
+.prop-change-arrow { color: var(--faint); }
+.prop-change-new { color: var(--text); font-weight: 550; }
+.prop-change-more { font-size: var(--fs-xs); color: var(--muted); padding-left: 2px; }
+.prop-explain { font-size: var(--fs-xs); color: var(--muted); }
+.prop-rejected .prop-explain,
+.prop-failed .prop-explain { color: var(--red-muted); }
+.prop-applied .prop-explain { color: var(--green); }
+
+@media (max-width: 400px) {
+  .plan-weekdays { margin-left: 0; }
+  .prop-src { display: none; }
+}

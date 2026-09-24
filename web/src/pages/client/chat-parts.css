@@ -1,0 +1,138 @@
+/* Части ленты: текст ответа, источники, заметки, индикатор ожидания, пустое состояние. */
+
+.rich p { margin: 0; }
+.rich p + p,
+.rich p + ul,
+.rich ul + p { margin-top: 8px; }
+.rich ul { margin: 0; padding-left: 18px; }
+.rich li + li { margin-top: 3px; }
+.rich li::marker { color: var(--accent); }
+.rich strong { font-weight: 650; }
+.cite-ref {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-left: 1px;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.cites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.cite {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px 9px;
+  border-radius: 10px;
+  line-height: 1.35;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  font-size: 11.5px;
+  font-weight: 550;
+  cursor: default;
+}
+
+.bubble-note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--amber-soft);
+  border: 1px solid var(--amber-line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bubble-note-text { font-size: var(--fs-sm); color: var(--amber-text); }
+.bubble-note-btn { align-self: flex-start; border-color: rgba(245, 165, 36, 0.4); color: var(--text); }
+
+.msg-system {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 92%;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--green-soft);
+  border: 1px solid var(--green-line);
+  color: var(--green-text);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  animation: msg-in 0.22s var(--ease);
+}
+
+/* ---------- «Коуч думает…» ---------- */
+
+.typing { display: inline-flex; align-items: center; gap: 10px; color: var(--text-2); font-size: var(--fs-sm); }
+.typing-dots { display: inline-flex; gap: 4px; }
+.typing-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: typing-bounce 1.2s infinite ease-in-out;
+}
+.typing-dots i:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+.typing-sec { color: var(--faint); font-size: var(--fs-xs); }
+.typing-hint { font-size: var(--fs-xs); color: var(--muted); padding: 0 6px; max-width: 280px; }
+
+/* ---------- Пустое состояние ---------- */
+
+.chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--s-6) var(--s-2) var(--s-4);
+  gap: var(--s-2);
+}
+.chat-empty-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-lg);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  margin-bottom: var(--s-2);
+}
+.chat-empty-title { font-size: var(--fs-xl); font-weight: 700; letter-spacing: -0.01em; }
+.chat-empty-text { color: var(--muted); font-size: var(--fs-sm); max-width: 330px; }
+.chat-empty-label { margin-top: var(--s-4); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+.chat-prompts { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 4px; }
+.chat-prompt {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.chat-prompt:hover:not(:disabled) { border-color: var(--accent-line); background: var(--surface-2); }
+.chat-prompt:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.chat-load-error { display: flex; align-items: center; gap: var(--s-3); justify-content: space-between; margin: var(--s-4) 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .msg, .msg-system { animation: none; }
+  .typing-dots i { animation-duration: 2.4s; }
+}

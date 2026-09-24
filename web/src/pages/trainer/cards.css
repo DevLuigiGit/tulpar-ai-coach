@@ -1,0 +1,86 @@
+/* Решение тренера, итог, эскалация и пустая очередь. Подключается из trainer.css. */
+
+/* ---------- Решение ---------- */
+
+.t-decide {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding-top: var(--s-4); border-top: 1px solid var(--border);
+}
+.textarea.t-decide-input { min-height: 64px; }
+.t-decide-actions { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+.t-accept { min-width: 132px; box-shadow: 0 6px 20px rgba(255, 80, 0, 0.25); }
+.t-decide-hint { color: var(--faint); font-size: var(--fs-xs); line-height: 1.5; }
+
+/* ---------- Итог решения ---------- */
+
+.t-outcome {
+  display: flex; align-items: flex-start; gap: var(--s-3);
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-md); border: 1px solid var(--border);
+}
+.t-outcome-mark {
+  flex: 0 0 auto; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%;
+  display: grid; place-items: center; background: currentColor; position: relative;
+}
+.t-outcome-mark::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 5px; height: 10px; margin: -7px 0 0 -3px;
+  border-right: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: rotate(45deg);
+}
+.t-outcome.is-rejected .t-outcome-mark::after,
+.t-outcome.is-failed .t-outcome-mark::after {
+  width: 10px; height: 2px; margin: -1px 0 0 -5px; border: 0; background: var(--bg); transform: none;
+}
+.t-outcome-title { font-weight: 650; color: var(--text); }
+.t-outcome-text { color: var(--text-2); font-size: var(--fs-sm); margin-top: 2px; line-height: 1.5; }
+.t-outcome.is-applied { color: var(--green); background: var(--green-soft); border-color: var(--green-line); }
+.t-outcome.is-rejected { color: var(--red-muted); background: var(--red-soft); border-color: rgba(229, 72, 77, 0.25); }
+.t-outcome.is-failed { color: var(--red); background: var(--red-soft); border-color: var(--red-line); }
+
+.t-plan-legend { display: flex; gap: var(--s-3); margin-bottom: var(--s-2); }
+.t-lg { display: inline-flex; align-items: center; gap: 6px; }
+.t-lg::before { content: ""; width: 10px; height: 10px; border-radius: 3px; }
+.t-lg.is-added::before { background: var(--green); }
+.t-lg.is-changed::before { background: var(--amber); }
+.t-lg.is-removed::before { background: var(--red-muted); opacity: 0.7; }
+
+/* ---------- Эскалация ---------- */
+
+.t-esc-reason {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-md);
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.t-esc-reason.is-red { background: var(--red-soft); border-color: rgba(229, 72, 77, 0.3); }
+.t-esc-reason-title { font-weight: 650; color: var(--text); font-size: var(--fs-sm); }
+.t-esc-reason.is-red .t-esc-reason-title { color: var(--red-text); }
+.t-esc-reason-text { color: var(--text-2); font-size: var(--fs-sm); }
+.t-esc-reason-foot { color: var(--muted); font-size: var(--fs-xs); }
+
+/* ---------- Пустая очередь ---------- */
+
+.t-empty {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--s-3);
+  padding: var(--s-8) var(--s-5); border-radius: var(--r-xl);
+  border: 1px dashed var(--border-strong); background: var(--surface);
+}
+.t-empty-mark {
+  width: 48px; height: 48px; border-radius: var(--r-md); display: grid; place-items: center;
+  background: var(--green-soft); border: 1px solid var(--green-line);
+}
+.t-empty-mark span {
+  width: 9px; height: 16px; margin-top: -4px;
+  border-right: 2.5px solid var(--green); border-bottom: 2.5px solid var(--green); transform: rotate(45deg);
+}
+.t-empty-title { font-size: var(--fs-lg); font-weight: 650; }
+.t-empty-text { color: var(--muted); font-size: var(--fs-sm); max-width: 440px; }
+.t-empty-steps { display: flex; flex-direction: column; gap: var(--s-2); max-width: 460px; width: 100%; text-align: left; margin: var(--s-2) 0; }
+.t-step {
+  display: flex; align-items: flex-start; gap: var(--s-3);
+  padding: var(--s-3); border-radius: var(--r-md); background: var(--surface-2);
+  color: var(--text-2); font-size: var(--fs-sm);
+}
+.t-step-n {
+  flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: var(--fs-xs);
+}
+.t-plan-note { margin-bottom: var(--s-2); }

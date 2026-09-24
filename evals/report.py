@@ -33,11 +33,14 @@ def block() -> str:
             s = json.loads(f.read_text(encoding="utf-8"))["summary"]
             out.append(f"### {title}\n\n{table(name, [('текущая конфигурация', s)])}\n")
     for name, suite, title in EXPS:
-        f = RES / f"{name}.json"
-        if f.exists():
+        for f in sorted(RES.glob(f"{name}*.json")):
+            tag = f.stem[len(name):].lstrip("_")
             d = json.loads(f.read_text(encoding="utf-8"))
             arms = [(", ".join(f"{k}={v}" for k, v in a["arm"].items()), a["summary"]) for a in d["arms"]]
-            out.append(f"### {title}\n\n{table(suite, arms)}\n")
+            out.append(f"### {title}{f' ({tag})' if tag else ''}\n\n{table(suite, arms)}\n")
+    for f in sorted(RES.glob("qa_*.json")):
+        s = json.loads(f.read_text(encoding="utf-8"))["summary"]
+        out.append(f"### RAG: {f.stem.removeprefix('qa_')}\n\n{table('qa', [(f.stem, s)])}\n")
     for f in sorted(RES.glob("router_*.json")):
         s = json.loads(f.read_text(encoding="utf-8"))["summary"]
         out.append(f"### Маршрутизатор: {f.stem.removeprefix('router_')}\n\n{table('router', [(f.stem, s)])}\n")

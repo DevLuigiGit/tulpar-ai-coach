@@ -1,0 +1,12 @@
+/* Стили клиентских экранов (чат, карточка еды, программа).
+   Владелец — агент клиентских экранов. Общие токены и классы — в src/styles.css.
+   Экранные файлы: chat.css, chat-parts.css, composer.css, meal.css, plan.css. */
+
+/* Клиентский режим — колонка как в Telegram Mini App: чат занимает всю высоту,
+   поэтому нижний отступ .app-main у вкладки «Коуч» отдаём полю ввода. */
+.shell-client .app-main.is-fill { padding-top: var(--s-2); }
+
+@media (max-width: 520px) {
+  .shell-client .app-main.is-fill { padding-left: var(--s-3); padding-right: var(--s-3); }
+  .msg { max-width: 90%; }
+}

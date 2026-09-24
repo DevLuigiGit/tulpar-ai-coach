@@ -426,7 +426,7 @@ async def main() -> int:
         label = ", ".join(f"{k}={v}" for k, v in arm.items())
         labelled.append((label, res["summary"]))
         payload["arms"].append({"arm": arm, **res})
-    save(f"exp_{args.name}", payload, suite, labelled)
+    save(f"exp_{args.name}" + (f"_{args.tag}" if args.tag else ""), payload, suite, labelled)
     return 0
 
 

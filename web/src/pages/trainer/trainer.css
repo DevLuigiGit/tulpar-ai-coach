@@ -1,0 +1,129 @@
+/* Стили экранов тренера: страница, карточки очереди, решение.
+   Таблица изменений и проверка Skill — review.css, клиенты — clients.css, история — history.css. */
+@import "./cards.css";
+@import "./review.css";
+@import "./clients.css";
+@import "./detail.css";
+@import "./history.css";
+
+.t-page { display: flex; flex-direction: column; gap: var(--s-4); padding-bottom: var(--s-8); }
+.t-list { display: flex; flex-direction: column; gap: var(--s-4); }
+.t-gap { margin: 0; }
+
+/* ---------- Шапка очереди ---------- */
+
+.t-queue-head { display: flex; align-items: flex-end; gap: var(--s-4); }
+.t-counter {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+}
+.t-counter.is-active { border-color: var(--amber-line); background: var(--amber-soft); color: var(--amber); }
+.t-counter-num { font-size: 28px; font-weight: 750; line-height: 1; letter-spacing: -0.02em; color: var(--text); }
+.t-counter.is-active .t-counter-num { color: var(--amber); }
+.t-counter-text { font-size: var(--fs-sm); font-weight: 600; }
+
+.t-toolbar { display: flex; align-items: center; gap: var(--s-3); min-height: 32px; }
+
+/* ---------- Карточка ---------- */
+
+.card.t-card { display: flex; flex-direction: column; gap: var(--s-4); padding: var(--s-5); position: relative; }
+.t-card.is-pending { border-color: var(--amber-line); }
+.t-card.is-pending::before,
+.t-escalation.is-open::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 18px;
+  bottom: 18px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--amber);
+}
+.t-escalation.is-open { border-color: var(--red-line); background: linear-gradient(180deg, rgba(229, 72, 77, 0.06), transparent 120px), var(--surface); }
+.t-escalation.is-open::before { background: var(--red); }
+.t-card.is-applied, .t-escalation.is-closed { border-color: var(--green-line); }
+.t-card.is-drafting { border-style: dashed; border-color: var(--border-strong); }
+.t-skel-card { gap: var(--s-3); }
+
+.t-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); }
+.t-card-aside { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.t-who {
+  display: flex; align-items: center; gap: var(--s-3); min-width: 0;
+  background: none; border: 0; padding: 0; color: inherit; font: inherit; text-align: left;
+}
+.t-who.is-link { cursor: pointer; border-radius: var(--r-sm); }
+.t-who.is-link:hover .t-who-name { color: var(--accent); }
+.avatar.t-avatar { width: 36px; height: 36px; font-size: 13px; }
+.avatar.t-avatar.is-danger { background: var(--red-soft); border-color: var(--red-line); color: var(--red-text); }
+.t-who-text { display: flex; flex-direction: column; min-width: 0; }
+.t-who-name { font-weight: 650; font-size: var(--fs-md); transition: color 0.15s var(--ease); }
+.t-who-meta { color: var(--muted); font-size: var(--fs-xs); margin-top: 1px; }
+
+.t-source.is-client { color: var(--text-2); }
+.t-source.is-trainer { color: var(--accent); background: var(--accent-soft); border-color: var(--accent-line); }
+
+.t-quote { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.t-quote blockquote {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+
+.t-section { display: flex; flex-direction: column; gap: var(--s-2); }
+.t-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
+.t-summary { font-size: var(--fs-md); color: var(--text); line-height: 1.5; }
+
+.t-details { border-top: 1px solid var(--border); padding-top: var(--s-3); }
+.t-details > summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text-2); font-size: var(--fs-sm); font-weight: 600; user-select: none;
+}
+.t-details > summary::-webkit-details-marker { display: none; }
+.t-details > summary::before {
+  content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg); transition: transform 0.15s var(--ease);
+}
+.t-details[open] > summary::before { transform: rotate(45deg); }
+.t-details > summary:hover { color: var(--text); }
+.t-details[open] > summary { margin-bottom: var(--s-3); }
+.t-rationale { color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; white-space: pre-line; }
+
+/* ---------- AI готовит черновик ---------- */
+
+.t-drafting {
+  display: flex; flex-direction: column; gap: var(--s-2);
+  padding: var(--s-4); border-radius: var(--r-md);
+  background: var(--grey-soft); border: 1px solid rgba(154, 154, 163, 0.2);
+}
+.t-drafting-head { display: flex; align-items: center; gap: var(--s-2); color: var(--text); }
+.t-drafting-title { font-weight: 600; flex: 1 1 auto; }
+.t-elapsed { color: var(--muted); font-size: var(--fs-xs); }
+.t-drafting-comment { color: var(--text-2); font-size: var(--fs-sm); font-style: italic; }
+.t-drafting-sub { color: var(--muted); font-size: var(--fs-sm); }
+.t-skeleton-rows { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.t-skeleton-rows .skeleton { height: 10px; display: block; }
+
+/* ---------- Узкий экран (в конце, чтобы перекрыть правила выше) ---------- */
+
+@media (max-width: 640px) {
+  .card.t-card { padding: var(--s-4); }
+  .t-queue-head { flex-direction: column; align-items: stretch; }
+  .t-counter { align-self: flex-start; }
+  .t-card-head { flex-direction: column; }
+  .t-card-aside { justify-content: flex-start; }
+  .t-decide-actions .btn { flex: 1 1 auto; }
+  .t-decide-actions .grow { display: none; }
+  .t-toolbar { flex-wrap: wrap; }
+}

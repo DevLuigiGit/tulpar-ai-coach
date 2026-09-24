@@ -1,0 +1,102 @@
+/* Таблица «было → станет» и блок «Проверка Skill». Подключается из trainer.css. */
+
+.t-changes-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.t-changes { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.t-changes th {
+  text-align: left;
+  padding: 10px var(--s-3);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.t-changes td { padding: var(--s-3); vertical-align: top; border-top: 1px solid var(--border); }
+.t-changes tbody tr:first-child td { border-top: 0; }
+.t-changes th:nth-child(1), .t-changes td:nth-child(1) { width: 22%; }
+.t-changes th:nth-child(3), .t-changes td:nth-child(3) { width: 34%; }
+.t-changes tr.has-warning td:first-child { box-shadow: inset 3px 0 0 var(--amber); }
+.t-changes tr.has-error td:first-child { box-shadow: inset 3px 0 0 var(--red); }
+
+.t-ch-day-title { display: block; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.t-op {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: var(--r-pill);
+  font-size: var(--fs-2xs); font-weight: 650; letter-spacing: 0.02em;
+  color: var(--text-2); background: var(--surface-3);
+}
+.t-op.is-replace_exercise { color: var(--accent); background: var(--accent-soft); }
+.t-op.is-add_exercise { color: var(--green); background: var(--green-soft); }
+.t-op.is-remove_exercise { color: var(--red-muted); background: var(--red-soft); }
+.t-op.is-set_volume { color: var(--amber); background: var(--amber-soft); }
+
+.t-ch-diff { line-height: 1.5; }
+.t-was { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(139, 139, 148, 0.6); }
+.t-was.is-none { text-decoration: none; font-style: italic; color: var(--faint); }
+.t-arrow { color: var(--accent); font-weight: 700; margin: 0 8px; }
+.t-becomes { color: var(--text); font-weight: 600; }
+.t-becomes.is-remove { color: var(--red-muted); }
+.t-ch-why { color: var(--text-2); line-height: 1.5; }
+
+/* ---------- Проверка Skill ---------- */
+
+.t-skill {
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.t-skill.is-ok { border-color: var(--green-line); }
+.t-skill.is-warning { border-color: var(--amber-line); }
+.t-skill.is-error { border-color: var(--red-line); }
+.t-skill-head { display: flex; align-items: center; gap: var(--s-2); padding: 10px var(--s-3); flex-wrap: wrap; }
+.t-skill-title { font-weight: 650; font-size: var(--fs-sm); }
+.t-skill-sub { color: var(--faint); font-size: var(--fs-xs); font-family: var(--mono); }
+.t-skill-verdict {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-size: var(--fs-xs); font-weight: 650;
+}
+.t-skill-verdict::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.t-skill-verdict.is-ok { color: var(--green); }
+.t-skill-verdict.is-warning { color: var(--amber); }
+.t-skill-verdict.is-error { color: var(--red); }
+
+.t-skill-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.t-viol {
+  display: flex; align-items: flex-start; gap: var(--s-3);
+  padding: 10px var(--s-3); font-size: var(--fs-sm);
+  border-top: 1px solid var(--border);
+}
+.t-viol:first-child { border-top: 0; }
+.t-viol-sev {
+  flex: 0 0 auto; min-width: 72px; height: 20px; padding: 0 8px; border-radius: var(--r-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: var(--fs-2xs); font-weight: 700;
+}
+.t-viol.is-warning { background: rgba(245, 165, 36, 0.05); }
+.t-viol.is-warning .t-viol-sev { color: var(--amber); background: var(--amber-soft); }
+.t-viol.is-error { background: rgba(229, 72, 77, 0.06); }
+.t-viol.is-error .t-viol-sev { color: var(--red-text); background: rgba(229, 72, 77, 0.18); }
+.t-viol-msg { color: var(--text-2); line-height: 1.5; }
+.t-viol.is-error .t-viol-msg { color: var(--text); }
+
+/* Узкий экран: строки таблицы превращаются в блоки. */
+@media (max-width: 640px) {
+  .t-changes thead { display: none; }
+  .t-changes, .t-changes tbody, .t-changes tr, .t-changes td { display: block; width: 100% !important; }
+  .t-changes tr { padding: var(--s-3); border-top: 1px solid var(--border); }
+  .t-changes tbody tr:first-child { border-top: 0; }
+  .t-changes td { padding: 0; border: 0; }
+  .t-changes td + td { margin-top: 6px; }
+  .t-ch-day-title { display: inline; margin-right: 8px; }
+  .t-changes tr.has-warning { box-shadow: inset 3px 0 0 var(--amber); }
+  .t-changes tr.has-error { box-shadow: inset 3px 0 0 var(--red); }
+  .t-changes tr td:first-child { box-shadow: none !important; }
+  .t-skill-sub { display: none; }
+}
