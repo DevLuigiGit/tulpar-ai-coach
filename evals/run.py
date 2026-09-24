@@ -416,13 +416,12 @@ async def main() -> int:
     labelled, payload = [], {"experiment": args.name, "arms": []}
     for arm in arms:
         a = parser().parse_args([suite])
+        for k in ("limit", "judge", "trace", "images_dir", "manifest", "models", "repeats"):
+            setattr(a, k, getattr(args, k))
         a.rag_rerank = None
-        for k, v in {**vars(args), "suite": suite}.items():
-            if k not in ("name",) and v is not None and k in vars(a) and k not in arm:
-                setattr(a, k, v if k not in ("repeats",) else a.repeats)
         for k, v in arm.items():
             setattr(a, k, v)
-        boot_settings(a)
+        boot_settings(a)  # fresh settings per arm: nothing leaks from the previous arm
         res = await SUITES[suite](a)
         label = ", ".join(f"{k}={v}" for k, v in arm.items())
         labelled.append((label, res["summary"]))

@@ -1,8 +1,9 @@
 name: ci
+# Evals run on every pull request (and on demand). Pushes to main are not gated here: the account's
+# Actions billing for private repos decides whether hosted runners start at all.
 on:
-  push:
-    branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   python:
