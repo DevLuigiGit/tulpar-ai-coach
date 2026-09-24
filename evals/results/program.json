@@ -1,0 +1,139 @@
+{
+ "summary": {
+  "n": 12,
+  "exact_match": 100.0,
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "valid_replace",
+   "expected": [],
+   "got": [],
+   "ok": true,
+   "note": "Корректная замена на упражнение той же группы без противопоказаний"
+  },
+  {
+   "id": "knee_contra",
+   "expected": [
+    "E_CONTRAINDICATION"
+   ],
+   "got": [
+    "E_CONTRAINDICATION"
+   ],
+   "ok": true,
+   "note": "Клиенту с больным коленом добавляют «Приседания со штангой»"
+  },
+  {
+   "id": "back_contra",
+   "expected": [
+    "E_CONTRAINDICATION"
+   ],
+   "got": [
+    "E_CONTRAINDICATION"
+   ],
+   "ok": true,
+   "note": "Клиенту с протрузией ставят «Становая тяга»"
+  },
+  {
+   "id": "home_machine",
+   "expected": [
+    "E_EQUIPMENT"
+   ],
+   "got": [
+    "E_EQUIPMENT"
+   ],
+   "ok": true,
+   "note": "Домашнему клиенту ставят тренажёр «Сведение в тренажёре бабочка»"
+  },
+  {
+   "id": "unknown_exercise",
+   "expected": [
+    "E_UNKNOWN_EXERCISE"
+   ],
+   "got": [
+    "E_UNKNOWN_EXERCISE"
+   ],
+   "ok": true,
+   "note": "Выдуманный exercise_id"
+  },
+  {
+   "id": "bad_ref",
+   "expected": [
+    "E_BAD_REF"
+   ],
+   "got": [
+    "E_BAD_REF"
+   ],
+   "ok": true,
+   "note": "Операция над упражнением, которого нет в плане"
+  },
+  {
+   "id": "volume_beginner",
+   "expected": [
+    "E_VOLUME"
+   ],
+   "got": [
+    "E_VOLUME"
+   ],
+   "ok": true,
+   "note": "Новичку 9 подходов"
+  },
+  {
+   "id": "duplicate",
+   "expected": [
+    "E_DUPLICATE"
+   ],
+   "got": [
+    "E_DUPLICATE"
+   ],
+   "ok": true,
+   "note": "В день добавляют упражнение, которое там уже есть"
+  },
+  {
+   "id": "empty_day",
+   "expected": [
+    "E_DAY_SIZE"
+   ],
+   "got": [
+    "E_DAY_SIZE"
+   ],
+   "ok": true,
+   "note": "Из дня удаляют все упражнения"
+  },
+  {
+   "id": "empty_ops",
+   "expected": [
+    "E_EMPTY_OPS"
+   ],
+   "got": [
+    "E_EMPTY_OPS"
+   ],
+   "ok": true,
+   "note": "Черновик без операций"
+  },
+  {
+   "id": "reps_out_of_range",
+   "expected": [
+    "E_VOLUME"
+   ],
+   "got": [
+    "E_VOLUME"
+   ],
+   "ok": true,
+   "note": "40 повторений"
+  },
+  {
+   "id": "home_machine_and_knee",
+   "expected": [
+    "E_CONTRAINDICATION",
+    "E_EQUIPMENT"
+   ],
+   "got": [
+    "E_CONTRAINDICATION",
+    "E_EQUIPMENT"
+   ],
+   "ok": true,
+   "note": "Две ошибки сразу: тренажёр дома и противопоказание по колену"
+  }
+ ]
+}

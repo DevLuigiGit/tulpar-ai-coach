@@ -1,0 +1,45 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+      JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+      LANGSMITH_TRACING: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - name: Unit and end-to-end tests (fake LLM, no network)
+        run: python -m pytest -q
+      - name: Eval — plan validator vs golden (deterministic)
+        run: python evals/run.py program
+      - name: Eval — router on the golden set (needs an LLM key)
+        if: env.GROQ_API_KEY != '' || env.OLLAMA_API_KEY != ''
+        run: python evals/run.py router
+      - name: Eval — RAG retrieval and answers (needs keys)
+        if: env.JINA_API_KEY != '' && (env.GROQ_API_KEY != '' || env.OLLAMA_API_KEY != '')
+        run: python evals/run.py qa --no-judge
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: evals/results/
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: cd web && (npm ci || npm install) && npm run build

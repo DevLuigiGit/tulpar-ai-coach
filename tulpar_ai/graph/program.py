@@ -145,10 +145,19 @@ def after_validate(state: ProgramState) -> str:
 
 
 async def publish(state: ProgramState) -> dict:
+    if not state["draft"]["ops"]:  # nothing to decide on (model down or request not doable) → not the trainer's queue
+        await get_store().update_proposal(state["proposal_id"], status="failed", draft=state["draft"],
+                                          violations=state["violations"],
+                                          reply="черновик не собран: " + (state["draft"]["summary"] or "нет изменений"))
+        return {"status": "failed"}
     p = await get_store().update_proposal(state["proposal_id"], status="pending", draft=state["draft"],
                                           violations=state["violations"])
     await notify.proposal_pending(p)
     return {"status": "pending"}
+
+
+def after_publish(state: ProgramState) -> str:
+    return END if state.get("status") == "failed" else "review"
 
 
 def review(state: ProgramState) -> dict:
@@ -208,7 +217,7 @@ def build_program_graph():
     g.add_conditional_edges("load_context", after_load, ["draft", END])
     g.add_edge("draft", "validate")
     g.add_conditional_edges("validate", after_validate, ["draft", "publish"])
-    g.add_edge("publish", "review")
+    g.add_conditional_edges("publish", after_publish, ["review", END])
     g.add_conditional_edges("review", after_review, ["apply", "draft", "reject"])
     g.add_edge("apply", END)
     g.add_edge("reject", END)

@@ -42,6 +42,20 @@ class LLMResult:
 
 FakeFn = Callable[..., Awaitable[str] | str]
 _fake: FakeFn | None = None
+_recorder: list | None = None
+
+
+class record:
+    """`with llm.record() as calls:` collects every LLMResult made inside (evals: tokens, latency, fallbacks)."""
+
+    def __enter__(self) -> list:
+        global _recorder
+        self._prev, _recorder = _recorder, []
+        return _recorder
+
+    def __exit__(self, *exc) -> None:
+        global _recorder
+        _recorder = self._prev
 
 
 def set_fake(fn: FakeFn | None) -> None:
@@ -169,6 +183,9 @@ async def chat(
                             latency_ms=int((time.perf_counter() - t0) * 1000), errors=errors)
             if json_mode:
                 res.data = parse_json(res.text)
+            if _recorder is not None:
+                _recorder.append({"role": role, "provider": provider, "model": model, "in": res.input_tokens,
+                                  "out": res.output_tokens, "ms": res.latency_ms, "fallback": res.fallback_used})
             return res
         except Exception as e:  # network, 4xx/5xx, invalid JSON → next provider
             errors.append(f"{provider}:{model}: {type(e).__name__}: {str(e)[:160]}")
