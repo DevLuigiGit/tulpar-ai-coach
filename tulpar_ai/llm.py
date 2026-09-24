@@ -116,6 +116,10 @@ async def _groq(model: str, system: str, user: str, *, images, json_mode, temper
     }
     if top_p is not None:
         body["top_p"] = top_p
+    if model.startswith("openai/gpt-oss"):
+        # reasoning model: reasoning tokens count against the completion budget — keep it short and leave room
+        body["reasoning_effort"] = "low"
+        max_tokens = max(max_tokens or 0, 1024)
     if max_tokens:
         body["max_tokens"] = max_tokens
     if json_mode:

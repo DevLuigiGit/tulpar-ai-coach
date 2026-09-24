@@ -59,10 +59,10 @@ class Settings(BaseSettings):
     ollama_url: str = "https://ollama.com"
     groq_api_key: str = ""
     groq_url: str = "https://api.groq.com/openai/v1"
-    route_models: str = "ollama:minimax-m3,groq:llama-3.1-8b-instant"
-    text_models: str = "ollama:minimax-m3,groq:llama-3.3-70b-versatile"
-    vision_models: str = "ollama:kimi-k2.7-code,groq:meta-llama/llama-4-scout-17b-16e-instruct"
-    judge_models: str = "groq:llama-3.3-70b-versatile,ollama:qwen3.5:397b"
+    route_models: str = "ollama:minimax-m3,groq:openai/gpt-oss-20b"
+    text_models: str = "ollama:minimax-m3,groq:openai/gpt-oss-120b"
+    vision_models: str = "ollama:kimi-k2.7-code,ollama:kimi-k2.6,ollama:minimax-m3"
+    judge_models: str = "ollama:qwen3.5:397b,groq:openai/gpt-oss-120b"
     stt_model: str = "whisper-large-v3-turbo"
     llm_timeout_s: float = 60.0
 

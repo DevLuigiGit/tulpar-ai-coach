@@ -167,7 +167,7 @@ async def suite_qa(args) -> dict:
                     break
                 first_hits = st.get("hits", [])
                 answered = False
-                if nxt == "answer":
+                if nxt == "answer" and not getattr(args, "retrieval_only", False):
                     st.update(await g.answer(st))
                     answered = bool(st.get("reply"))
                 ms = int((time.perf_counter() - t0) * 1000)
@@ -357,7 +357,9 @@ EXPERIMENTS = {
                                   {"answer_temperature": 0.7, "repeats": 3}]),
     "answer_top_p": ("qa", [{"answer_top_p": 0.9}, {"answer_top_p": 1.0}]),
     "route_temperature": ("router", [{"route_temperature": 0.0, "repeats": 3}, {"route_temperature": 0.7, "repeats": 3}]),
-    "chunk_size": ("qa", [{"pdf_chunk": 400, "judge": False}, {"pdf_chunk": 800, "judge": False}, {"pdf_chunk": 1200, "judge": False}]),
+    "chunk_size": ("qa", [{"pdf_chunk": 400, "judge": False, "retrieval_only": True},
+                          {"pdf_chunk": 800, "judge": False, "retrieval_only": True},
+                          {"pdf_chunk": 1200, "judge": False, "retrieval_only": True}]),
 }
 
 KEYS = {"router": ["n", "intent_accuracy", "escalation_recall", "false_escalation_rate", "stability", "p50_ms", "cost_usd"],
@@ -397,6 +399,7 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--route-temperature", type=float)
     ap.add_argument("--pdf-chunk", type=int, default=800)
     ap.add_argument("--no-judge", dest="judge", action="store_false")
+    ap.add_argument("--retrieval-only", action="store_true")
     ap.add_argument("--images-dir")
     ap.add_argument("--manifest")
     ap.add_argument("--models")
