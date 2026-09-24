@@ -201,6 +201,22 @@ async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict]
     return items, unknown
 
 
+_MEAL_VERBS = re.compile(r"\b(?:съел[аи]?|поел[аи]?|скушал[аи]?|выпил[аи]?|ел[аи]?|на (?:завтрак|обед|ужин|перекус)|сегодня|вчера)\b", re.I)
+
+
+def parse_meal_text(text: str) -> list[dict]:
+    """No-LLM fallback: «Съел 200 г плова и чай» → [{плова, 200}, {чай, None}]."""
+    t = _MEAL_VERBS.sub(" ", text or "")
+    parts = re.split(r",|;|\+|\bи\b|\bс\b|\bплюс\b", t, flags=re.I)
+    out = []
+    for part in parts:
+        m = GRAMS.search(part)
+        name = re.sub(r"\s+", " ", GRAMS.sub(" ", part)).strip(" .:-")
+        if len(name) >= 3:
+            out.append({"name": name, "grams": float(m.group(1)) if m else None})
+    return out
+
+
 def _card_text(items: list[dict], unknown: list[dict]) -> str:
     lines = []
     for it in items:
@@ -244,9 +260,7 @@ async def meal_text(state: ChatState) -> dict:
         data, _ = await json_call("text", prompt("meal_text"), mask(_text(state)), temperature=0.0, max_tokens=300)
         wanted = [{"name": str(i["name"]), "grams": i.get("grams")} for i in data.get("items", []) if i.get("name")]
     except LLMError:
-        m = GRAMS.search(_text(state))
-        name = re.sub(GRAMS, "", _text(state)).replace("съел", "").strip(" ,.")
-        wanted = [{"name": name, "grams": float(m.group(1)) if m else None}] if name else []
+        wanted = parse_meal_text(_text(state))
     if not wanted:
         return {"reply": "Не понял, что записать. Пример: «гречка 200 г и курица 150 г».", "kind": "info"}
     return await _meal_card(state, wanted)

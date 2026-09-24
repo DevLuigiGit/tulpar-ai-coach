@@ -206,6 +206,8 @@ async def suite_qa(args) -> dict:
         "p50_ms": statistics.median([r["ms"] for r in rows]) if rows else 0, "p95_ms": p95([r["ms"] for r in rows]),
         "out_tokens_p95": p95(outs), **usage_stats(calls_all)}
     summary["cost_per_question_usd"] = round(summary["cost_usd"] / (len(rows) or 1), 6)
+    summary["hit_at_4_by_tag"] = {t: pct(r["rank"] is not None and r["rank"] <= 4 for r in ans if t in r["tags"])
+                                  for t in sorted({t for r in ans for t in r["tags"]})}
     summary["gate"] = summary["hit_at_4"] >= 70
     return {"summary": summary, "rows": rows}
 
