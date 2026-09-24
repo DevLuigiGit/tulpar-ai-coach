@@ -114,7 +114,8 @@ async def route(state: ChatState) -> dict:
         red = bool(data.get("red_flag")) or intent == "escalate"
         reason = str(data.get("reason") or "")[:200]
     except LLMError as e:  # no provider reachable → deterministic fallback, still safe
-        intent, red, reason = _heuristic_intent(t, flags), False, f"heuristic ({type(e).__name__})"
+        intent = _heuristic_intent(t, flags)
+        red, reason = intent == "escalate", f"heuristic ({type(e).__name__})"
     if flags.get("hard"):
         intent, red, reason = "escalate", True, (reason + "; hard red-flag marker").strip("; ")
     return {"intent": "escalate" if red else intent, "red_flag": red, "reason": reason}
