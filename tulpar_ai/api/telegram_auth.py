@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import re
 import time
 from urllib.parse import parse_qsl
 
@@ -44,7 +45,7 @@ def validate_init_data(init_data: str, bot_token: str, max_age_s: int = 86400, n
     check = "\n".join(f"{k}={v}" for k, v in sorted(data.items()))
     secret = hmac.new(b"WebAppData", bot_token.encode(), hashlib.sha256).digest()
     expected = hmac.new(secret, check.encode(), hashlib.sha256).hexdigest()
-    if not hmac.compare_digest(expected, received.lower()):
+    if not re.fullmatch(r"[0-9a-fA-F]{64}", received) or not hmac.compare_digest(expected, received.lower()):
         raise InitDataError("bad hash")
     try:
         auth_date = int(data.get("auth_date", ""))

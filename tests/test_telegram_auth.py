@@ -124,3 +124,19 @@ def test_mini_app_url(env, monkeypatch):
     assert Settings(webapp_url="https://coach.example.com").mini_app_url == "https://coach.example.com/"
     monkeypatch.setenv("RAILWAY_PUBLIC_DOMAIN", "coach-production.up.railway.app")
     assert Settings(webapp_url="").mini_app_url == "https://coach-production.up.railway.app/"
+
+
+def test_non_hex_hash_is_rejected_not_crashing():
+    import pytest
+    from tulpar_ai.api.telegram_auth import validate_init_data
+    with pytest.raises(Exception) as e:
+        validate_init_data("auth_date=1&user=%7B%22id%22%3A1%7D&hash=%D0%B9", "123:ABC", 86400)
+    assert not isinstance(e.value, TypeError)
+
+
+def test_open_app_button_only_in_private_chats(monkeypatch):
+    from tulpar_ai.bot import miniapp
+    from tulpar_ai.config import get_settings
+    monkeypatch.setattr(get_settings(), "webapp_url", "https://example.org")
+    assert miniapp.open_app_kb("private") is not None
+    assert miniapp.open_app_kb("group") is None

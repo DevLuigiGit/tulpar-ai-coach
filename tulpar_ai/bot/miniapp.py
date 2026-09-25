@@ -16,9 +16,9 @@ from ..config import get_settings
 log = logging.getLogger("bot")
 
 
-def open_app_kb() -> InlineKeyboardMarkup | None:
+def open_app_kb(chat_type: str = "private") -> InlineKeyboardMarkup | None:
     url = get_settings().mini_app_url
-    if not url:
+    if not url or chat_type != "private":  # web_app buttons are allowed in private chats only
         return None
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Открыть приложение",
                                                                        web_app=WebAppInfo(url=url))]])
