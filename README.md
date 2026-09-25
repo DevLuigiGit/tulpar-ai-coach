@@ -195,7 +195,8 @@ make keys
 ## Деплой на Railway
 
 Проект Railway отдельный, это не проект Tulpar. Сервис собирается по `Dockerfile`, веб и API работают в одном контейнере в одном экземпляре, healthcheck `/health` задан в `railway.json`.
-- Volume смонтирован в `/data` (`AI_DATA_DIR=/data`). Там лежат SQLite с очередью и чекпоинтами и встроенный Qdrant с индексом RAG и кэшем ответов.
+- Volume смонтирован в `/data` (`AI_DATA_DIR=/data`). Там лежит SQLite с очередью и чекпоинтами.
+- Индекс RAG и кэш ответов — в отдельном сервисе `qdrant` того же проекта Railway: образ `qdrant/qdrant:v1.19.1`, свой volume, только приватная сеть (`QDRANT_URL=http://qdrant.railway.internal:6333`, `QDRANT_API_KEY`). Если сервер не отвечает, сервис переходит на встроенный Qdrant в `/data`.
 - Переменные берутся из `.env.example`. `JWT_SECRET` и `INTERNAL_SECRET` должны быть длинными случайными строками: со значениями по умолчанию сервис на Railway не стартует.
 - Ключи из локального `.env` переносит `bash tools/railway_keys.sh`. С флагом `--bot` он переносит и токен бота.
 - На Railway работает демо-режим.
