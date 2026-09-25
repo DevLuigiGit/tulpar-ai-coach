@@ -99,6 +99,15 @@ class Settings(BaseSettings):
     qdrant_url: str = ""  # empty: embedded Qdrant in AI_DATA_DIR/qdrant; http://qdrant:6333 or a Qdrant Cloud URL
     qdrant_api_key: str = ""
 
+    # ── semantic answer cache (question branch only; thresholds by evals/cache_eval.py, EVALS.md) ───
+    # The threshold alone cannot stop one-word flips (женщина/мужчина 0.989, в неделю/в день 0.983 with Jina); the
+    # lexical guard in rag/cache_guard.py does. With the guard the lowest threshold with zero wrong hits is 0.91, but
+    # a flip outside the guard's lists (узким/широким хватом) scores 0.909, so 0.95 keeps a margin above it.
+    answer_cache: bool = True
+    answer_cache_min_score: float = 0.95  # Jina embedder
+    answer_cache_min_score_local: float = 0.99  # hashing embedder: lexical, so in practice only verbatim repeats
+    answer_cache_ttl_h: float = 72.0
+
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
     trainer_telegram_ids: str = ""  # comma separated numeric Telegram ids of trainers

@@ -14,6 +14,7 @@ import json
 import logging
 import re
 import uuid
+from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -26,6 +27,7 @@ from parsing.chunker import NS, PARSING_VERSION, chunk_document, document_source
 
 CORPUS = ROOT / "corpus"
 DOCUMENT_SUFFIXES = {".pdf", ".docx"}
+QUERY_MEMO = 64
 
 log = logging.getLogger(__name__)
 
@@ -95,6 +97,7 @@ class Index:
         self.path = path or Path(s.ai_data_dir) / "qdrant"
         self.collection = f"coach_{self.embedder.id}_{pdf_chunk}_p{PARSING_VERSION}"
         self.client = get_client(self.path)
+        self._qvecs: OrderedDict[str, list[float]] = OrderedDict()
 
     def close(self) -> None:
         close_client(self.path)
@@ -153,7 +156,18 @@ class Index:
             for c, v in zip(chunks, vectors)
         ])
 
-    async def search(self, query: str, limit: int) -> list[dict]:
+    async def embed_query(self, query: str) -> list[float]:
+        """The answer cache and the search embed the same question in one turn: remember recent vectors."""
+        if query in self._qvecs:
+            self._qvecs.move_to_end(query)
+            return self._qvecs[query]
         [vec] = await self.embedder.embed([query], task="retrieval.query")
+        self._qvecs[query] = vec
+        if len(self._qvecs) > QUERY_MEMO:
+            self._qvecs.popitem(last=False)
+        return vec
+
+    async def search(self, query: str, limit: int) -> list[dict]:
+        vec = await self.embed_query(query)
         res = self.client.query_points(self.collection, query=vec, limit=limit, with_payload=True)
         return [{**p.payload, "score": float(p.score)} for p in res.points]

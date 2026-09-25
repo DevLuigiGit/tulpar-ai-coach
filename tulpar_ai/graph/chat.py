@@ -1,19 +1,24 @@
 """Chat graph: one client turn. No human pause here — the long-lived pause lives in the program graph.
 
-  ingest ─► precheck ─► route ─┬─► meal_photo ─────────────────────────────► END
-                               ├─► meal_text ──────────────────────────────► END
-                               ├─► retrieve ─┬─► answer ─┬────────────────────► END
-                               │      ▲      │           └─► escalate ─────► END
-                               │      └ rewrite (≤2) ◄──┘ (not enough)
-                               ├─► program_request (starts the program graph) ► END
-                               ├─► escalate ───────────────────────────────► END
-                               ├─► refuse (prompt injection) ──────────────► END
-                               └─► other ──────────────────────────────────► END
+  ingest ─► precheck ─► route ─┬─► meal_photo ──────────────────────────────────────────► END
+                               ├─► meal_text ───────────────────────────────────────────► END
+                               ├─► cache_lookup ─┬─► (hit: cached answer) ──────────────► END
+                               │                 └─► retrieve ─┬─► answer ─┬─► cache_store ► END
+                               │                        ▲      │           └─► escalate ─► END
+                               │                        └ rewrite (≤2) ◄──┘ (not enough)
+                               ├─► program_request (starts the program graph) ──────────► END
+                               ├─► escalate ────────────────────────────────────────────► END
+                               ├─► refuse (prompt injection) ───────────────────────────► END
+                               └─► other ───────────────────────────────────────────────► END
+
+The answer cache sits on the question branch only: route has already sent red flags, meals, program requests and
+injections elsewhere, and only a final answer with citations is stored (rag/answer_cache.py).
 """
 
 from __future__ import annotations
 
 import base64
+import logging
 import re
 from datetime import date
 from pathlib import Path
@@ -28,9 +33,11 @@ from ..gateway.base import MATCH_THRESHOLD, MealItem
 from ..llm import LLMError, chat, json_call
 from ..pii import mask
 from ..prompts import prompt
+from ..rag.answer_cache import get_answer_cache
 from ..rag.retrieve import retrieve
 from ..store import get_store
 
+log = logging.getLogger("chat")
 INTENTS = {"meal_text", "question", "program_request", "escalate", "other"}
 
 # HARD markers force a human regardless of the model; SOFT markers are only a hint for the router.
@@ -64,6 +71,7 @@ class ChatState(TypedDict, total=False):
     meal: dict | None
     proposal_id: str | None
     escalation_id: str | None
+    cache_score: float | None
 
 
 def _text(state: ChatState) -> str:
@@ -122,10 +130,39 @@ async def route(state: ChatState) -> dict:
 
 
 def after_route(state: ChatState) -> str:
-    return {"question": "retrieve"}.get(state["intent"], state["intent"])
+    return {"question": "cache_lookup"}.get(state["intent"], state["intent"])
 
 
-# ── question branch: retrieve → (rewrite ≤2) → answer ───────────────────────
+# ── question branch: cache → retrieve → (rewrite ≤2) → answer → cache ───────
+async def cache_lookup(state: ChatState) -> dict:
+    cache = get_answer_cache()
+    if cache is None:
+        return {}
+    try:
+        hit = await cache.lookup(mask(_text(state)))
+    except Exception:  # the cache only saves money: an embedder or Qdrant hiccup must not fail the turn
+        log.warning("answer cache lookup failed", exc_info=True)
+        return {}
+    if hit is None:
+        return {}
+    return {"reply": hit["reply"], "citations": hit["citations"], "kind": "answer", "cache_score": hit["score"]}
+
+
+def after_cache(state: ChatState) -> str:
+    return END if state.get("reply") else "retrieve"
+
+
+async def cache_store(state: ChatState) -> dict:
+    cache = get_answer_cache()
+    if cache is None or state.get("kind") != "answer" or state.get("red_flag") or state.get("cache_score") is not None:
+        return {}
+    try:
+        await cache.put(mask(_text(state)), state["reply"], state.get("citations") or [])
+    except Exception:
+        log.warning("answer cache store failed", exc_info=True)
+    return {}
+
+
 async def retrieve_node(state: ChatState) -> dict:
     s = get_settings()
     q = state.get("query") or _text(state)
@@ -178,7 +215,7 @@ async def answer(state: ChatState) -> dict:
 
 
 def after_answer(state: ChatState) -> str:
-    return END if state.get("reply") else "escalate"
+    return "cache_store" if state.get("reply") else "escalate"
 
 
 # ── food ─────────────────────────────────────────────────────────────────────
@@ -311,19 +348,21 @@ async def other(state: ChatState) -> dict:
 
 def build_chat_graph():
     g = StateGraph(ChatState)
-    for name, fn in [("ingest", ingest), ("precheck", precheck), ("route", route), ("retrieve", retrieve_node),
-                     ("rewrite", rewrite), ("answer", answer), ("meal_photo", meal_photo), ("meal_text", meal_text),
+    for name, fn in [("ingest", ingest), ("precheck", precheck), ("route", route), ("cache_lookup", cache_lookup),
+                     ("retrieve", retrieve_node), ("rewrite", rewrite), ("answer", answer), ("cache_store", cache_store),
+                     ("meal_photo", meal_photo), ("meal_text", meal_text),
                      ("program_request", program_request), ("escalate", escalate), ("refuse", refuse), ("other", other)]:
         g.add_node(name, fn)
     g.add_edge(START, "ingest")
     g.add_edge("ingest", "precheck")
     g.add_edge("precheck", "route")
-    g.add_conditional_edges("route", after_route, ["meal_photo", "meal_text", "retrieve", "program_request",
+    g.add_conditional_edges("route", after_route, ["meal_photo", "meal_text", "cache_lookup", "program_request",
                                                    "escalate", "refuse", "other"])
+    g.add_conditional_edges("cache_lookup", after_cache, [END, "retrieve"])
     g.add_conditional_edges("retrieve", after_retrieve, ["answer", "rewrite", "escalate"])
     g.add_edge("rewrite", "retrieve")
-    g.add_conditional_edges("answer", after_answer, [END, "escalate"])
-    for leaf in ("meal_photo", "meal_text", "program_request", "escalate", "refuse", "other"):
+    g.add_conditional_edges("answer", after_answer, ["cache_store", "escalate"])
+    for leaf in ("cache_store", "meal_photo", "meal_text", "program_request", "escalate", "refuse", "other"):
         g.add_edge(leaf, END)
     return g
 
