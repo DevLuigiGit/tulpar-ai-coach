@@ -50,7 +50,8 @@ def traced(env, monkeypatch):
     from tulpar_ai.rag import embed
 
     for k, v in {"OLLAMA_API_KEY": "test", "JINA_API_KEY": "test", "RAG_RERANK": "on",
-                 "ROUTE_MODELS": "ollama:fake", "TEXT_MODELS": "ollama:fake", "VISION_MODELS": "ollama:fake"}.items():
+                 "ROUTE_MODELS": "ollama:fake", "TEXT_MODELS": "ollama:fake", "VISION_MODELS": "ollama:fake",
+                 "ANSWER_CACHE": "false"}.items():  # the stub index has no Qdrant storage for the cache
         monkeypatch.setenv(k, v)
     get_settings.cache_clear()
     fake = FakeLLM()
