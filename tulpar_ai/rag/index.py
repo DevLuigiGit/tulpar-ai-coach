@@ -5,7 +5,7 @@ Chunking is chosen per source, because the sources have different natural units:
   nutrition.md     split on markdown headings, then paragraphs (rules are short and atomic)
   PDF / DOCX       paragraph-first split with 120 overlap (Index defaults to 400 chars);
                    PDF keeps physical pages, DOCX uses page=None
-Embedded Qdrant keeps the same API as a Qdrant server — switching to Qdrant Cloud is a URL change.
+Embedded Qdrant keeps the same API as a Qdrant server — QDRANT_URL switches to a server (see rag/qdrant.py).
 """
 
 from __future__ import annotations
@@ -16,10 +16,11 @@ import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
-from qdrant_client import QdrantClient, models
+from qdrant_client import models
 
 from ..config import ROOT, get_settings
 from .embed import Embedder, get_embedder
+from .qdrant import close_client, get_client
 from parsing.chunker import NS, chunk_document, split_text
 
 CORPUS = ROOT / "corpus"
@@ -72,10 +73,10 @@ class Index:
         self.pdf_chunk = pdf_chunk
         self.path = path or Path(s.ai_data_dir) / "qdrant"
         self.collection = f"coach_{self.embedder.id}_{pdf_chunk}"
-        self.client = QdrantClient(path=str(self.path))
+        self.client = get_client(self.path)
 
     def close(self) -> None:
-        self.client.close()
+        close_client(self.path)
 
     def count(self) -> int:
         if not self.client.collection_exists(self.collection):

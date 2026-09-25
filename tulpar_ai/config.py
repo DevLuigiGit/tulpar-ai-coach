@@ -88,6 +88,8 @@ class Settings(BaseSettings):
     rag_rerank: str = "auto"  # auto: on for the local embedder, off for Jina — both by A/B (EVALS.md); on | off
     rag_min_score: float = 0.2
     rag_max_rewrites: int = 2
+    qdrant_url: str = ""  # empty: embedded Qdrant in AI_DATA_DIR/qdrant; http://qdrant:6333 or a Qdrant Cloud URL
+    qdrant_api_key: str = ""
 
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
@@ -139,4 +141,7 @@ def get_settings() -> Settings:
                 "TULPAR_MODE=tulpar is only allowed against a LOCAL Tulpar stand "
                 f"(TULPAR_API_URL={s.tulpar_api_url!r}). Production is out of scope for this project."
             )
+    on_server = bool(os.environ.get("RAILWAY_ENVIRONMENT")) or s.app_env == "production"
+    if on_server and (s.jwt_secret.startswith("dev-only") or s.internal_secret.startswith("dev-only")):
+        raise RuntimeError("Set JWT_SECRET and INTERNAL_SECRET on a server: the defaults are public in the repository.")
     return s
