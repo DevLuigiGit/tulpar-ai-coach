@@ -91,6 +91,14 @@ class Settings(BaseSettings):
     qdrant_url: str = ""  # empty: embedded Qdrant in AI_DATA_DIR/qdrant; http://qdrant:6333 or a Qdrant Cloud URL
     qdrant_api_key: str = ""
 
+    # ── semantic answer cache (question branch only; thresholds by evals/cache_eval.py, EVALS.md) ───
+    # Lowest cosine with zero wrong hits was 0.94 (Jina) / 0.98 (local), but the closest near-miss sat just under
+    # it (0.939 / 0.978), so both keep one grid step of margin: a wrong cached answer is worse than a miss.
+    answer_cache: bool = True
+    answer_cache_min_score: float = 0.95  # Jina embedder
+    answer_cache_min_score_local: float = 0.99  # hashing embedder: lexical, so in practice only verbatim repeats
+    answer_cache_ttl_h: float = 72.0
+
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
     trainer_telegram_ids: str = ""  # comma separated numeric Telegram ids of trainers

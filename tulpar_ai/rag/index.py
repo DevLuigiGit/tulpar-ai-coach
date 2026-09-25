@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import re
 import uuid
+from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -24,6 +25,7 @@ from .qdrant import close_client, get_client
 from parsing.chunker import NS, chunk_document, split_text
 
 CORPUS = ROOT / "corpus"
+QUERY_MEMO = 64
 
 
 @dataclass
@@ -74,6 +76,7 @@ class Index:
         self.path = path or Path(s.ai_data_dir) / "qdrant"
         self.collection = f"coach_{self.embedder.id}_{pdf_chunk}"
         self.client = get_client(self.path)
+        self._qvecs: OrderedDict[str, list[float]] = OrderedDict()
 
     def close(self) -> None:
         close_client(self.path)
@@ -98,7 +101,18 @@ class Index:
         ])
         return len(chunks)
 
-    async def search(self, query: str, limit: int) -> list[dict]:
+    async def embed_query(self, query: str) -> list[float]:
+        """The answer cache and the search embed the same question in one turn: remember recent vectors."""
+        if query in self._qvecs:
+            self._qvecs.move_to_end(query)
+            return self._qvecs[query]
         [vec] = await self.embedder.embed([query], task="retrieval.query")
+        self._qvecs[query] = vec
+        if len(self._qvecs) > QUERY_MEMO:
+            self._qvecs.popitem(last=False)
+        return vec
+
+    async def search(self, query: str, limit: int) -> list[dict]:
+        vec = await self.embed_query(query)
         res = self.client.query_points(self.collection, query=vec, limit=limit, with_payload=True)
         return [{**p.payload, "score": float(p.score)} for p in res.points]
