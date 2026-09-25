@@ -11,6 +11,7 @@ Embedded Qdrant keeps the same API as a Qdrant server — QDRANT_URL switches to
 from __future__ import annotations
 
 import json
+import logging
 import re
 import uuid
 from dataclasses import dataclass
@@ -21,9 +22,12 @@ from qdrant_client import models
 from ..config import ROOT, get_settings
 from .embed import Embedder, get_embedder
 from .qdrant import close_client, get_client
-from parsing.chunker import NS, chunk_document, split_text
+from parsing.chunker import NS, PARSING_VERSION, chunk_document, document_source, split_text
 
 CORPUS = ROOT / "corpus"
+DOCUMENT_SUFFIXES = {".pdf", ".docx"}
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -58,12 +62,29 @@ def load_chunks(pdf_chunk: int = 800, pdf_overlap: int = 120) -> list[Chunk]:
         for j, part in enumerate(split_text(block, 900, 100)):
             chunks.append(Chunk(id=f"nut:{section}:{j}", source="nutrition", title=f"Правила питания Tulpar — {section}",
                                 text=part, file_type="md", chunk_index=j))
-    for path in sorted(CORPUS.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in {".pdf", ".docx"}:
-            continue
-        chunks.extend(Chunk(**payload) for payload in chunk_document(
-            path, corpus_root=CORPUS, size=pdf_chunk, overlap=pdf_overlap))
+    for path in corpus_documents():
+        chunks.extend(document_chunks(path, pdf_chunk, pdf_overlap))
     return chunks
+
+
+def corpus_documents() -> list[Path]:
+    return [path for path in sorted(CORPUS.rglob("*")) if _is_document(path)] if CORPUS.is_dir() else []
+
+
+def document_chunks(path: Path, pdf_chunk: int, pdf_overlap: int = 120) -> list[Chunk]:
+    """Chunks of one PDF/DOCX; [] with a warning when it cannot be read."""
+    try:
+        payloads = chunk_document(path, corpus_root=CORPUS, size=pdf_chunk, overlap=pdf_overlap)
+    except Exception:  # one broken upload must not take the whole index (and every answer) down
+        log.warning("Skipping unreadable document %s", path.relative_to(CORPUS), exc_info=True)
+        return []
+    return [Chunk(**payload) for payload in payloads]
+
+
+def _is_document(path: Path) -> bool:
+    """PDF/DOCX files, minus Word lock files (~$name.docx) and hidden files that sit next to real ones."""
+    return (path.is_file() and path.suffix.lower() in DOCUMENT_SUFFIXES
+            and not path.name.startswith(("~$", ".")))
 
 
 class Index:
@@ -72,7 +93,7 @@ class Index:
         self.embedder = embedder or get_embedder()
         self.pdf_chunk = pdf_chunk
         self.path = path or Path(s.ai_data_dir) / "qdrant"
-        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}"
+        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}_p{PARSING_VERSION}"
         self.client = get_client(self.path)
 
     def close(self) -> None:
@@ -85,18 +106,52 @@ class Index:
 
     async def build(self, force: bool = False) -> int:
         if self.count() and not force:
+            await self.add_missing_documents()
             return self.count()
         if self.client.collection_exists(self.collection):
             self.client.delete_collection(self.collection)
         self.client.create_collection(self.collection, vectors_config=models.VectorParams(
             size=self.embedder.dim, distance=models.Distance.COSINE))
         chunks = load_chunks(pdf_chunk=self.pdf_chunk)
+        await self._upsert(chunks)
+        return len(chunks)
+
+    async def add_missing_documents(self) -> int:
+        """Index corpus documents that have no points yet; returns how many chunks were added.
+
+        A document skipped as unreadable during a build (a transient I/O or parser failure) would otherwise
+        stay out of the persisted index until PARSING_VERSION changes, because a non-empty collection is
+        reused as is. Documents already present are neither re-parsed nor re-embedded.
+        """
+        added = 0
+        for path in corpus_documents():
+            source = document_source(path, CORPUS)
+            if self._has_source(source):
+                continue
+            chunks = document_chunks(path, self.pdf_chunk)
+            if not chunks:  # still unreadable, or no text layer: tried again on the next start
+                continue
+            try:
+                await self._upsert(chunks)
+            except Exception:  # the existing index still answers; the next start retries
+                log.warning("Could not add %s to %s", source, self.collection, exc_info=True)
+                continue
+            log.info("Added %s chunks of %s missing from %s", len(chunks), source, self.collection)
+            added += len(chunks)
+        return added
+
+    def _has_source(self, source: str) -> bool:
+        only = models.Filter(must=[models.FieldCondition(key="source", match=models.MatchValue(value=source))])
+        return self.client.count(self.collection, count_filter=only, exact=True).count > 0
+
+    async def _upsert(self, chunks: list[Chunk]) -> None:
+        if not chunks:
+            return
         vectors = await self.embedder.embed([c.text for c in chunks], task="retrieval.passage")
         self.client.upsert(self.collection, points=[
             models.PointStruct(id=str(uuid.uuid5(NS, c.id)), vector=v, payload=c.__dict__)
             for c, v in zip(chunks, vectors)
         ])
-        return len(chunks)
 
     async def search(self, query: str, limit: int) -> list[dict]:
         [vec] = await self.embedder.embed([query], task="retrieval.query")

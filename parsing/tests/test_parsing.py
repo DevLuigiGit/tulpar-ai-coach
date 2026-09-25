@@ -1,12 +1,16 @@
 """Standalone document-processing contract, without importing a RAG backend."""
 
-import pymupdf
 import pytest
 from docx import Document
+from pdfgen import write_pdf
 
 from parsing.chunker import chunk_document, split_text
 from parsing.cleaner import normalize_text
 from parsing.parser import parse_document
+
+# PDF fragments of 80 characters or fewer are dropped as headers, so page texts here are longer.
+PAGE_1 = "Short useful text: warm up for five minutes, then do three sets of ten slow squats."
+PAGE_2 = "Second page: rest for two minutes between sets and keep the back straight at all times."
 
 
 @pytest.mark.parametrize(("raw", "expected"), [
@@ -41,17 +45,13 @@ def test_paragraph_priority_and_word_overlap():
 
 
 def test_pdf_pages_and_chunk_metadata(tmp_path):
-    path = tmp_path / "guide.PDF"
-    with pymupdf.open() as document:
-        for text in ("Short useful text", "Second page"):
-            document.new_page().insert_text((72, 72), text)
-        document.save(path)
+    path = write_pdf(tmp_path / "guide.PDF", [PAGE_1, PAGE_2])
     parsed = parse_document(path)
     assert [p["page"] for p in parsed] == [1, 2]
     assert all(p["source"] == "guide.PDF" and p["file_type"] == "pdf" for p in parsed)
     chunks = chunk_document(path, corpus_root=tmp_path)
     assert [c["page"] for c in chunks] == [1, 2]
-    assert [c["text"] for c in chunks] == ["Short useful text", "Second page"]
+    assert [c["text"] for c in chunks] == [PAGE_1, PAGE_2]
     assert all(c["file_type"] == "pdf" and c["chunk_index"] == 0 for c in chunks)
     assert len({c["id"] for c in chunks}) == 2
 
@@ -86,10 +86,7 @@ def test_docx_tables_metadata_unique_stable_ids(tmp_path):
 
 
 def test_who_compatibility(tmp_path):
-    path = tmp_path / "who_2020_physical_activity.pdf"
-    with pymupdf.open() as document:
-        document.new_page().insert_text((72, 72), "Short useful text")
-        document.save(path)
+    path = write_pdf(tmp_path / "who_2020_physical_activity.pdf", [PAGE_1])
     [chunk] = chunk_document(path, corpus_root=tmp_path)
     assert chunk["source"] == "who2020"
     assert chunk["id"] == "who:400:1:0"
