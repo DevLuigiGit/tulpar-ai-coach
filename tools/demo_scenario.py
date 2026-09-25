@@ -134,13 +134,16 @@ class Scenario:
         mine = next((x for x in queue if x["id"] == self.proposal_id), None)
         kinds = ", ".join(f"{x['kind']}:{x['status']}" for x in queue)
         changes = [f"{c['day']}: {c['was'] or '—'} → {c['becomes']}" for c in p.get("changes") or []]
-        warns = [v["message"] for v in p.get("violations") or []]
+        violations = p.get("violations") or []
+        issues = [f"{'ошибка' if v.get('severity') == 'error' else 'предупреждение'} валидатора: {short(v['message'])}"
+                  for v in violations]
         self.step("Тренер: очередь", f"в очереди {len(queue)} ({kinds}); черновик {self.proposal_id[:8]} "
                                      f"{'есть' if mine else 'НЕ найден'}",
-                  f"summary: {short((p.get('draft') or {}).get('summary'))}", *changes,
-                  *(f"предупреждение валидатора: {short(w)}" for w in warns))
+                  f"summary: {short((p.get('draft') or {}).get('summary'))}", *changes, *issues)
         if mine is None:
             raise StepFailed("черновика нет в очереди тренера")
+        if any(v.get("severity") == "error" for v in violations):
+            self.warn("черновик ушёл тренеру с ошибками валидатора: попытки доработки исчерпаны")
 
         p = self.call("POST", f"/api/proposals/{self.proposal_id}/decision", tr, json={"action": "accept"})
         self.step("Тренер: принять черновик", f"статус: {p['status']}")

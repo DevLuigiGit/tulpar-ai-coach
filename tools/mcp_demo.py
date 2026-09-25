@@ -65,7 +65,7 @@ def summarize(name: str, value: Any) -> list[str]:
     if name == "propose_program_change":
         lines = [f"статус: {value.get('status')}, черновик {str(value.get('proposal_id'))[:8]}",
                  f"summary: {value.get('summary')}"]
-        lines += [f"{c['day']}: {c.get('was') or '—'} → {c['becomes']} ({c.get('reason') or ''})".rstrip(" ()")
+        lines += [f"{c['day']}: {c.get('was') or '—'} → {c['becomes']}" + (f" ({c['reason']})" if c.get("reason") else "")
                   for c in value.get("changes") or []]
         lines += [f"предупреждение валидатора: {w}" for w in value.get("warnings") or []]
         return lines
