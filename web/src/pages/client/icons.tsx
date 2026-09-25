@@ -71,6 +71,19 @@ export const WaveIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const SpeakerIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+    <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+  </Svg>
+);
+
+export const StopIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="7" y="7" width="10" height="10" rx="1.5" />
+  </Svg>
+);
+
 export const UserTieIcon = (p: IconProps) => (
   <Svg {...p}>
     <circle cx="12" cy="7.5" r="3.5" />

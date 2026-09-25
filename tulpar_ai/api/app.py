@@ -11,11 +11,11 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from .. import service
+from .. import service, tts
 from ..config import ROOT, get_settings
 from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
@@ -125,6 +125,25 @@ async def chat(text: str = Form(""), photo: UploadFile | None = File(None), audi
         raise HTTPException(422, "send text, a photo or a voice message")
     return await service.chat_turn(user, text.strip(), image=image, audio=voice,
                                    audio_name=(audio.filename if audio else "voice.ogg") or "voice.ogg")
+
+
+class SpeakRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=4000)
+
+
+@app.post("/api/tts", response_class=Response)
+async def speak(body: SpeakRequest, user: User = Depends(client_user)):
+    """A coach reply as MP3 for the web play button. Only clients: the voice is part of their chat."""
+    if not get_settings().tts_enabled:
+        raise HTTPException(404, "Озвучка ответов отключена")
+    try:
+        audio = await tts.synthesize(body.text)
+    except ValueError:
+        raise HTTPException(422, "В ответе нечего озвучивать")
+    except Exception:
+        log.exception("tts failed")
+        raise HTTPException(502, "Не получилось озвучить ответ, попробуйте ещё раз")
+    return Response(audio, media_type="audio/mpeg", headers={"Cache-Control": "private, max-age=3600"})
 
 
 @app.get("/api/chat/history")
