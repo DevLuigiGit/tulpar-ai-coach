@@ -1,6 +1,7 @@
 """Telegram bot of THIS project (its own token, not Tulpar's bot). Runs inside the service process.
 
 Clients: text, food photos and voice notes go to the chat graph; meal cards get a «Записать» button.
+A voice note is answered with text AND a voice note (tts.py), so the voice interface works both ways.
 Trainers (Telegram ids in TRAINER_TELEGRAM_IDS): receive drafts and escalations with inline buttons —
 the same human-in-the-loop decision as the web queue, one tap from the phone.
 
@@ -15,10 +16,11 @@ import logging
 from datetime import datetime
 
 from aiogram import Bot, Dispatcher, F
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandStart
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from .. import notify, service
+from .. import notify, service, tts
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import User
@@ -72,7 +74,7 @@ async def start(m: Message):
         await m.answer("Привет! Я AI-коуч вашего клуба.\n• Пришлите фото еды или напишите «гречка 200 г» — посчитаю "
                        "калории и запишу в дневник.\n• Спросите про технику, питание или нормы активности — отвечу со "
                        "ссылками на источники.\n• Попросите изменить программу — подготовлю черновик для тренера.\n"
-                       "Голосовые тоже понимаю.")
+                       "На голосовое отвечу текстом и голосом.")
 
 
 @dp.message(Command("help"))
@@ -92,7 +94,7 @@ async def queue_cmd(m: Message):
         await (_send_proposal(m.chat.id, p) if p["kind"] == "program" else _send_escalation(m.chat.id, p))
 
 
-async def _run_turn(m: Message, user: User, **kw) -> None:
+async def _run_turn(m: Message, user: User, voice_reply: bool = False, **kw) -> None:
     await m.bot.send_chat_action(m.chat.id, "typing")
     try:
         r = await service.chat_turn(user, **kw)
@@ -103,6 +105,31 @@ async def _run_turn(m: Message, user: User, **kw) -> None:
     if r.get("kind") == "meal_card" and r["meal"]["items"]:
         kb = _kb([("Записать в дневник", f"meal:{r['meal']['card_id']}")])
     await m.answer(_reply_text(r), reply_markup=kb)
+    if voice_reply:
+        await _send_voice_reply(m, r.get("reply") or "")
+
+
+async def _send_voice_reply(m: Message, text: str) -> None:
+    """Best effort: the text reply is already delivered, so any TTS or send failure is only logged."""
+    if not get_settings().tts_enabled or not text.strip():
+        return
+    try:
+        await m.bot.send_chat_action(m.chat.id, "record_voice")
+        audio = await tts.synthesize(text)
+    except Exception:
+        log.warning("voice reply: synthesis failed", exc_info=True)
+        return
+    try:
+        # Bot API accepts MP3 for sendVoice, so no ffmpeg/Opus conversion is needed.
+        await m.answer_voice(BufferedInputFile(audio, filename="reply.mp3"))
+    except TelegramBadRequest:
+        # E.g. VOICE_MESSAGES_FORBIDDEN in the user's privacy settings — an audio file still goes through.
+        try:
+            await m.answer_audio(BufferedInputFile(audio, filename="reply.mp3"), title="Ответ коуча")
+        except Exception:
+            log.warning("voice reply: send_audio failed", exc_info=True)
+    except Exception:
+        log.warning("voice reply: send_voice failed", exc_info=True)
 
 
 @dp.message(F.photo)
@@ -124,7 +151,7 @@ async def on_voice(m: Message):
     name = "voice.ogg" if m.voice else (m.audio.file_name or "audio.mp3")
     if user.role == "trainer":
         return await m.answer("Голосовые обрабатываются для клиентов. Очередь: /queue")
-    await _run_turn(m, user, audio=buf.getvalue(), audio_name=name)
+    await _run_turn(m, user, voice_reply=bool(m.voice), audio=buf.getvalue(), audio_name=name)
 
 
 @dp.message(F.text)

@@ -66,6 +66,14 @@ class Settings(BaseSettings):
     stt_model: str = "whisper-large-v3-turbo"
     llm_timeout_s: float = 60.0
 
+    # ── voice replies (edge-tts, no key): bot answers a voice note with voice, web has a play button ──
+    tts_enabled: bool = True
+    tts_voice: str = "ru-RU-SvetlanaNeural"
+    tts_voice_kk: str = "kk-KZ-AigulNeural"  # picked automatically for Kazakh text
+    tts_rate: str = "+0%"
+    tts_max_chars: int = 600
+    tts_timeout_s: float = 30.0
+
     # ── hyperparameters (chosen by experiments, see EVALS.md) ──────────────────
     route_temperature: float = 0.0
     route_max_tokens: int = 200
