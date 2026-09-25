@@ -5,6 +5,7 @@ import { SOURCE_LABEL, timeShort } from "../../format";
 import { asReply, asSystem, attachments, userText } from "./chatModel";
 import MealCard from "./MealCard";
 import RichText from "./RichText";
+import SpeakButton from "./SpeakButton";
 import { AlertIcon, ArrowRightIcon, CheckIcon, ImageIcon, UserTieIcon, WaveIcon } from "./icons";
 
 interface BubbleProps {
@@ -130,7 +131,10 @@ function CoachBubble({ message, hideTranscript, mealLogged, onMealLogged, onOpen
           />
         </div>
       )}
-      <time className="msg-time">{timeShort(message.created_at)}</time>
+      <div className="msg-meta">
+        <time className="msg-time">{timeShort(message.created_at)}</time>
+        <SpeakButton text={message.text} />
+      </div>
     </div>
   );
 }

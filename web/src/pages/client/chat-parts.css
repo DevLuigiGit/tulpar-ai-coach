@@ -136,3 +136,23 @@
   .msg, .msg-system { animation: none; }
   .typing-dots i { animation-duration: 2.4s; }
 }
+
+/* ---------- Время ответа + «Прослушать» ---------- */
+
+.msg-meta { display: inline-flex; align-items: center; gap: 2px; }
+.speak-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.speak-btn:hover { color: var(--text-2); background: var(--surface-2); }
+.speak-btn.is-active { color: var(--accent); background: var(--accent-soft); }
+.speak-error { font-size: var(--fs-2xs); color: var(--red-text); padding-left: 2px; }

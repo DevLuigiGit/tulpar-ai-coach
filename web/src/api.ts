@@ -66,10 +66,12 @@ interface RequestOptions {
   json?: unknown;
   form?: FormData;
   timeoutMs?: number;
+  /** Вернуть тело как Blob (аудио), а не JSON. */
+  blob?: boolean;
 }
 
 async function request<T>(path: string, opts: RequestOptions = {}): Promise<T> {
-  const headers: Record<string, string> = { Accept: "application/json" };
+  const headers: Record<string, string> = { Accept: opts.blob ? "*/*" : "application/json" };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   let body: BodyInit | undefined;
@@ -100,6 +102,7 @@ async function request<T>(path: string, opts: RequestOptions = {}): Promise<T> {
     logout();
     throw new ApiError(401, "Сессия истекла, войдите снова");
   }
+  if (opts.blob && res.ok) return (await res.blob()) as T;
   const text = await res.text();
   let data: unknown = null;
   if (text) {
@@ -160,6 +163,9 @@ function fileName(f: File | Blob, fallback: string): string {
 
 export const chat = (form: FormData) =>
   request<ChatReply>("/api/chat", { form, timeoutMs: LONG_TIMEOUT_MS });
+
+/** Озвучка ответа коуча: MP3 (audio/mpeg). */
+export const speech = (text: string) => request<Blob>("/api/tts", { json: { text }, blob: true });
 
 export const history = (limit = 50) => request<ChatMessage[]>(`/api/chat/history?limit=${limit}`);
 
