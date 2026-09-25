@@ -36,12 +36,21 @@ export const inTelegram = () => telegramApp() !== null;
 
 let started = false;
 
-/** Сообщаем Telegram, что приложение готово, разворачиваем на весь экран и красим рамку в цвет темы. */
+/** Видимая часть ниже окна больше чем на пиксель — низ перекрыт клавиатурой iOS или её панелью (при внешней
+ *  клавиатуре она ~50px). Масштаб в Mini App запрещён, других причин для разницы нет. */
+const KEYBOARD_MIN_PX = 1;
+
+/**
+ * Сообщаем Telegram, что приложение готово, разворачиваем на весь экран и красим рамку в цвет темы.
+ * Вызывается до первого рендера (main.tsx), чтобы раскладка Mini App не прыгала на первом кадре.
+ */
 export function startTelegram(): void {
   const app = telegramApp();
   if (!app || started) return;
   started = true;
   document.documentElement.classList.add("tg-webapp");
+  lockZoom();
+  followVisibleViewport();
   try {
     app.ready();
     app.expand();
@@ -54,6 +63,48 @@ export function startTelegram(): void {
     if (at("7.7")) app.disableVerticalSwipes?.();
   } catch {
     /* старый клиент Telegram — работаем как обычная страница */
+  }
+}
+
+/** Масштаб в Mini App не нужен: щипок или двойной тап увеличивают страницу, и вёрстка уезжает вбок.
+ *  Вне Telegram meta не трогаем — там масштабирование остаётся. */
+function lockZoom(): void {
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
+  if (meta) meta.content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
+}
+
+/**
+ * iOS: клавиатура не сжимает окно WebView (и viewportHeight Telegram не меняется) — сжимается только видимая
+ * часть (visualViewport), а WebKit сдвигает весь документ вверх, чтобы показать поле ввода: шапка и вкладки
+ * уезжают за экран, после закрытия клавиатуры страница может остаться сдвинутой. Поэтому при открытой
+ * клавиатуре высота приложения — видимая часть (--tac-kb-height, класс tg-kb), а документ возвращаем в начало.
+ * На Android окно сжимается само: visualViewport.height == innerHeight, класс не ставится.
+ */
+function followVisibleViewport(): void {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const root = document.documentElement;
+  let keyboard = false;
+  const sync = () => {
+    const open = window.innerHeight - vv.height > KEYBOARD_MIN_PX;
+    root.classList.toggle("tg-kb", open);
+    if (open) root.style.setProperty("--tac-kb-height", `${Math.floor(vv.height)}px`);
+    else root.style.removeProperty("--tac-kb-height");
+    if (window.scrollX || window.scrollY || vv.offsetTop) window.scrollTo(0, 0);
+    // Приложение стало ниже — поле ввода (например, в карточке тренера) могло уйти под клавиатуру.
+    if (open && !keyboard) window.requestAnimationFrame(revealFocused);
+    keyboard = open;
+  };
+  vv.addEventListener("resize", sync);
+  vv.addEventListener("scroll", sync);
+  window.addEventListener("focusout", () => window.setTimeout(sync, 60));
+  sync();
+}
+
+function revealFocused(): void {
+  const el = document.activeElement;
+  if (el instanceof HTMLElement && el.matches("input, textarea, select, [contenteditable]")) {
+    el.scrollIntoView({ block: "nearest" });
   }
 }
 

@@ -340,6 +340,12 @@ button.chip:hover { border-color: var(--border-strong); color: var(--text); }
 .input:disabled,
 .textarea:disabled { opacity: 0.55; }
 .input-sm { height: 32px; font-size: var(--fs-sm); border-radius: var(--r-sm); padding: 0 var(--s-2); }
+/* iOS увеличивает страницу при фокусе на поле со шрифтом меньше 16px и сам масштаб не возвращает — вёрстка
+   уезжает вбок. На сенсорных экранах все поля ввода (чат, граммы, поиск, комментарии тренера) — 16px;
+   на компьютере размер прежний. :root — чтобы перебить размер из классов полей. */
+@media (pointer: coarse) {
+  :root :is(input, textarea, select) { font-size: 16px; }
+}
 
 .field { display: flex; flex-direction: column; gap: 6px; }
 
@@ -486,6 +492,7 @@ button.chip:hover { border-color: var(--border-strong); color: var(--text); }
   min-height: 0;
   width: 100%;
   margin: 0 auto;
+  overflow-x: hidden; /* вбок экран не прокручивается никогда */
   overflow-y: auto;
   padding: var(--s-4);
 }

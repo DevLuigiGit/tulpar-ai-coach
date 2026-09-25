@@ -1,15 +1,58 @@
-/* Внутри Telegram Mini App (класс ставит telegram.ts). Переменные --tg-* задаёт telegram-web-app.js. */
+/* Внутри Telegram Mini App (класс ставит telegram.ts). Переменные --tg-* задаёт telegram-web-app.js.
+   Все правила — с префиксом html.tg-webapp: он специфичнее правил styles.css, и порядок подключения не важен. */
 
+/* Документ закреплён: не прокручивается, не пружинит и не уезжает. Прокручиваются только свои контейнеры
+   экранов — .app-main и .chat-feed (и сам #root, если экран входа выше видимой части). */
 html.tg-webapp,
 html.tg-webapp body {
+  overflow: hidden;
   overscroll-behavior: none;
 }
+html.tg-webapp {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html.tg-webapp body {
+  position: fixed;
+  inset: 0;
+}
 
-/* Полноэкранный режим Telegram: не залезать под системную шапку и кнопки клиента. Вне него отступы нулевые. */
+/* Полноэкранный режим Telegram: не залезать под системную шапку и кнопки клиента. Вне него отступы нулевые.
+   Отступы — внутри высоты #root (box-sizing: border-box). */
 html.tg-webapp #root {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding-top: calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px));
   padding-left: var(--tg-safe-area-inset-left, 0px);
   padding-right: var(--tg-safe-area-inset-right, 0px);
+}
+/* Высота — видимая область Telegram, а не окно WebView: низ окна бывает за краем экрана (свёрнутый лист,
+   анимация expand). stable — чтобы раскладка не пересчитывалась каждый кадр жеста. При открытой клавиатуре
+   iOS — видимая часть над ней (--tac-kb-height ставит telegram.ts). Без min() остаётся height: 100%. */
+@supports (height: min(1px, 2px)) {
+  html.tg-webapp #root {
+    height: min(100%, var(--tg-viewport-stable-height, 100%), var(--tac-kb-height, 100%));
+  }
+}
+
+/* Шапка: прокручивается .app-main, а не документ, — sticky тут только отрывал шапку при сдвиге документа. */
+html.tg-webapp .app-header {
+  position: relative;
+}
+
+/* Докрутив ленту программы или экраны тренера до края, не тянуть за собой всё приложение. */
+html.tg-webapp .app-main {
+  overscroll-behavior-y: contain;
+}
+
+/* Поле ввода чата над полоской «домой»: env() в Android WebView бывает 0 — берём и отступ от Telegram. */
+html.tg-webapp .chat-bottom {
+  padding-bottom: calc(var(--s-3) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)));
+}
+/* Над клавиатурой полоски «домой» нет — без отступа под неё, иначе щель между полем ввода и клавиатурой. */
+html.tg-webapp.tg-kb .chat-bottom {
+  padding-bottom: var(--s-2);
 }
 
 /* Подпись про демо-вход не нужна: в Telegram вход автоматический. */

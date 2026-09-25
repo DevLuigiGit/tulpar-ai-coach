@@ -8,7 +8,7 @@
  * Лента истории (GET /api/chat/history, опрос раз в 10 с), пузыри по ролям, ссылки на
  * источники, карточки еды, заметки тренера; снизу — поле ввода с фото и голосовым.
  */
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { ChatMessage, User } from "../../types";
 import Spinner from "../../components/Spinner";
 import { ageMs, asReply, attachments, isLocal, loggedCardIds, msgKey, transcriptAfter } from "./chatModel";
@@ -76,6 +76,18 @@ export default function ChatPage({ onOpenPlan }: ChatPageProps) {
     const el = feedRef.current;
     if (el && stick.current) el.scrollTop = el.scrollHeight;
   }, [messages, sender.sending, load.phase]);
+
+  // Высота ленты меняется и без новых сообщений: клавиатура, рост поля ввода, ошибка отправки, разворот
+  // Mini App. Если читатель был внизу — остаёмся внизу, иначе последние сообщения уходят под поле ввода.
+  useEffect(() => {
+    const el = feedRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => {
+      if (stick.current) el.scrollTop = el.scrollHeight;
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const onScroll = () => {
     const el = feedRef.current;

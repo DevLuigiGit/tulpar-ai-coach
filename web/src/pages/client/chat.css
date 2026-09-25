@@ -5,6 +5,7 @@
 .chat-feed {
   flex: 1 1 auto;
   min-height: 0;
+  overflow-x: hidden; /* лента не прокручивается вбок, даже если карточка на узком экране шире на пиксель */
   overflow-y: auto;
   overscroll-behavior: contain;
   display: flex;
