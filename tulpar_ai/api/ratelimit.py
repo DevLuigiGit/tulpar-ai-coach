@@ -12,7 +12,7 @@ from fastapi import Depends, HTTPException, Request
 
 from ..config import get_settings
 from ..gateway.base import User
-from .auth import client_user
+from .auth import client_user, trainer_user
 
 
 class TokenBucket:
@@ -49,7 +49,8 @@ def bucket(name: str) -> TokenBucket:
     s = get_settings()
     if name not in _buckets:
         rate, burst = {"chat": (s.chat_rate_per_min, s.chat_burst),
-                       "login": (s.login_rate_per_min, s.login_burst)}[name]
+                       "login": (s.login_rate_per_min, s.login_burst),
+                       "trainer": (s.trainer_rate_per_min, s.trainer_burst)}[name]
         _buckets[name] = TokenBucket(rate, burst)
     return _buckets[name]
 
@@ -82,4 +83,11 @@ async def limit_chat(request: Request, user: User = Depends(client_user)) -> Use
     # The public demo shares one client account, so the key is (user, IP): one visitor cannot lock out the rest.
     _check("chat", f"{user.id}|{client_ip(request)}",
            "Слишком много сообщений подряд. Подождите немного и отправьте снова.")
+    return user
+
+
+async def limit_trainer(request: Request, user: User = Depends(trainer_user)) -> User:
+    # The demo lets anyone log in as the trainer, and every draft or edit runs the program builder on shared LLM quota.
+    _check("trainer", f"{user.id}|{client_ip(request)}",
+           "Слишком много запросов на программы подряд. Подождите минуту и попробуйте снова.")
     return user

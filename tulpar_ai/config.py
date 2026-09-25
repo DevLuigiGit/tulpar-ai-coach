@@ -97,6 +97,8 @@ class Settings(BaseSettings):
     chat_burst: int = 10
     login_rate_per_min: float = 10.0  # demo logins per minute per IP
     login_burst: int = 20  # a classroom behind one NAT must still get in
+    trainer_rate_per_min: float = 4.0  # program drafts and edits: several LLM calls each
+    trainer_burst: int = 6
     trust_forwarded_for: bool = True  # behind Railway's proxy the client IP is in X-Forwarded-For
 
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────

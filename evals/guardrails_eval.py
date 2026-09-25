@@ -3,9 +3,11 @@
     python evals/guardrails_eval.py            # → evals/results/guardrails.json
 
 Input: evals/golden/guardrails.jsonl — the verdict the service would act on, i.e. `check_input` with the same
-pain/HARD hint that `precheck` passes. Per category: precision, recall, false-positive rate; plus benign-trap FPR.
+pain/HARD hints that `precheck` passes («none» for a HARD message means it goes to the trainer, not to a refusal). Per category: precision, recall, false-positive rate; plus benign-trap FPR.
 Output: evals/golden/guardrails_output.jsonl — the action of `guard_reply` on ready-made replies.
-Rows tagged `holdout` were written after the detectors were tuned and are reported separately, untouched.
+Rows tagged `holdout` were written after the first tuning, `holdout2` before the second (review) round of fixes;
+both are reported separately and are not part of the gate. `holdout` is no longer clean: the second round fixed some
+of its misses on purpose (see EVALS).
 Exit code 1 if the dev-split gate fails: self-harm recall 100%, other categories recall ≥ 90%, benign FPR ≤ 5%.
 """
 
@@ -24,9 +26,11 @@ from evals.run import GOLDEN, RESULTS, load, pct  # noqa: E402
 
 def predict(text: str) -> str:
     from tulpar_ai import guardrails
-    from tulpar_ai.graph.chat import HARD, SOFT
+    from tulpar_ai.graph.chat import HARD, SOFT, SUBSTANCE
 
-    v = guardrails.check_input(text, red_flag=bool(HARD.search(text) or SOFT.search(text)))
+    hard = [m.group(0) for m in HARD.finditer(text)]
+    symptom = any(not SUBSTANCE.fullmatch(m) for m in hard)
+    v = guardrails.check_input(text, red_flag=bool(hard) or bool(SOFT.search(text)), hard=symptom)
     return v.category or "none"
 
 
@@ -55,9 +59,9 @@ def run_input() -> dict:
         us = (time.perf_counter() - t0) * 1e6
         rows.append({"id": c["id"], "expected": c["expected"], "pred": pred, "ok": pred == c["expected"],
                      "us": round(us, 1), "tags": c.get("tags", []), "text": c["text"]})
-    dev = [r for r in rows if "holdout" not in r["tags"]]
-    held = [r for r in rows if "holdout" in r["tags"]]
-    summary = {"dev": summarize(dev, CATEGORIES), "holdout": summarize(held, CATEGORIES),
+    held = {h: [r for r in rows if h in r["tags"]] for h in ("holdout", "holdout2")}
+    dev = [r for r in rows if not ({"holdout", "holdout2"} & set(r["tags"]))]
+    summary = {"dev": summarize(dev, CATEGORIES), **{h: summarize(rr, CATEGORIES) for h, rr in held.items()},
                "all": summarize(rows, CATEGORIES),
                "mean_us_per_message": round(sum(r["us"] for r in rows) / len(rows), 1)}
     d = summary["dev"]
@@ -101,7 +105,7 @@ def main() -> int:
     (RESULTS / "guardrails.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     s = inp["summary"]
     print(f"input gate={s['gate']}, mean {s['mean_us_per_message']} µs/msg")
-    for split in ("dev", "holdout", "all"):
+    for split in ("dev", "holdout", "holdout2", "all"):
         x = s[split]
         print(f"\n[{split}] n={x['n']} accuracy={x['accuracy']}% benign FPR={x['benign_false_positive_rate']}% "
               f"(n={x['benign_trap_n']})")

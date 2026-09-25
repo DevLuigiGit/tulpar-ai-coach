@@ -121,7 +121,19 @@ async def queue(trainer: User, history: bool = False) -> list[dict]:
     return out
 
 
+class RejectedText(ValueError):
+    """Trainer text that goes into the program builder prompt was refused by the input guard."""
+
+
+def _screen_trainer_text(text: str | None) -> None:
+    # Only injection is screened: a trainer legitimately writes about pain, pills or a client's contacts.
+    v = guardrails.check_input(text or "")
+    if v.category == "injection":
+        raise RejectedText(v.reply)
+
+
 async def request_change(trainer: User, client_id: str, request: str) -> dict:
+    _screen_trainer_text(request)
     gw = get_gateway()
     t = await gw.trainer_of(client_id)
     if t is None or t.id != trainer.id:
@@ -141,6 +153,7 @@ async def decide(trainer: User, pid: str, action: str, comment: str | None = Non
     if action not in ("accept", "reject", "edit"):
         raise ValueError("action must be accept, reject or edit")
     if action == "edit":
+        _screen_trainer_text(comment)
         await store.update_proposal(pid, status="drafting", decision={"action": "edit", "comment": comment})
         runner.spawn(runner.resume_program(pid, "edit", comment))
     else:
