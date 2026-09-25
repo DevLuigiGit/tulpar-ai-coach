@@ -15,6 +15,7 @@ import type { ClientSummary, User } from "../../types";
 import { goalLabel, initials, levelLabel, placeLabel } from "../../format";
 import Empty from "../../components/Empty";
 import ClientDetail from "./ClientDetail";
+import FeedbackPanel from "./FeedbackPanel";
 import { plural } from "./util";
 import "./trainer.css";
 
@@ -131,6 +132,8 @@ function ClientList({ onSelect }: { onSelect: (id: string) => void }) {
           ))}
         </div>
       )}
+
+      {list && list.length > 0 && <FeedbackPanel />}
     </div>
   );
 }

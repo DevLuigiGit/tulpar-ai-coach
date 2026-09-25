@@ -1,5 +1,5 @@
 """This service's own state (SQLite): proposals and escalations queue, chat log, meal cards,
-Telegram chat registry and — in demo mode — the clients' plans and food diary.
+user feedback on answers, Telegram chat registry and — in demo mode — the clients' plans and food diary.
 
 The LangGraph checkpointer lives in a separate file (graph.sqlite) and is owned by LangGraph.
 """
@@ -27,6 +27,11 @@ CREATE TABLE IF NOT EXISTS messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT, client_id TEXT, role TEXT, text TEXT, payload_json TEXT, created_at TEXT
 );
 CREATE INDEX IF NOT EXISTS ix_messages_client ON messages(client_id, id);
+CREATE TABLE IF NOT EXISTS feedback (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, message_id INTEGER NOT NULL UNIQUE, client_id TEXT NOT NULL,
+  rating TEXT NOT NULL, comment TEXT, run_id TEXT, source TEXT, created_at TEXT, updated_at TEXT
+);
+CREATE INDEX IF NOT EXISTS ix_feedback_client ON feedback(client_id, updated_at);
 CREATE TABLE IF NOT EXISTS meal_cards (
   id TEXT PRIMARY KEY, client_id TEXT, items_json TEXT, unknown_json TEXT, status TEXT, created_at TEXT
 );
@@ -90,6 +95,12 @@ class Store:
         await self.db.commit()
         return cur.lastrowid
 
+    async def _changes(self, sql: str, *args) -> int:
+        """-> rows changed by this statement (0 for an INSERT skipped by ON CONFLICT DO NOTHING)."""
+        cur = await self.db.execute(sql, args)
+        await self.db.commit()
+        return cur.rowcount
+
     # ── proposals & escalations ────────────────────────────────────────────
     async def create_proposal(self, *, kind: str, client_id: str, trainer_id: str | None, source: str, request: str,
                               status: str, proposal_id: str | None = None) -> dict:
@@ -145,10 +156,66 @@ class Store:
                                 client_id, role, text, _j(payload), now())
 
     async def history(self, client_id: str, limit: int = 50) -> list[dict]:
-        rows = await self._all("SELECT * FROM messages WHERE client_id=? ORDER BY id DESC LIMIT ?", client_id, limit)
+        rows = await self._all(
+            "SELECT m.*, f.rating AS feedback FROM messages m LEFT JOIN feedback f ON f.message_id = m.id "
+            "WHERE m.client_id=? ORDER BY m.id DESC LIMIT ?", client_id, limit)
         for r in rows:
             r["payload"] = _l(r.pop("payload_json"))
         return list(reversed(rows))
+
+    async def get_message(self, message_id: int) -> dict | None:
+        row = await self._one("SELECT * FROM messages WHERE id=?", message_id)
+        if row:
+            row["payload"] = _l(row.pop("payload_json"))
+        return row
+
+    # ── feedback on answers (👍/👎) ────────────────────────────────────────
+    async def set_feedback(self, *, message_id: int, client_id: str, rating: str, comment: str | None,
+                           run_id: str | None, source: str) -> tuple[dict, bool]:
+        """One vote per message: a second vote replaces the first. Returns (row, it was an update).
+
+        The INSERT itself decides which vote is the first one (a SELECT before it would not): two votes arriving at
+        once must not both look like the first, or LangSmith would get two creates for one feedback."""
+        ts = now()
+        inserted = await self._changes(
+            "INSERT INTO feedback(message_id,client_id,rating,comment,run_id,source,created_at,updated_at) "
+            "VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(message_id) DO NOTHING",
+            message_id, client_id, rating, comment, run_id, source, ts, ts)
+        if not inserted:
+            await self._exec("UPDATE feedback SET rating=?, comment=?, source=?, updated_at=? WHERE message_id=?",
+                             rating, comment, source, ts, message_id)
+        return await self._one("SELECT * FROM feedback WHERE message_id=?", message_id), not inserted
+
+    async def list_feedback(self, *, client_ids: list[str] | None = None, rating: str | None = None,
+                            limit: int = 50) -> list[dict]:
+        """Votes with the rated answer and the client message right before it (the question)."""
+        where, args = [], []
+        if client_ids is not None:
+            where.append(f"f.client_id IN ({','.join('?' * len(client_ids)) or 'NULL'})")
+            args.extend(client_ids)
+        if rating:
+            where.append("f.rating=?")
+            args.append(rating)
+        sql = (
+            "SELECT f.*, m.text AS answer, m.payload_json, m.created_at AS answered_at, "
+            "(SELECT u.text FROM messages u WHERE u.client_id=m.client_id AND u.role='user' AND u.id<m.id "
+            " ORDER BY u.id DESC LIMIT 1) AS question "
+            "FROM feedback f JOIN messages m ON m.id=f.message_id"
+            + (f" WHERE {' AND '.join(where)}" if where else "") + " ORDER BY f.updated_at DESC, f.id DESC LIMIT ?")
+        rows = await self._all(sql, *args, limit)
+        for r in rows:
+            r["payload"] = _l(r.pop("payload_json"))
+        return rows
+
+    async def feedback_counts(self, client_ids: list[str] | None = None) -> dict[str, int]:
+        sql, args = "SELECT rating, COUNT(*) AS n FROM feedback", []
+        if client_ids is not None:
+            sql += f" WHERE client_id IN ({','.join('?' * len(client_ids)) or 'NULL'})"
+            args.extend(client_ids)
+        rows = await self._all(sql + " GROUP BY rating", *args)
+        counts = {"up": 0, "down": 0} | {r["rating"]: r["n"] for r in rows}
+        counts["total"] = counts["up"] + counts["down"]
+        return counts
 
     # ── meal cards ─────────────────────────────────────────────────────────
     async def save_meal_card(self, client_id: str, items: list[dict], unknown: list[dict]) -> str:

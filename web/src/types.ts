@@ -66,10 +66,12 @@ export interface ChatReply {
   proposal_id: string | null;
   escalation_id: string | null;
   transcript: string | null;
+  /** id сохранённого ответа в истории — по нему ставится оценка. */
+  message_id?: number;
 }
 
-/** payload сообщения ассистента: поля ChatReply без reply. */
-export type ReplyPayload = Omit<ChatReply, "reply">;
+/** payload сообщения ассистента: поля ChatReply без reply и message_id. */
+export type ReplyPayload = Omit<ChatReply, "reply" | "message_id">;
 
 /** Служебные payload: запись еды в дневник и ответ тренера в чат. */
 export interface SystemPayload {
@@ -93,6 +95,44 @@ export interface ChatMessage {
   text: string;
   payload: MessagePayload | null;
   created_at: string;
+  /** Оценка клиента для ответа коуча (история с сервера). */
+  feedback?: FeedbackRating | null;
+}
+
+// ---------- Оценки ответов ----------
+
+export type FeedbackRating = "up" | "down";
+
+export interface FeedbackResult {
+  id: number;
+  message_id: number;
+  rating: FeedbackRating;
+  comment: string | null;
+  /** queued — копия уйдёт в LangSmith в фоне, skipped — ход не трассировался или нет ключа. */
+  langsmith: "queued" | "skipped";
+}
+
+export interface FeedbackItem {
+  id: number;
+  message_id: number;
+  client_id: string;
+  client_name: string;
+  rating: FeedbackRating;
+  comment: string | null;
+  source: "web" | "telegram";
+  run_id: string | null;
+  question: string | null;
+  answer: string;
+  kind: ReplyKind | null;
+  intent: string | null;
+  citations: Citation[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TrainerFeedback {
+  counts: { up: number; down: number; total: number };
+  items: FeedbackItem[];
 }
 
 export type MealSlot = "breakfast" | "lunch" | "dinner" | "snack";

@@ -4,18 +4,32 @@ from __future__ import annotations
 
 from datetime import date
 
-from . import guardrails, notify
+from langsmith import traceable
+from langsmith.run_helpers import get_current_run_tree
+
+from . import feedback, guardrails, notify
 from .gateway import get_gateway
 from .gateway.base import MealItem, PlanOp, User
 from .graph import runner
 from .graph.chat import escalate
+from .pii import mask
 from .store import get_store
 
 MEALS = {"breakfast", "lunch", "dinner", "snack"}
 
 
+def _turn_inputs(inputs: dict) -> dict:
+    """What the chat_turn trace shows: no raw bytes, no full user id, masked text."""
+    user = inputs.get("user")
+    return {"client": getattr(user, "id", "")[:8], "text": mask(inputs.get("text") or ""),
+            "has_photo": bool(inputs.get("image")), "has_audio": bool(inputs.get("audio"))}
+
+
+@traceable(run_type="chain", name="chat_turn", process_inputs=_turn_inputs)
 async def chat_turn(user: User, text: str = "", image: bytes | None = None, audio: bytes | None = None,
                     audio_name: str = "voice.ogg") -> dict:
+    """One client message → graph → stored reply. The reply carries `message_id` so the client can rate it;
+    the LangSmith run id (when tracing is on) goes into the stored payload to attach 👍/👎 to the trace."""
     store = get_store()
     shown = text or ("[фото]" if image else "[голосовое]" if audio else "")
     await store.add_message(user.id, "user", shown, {"has_photo": bool(image), "has_audio": bool(audio)})
@@ -33,7 +47,10 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
     }
     if res.get("guard"):
         reply["guard"] = res["guard"]
-    await store.add_message(user.id, "assistant", reply["reply"], {k: v for k, v in reply.items() if k != "reply"})
+    rt = get_current_run_tree()
+    payload = {k: v for k, v in reply.items() if k != "reply"} | {
+        "run_id": str(rt.id) if rt else None, "run_project": getattr(rt, "session_name", None) if rt else None}
+    reply["message_id"] = await store.add_message(user.id, "assistant", reply["reply"], payload)
     return reply
 
 
@@ -50,6 +67,38 @@ async def _guard_output(user: User, request: str, res: dict) -> dict:
                               "reason": "output guard: medication dosage"})
         res.update(kind="escalated", citations=[], escalation_id=esc["escalation_id"])
     return res
+
+
+async def rate_message(user: User, message_id: int, rating: str, comment: str | None = None,
+                       source: str = "web") -> dict:
+    """👍/👎 on the client's own coach answer; also sent to LangSmith when the turn was traced."""
+    if rating not in feedback.RATINGS:
+        raise ValueError("rating must be up or down")
+    store = get_store()
+    m = await store.get_message(message_id)
+    if m is None or m["client_id"] != user.id or m["role"] != "assistant":
+        raise LookupError("message not found")
+    payload = m["payload"] or {}
+    if payload.get("kind") not in feedback.RATEABLE_KINDS:
+        raise ValueError("this message cannot be rated")
+    comment = (comment or "").strip()[: feedback.MAX_COMMENT] or None
+    async with feedback.vote_lock(message_id):  # aiogram and the web handle votes concurrently
+        row, updated = await store.set_feedback(message_id=message_id, client_id=user.id, rating=rating,
+                                                comment=comment, run_id=payload.get("run_id"), source=source)
+        row["langsmith"] = feedback.send_later(row["run_id"], message_id, rating, comment, updated,
+                                               project=payload.get("run_project"))
+    return row
+
+
+async def trainer_feedback(trainer: User, rating: str | None = None, limit: int = 50) -> dict:
+    clients = {c.id: c.name for c in await get_gateway().list_clients(trainer.id)}
+    ids = list(clients)
+    items = await get_store().list_feedback(client_ids=ids, rating=rating, limit=limit)
+    for it in items:
+        it["client_name"] = clients.get(it["client_id"], "—")
+        p = it.pop("payload") or {}
+        it["kind"], it["intent"], it["citations"] = p.get("kind"), p.get("intent"), p.get("citations") or []
+    return {"counts": await get_store().feedback_counts(ids), "items": items}
 
 
 async def confirm_meal(user: User, card_id: str, grams: dict[int, float] | None = None, meal: str | None = None) -> dict:

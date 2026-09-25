@@ -116,3 +116,17 @@ export const SparkIcon = (p: IconProps) => (
     <path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1L5 10.5l5.1-1.9z" />
   </Svg>
 );
+
+export const ThumbUpIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M7.5 10.5V20H5a1.5 1.5 0 0 1-1.5-1.5V12A1.5 1.5 0 0 1 5 10.5z" />
+    <path d="M7.5 10.5l3.6-6.2a1.9 1.9 0 0 1 3.5 1.3l-.7 3.9h4.6a2 2 0 0 1 2 2.4l-1.3 6.4A2.2 2.2 0 0 1 17 20H7.5" />
+  </Svg>
+);
+
+export const ThumbDownIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M16.5 13.5V4H19a1.5 1.5 0 0 1 1.5 1.5V12a1.5 1.5 0 0 1-1.5 1.5z" />
+    <path d="M16.5 13.5l-3.6 6.2a1.9 1.9 0 0 1-3.5-1.3l.7-3.9H5.5a2 2 0 0 1-2-2.4l1.3-6.4A2.2 2.2 0 0 1 7 4h9.5" />
+  </Svg>
+);

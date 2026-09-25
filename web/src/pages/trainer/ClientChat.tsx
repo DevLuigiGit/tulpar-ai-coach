@@ -70,6 +70,11 @@ export default function ClientChat({ clientId, name }: { clientId: string; name:
                   <span className="t-msg-who">{who}</span>
                   <span>{dateTime(m.created_at)}</span>
                   {tag && !isTrainer && <span className={`t-msg-tag ${tag[1]}`}>{tag[0]}</span>}
+                  {m.feedback && (
+                    <span className={`t-msg-tag ${m.feedback === "up" ? "is-green" : "is-red"}`}>
+                      {m.feedback === "up" ? "оценка: полезно" : "оценка: неудачно"}
+                    </span>
+                  )}
                 </div>
                 <div className="t-msg-text">{m.text || <span className="faint">вложение</span>}</div>
               </div>

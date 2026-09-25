@@ -8,6 +8,7 @@ from __future__ import annotations
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Literal
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,7 +16,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import service, tts
+from .. import feedback, service, tts
 from ..config import ROOT, get_settings
 from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
@@ -55,6 +56,7 @@ async def lifespan(app: FastAPI):
     yield
     if bot_task is not None:
         bot_task.cancel()
+    await feedback.drain()
     await runner.close_graphs()
     get_index().close()
     set_index(None)
@@ -165,6 +167,21 @@ async def confirm_meal(card_id: str, body: ConfirmMeal, user: User = Depends(cli
         raise HTTPException(404, "meal card not found")
 
 
+class Feedback(BaseModel):
+    rating: Literal["up", "down"]
+    comment: str | None = Field(default=None, max_length=2000)
+
+
+@app.post("/api/messages/{message_id}/feedback")
+async def message_feedback(message_id: int, body: Feedback, user: User = Depends(client_user)):
+    try:
+        return await service.rate_message(user, message_id, body.rating, body.comment, source="web")
+    except LookupError:
+        raise HTTPException(404, "message not found")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
 @app.get("/api/my/proposals")
 async def my_proposals(user: User = Depends(client_user)):
     return await service.my_proposals(user)
@@ -197,6 +214,12 @@ async def client_context(client_id: str, user: User = Depends(trainer_user)):
 async def client_chat(client_id: str, limit: int = 50, user: User = Depends(trainer_user)):
     await _own_client(user, client_id)
     return await get_store().history(client_id, limit=min(limit, 200))
+
+
+@app.get("/api/trainer/feedback")
+async def trainer_feedback(rating: Literal["up", "down"] | None = None, limit: int = 50,
+                           user: User = Depends(trainer_user)):
+    return await service.trainer_feedback(user, rating=rating, limit=max(1, min(limit, 200)))
 
 
 class ChangeRequest(BaseModel):

@@ -156,3 +156,43 @@
 .speak-btn:hover { color: var(--text-2); background: var(--surface-2); }
 .speak-btn.is-active { color: var(--accent); background: var(--accent-soft); }
 .speak-error { font-size: var(--fs-2xs); color: var(--red-text); padding-left: 2px; }
+
+/* ---------- Оценка ответа коуча ---------- */
+
+.msg-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
+  max-width: 100%;
+}
+.fb { display: contents; }
+.fb-row { display: inline-flex; align-items: center; gap: 2px; }
+.fb-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.fb-btn:hover { color: var(--text-2); background: var(--surface-2); }
+.fb-btn:disabled { opacity: 0.5; cursor: default; }
+.fb-btn.is-up { color: var(--green); background: var(--green-soft); border-color: var(--green-line); }
+.fb-btn.is-down { color: var(--red-muted); background: var(--red-soft); border-color: var(--red-line); }
+.fb-note { font-size: var(--fs-2xs); color: var(--faint); padding-left: 4px; }
+.fb-note.is-error { color: var(--red-text); }
+.fb-form {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  animation: msg-in 0.18s var(--ease);
+}
+.fb-input { flex: 1 1 150px; }

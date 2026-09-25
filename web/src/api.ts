@@ -8,10 +8,13 @@ import type {
   ConfirmMealRequest,
   ConfirmMealResponse,
   DecisionAction,
+  FeedbackRating,
+  FeedbackResult,
   LoginResponse,
   Plan,
   Proposal,
   Role,
+  TrainerFeedback,
   User,
 } from "./types";
 
@@ -172,6 +175,11 @@ export const history = (limit = 50) => request<ChatMessage[]>(`/api/chat/history
 export const confirmMeal = (cardId: string, body: ConfirmMealRequest) =>
   request<ConfirmMealResponse>(`/api/meals/${encodeURIComponent(cardId)}/confirm`, { json: body });
 
+export const rateMessage = (messageId: number, rating: FeedbackRating, comment?: string) =>
+  request<FeedbackResult>(`/api/messages/${messageId}/feedback`, {
+    json: comment ? { rating, comment } : { rating },
+  });
+
 export const myPlan = () => request<Plan | null>("/api/my/plan");
 
 export const myProposals = () => request<Proposal[]>("/api/my/proposals");
@@ -179,6 +187,9 @@ export const myProposals = () => request<Proposal[]>("/api/my/proposals");
 // ---------- Тренер ----------
 
 export const clients = () => request<ClientSummary[]>("/api/trainer/clients");
+
+export const trainerFeedback = (rating?: FeedbackRating, limit = 50) =>
+  request<TrainerFeedback>(`/api/trainer/feedback?limit=${limit}${rating ? `&rating=${rating}` : ""}`);
 
 export const clientContext = (clientId: string) =>
   request<ClientContext>(`/api/trainer/clients/${encodeURIComponent(clientId)}/context`);

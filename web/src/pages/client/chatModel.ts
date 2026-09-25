@@ -87,10 +87,17 @@ export function localMessage(
   };
 }
 
-/** Ответ POST /api/chat в форме сообщения истории. */
+/** Ответ POST /api/chat в форме сообщения истории. С message_id сразу берём серверный id —
+ *  оценку можно поставить, не дожидаясь обновления истории. */
 export function replyToMessage(r: ChatReply): ChatMessage {
-  const { reply, ...payload } = r;
-  return localMessage("assistant", reply, payload);
+  const { reply, message_id, ...payload } = r;
+  const m = localMessage("assistant", reply, payload);
+  return typeof message_id === "number" ? { ...m, id: message_id } : m;
+}
+
+/** Оценивать можно ответы коуча, уже сохранённые на сервере (числовой id). */
+export function canRate(m: ChatMessage): boolean {
+  return m.role === "assistant" && typeof m.id === "number" && asReply(m.payload) !== null;
 }
 
 /** Сколько миллисекунд назад создано сообщение (время без зоны считаем UTC). */
