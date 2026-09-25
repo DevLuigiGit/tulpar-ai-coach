@@ -11,6 +11,7 @@ Embedded Qdrant keeps the same API as a Qdrant server — QDRANT_URL switches to
 from __future__ import annotations
 
 import json
+import logging
 import re
 import uuid
 from dataclasses import dataclass
@@ -21,9 +22,12 @@ from qdrant_client import models
 from ..config import ROOT, get_settings
 from .embed import Embedder, get_embedder
 from .qdrant import close_client, get_client
-from parsing.chunker import NS, chunk_document, split_text
+from parsing.chunker import NS, PARSING_VERSION, chunk_document, split_text
 
 CORPUS = ROOT / "corpus"
+DOCUMENT_SUFFIXES = {".pdf", ".docx"}
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -59,11 +63,21 @@ def load_chunks(pdf_chunk: int = 800, pdf_overlap: int = 120) -> list[Chunk]:
             chunks.append(Chunk(id=f"nut:{section}:{j}", source="nutrition", title=f"Правила питания Tulpar — {section}",
                                 text=part, file_type="md", chunk_index=j))
     for path in sorted(CORPUS.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in {".pdf", ".docx"}:
+        if not _is_document(path):
             continue
-        chunks.extend(Chunk(**payload) for payload in chunk_document(
-            path, corpus_root=CORPUS, size=pdf_chunk, overlap=pdf_overlap))
+        try:
+            payloads = chunk_document(path, corpus_root=CORPUS, size=pdf_chunk, overlap=pdf_overlap)
+        except Exception:  # one broken upload must not take the whole index (and every answer) down
+            log.warning("Skipping unreadable document %s", path.relative_to(CORPUS), exc_info=True)
+            continue
+        chunks.extend(Chunk(**payload) for payload in payloads)
     return chunks
+
+
+def _is_document(path: Path) -> bool:
+    """PDF/DOCX files, minus Word lock files (~$name.docx) and hidden files that sit next to real ones."""
+    return (path.is_file() and path.suffix.lower() in DOCUMENT_SUFFIXES
+            and not path.name.startswith(("~$", ".")))
 
 
 class Index:
@@ -72,7 +86,7 @@ class Index:
         self.embedder = embedder or get_embedder()
         self.pdf_chunk = pdf_chunk
         self.path = path or Path(s.ai_data_dir) / "qdrant"
-        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}"
+        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}_p{PARSING_VERSION}"
         self.client = get_client(self.path)
 
     def close(self) -> None:
