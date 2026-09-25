@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ApiError, errorText, getToken, LOGOUT_EVENT, logout, me } from "./api";
+import { closeTelegram, ensureTelegramSession, inTelegram, startTelegram } from "./telegram";
 import type { User } from "./types";
 import Login from "./pages/Login";
 import Spinner from "./components/Spinner";
@@ -14,32 +15,68 @@ type AuthState =
 /**
  * Корень: без токена — экран входа; с токеном — GET /api/me и оболочка по роли.
  * На 401 api.ts стирает токен и шлёт событие tac:logout — возвращаемся ко входу.
+ * Внутри Telegram Mini App вход автоматический (telegram.ts): экран входа — только если он не удался.
  */
 export default function App() {
-  const [auth, setAuth] = useState<AuthState>(() => (getToken() ? { phase: "loading" } : { phase: "anon" }));
+  const [auth, setAuth] = useState<AuthState>(() =>
+    getToken() || inTelegram() ? { phase: "loading" } : { phase: "anon" },
+  );
+  const [tgError, setTgError] = useState<string | null>(null);
+  const tgRetried = useRef(false);
 
   const loadMe = useCallback(async () => {
     setAuth({ phase: "loading" });
     try {
       const user = await me();
+      tgRetried.current = false;
       setAuth({ phase: "ready", user });
     } catch (e) {
-      if (e instanceof ApiError && e.status === 401) setAuth({ phase: "anon" });
-      else setAuth({ phase: "error", message: errorText(e) });
+      // In Telegram a 401 is handled by the tac:logout listener (re-auth via initData).
+      if (e instanceof ApiError && e.status === 401) {
+        if (!inTelegram()) setAuth({ phase: "anon" });
+      } else setAuth({ phase: "error", message: errorText(e) });
     }
   }, []);
 
-  useEffect(() => {
-    if (getToken()) void loadMe();
-  }, [loadMe]);
+  const signInTelegram = useCallback(
+    async (force: boolean) => {
+      setAuth({ phase: "loading" });
+      try {
+        await ensureTelegramSession(force);
+      } catch (e) {
+        setTgError(errorText(e));
+        setAuth({ phase: "anon" });
+        return;
+      }
+      await loadMe();
+    },
+    [loadMe],
+  );
 
   useEffect(() => {
-    const onLogout = () => setAuth({ phase: "anon" });
+    if (inTelegram()) {
+      startTelegram();
+      void signInTelegram(false);
+    } else if (getToken()) void loadMe();
+  }, [loadMe, signInTelegram]);
+
+  useEffect(() => {
+    const onLogout = () => {
+      if (inTelegram() && !tgRetried.current) {
+        tgRetried.current = true;
+        void signInTelegram(true);
+        return;
+      }
+      if (inTelegram()) setTgError("Сессия не принята сервером. Закройте приложение и откройте его снова из бота.");
+      setAuth({ phase: "anon" });
+    };
     window.addEventListener(LOGOUT_EVENT, onLogout);
     return () => window.removeEventListener(LOGOUT_EVENT, onLogout);
-  }, []);
+  }, [signInTelegram]);
 
   const signOut = useCallback(() => {
+    // Inside Telegram the account is the Telegram user: "Выйти" closes the Mini App.
+    if (inTelegram()) return closeTelegram();
     window.location.hash = "";
     logout();
   }, []);
@@ -48,6 +85,7 @@ export default function App() {
     case "anon":
       return (
         <Login
+          notice={tgError}
           onLoggedIn={(user) => {
             window.location.hash = "";
             setAuth({ phase: "ready", user });
@@ -57,7 +95,7 @@ export default function App() {
     case "loading":
       return (
         <div className="loading-screen">
-          <Spinner size="lg" label="Загружаем профиль" />
+          <Spinner size="lg" label={inTelegram() ? "Входим через Telegram" : "Загружаем профиль"} />
         </div>
       );
     case "error":

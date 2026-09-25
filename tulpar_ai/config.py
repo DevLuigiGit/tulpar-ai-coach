@@ -94,6 +94,8 @@ class Settings(BaseSettings):
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
     trainer_telegram_ids: str = ""  # comma separated numeric Telegram ids of trainers
+    webapp_url: str = ""  # public https URL of the web app for the Mini App; empty: https://$RAILWAY_PUBLIC_DOMAIN
+    telegram_auth_max_age_s: int = 86400  # how old WebApp.initData may be at login
 
     # ── MCP client → service ───────────────────────────────────────────────────
     service_url: str = "http://localhost:8089"
@@ -105,6 +107,14 @@ class Settings(BaseSettings):
     @property
     def trainer_tg_ids(self) -> set[str]:
         return {x.strip() for x in self.trainer_telegram_ids.split(",") if x.strip()}
+
+    @property
+    def mini_app_url(self) -> str:
+        """https URL for the bot's Mini App buttons, or "" (Telegram accepts only https)."""
+        url = self.webapp_url.strip()
+        if not url and os.environ.get("RAILWAY_PUBLIC_DOMAIN"):
+            url = "https://" + os.environ["RAILWAY_PUBLIC_DOMAIN"].strip().strip("/")
+        return url.rstrip("/") + "/" if url.startswith("https://") else ""
 
     @property
     def is_real_mode(self) -> bool:

@@ -5,12 +5,14 @@ import Spinner from "../components/Spinner";
 
 interface LoginProps {
   onLoggedIn: (user: User) => void;
+  /** Ошибка автоматического входа (Telegram Mini App), показывается сразу. */
+  notice?: string | null;
 }
 
 /** Демо-вход: одна кнопка на роль, без пароля. Токен сохраняет api.login. */
-export default function Login({ onLoggedIn }: LoginProps) {
+export default function Login({ onLoggedIn, notice }: LoginProps) {
   const [busy, setBusy] = useState<Role | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(notice ?? null);
 
   const go = async (role: Role) => {
     setBusy(role);

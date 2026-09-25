@@ -1,0 +1,18 @@
+/* Внутри Telegram Mini App (класс ставит telegram.ts). Переменные --tg-* задаёт telegram-web-app.js. */
+
+html.tg-webapp,
+html.tg-webapp body {
+  overscroll-behavior: none;
+}
+
+/* Полноэкранный режим Telegram: не залезать под системную шапку и кнопки клиента. Вне него отступы нулевые. */
+html.tg-webapp #root {
+  padding-top: calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px));
+  padding-left: var(--tg-safe-area-inset-left, 0px);
+  padding-right: var(--tg-safe-area-inset-right, 0px);
+}
+
+/* Подпись про демо-вход не нужна: в Telegram вход автоматический. */
+html.tg-webapp .login-foot {
+  display: none;
+}
