@@ -24,6 +24,7 @@ from ..rag.index import Index
 from ..rag.retrieve import get_index, set_index
 from ..store import Store, get_store, set_store
 from .auth import client_user, current_user, issue_token, trainer_user
+from .telegram_auth import router as telegram_auth_router
 
 log = logging.getLogger("api")
 MAX_UPLOAD = 8 * 1024 * 1024
@@ -65,6 +66,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Tulpar AI Coach", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=get_settings().cors_list, allow_credentials=True,
                    allow_methods=["*"], allow_headers=["*"])
+app.include_router(telegram_auth_router)  # POST /api/auth/telegram — Mini App login
 
 
 # ── health ───────────────────────────────────────────────────────────────────

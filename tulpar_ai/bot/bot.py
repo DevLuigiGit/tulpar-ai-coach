@@ -23,6 +23,7 @@ from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import User
 from ..store import get_store
+from .miniapp import open_app_kb, setup_menu_button
 
 log = logging.getLogger("bot")
 dp = Dispatcher()
@@ -67,12 +68,12 @@ async def start(m: Message):
     user = await _user(m)
     if user.role == "trainer":
         await m.answer("Вы вошли как тренер. Сюда будут приходить черновики изменений программ и сообщения клиентов, "
-                       "которые требуют вашего решения. Очередь: /queue")
+                       "которые требуют вашего решения. Очередь: /queue", reply_markup=open_app_kb())
     else:
         await m.answer("Привет! Я AI-коуч вашего клуба.\n• Пришлите фото еды или напишите «гречка 200 г» — посчитаю "
                        "калории и запишу в дневник.\n• Спросите про технику, питание или нормы активности — отвечу со "
                        "ссылками на источники.\n• Попросите изменить программу — подготовлю черновик для тренера.\n"
-                       "Голосовые тоже понимаю.")
+                       "Голосовые тоже понимаю.", reply_markup=open_app_kb())
 
 
 @dp.message(Command("help"))
@@ -240,6 +241,7 @@ async def start_bot() -> asyncio.Task:
 
     async def run():
         try:
+            await setup_menu_button(_bot)
             await dp.start_polling(_bot, handle_signals=False)
         finally:
             await _bot.session.close()
