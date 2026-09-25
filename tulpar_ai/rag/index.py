@@ -3,8 +3,8 @@
 Chunking is chosen per source, because the sources have different natural units:
   exercises.jsonl  one exercise card = one chunk (≤ ~600 chars, a self-contained answer)
   nutrition.md     split on markdown headings, then paragraphs (rules are short and atomic)
-  WHO PDF          page by page, recursive split ~800 chars with 120 overlap; the page number is kept
-                   so the answer can cite «ВОЗ 2020, стр. N»
+  PDF / DOCX       paragraph-first split with 120 overlap (Index defaults to 400 chars);
+                   PDF keeps physical pages, DOCX uses page=None
 Embedded Qdrant keeps the same API as a Qdrant server — switching to Qdrant Cloud is a URL change.
 """
 
@@ -16,14 +16,13 @@ import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
-from pypdf import PdfReader
 from qdrant_client import QdrantClient, models
 
 from ..config import ROOT, get_settings
 from .embed import Embedder, get_embedder
+from parsing.chunker import NS, chunk_document, split_text
 
 CORPUS = ROOT / "corpus"
-NS = uuid.UUID("0d7a3c52-4b1e-4f9a-8c61-2e5d7b9a1f33")
 
 
 @dataclass
@@ -35,49 +34,34 @@ class Chunk:
     page: int | None = None
     muscle_group: str | None = None
     equipment: str | None = None
-
-
-def split_text(text: str, size: int, overlap: int) -> list[str]:
-    text = re.sub(r"[ \t]+", " ", text).strip()
-    if len(text) <= size:
-        return [text] if text else []
-    out, start = [], 0
-    while start < len(text):
-        end = min(len(text), start + size)
-        if end < len(text):
-            cut = max(text.rfind(". ", start, end), text.rfind("\n", start, end))
-            if cut > start + size // 2:
-                end = cut + 1
-        out.append(text[start:end].strip())
-        if end >= len(text):
-            break
-        start = max(end - overlap, start + 1)
-    return [c for c in out if c]
+    file_type: str | None = None
+    chunk_index: int = 0
 
 
 def load_chunks(pdf_chunk: int = 800, pdf_overlap: int = 120) -> list[Chunk]:
     chunks: list[Chunk] = []
-    for line in (CORPUS / "exercises.jsonl").read_text(encoding="utf-8").splitlines():
+    if not CORPUS.is_dir():
+        raise FileNotFoundError(f"Corpus directory does not exist: {CORPUS}")
+    exercises = CORPUS / "exercises.jsonl"
+    for line in (exercises.read_text(encoding="utf-8").splitlines() if exercises.exists() else []):
         d = json.loads(line)
         chunks.append(Chunk(id=f"ex:{d['id']}", source="exercises", title=d["title"], text=d["text"],
-                            muscle_group=d.get("muscle_group"), equipment=d.get("equipment")))
-    md = (CORPUS / "nutrition.md").read_text(encoding="utf-8")
+                            muscle_group=d.get("muscle_group"), equipment=d.get("equipment"), file_type="jsonl"))
+    nutrition = CORPUS / "nutrition.md"
+    md = nutrition.read_text(encoding="utf-8") if nutrition.exists() else ""
     section = "Питание"
     for block in re.split(r"\n(?=#+ )", md):
         m = re.match(r"#+ (.+)", block)
         if m:
             section = m.group(1).strip()
         for j, part in enumerate(split_text(block, 900, 100)):
-            chunks.append(Chunk(id=f"nut:{section}:{j}", source="nutrition", title=f"Правила питания Tulpar — {section}", text=part))
-    pdf = CORPUS / "who_2020_physical_activity.pdf"
-    if pdf.exists():
-        for pno, page in enumerate(PdfReader(str(pdf)).pages, start=1):
-            text = page.extract_text() or ""
-            for j, part in enumerate(split_text(text, pdf_chunk, pdf_overlap)):
-                if len(part) > 80:
-                    chunks.append(Chunk(id=f"who:{pdf_chunk}:{pno}:{j}", source="who2020",
-                                        title="WHO guidelines on physical activity and sedentary behaviour (2020)",
-                                        text=part, page=pno))
+            chunks.append(Chunk(id=f"nut:{section}:{j}", source="nutrition", title=f"Правила питания Tulpar — {section}",
+                                text=part, file_type="md", chunk_index=j))
+    for path in sorted(CORPUS.rglob("*")):
+        if not path.is_file() or path.suffix.lower() not in {".pdf", ".docx"}:
+            continue
+        chunks.extend(Chunk(**payload) for payload in chunk_document(
+            path, corpus_root=CORPUS, size=pdf_chunk, overlap=pdf_overlap))
     return chunks
 
 

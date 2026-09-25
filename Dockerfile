@@ -13,6 +13,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 COPY tulpar_ai ./tulpar_ai
+COPY parsing ./parsing
 COPY skills ./skills
 COPY corpus ./corpus
 COPY fixtures ./fixtures
