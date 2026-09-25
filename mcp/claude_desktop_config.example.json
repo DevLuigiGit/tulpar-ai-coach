@@ -1,12 +1,12 @@
 {
   "mcpServers": {
     "tulpar-mcp": {
-      "command": "/Users/aleksejnovoselcev/Projects/tulpar-ai-coach/.venv/bin/python",
+      "command": "<PATH_TO_REPO>/.venv/bin/python",
       "args": ["-m", "tulpar_ai.mcp_server"],
-      "cwd": "/Users/aleksejnovoselcev/Projects/tulpar-ai-coach",
+      "cwd": "<PATH_TO_REPO>",
       "env": {
-        "SERVICE_URL": "http://localhost:8089",
-        "INTERNAL_SECRET": "dev-only-internal-secret-change-me",
+        "SERVICE_URL": "https://coach-production-18ca.up.railway.app",
+        "INTERNAL_SECRET": "<INTERNAL_SECRET из .env>",
         "TULPAR_TRAINER_ID": ""
       }
     }

@@ -79,7 +79,9 @@ async def health_ai():
     import os
 
     return {"ollama": bool(s.ollama_api_key), "groq": bool(s.groq_api_key), "jina": bool(s.jina_api_key),
-            "langsmith": bool(os.environ.get("LANGSMITH_API_KEY")), "telegram": bool(s.telegram_bot_token),
+            "langsmith": bool(os.environ.get("LANGSMITH_API_KEY")),
+            "langsmith_tracing": os.environ.get("LANGSMITH_TRACING", "").lower() == "true",
+            "telegram": bool(s.telegram_bot_token),
             "rag_chunks": get_index().count(), "mode": s.tulpar_mode}
 
 

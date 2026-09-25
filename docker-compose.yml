@@ -1,0 +1,18 @@
+# Local run in a container: docker compose up --build → http://localhost:8089
+# Keys come from .env. The Telegram bot is OFF here on purpose: a bot token may be polled by one process only,
+# and the production bot runs on Railway. Remove the TELEGRAM_BOT_TOKEN override to run the bot locally instead.
+services:
+  coach:
+    build: .
+    env_file: .env
+    environment:
+      AI_DATA_DIR: /data
+      PORT: "8089"
+      TELEGRAM_BOT_TOKEN: ""
+      CORS_ORIGINS: http://localhost:8089,http://localhost:5173
+    ports:
+      - "8089:8089"
+    volumes:
+      - coach_data:/data
+volumes:
+  coach_data:

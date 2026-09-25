@@ -128,3 +128,9 @@
 | answer_temperature=0.0, repeats=3 | 168 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 81.7 | 100.0 | 4.74 | 4.4 | 2457.0 | 217 | 0.000829 |
 | answer_temperature=0.2, repeats=3 | 168 | jina3 | False | 0.2 | 0.9 | 400 | 86.3 | 0.781 | 80.4 | 100.0 | 4.72 | 4.43 | 2463.5 | 212 | 0.000834 |
 | answer_temperature=0.7, repeats=3 | 168 | jina3 | False | 0.7 | 0.9 | 400 | 86.3 | 0.781 | 82.4 | 100.0 | 4.76 | 4.47 | 3078.0 | 238 | 0.000835 |
+
+## router_route_gpt-oss-120b — 2026-09-25 18:26
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_gpt-oss-120b | 66 | 98.5 | 94.4 | 0.0 | 100.0 | 1212.0 | 0.026182 |

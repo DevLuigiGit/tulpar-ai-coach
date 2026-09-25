@@ -65,15 +65,20 @@ def set_fake(fn: FakeFn | None) -> None:
 
 
 def parse_json(text: str) -> Any:
-    t = text.strip()
-    t = re.sub(r"^```(?:json)?\s*|\s*```$", "", t, flags=re.S)
+    """First JSON value in the reply. Models add ```fences, prose before, or a second object after — ignore both."""
+    t = re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip(), flags=re.S)
     try:
         return json.loads(t)
     except json.JSONDecodeError:
-        m = re.search(r"(\{.*\}|\[.*\])", t, flags=re.S)
-        if not m:
-            raise
-        return json.loads(m.group(1))
+        pass
+    dec = json.JSONDecoder()
+    for i, ch in enumerate(t):
+        if ch in "{[":
+            try:
+                return dec.raw_decode(t, i)[0]
+            except json.JSONDecodeError:
+                continue
+    raise json.JSONDecodeError("no JSON value found", t, 0)
 
 
 async def _ollama(model: str, system: str, user: str, *, images, json_mode, temperature, top_p, max_tokens) -> tuple[str, int, int]:
