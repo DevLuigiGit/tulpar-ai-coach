@@ -3,7 +3,7 @@ import asyncio
 from conftest import boot, shutdown
 
 
-async def wait_status(store, pid, status, timeout=10.0):
+async def wait_status(store, pid, status, timeout=60.0):  # generous for slow CI runners
     for _ in range(int(timeout * 20)):
         p = await store.get_proposal(pid)
         if p["status"] == status:

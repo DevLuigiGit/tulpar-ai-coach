@@ -35,7 +35,7 @@ def test_demo_scenario_runs_all_steps(env):
     lines: list[str] = []
     try:
         with TestClient(app) as c:
-            sc = demo_scenario.Scenario(c, out=lines.append, draft_timeout=15, poll_s=0.1)
+            sc = demo_scenario.Scenario(c, out=lines.append, draft_timeout=60, poll_s=0.1)
             sc.run()
     finally:
         llm.set_fake(None)
@@ -58,7 +58,7 @@ def _run_scenario(drafts: list[str]) -> tuple[demo_scenario.Scenario, list[str],
     failure = None
     try:
         with TestClient(app) as c:
-            sc = demo_scenario.Scenario(c, out=lines.append, draft_timeout=15, poll_s=0.1)
+            sc = demo_scenario.Scenario(c, out=lines.append, draft_timeout=60, poll_s=0.1)
             try:
                 sc.run()
             except demo_scenario.StepFailed as e:

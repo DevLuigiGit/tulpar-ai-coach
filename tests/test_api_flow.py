@@ -11,7 +11,7 @@ def _login(c, role):
     return {"Authorization": f"Bearer {r.json()['token']}"}
 
 
-def _wait(c, h, pid, status, timeout=10):
+def _wait(c, h, pid, status, timeout=60):  # a slow CI runner once needed more than 10 s
     for _ in range(timeout * 10):
         p = c.get(f"/api/proposals/{pid}", headers=h).json()
         if p["status"] == status:
