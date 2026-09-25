@@ -33,8 +33,8 @@ class FakeLLM:
             return json.dumps({"query": user + " physical activity minutes per week"})
         if "tulpar-program-builder" in system:
             kind = self.draft_plan.pop(0) if self.draft_plan else "valid"
-            wex = re.search(rf"wex_id=({UUID})", user).group(1)
-            cand = re.findall(rf"^- ({UUID}) \|", user, re.M)
+            wex, group = re.search(rf"wex_id=({UUID}) \| [^|]+ \| ([^|]+) \|", user).groups()
+            cand = re.findall(rf"^- ({UUID}) \| [^|]+ \| {re.escape(group.strip())} \|", user, re.M)
             ex = "00000000-0000-0000-0000-000000000000" if kind == "invalid" else cand[0]
             return json.dumps({"summary": f"Заменить первое упражнение ({kind})", "rationale": "тест",
                                "ops": [{"op": "replace_exercise", "day_index": 0, "wex_id": wex, "exercise_id": ex,

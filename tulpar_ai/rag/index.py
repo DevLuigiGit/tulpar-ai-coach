@@ -18,6 +18,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 
+from langsmith import traceable
 from qdrant_client import models
 
 from ..config import ROOT, get_settings
@@ -111,6 +112,11 @@ class Index:
         if self.count() and not force:
             await self.add_missing_documents()
             return self.count()
+        return await self._rebuild()
+
+    # One labelled trace per real (re)index, not a bare `jina_embed` root; the no-op path above is not traced.
+    @traceable(run_type="chain", name="rag_index_build")
+    async def _rebuild(self) -> int:
         if self.client.collection_exists(self.collection):
             self.client.delete_collection(self.collection)
         self.client.create_collection(self.collection, vectors_config=models.VectorParams(

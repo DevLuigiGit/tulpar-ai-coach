@@ -141,7 +141,20 @@ async def _groq(model: str, system: str, user: str, *, images, json_mode, temper
 _PROVIDERS = {"ollama": _ollama, "groq": _groq}
 
 
-@traceable(run_type="llm", name="llm")
+def trace_llm_inputs(inputs: dict) -> dict:
+    """Photos go to the trace as size only: the base64 JPEG would be stored once per model tried in the chain,
+    and uploads are deliberately not kept anywhere else."""
+    images = inputs.get("images")
+    if not images:
+        return inputs
+    return {**inputs, "images": [{"type": "image/jpeg", "bytes": _b64_size(b)} for b in images]}
+
+
+def _b64_size(b64: str) -> int:
+    return len(b64) * 3 // 4 - (len(b64) - len(b64.rstrip("=")))
+
+
+@traceable(run_type="llm", name="llm", process_inputs=trace_llm_inputs)
 async def _traced_call(provider: str, model: str, system: str, user: str, *, images, json_mode, temperature, top_p, max_tokens, fallback_used: bool):
     rt = get_current_run_tree()
     if rt is not None:

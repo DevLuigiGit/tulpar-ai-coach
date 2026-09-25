@@ -182,3 +182,14 @@
 | arm | n | ok | errors | voice | p50_ms | p95_ms | min_ms | max_ms | bytes_p50 | bytes_min | bytes_max | audio_s_p50 | speech_chars_p50 | truncated |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | default | 20 | 20 | 0 | ru-RU-SvetlanaNeural | 1735.2 | 6981.0 | 876.7 | 6981.0 | 79560.0 | 46368 | 140256 | 13.3 | 184.5 | 0 |
+## program — 2026-09-25 21:33
+
+| arm | n | exact_match |
+|---|---|---|
+| default | 13 | 100.0 |
+
+## program — 2026-09-25 21:39
+
+| arm | n | exact_match |
+|---|---|---|
+| default | 13 | 100.0 |

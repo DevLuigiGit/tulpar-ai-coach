@@ -49,11 +49,23 @@ class Reranker(Protocol):
     async def rerank(self, query: str, docs: list[str], top_n: int) -> list[tuple[int, float]]: ...
 
 
+def trace_embed_inputs(inputs: dict) -> dict:
+    """Trace the batch size and a preview, not the whole corpus: the index build embeds every chunk at once."""
+    texts = inputs.get("texts") or []
+    return {"task": inputs.get("task"), "count": len(texts), "texts": [t[:300] for t in texts[:3]]}
+
+
+def trace_embed_outputs(vectors: list[list[float]] | None) -> dict:
+    """Vectors are unreadable in a trace and heavy: 1579 chunks were a 20 MB run output per index build."""
+    return {"vectors": len(vectors or []), "dim": len(vectors[0]) if vectors else 0}
+
+
 class JinaEmbedder:
     id = "jina3"
     dim = 1024
 
-    @traceable(run_type="embedding", name="jina_embed")
+    @traceable(run_type="embedding", name="jina_embed", process_inputs=trace_embed_inputs,
+               process_outputs=trace_embed_outputs)
     async def embed(self, texts: list[str], task: str) -> list[list[float]]:
         s = get_settings()
         out: list[list[float]] = []

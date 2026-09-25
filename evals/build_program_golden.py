@@ -48,15 +48,24 @@ kx = contra("колен", GYM)
 cases.append(dict(id="knee_contra", note=f"Клиенту с больным коленом добавляют «{kx['name']}»", client=knee, plan=gp,
                   ops=[{"op": "add_exercise", "day_index": 0, "exercise_id": kx["id"], "sets": 3, "reps": 10}],
                   expect_errors=["E_CONTRAINDICATION"]))
-bx = contra("спин", GYM)
+# a back-contraindicated exercise replacing one of the same muscle group in a day that does not have it yet,
+# so the case tests only the contraindication
+bx, bd, bw = next((e, d, w) for e in cat if "спин" in (e.get("contraindications") or "").lower()
+                  and (e.get("equipment") in GYM or e.get("equipment") is None)
+                  for d in gp["days"] if e["id"] not in {x["exercise_id"] for x in d["exercises"]}
+                  for w in d["exercises"] if w["muscle_group"] == e["muscle_group"])
 cases.append(dict(id="back_contra", note=f"Клиенту с протрузией ставят «{bx['name']}»", client=back, plan=gp,
-                  ops=[{"op": "replace_exercise", "day_index": 0, "wex_id": w0["id"], "exercise_id": bx["id"]}],
+                  ops=[{"op": "replace_exercise", "day_index": bd["day_index"], "wex_id": bw["id"], "exercise_id": bx["id"]}],
                   expect_errors=["E_CONTRAINDICATION"]))
 hp = plan("beginner", "home")
 machine = next(e for e in cat if e.get("equipment") == "machine" and not e.get("contraindications"))
-cases.append(dict(id="home_machine", note=f"Домашнему клиенту ставят тренажёр «{machine['name']}»", client=home, plan=hp,
-                  ops=[{"op": "replace_exercise", "day_index": 0, "wex_id": hp["days"][0]["exercises"][0]["id"],
-                        "exercise_id": machine["id"]}], expect_errors=["E_EQUIPMENT"]))
+# same muscle group as the replaced exercise, so the case tests only the equipment
+hm, hd, hw = next((e, d, w) for d in hp["days"] for w in d["exercises"] for e in cat
+                  if e.get("equipment") == "machine" and not e.get("contraindications")
+                  and e["muscle_group"] == w["muscle_group"])
+cases.append(dict(id="home_machine", note=f"Домашнему клиенту ставят тренажёр «{hm['name']}»", client=home, plan=hp,
+                  ops=[{"op": "replace_exercise", "day_index": hd["day_index"], "wex_id": hw["id"],
+                        "exercise_id": hm["id"]}], expect_errors=["E_EQUIPMENT"]))
 cases.append(dict(id="unknown_exercise", note="Выдуманный exercise_id", client=knee, plan=gp,
                   ops=[{"op": "add_exercise", "day_index": 1, "exercise_id": "00000000-0000-0000-0000-000000000000"}],
                   expect_errors=["E_UNKNOWN_EXERCISE"]))
@@ -82,6 +91,14 @@ cases.append(dict(id="home_machine_and_knee", note="Две ошибки сраз
                   ops=[{"op": "add_exercise", "day_index": 0, "exercise_id": machine["id"]},
                        {"op": "add_exercise", "day_index": 1, "exercise_id": contra("колен", {"bodyweight", "dumbbell"})["id"]}],
                   expect_errors=["E_EQUIPMENT", "E_CONTRAINDICATION"]))
+
+# The slip seen in a live draft: the reason describes a machine quad exercise, the id is a cardio burpee.
+ld, lw = next((d, w) for d in gp["days"] for w in d["exercises"] if w["muscle_group"] == "ноги")
+burpee = by_name["Бёрпи с отжиманием"]
+cases.append(dict(id="wrong_group", note=f"«{lw['exercise_name']}» заменяют на «{burpee['name']}» из группы {burpee['muscle_group']}",
+                  client=knee, plan=gp, ops=[{"op": "replace_exercise", "day_index": ld["day_index"], "wex_id": lw["id"],
+                                             "exercise_id": burpee["id"], "reason": "изоляция квадрицепса в тренажёре"}],
+                  expect_errors=["E_MUSCLE_GROUP"]))
 
 out = ROOT / "evals" / "golden" / "program.jsonl"
 out.write_text("\n".join(json.dumps(c, ensure_ascii=False) for c in cases) + "\n", encoding="utf-8")

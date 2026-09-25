@@ -47,6 +47,10 @@ BODY_PARTS = {
     "голеностоп": ["голеностоп", "лодыж"],
 }
 REPS_MEASURES = {"weight_reps", "reps", None}
+# The catalogue labels core work two ways; a swap between them is still the same muscle group.
+GROUP_ALIASES = {"кор": "пресс"}
+# Kind of work: swapping strength for cardio or stretching is never a like-for-like replacement.
+NON_STRENGTH = {"кардио", "растяжка"}
 
 
 def load_catalog(path: Path = CATALOG_PATH) -> dict[str, dict]:
@@ -64,6 +68,15 @@ def injured_parts(client: dict) -> set[str]:
     for extra in client.get("restrictions") or []:
         parts |= body_parts(extra)
     return parts
+
+
+def muscle_group(item: dict | None, catalog: dict[str, dict]) -> str | None:
+    """Group of a plan exercise or a catalogue entry; the catalogue wins over what the plan row says."""
+    if not item:
+        return None
+    ex = catalog.get(item.get("exercise_id") or item.get("id") or "") or item
+    g = ex.get("muscle_group") or item.get("muscle_group")
+    return GROUP_ALIASES.get(g, g)
 
 
 def _find(plan: dict, day_index: int, wex_id: str | None):
@@ -147,6 +160,16 @@ def validate(plan: dict, ops: list[dict], client: dict, catalog: dict[str, dict]
             if clash:
                 out.append(err("E_CONTRAINDICATION",
                                f"«{ex['name']}» противопоказано при проблемах: {', '.join(sorted(clash))} (заметка тренера)", i))
+        if op.get("op") == "replace_exercise" and ex:
+            # A wrong exercise_id is the typical model slip: the reason names one exercise, the id is another.
+            _, old = _find(plan, op.get("day_index"), op.get("wex_id"))
+            was, becomes = muscle_group(old, catalog), muscle_group(ex, catalog)
+            if was and becomes and was != becomes:
+                pair = f"«{ex['name']}» ({ex.get('muscle_group')}) заменяет «{old.get('exercise_name')}» ({was})"
+                if (was in NON_STRENGTH) != (becomes in NON_STRENGTH) or {was, becomes} <= NON_STRENGTH:
+                    out.append(err("E_MUSCLE_GROUP", f"{pair}: другой вид нагрузки, замена должна быть из той же группы мышц", i))
+                else:  # e.g. RDL (ноги) → weighted back extension (спина): same chain, the trainer judges
+                    out.append(err("W_MUSCLE_GROUP", f"{pair}: другая группа мышц, проверьте, что нагрузка та же", i))
         sets, reps = op.get("sets"), op.get("reps")
         if sets is not None and not (1 <= sets <= vol["sets"] + 2):
             out.append(err("E_VOLUME", f"{sets} подходов вне допустимого диапазона 1–{vol['sets'] + 2} для уровня {level}", i))

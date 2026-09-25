@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Callable
 
 import httpx
@@ -17,7 +18,14 @@ def set_fake(fn: Callable[[bytes, str], str] | None) -> None:
     _fake = fn
 
 
-@traceable(run_type="tool", name="speech_to_text")
+def trace_stt_inputs(inputs: dict) -> dict:
+    """The voice note itself stays out of the trace (size and format only); the transcript is the output."""
+    audio = inputs.get("audio") or b""
+    fmt = Path(inputs.get("filename") or "").suffix.lstrip(".") or "ogg"
+    return {"audio": {"bytes": len(audio), "format": fmt}, "language": inputs.get("language")}
+
+
+@traceable(run_type="tool", name="speech_to_text", process_inputs=trace_stt_inputs)
 async def transcribe(audio: bytes, filename: str = "voice.ogg", language: str = "ru") -> str:
     if _fake is not None:
         return _fake(audio, filename)
