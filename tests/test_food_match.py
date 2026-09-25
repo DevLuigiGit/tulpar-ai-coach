@@ -45,3 +45,16 @@ async def test_meal_card_logs_plain_tea(app_state):
     res = await runner.run_chat_turn(client.id, text="Съел 200 г плова и чай")
     names = [i["name"] for i in res["meal"]["items"]]
     assert names == ["Плов", "Чай чёрный без сахара"], names
+
+
+async def test_composite_dish_falls_back_to_its_parts(app_state):
+    """«гречка с курицей» is not a catalog row: its parts are found and the grams are split as a guess."""
+    from tulpar_ai.graph.chat import _resolve_items
+
+    _, gw = app_state
+    client = await gw.demo_user("client")
+    items, unknown = await _resolve_items(client.id, [{"name": "гречка с курицей", "grams": 200}])
+    names = [i["name"].lower() for i in items]
+    assert any("греч" in n for n in names) and any("кур" in n for n in names), names
+    assert not unknown
+    assert all(i["grams"] == 100 and i["grams_source"] == "default" and i["asked_as"] == "гречка с курицей" for i in items)

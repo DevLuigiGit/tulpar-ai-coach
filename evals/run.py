@@ -134,11 +134,13 @@ async def judge(kind: str, **kw) -> int | None:
         user = f"Источники:\n{kw['sources']}\n\nОтвет коуча:\n{kw['answer']}"
     else:
         user = f"Вопрос: {kw['question']}\nЭталон: {kw['reference']}\n\nОтвет коуча:\n{kw['answer']}"
-    try:
-        data, _ = await json_call("judge", prompt(f"judge_{kind}"), user, temperature=0.0, max_tokens=150)
-        return int(data.get("score"))
-    except (LLMError, TypeError, ValueError):
-        return None
+    for attempt in range(3):  # a judge gap is a transient API failure, not a verdict: retry before giving up
+        try:
+            data, _ = await json_call("judge", prompt(f"judge_{kind}"), user, temperature=0.0, max_tokens=150)
+            return int(data.get("score"))
+        except (LLMError, TypeError, ValueError):
+            await asyncio.sleep(2 * (attempt + 1))
+    return None
 
 
 async def suite_qa(args) -> dict:

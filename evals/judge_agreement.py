@@ -39,7 +39,7 @@ RESULTS = ROOT / "evals" / "results"
 HUMAN_DIR = ROOT / "evals" / "human"
 DEFAULT_ANSWERS = RESULTS / "qa_text_minimax-m3.json"
 # The configured chain first (its primary may be gone: it is probed and reported), then other model families.
-DEFAULT_JUDGES = "ollama:qwen3.5:397b,groq:openai/gpt-oss-120b,ollama:kimi-k2.6,ollama:deepseek-v4.1-flash"
+DEFAULT_JUDGES = "groq:openai/gpt-oss-120b,ollama:kimi-k2.6,ollama:deepseek-v4.1-flash"  # qwen3.5:397b retired 2026-09-25
 STORED = "stored"  # scores written by the original QA run (config judge chain at that time)
 PASS = 4
 SCALE = [1, 2, 3, 4, 5]

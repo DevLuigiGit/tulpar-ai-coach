@@ -231,6 +231,9 @@ def after_answer(state: ChatState) -> str:
 
 
 # ── food ─────────────────────────────────────────────────────────────────────
+_COMPOSITE = re.compile(r"\s+(?:с|со|и)\s+", re.I)
+
+
 async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict], list[dict]]:
     gw, items, unknown = get_gateway(), [], []
     for w in wanted:
@@ -241,6 +244,16 @@ async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict]
             if found and found[0].score >= MATCH_THRESHOLD:
                 best = found[0]
                 break
+        if best is None and _COMPOSITE.search(w["name"]):
+            # «гречка с курицей» is rarely a catalog row, its parts usually are: split the grams evenly and
+            # mark them as a guess so the card asks the client to check them
+            parts = [x.strip() for x in _COMPOSITE.split(w["name"]) if x.strip()]
+            share = float(w["grams"]) / len(parts) if w.get("grams") else None
+            sub_items, sub_unknown = await _resolve_items(client_id, [{"name": x, "grams": share} for x in parts])
+            if sub_items:
+                items.extend({**it, "asked_as": w["name"], "grams_source": "default"} for it in sub_items)
+                unknown.extend(sub_unknown)
+                continue
         if best is None:
             unknown.append({"name": w["name"], "alternatives": w.get("alternatives", [])})
             continue

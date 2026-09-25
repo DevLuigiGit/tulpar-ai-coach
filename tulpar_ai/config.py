@@ -62,7 +62,7 @@ class Settings(BaseSettings):
     route_models: str = "ollama:minimax-m3,groq:openai/gpt-oss-20b"
     text_models: str = "ollama:minimax-m3,groq:openai/gpt-oss-120b"
     vision_models: str = "ollama:kimi-k2.7-code,ollama:kimi-k2.6,ollama:minimax-m3"
-    judge_models: str = "ollama:qwen3.5:397b,groq:openai/gpt-oss-120b"
+    judge_models: str = "ollama:deepseek-v4.1-flash,ollama:kimi-k2.6,groq:openai/gpt-oss-120b"  # qwen3.5:397b was retired by Ollama Cloud on 2026-09-25
     stt_model: str = "whisper-large-v3-turbo"
     llm_timeout_s: float = 60.0
 
