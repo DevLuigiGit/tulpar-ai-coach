@@ -156,15 +156,45 @@ def _same(x: str, y: str) -> bool:
     return len(short) >= 4 and long_.startswith(short[: max(4, len(short) - 1)])
 
 
+ADDITION_PENALTY = 0.05
+
+
+def name_parts(text: str) -> tuple[set[str], set[str], set[str]]:
+    """(base, added, without) stems. «Чай с лимоном и сахаром» adds лимон and сахар; «Гусь без кожи сырой»
+    leaves out кожа. A preposition takes one word (more only through «и»), so «сырой» stays in the base."""
+    base: set[str] = set()
+    added: set[str] = set()
+    without: set[str] = set()
+    part, left = base, 0
+    for w in re.findall(r"[0-9a-zа-я]+|[()]", (text or "").lower().replace("ё", "е")):
+        if w in "()":
+            part, left = base, 0
+        elif w in ("с", "со", "без"):
+            part, left = (without if w == "без" else added), 1
+        elif w == "и" and part is not base:
+            left = 1
+        elif w not in _STOP:
+            (part if left else base).add(w[:6])
+            left = max(left - 1, 0)
+    return base, added, without
+
+
 def food_score(query: str, name: str) -> float:
-    a, b = tokens(query), tokens(name)
+    """Token Jaccard. A name's «без X» counts only when the query also says «без X»: otherwise plain «чай» loses
+    to «чай с мёдом» on the extra words of «чай чёрный без сахара». Each addition the user did not ask for
+    (the «с X» of the name) costs a little: it changes the calories."""
+    qb, qa, qw = name_parts(query)
+    nb, na, nw = name_parts(name)
+    a = qb | qa | {"-" + x for x in qw}
+    b = nb | na | {"-" + y for y in nw if any(_same(x, y) for x in qw)}
     if not a or not b:
         return 0.0
     matched = sum(1 for x in a if any(_same(x, y) for y in b))
     score = matched / (len(a) + len(b) - matched)
     if (name or "").lower().startswith((query or "").lower().strip()):
         score += 0.15
-    return min(score, 1.0)
+    score -= ADDITION_PENALTY * sum(1 for y in na if not any(_same(x, y) for x in qb | qa))
+    return max(0.0, min(score, 1.0))
 
 
 def rank_foods(query: str, foods: list[dict], limit: int = 5) -> list[Food]:
