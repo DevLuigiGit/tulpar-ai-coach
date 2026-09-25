@@ -130,14 +130,22 @@ def pair_stats(a: list, b: list, threshold: int = PASS) -> dict:
             "mad": round(statistics.mean(abs(x - y) for x, y in pairs), 3)}
 
 
-def judge_stats(scores: list, chars: list, tokens: list) -> dict:
+def judge_stats(scores: list, chars: list, tokens: list, cut_at: int = 400) -> dict:
+    """Length bias: score vs characters the judge saw, vs full generated tokens, and on answers not cut short.
+
+    Stored answers are cut at 400 chars, so a long answer may lose facts before the judge sees it; the
+    `uncut` correlation removes that confound.
+    """
     got = [s for s in scores if s is not None]
+    uncut = [(s, c) for s, c in zip(scores, chars) if c < cut_at]
     return {"n_scored": len(got), "failed": len(scores) - len(got),
             "mean": round(statistics.mean(got), 2) if got else None,
             "pass_pct": ev.pct(s >= PASS for s in got) if got else None,
             "dist": {str(v): got.count(v) for v in SCALE},
             "spearman_len_chars": _r(spearman(scores, chars)),
-            "spearman_len_tokens": _r(spearman(scores, tokens))}
+            "spearman_len_tokens": _r(spearman(scores, tokens)),
+            "spearman_len_chars_uncut": _r(spearman([s for s, _ in uncut], [c for _, c in uncut])),
+            "n_uncut": sum(s is not None for s, _ in uncut)}
 
 
 # ── judge inputs ─────────────────────────────────────────────────────────────
@@ -328,7 +336,7 @@ def summarize(rows: list[dict], live: list[str], retest: str | None, calls: list
         b["tokens_in"] += c["in"]
         b["tokens_out"] += c["out"]
         b["ms"].append(c["ms"])
-    out["usage_this_run"] = {k: {**{x: v[x] for x in ("calls", "tokens_in", "tokens_out")},
+    out["usage_scoring_run"] = {k: {**{x: v[x] for x in ("calls", "tokens_in", "tokens_out")},
                                  "p50_ms": statistics.median(v["ms"])} for k, v in by_model.items()}
     return out
 
@@ -339,12 +347,13 @@ def print_tables(summary: dict) -> None:
         print(f"\n## {m}: n={s['n_rows']}, all live judges scored {s['live_all_scored']}, "
               f"all agree exact {s['all_live_exact_pct']}%, on pass {s['all_live_pass_agree_pct']}%, "
               f"Fleiss kappa(pass) {s['fleiss_kappa_pass']}, pass% spread {s['pass_pct_spread']}")
-        print("| judge | scored | failed | mean | pass% | 1/2/3/4/5 | rho(len chars) | rho(out tokens) |")
-        print("|---|---|---|---|---|---|---|---|")
+        print("| judge | scored | failed | mean | pass% | 1/2/3/4/5 | rho(len chars) | rho(out tokens) | rho(uncut, n) |")
+        print("|---|---|---|---|---|---|---|---|---|")
         for n, j in s["per_judge"].items():
             dist = "/".join(str(j["dist"][str(v)]) for v in SCALE)
             print(f"| {n} | {j['n_scored']} | {j['failed']} | {j['mean']} | {j['pass_pct']} | {dist} | "
-                  f"{j['spearman_len_chars']} | {j['spearman_len_tokens']} |")
+                  f"{j['spearman_len_chars']} | {j['spearman_len_tokens']} | "
+                  f"{j['spearman_len_chars_uncut']} ({j['n_uncut']}) |")
         print("\n| pair | n | exact% | pass agree% | kappa(pass) | kappa quadratic | MAD |")
         print("|---|---|---|---|---|---|---|")
         for p, v in s["pairs"].items():
@@ -468,30 +477,32 @@ async def main() -> int:
     specs = [s.strip() for s in args.judges.split(",") if s.strip()]
     from tulpar_ai import llm
 
-    unavailable: dict[str, str] = {}
+    run_meta: dict = {"unavailable": {}, "measured_at": time.strftime("%Y-%m-%d %H:%M")}
     with llm.record() as calls:
         if not args.stats_only:
             _, first_row, first_user = tasks_for(inputs[:1])[0]
             for spec in specs:
                 err = await probe(spec, first_row["id"], first_user, cache)
                 if err:
-                    unavailable[spec] = err
+                    run_meta["unavailable"][spec] = err
                     print(f"judge {spec} unavailable: {err[-160:]}")
-            live_specs = [s for s in specs if s not in unavailable]
+            live_specs = [s for s in specs if s not in run_meta["unavailable"]]
             await score_all(live_specs, inputs, cache, args.retest)
         else:
             live_specs = [s for s in specs if any(k.startswith(s + "|") for k in cache.data)]
-            if args.out.exists():  # keep the probe verdicts of the scoring run
-                unavailable = json.loads(args.out.read_text(encoding="utf-8"))["summary"].get("unavailable", {})
+            if args.out.exists():  # keep what only the scoring run knew: probe verdicts, usage, time
+                prev = json.loads(args.out.read_text(encoding="utf-8"))["summary"]
+                run_meta = {k: prev[k] for k in ("unavailable", "measured_at", "usage_scoring_run") if k in prev}
     rows = collect(live_specs, inputs, cache, args.retest)
     summary = summarize(rows, [label(s) for s in live_specs], args.retest, calls)
+    if args.stats_only:
+        summary.pop("usage_scoring_run")
     summary.update({"answers_file": str(args.answers.relative_to(ROOT)) if args.answers.is_relative_to(ROOT) else str(args.answers),
-                    "judge_specs": live_specs, "unavailable": unavailable, "retest": args.retest,
+                    "judge_specs": live_specs, "retest": args.retest,
                     "stored_judge": "scores saved by the original QA run (JUDGE_MODELS chain of that day)",
                     "answers_cut_at_400_chars": sum(r["answer_chars"] >= 400 for r in rows),
                     "sources_rank_match": sum(r["rank_now"] == r["rank_stored"] for r in rows),
-                    "sources_sufficient": sum(r["sufficient"] for r in rows),
-                    "measured_at": time.strftime("%Y-%m-%d %H:%M")})
+                    "sources_sufficient": sum(r["sufficient"] for r in rows), **run_meta})
     if not args.limit:
         summary["human_sample"] = pick_human_sample(rows, summary["live_judges"])
         # never overwrite labels someone already typed in
