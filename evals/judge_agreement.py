@@ -9,7 +9,8 @@ Inputs are rebuilt from a finished QA run (default: the current config, answer m
 answer, the golden question/reference and the same top-4 sources, re-retrieved from the Jina index in
 AI_DATA_DIR/qdrant (no re-embedding of the corpus). Judge prompts and the user message are exactly those of
 evals/run.py. Results: evals/results/judge_agreement.json; raw calls are cached in AI_DATA_DIR so a crash or
-a 429 storm never pays twice.
+a 429 storm never pays twice. A failed call (rate limit, timeout, empty reply) stays in the cache as a failure
+and is asked again by the next scoring run; only a hard refusal (retired model, bad request) is final.
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ import hashlib
 import itertools
 import json
 import os
+import random
 import re
 import statistics
 import sys
@@ -77,7 +79,7 @@ def cohen_kappa(a: list, b: list, labels: list | None = None, weights: str | Non
 def fleiss_kappa(items: list[list]) -> float | None:
     """Fleiss' kappa for items rated by the same number of raters (each item: the list of its ratings)."""
     items = [it for it in items if it and all(v is not None for v in it)]
-    if not items:
+    if not items or len(items[0]) < 2:  # one rater (e.g. a run with a single live judge): no agreement to measure
         return None
     m = len(items[0])
     cats = sorted({v for it in items for v in it})
@@ -101,15 +103,58 @@ def _ranks(xs: list[float]) -> list[float]:
     return ranks
 
 
+def _pearson(x: list[float], y: list[float]) -> float | None:
+    mx, my = statistics.mean(x), statistics.mean(y)
+    cov = sum((a - mx) * (b - my) for a, b in zip(x, y))
+    var = sum((a - mx) ** 2 for a in x) * sum((b - my) ** 2 for b in y)
+    return None if var == 0 else cov / var ** 0.5
+
+
 def spearman(x: list, y: list) -> float | None:
     pairs = _pairs(x, y)
     if len(pairs) < 3:
         return None
+    return _pearson(_ranks([p[0] for p in pairs]), _ranks([p[1] for p in pairs]))
+
+
+def spearman_perm_p(x: list, y: list, shuffles: int = 5000, seed: int = 0) -> float | None:
+    """Two-sided permutation p-value of Spearman's rho, seeded so reruns print the same number.
+
+    Scores are mostly 5 with a few 3–4, so the textbook t-approximation is unreliable here; shuffling the
+    lengths against the scores asks directly how often chance alone gives a correlation this strong.
+    """
+    pairs = _pairs(x, y)
+    rho = spearman(x, y)
+    if rho is None:
+        return None
     rx, ry = _ranks([p[0] for p in pairs]), _ranks([p[1] for p in pairs])
-    mx, my = statistics.mean(rx), statistics.mean(ry)
-    cov = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
-    var = sum((a - mx) ** 2 for a in rx) * sum((b - my) ** 2 for b in ry)
-    return None if var == 0 else cov / var ** 0.5
+    rng, hits = random.Random(seed), 0
+    for _ in range(shuffles):
+        rng.shuffle(ry)
+        hits += abs(_pearson(rx, ry) or 0.0) >= abs(rho) - 1e-12
+    return (hits + 1) / (shuffles + 1)
+
+
+def krippendorff_alpha(units: list[list], level: str = "nominal") -> float | None:
+    """Krippendorff's alpha, level "nominal" | "interval".
+
+    Unlike Fleiss' kappa it needs no complete rows: a rating a judge failed to give (None) drops only that
+    value, and every row with at least two ratings still counts. So a judge that fails exactly on the
+    contested rows cannot hide them from the agreement figure.
+    """
+    units = [[v for v in u if v is not None] for u in units]
+    units = [u for u in units if len(u) >= 2]
+    if not units:
+        return None
+
+    def delta(a, b) -> float:
+        return float((a - b) ** 2) if level == "interval" else float(a != b)
+
+    values = [v for u in units for v in u]
+    n = len(values)
+    d_obs = sum(sum(delta(a, b) for a, b in itertools.permutations(u, 2)) / (len(u) - 1) for u in units) / n
+    d_exp = sum(delta(a, b) for a, b in itertools.permutations(values, 2)) / (n * (n - 1))
+    return None if d_exp == 0 else 1 - d_obs / d_exp
 
 
 def _r(x: float | None, nd: int = 3) -> float | None:
@@ -134,18 +179,22 @@ def judge_stats(scores: list, chars: list, tokens: list, cut_at: int = 400) -> d
     """Length bias: score vs characters the judge saw, vs full generated tokens, and on answers not cut short.
 
     Stored answers are cut at 400 chars, so a long answer may lose facts before the judge sees it; the
-    `uncut` correlation removes that confound.
+    `uncut` correlation removes that confound. `pass_pct` is on this judge's own scored rows; compare judges
+    with the metric's `pass_pct_common` instead.
     """
     got = [s for s in scores if s is not None]
     uncut = [(s, c) for s, c in zip(scores, chars) if c < cut_at]
+    us, uc = [s for s, _ in uncut], [c for _, c in uncut]
     return {"n_scored": len(got), "failed": len(scores) - len(got),
             "mean": round(statistics.mean(got), 2) if got else None,
             "pass_pct": ev.pct(s >= PASS for s in got) if got else None,
             "dist": {str(v): got.count(v) for v in SCALE},
             "spearman_len_chars": _r(spearman(scores, chars)),
+            "perm_p_len_chars": _r(spearman_perm_p(scores, chars)),
             "spearman_len_tokens": _r(spearman(scores, tokens)),
-            "spearman_len_chars_uncut": _r(spearman([s for s, _ in uncut], [c for _, c in uncut])),
-            "n_uncut": sum(s is not None for s, _ in uncut)}
+            "spearman_len_chars_uncut": _r(spearman(us, uc)),
+            "perm_p_len_chars_uncut": _r(spearman_perm_p(us, uc)),
+            "n_uncut": sum(s is not None for s in us)}
 
 
 # ── judge inputs ─────────────────────────────────────────────────────────────
@@ -192,13 +241,33 @@ def label(spec: str) -> str:
     return spec.split(":", 1)[1].split("/")[-1]
 
 
+# A hard HTTP refusal (401/404/410 retired, 400 bad request) will not change on a retry; 429 is a rate limit.
+_HARD_REFUSAL = re.compile(r"(?:ollama|groq) 4(?!29)\d\d")
+# Empty or non-JSON reply, a list instead of an object, a missing or out-of-range score. kimi returns an empty
+# reply now and then at temperature 0 and answers the same input on the next call, so these are retried too,
+# but only a couple of times: a judge that really cannot produce the format should not cost five calls a row.
+_MALFORMED = re.compile(r"no JSON value|JSONDecodeError|expected a JSON object|score out of range|int\(\)|invalid literal")
+MALFORMED_RETRIES = 2
+
+
 def _retry_wait(err: str, attempt: int) -> float | None:
-    """Seconds to wait before retrying, or None when the error is not transient (410 retired, 400, bad JSON)."""
-    if " 429" not in err and not re.search(r" 5\d\d|Timeout|ConnectError|ReadError|RemoteProtocol", err):
-        return None
-    m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", err)
-    hinted = (int(m.group(1) or 0) * 60 + float(m.group(2))) if m else 0
-    return min(90.0, max(hinted + 1, 10 * 2 ** attempt))
+    """Seconds to wait before retrying, or None when a retry cannot help (410 retired, 400) or the budget is spent."""
+    if re.search(r"(?:ollama|groq) (?:429|5\d\d)|Timeout|ConnectError|ReadError|RemoteProtocol", err):
+        m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", err)
+        hinted = (int(m.group(1) or 0) * 60 + float(m.group(2))) if m else 0
+        return min(90.0, max(hinted + 1, 10 * 2 ** attempt))
+    if _MALFORMED.search(err) and attempt < MALFORMED_RETRIES:
+        return 3.0 * (attempt + 1)
+    return None
+
+
+def is_final(res: dict) -> bool:
+    """A cached result a later run must not ask again: a score, or a hard refusal that a retry cannot fix.
+
+    Every other failure (rate limit, timeout, empty reply) is kept in the cache so `--stats-only` counts it,
+    and the next scoring run asks that row again.
+    """
+    return res.get("score") is not None or bool(_HARD_REFUSAL.search(res.get("error", "")))
 
 
 async def judge_once(spec: str, kind: str, user: str, retries: int = 5) -> dict:
@@ -211,19 +280,20 @@ async def judge_once(spec: str, kind: str, user: str, retries: int = 5) -> dict:
         try:
             data, _ = await json_call("judge", prompt(f"judge_{kind}"), user, temperature=0.0, max_tokens=150,
                                       models=[(provider, model)])
-            ms = int((time.perf_counter() - t0) * 1000)
             score = int(data.get("score"))
             if score not in SCALE:
-                return {"score": None, "error": f"score out of range: {score}", "ms": ms}
-            return {"score": score, "reason": str(data.get("reason", ""))[:200], "ms": ms}
+                raise ValueError(f"score out of range: {score}")
+            return {"score": score, "reason": str(data.get("reason", ""))[:200],
+                    "ms": int((time.perf_counter() - t0) * 1000), "attempts": attempt + 1}
         except (LLMError, TypeError, ValueError) as e:
             err = str(e)
             wait = _retry_wait(err, attempt) if attempt < retries else None
             if wait is None:
-                return {"score": None, "error": err[-300:], "ms": int((time.perf_counter() - t0) * 1000)}
-            print(f"  {label(spec)} {kind}: transient error, retry in {wait:.0f}s", flush=True)
+                return {"score": None, "error": err[-300:], "ms": int((time.perf_counter() - t0) * 1000),
+                        "attempts": attempt + 1}
+            print(f"  {label(spec)} {kind}: {err[-60:]!r}, retry in {wait:.0f}s", flush=True)
             await asyncio.sleep(wait)
-    return {"score": None, "error": "retries exhausted"}
+    return {"score": None, "error": "retries exhausted", "attempts": retries + 1}
 
 
 class Cache:
@@ -267,7 +337,7 @@ async def probe(spec: str, row_id: str, user: str, cache: Cache) -> str | None:
         return None
     err = res.get("error", "")
     # only a hard HTTP refusal (401/404/410…) disqualifies a judge; one malformed reply is just a failed score
-    return err if re.search(r" 4(?!29)\d\d", err) else None
+    return err if _HARD_REFUSAL.search(err) else None
 
 
 async def score_all(specs: list[str], inputs: list[dict], cache: Cache, retest: str | None) -> None:
@@ -283,11 +353,11 @@ async def score_all(specs: list[str], inputs: list[dict], cache: Cache, retest: 
             done = 0
             for kind, row, user in tasks:
                 k = Cache.key(spec, kind, row["id"], user, rep)
-                if k in cache.data:
+                prev = cache.data.get(k)
+                if prev is not None and is_final(prev):
                     continue
                 res = await judge_once(spec, kind, user)
-                if res["score"] is None and _retry_wait(res.get("error", ""), 0) is not None:
-                    continue  # still rate-limited after all retries: leave it for the next run, not a judge failure
+                res["runs"] = prev.get("runs", 1) + 1 if prev else 1  # scoring runs that asked this row
                 cache.data[k] = res
                 cache.save()
                 done += 1
@@ -303,6 +373,7 @@ def collect(specs: list[str], inputs: list[dict], cache: Cache, retest: str | No
     for row in inputs:
         scores: dict = {m: {} for m in METRICS}
         reasons: dict = {m: {} for m in METRICS}
+        errors: dict = {m: {} for m in METRICS}
         for kind, _, user in tasks_for([row]):
             for spec, rep in [(s, 0) for s in specs] + ([(retest, 1)] if retest else []):
                 hit = cache.data.get(Cache.key(spec, kind, row["id"], user, rep), {})
@@ -310,15 +381,17 @@ def collect(specs: list[str], inputs: list[dict], cache: Cache, retest: str | No
                 scores[kind][name] = hit.get("score")
                 if hit.get("reason"):
                     reasons[kind][name] = hit["reason"]
+                if hit.get("error"):
+                    errors[kind][name] = hit["error"][-120:]
             scores[kind][STORED] = row["stored"].get(kind)
         rows.append({"id": row["id"], "tags": row["tags"], "answer_chars": row["answer_chars"],
                      "out_tokens": row["out_tokens"], "rank_stored": row["rank_stored"], "rank_now": row["rank_now"],
                      "sufficient": row["sufficient"], "source_titles": row["source_titles"],
-                     "scores": scores, "reasons": reasons})
+                     "scores": scores, "reasons": reasons, "errors": errors})
     return rows
 
 
-def summarize(rows: list[dict], live: list[str], retest: str | None, calls: list[dict]) -> dict:
+def summarize(rows: list[dict], live: list[str], retest: str | None) -> dict:
     names = [*live, *([label(retest) + "#retest"] if retest else []), STORED]
     out: dict = {"n_answered": len(rows), "live_judges": live, "pass_threshold": PASS}
     for m in METRICS:
@@ -327,13 +400,17 @@ def summarize(rows: list[dict], live: list[str], retest: str | None, calls: list
         chars, toks = [r["answer_chars"] for r in mrows], [r["out_tokens"] for r in mrows]
         per_judge = {n: judge_stats(col[n], chars, toks) for n in names}
         pairs = {f"{a} vs {b}": pair_stats(col[a], col[b]) for a, b in itertools.combinations(names, 2)}
-        full = [[r["scores"][m][n] for n in live] for r in mrows if all(r["scores"][m].get(n) is not None for n in live)]
-        passes = [p for p in (per_judge[n]["pass_pct"] for n in live) if p is not None]
-        out[m] = {"n_rows": len(mrows), "per_judge": per_judge, "pairs": pairs, "live_all_scored": len(full),
-                  "all_live_exact_pct": ev.pct(len(set(it)) == 1 for it in full) if full else None,
-                  "all_live_pass_agree_pct": ev.pct(len({v >= PASS for v in it}) == 1 for it in full) if full else None,
-                  "fleiss_kappa_pass": _r(fleiss_kappa([[v >= PASS for v in it] for it in full])),
-                  "pass_pct_spread": round(max(passes) - min(passes), 1) if passes else None}
+        out[m] = {"n_rows": len(mrows), "per_judge": per_judge, "pairs": pairs,
+                  **panel_agreement([[r["id"], [r["scores"][m].get(n) for n in live]] for r in mrows], live)}
+    out["length_effects_p_lt_0_05"] = [
+        {"metric": m, "judge": n, "subset": sub, "rho": j[f"spearman_len_chars{suf}"], "p": j[f"perm_p_len_chars{suf}"],
+         "n": j["n_uncut"] if suf else j["n_scored"]}
+        for m in METRICS for n, j in out[m]["per_judge"].items() for sub, suf in (("all", ""), ("uncut", "_uncut"))
+        if j[f"perm_p_len_chars{suf}"] is not None and j[f"perm_p_len_chars{suf}"] < 0.05]
+    return out
+
+
+def usage_by_model(calls: list[dict]) -> dict:
     by_model: dict = {}
     for c in calls:
         b = by_model.setdefault(c["model"], {"calls": 0, "tokens_in": 0, "tokens_out": 0, "ms": []})
@@ -341,9 +418,37 @@ def summarize(rows: list[dict], live: list[str], retest: str | None, calls: list
         b["tokens_in"] += c["in"]
         b["tokens_out"] += c["out"]
         b["ms"].append(c["ms"])
-    out["usage_scoring_run"] = {k: {**{x: v[x] for x in ("calls", "tokens_in", "tokens_out")},
-                                 "p50_ms": statistics.median(v["ms"])} for k, v in by_model.items()}
-    return out
+    return {k: {**{x: v[x] for x in ("calls", "tokens_in", "tokens_out")}, "p50_ms": statistics.median(v["ms"])}
+            for k, v in by_model.items()}
+
+
+def panel_agreement(units: list[list], live: list[str]) -> dict:
+    """Agreement of the live judges as a panel; `units` is [[row_id, [score per live judge or None]], ...].
+
+    Fleiss' kappa and the "all agree" shares need rows every judge scored, and pass% comparisons need the
+    same rows for every judge, so those use the complete rows only. Rows a judge failed are listed with the
+    scores they did get, and Krippendorff's alpha keeps them, so a failure on a contested row is visible
+    instead of silently raising agreement.
+    """
+    full = [vals for _, vals in units if all(v is not None for v in vals)]
+    partial = [(rid, vals) for rid, vals in units if any(v is None for v in vals)]
+    common = {n: ev.pct(it[j] >= PASS for it in full) for j, n in enumerate(live)} if full else {}
+
+    def split(vals: list) -> bool:
+        got = {v >= PASS for v in vals if v is not None}
+        return len(got) > 1
+
+    return {"live_all_scored": len(full),
+            "all_live_exact_pct": ev.pct(len(set(it)) == 1 for it in full) if full else None,
+            "all_live_pass_agree_pct": ev.pct(len({v >= PASS for v in it}) == 1 for it in full) if full else None,
+            "fleiss_kappa_pass": _r(fleiss_kappa([[v >= PASS for v in it] for it in full])),
+            "krippendorff_alpha_pass": _r(krippendorff_alpha(
+                [[None if v is None else v >= PASS for v in vals] for _, vals in units])),
+            "krippendorff_alpha_interval": _r(krippendorff_alpha([vals for _, vals in units], "interval")),
+            "pass_pct_common": common,
+            "pass_pct_spread": round(max(common.values()) - min(common.values()), 1) if common else None,
+            "incomplete_rows": [{"id": rid, "scores": dict(zip(live, vals))} for rid, vals in partial],
+            "incomplete_pass_split": sum(split(vals) for _, vals in partial)}
 
 
 def print_tables(summary: dict) -> None:
@@ -351,14 +456,19 @@ def print_tables(summary: dict) -> None:
         s = summary[m]
         print(f"\n## {m}: n={s['n_rows']}, all live judges scored {s['live_all_scored']}, "
               f"all agree exact {s['all_live_exact_pct']}%, on pass {s['all_live_pass_agree_pct']}%, "
-              f"Fleiss kappa(pass) {s['fleiss_kappa_pass']}, pass% spread {s['pass_pct_spread']}")
-        print("| judge | scored | failed | mean | pass% | 1/2/3/4/5 | rho(len chars) | rho(out tokens) | rho(uncut, n) |")
+              f"Fleiss kappa(pass) {s['fleiss_kappa_pass']}, pass% on common rows {s['pass_pct_common']} "
+              f"(spread {s['pass_pct_spread']}); all rows: Krippendorff alpha pass {s['krippendorff_alpha_pass']}, "
+              f"interval {s['krippendorff_alpha_interval']}")
+        for inc in s["incomplete_rows"]:
+            print(f"  not scored by every judge: {inc['id']} {inc['scores']}")
+        print("| judge | scored | failed | mean | pass% own rows | 1/2/3/4/5 | rho(len chars), p | rho(out tokens) "
+              "| rho(uncut), p, n |")
         print("|---|---|---|---|---|---|---|---|---|")
         for n, j in s["per_judge"].items():
             dist = "/".join(str(j["dist"][str(v)]) for v in SCALE)
             print(f"| {n} | {j['n_scored']} | {j['failed']} | {j['mean']} | {j['pass_pct']} | {dist} | "
-                  f"{j['spearman_len_chars']} | {j['spearman_len_tokens']} | "
-                  f"{j['spearman_len_chars_uncut']} ({j['n_uncut']}) |")
+                  f"{j['spearman_len_chars']}, {j['perm_p_len_chars']} | {j['spearman_len_tokens']} | "
+                  f"{j['spearman_len_chars_uncut']}, {j['perm_p_len_chars_uncut']}, {j['n_uncut']} |")
         print("\n| pair | n | exact% | pass agree% | kappa(pass) | kappa quadratic | MAD |")
         print("|---|---|---|---|---|---|---|")
         for p, v in s["pairs"].items():
@@ -392,14 +502,18 @@ def pick_human_sample(rows: list[dict], live: list[str], k: int = 10, contested_
 
 
 def write_human_csv(path: Path, sample: list[dict], inputs: list[dict]) -> None:
-    """Judge scores are deliberately not in the file: the labeller must not be anchored by them."""
+    """Nothing in the file hints at what the judges said, so the labeller is not anchored by it.
+
+    No scores, and rows are in id order: `pick_human_sample` puts contested rows (some judge failed them)
+    first, and that order would tell the labeller which answers a judge failed.
+    """
     by_id = {r["id"]: r for r in inputs}
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as fh:  # BOM: Excel opens Cyrillic correctly
         w = csv.writer(fh)
         w.writerow(["id", "question", "sources", "answer", HUMAN_COLUMN, "comment"])
-        for s in sample:
-            r = by_id[s["id"]]
+        for rid in sorted(s["id"] for s in sample):
+            r = by_id[rid]
             w.writerow([r["id"], r["question"], r["sources"], r["answer"], "", ""])
 
 
@@ -432,6 +546,15 @@ def human_agreement(labels: dict[str, int], results: dict) -> dict:
         medians.append(round(statistics.median(vals)) if vals else None)  # judge panel = median of live judges
     out["vs"]["median_of_live_judges"] = pair_stats(human, medians)
     return out
+
+
+def scoring_history(prev: dict) -> list[dict]:
+    """Per-run token usage of earlier scoring runs; older result files kept one run in `usage_scoring_run`."""
+    if "scoring_runs" in prev:
+        return list(prev["scoring_runs"])
+    if "usage_scoring_run" in prev:
+        return [{"at": prev.get("measured_at"), "usage": prev["usage_scoring_run"]}]
+    return []
 
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
@@ -482,9 +605,13 @@ async def main() -> int:
     specs = [s.strip() for s in args.judges.split(",") if s.strip()]
     from tulpar_ai import llm
 
-    run_meta: dict = {"unavailable": {}, "measured_at": time.strftime("%Y-%m-%d %H:%M")}
+    # what only scoring runs know (probe verdicts, time, tokens) survives --stats-only and later re-runs
+    prev = json.loads(args.out.read_text(encoding="utf-8"))["summary"] if args.out.exists() else {}
+    history = scoring_history(prev)
+    run_meta: dict = {k: prev[k] for k in ("unavailable", "measured_at") if k in prev}
     with llm.record() as calls:
         if not args.stats_only:
+            run_meta = {"unavailable": {}, "measured_at": time.strftime("%Y-%m-%d %H:%M")}
             _, first_row, first_user = tasks_for(inputs[:1])[0]
             for spec in specs:
                 err = await probe(spec, first_row["id"], first_user, cache)
@@ -495,14 +622,12 @@ async def main() -> int:
             await score_all(live_specs, inputs, cache, args.retest)
         else:
             live_specs = [s for s in specs if any(k.startswith(s + "|") for k in cache.data)]
-            if args.out.exists():  # keep what only the scoring run knew: probe verdicts, usage, time
-                prev = json.loads(args.out.read_text(encoding="utf-8"))["summary"]
-                run_meta = {k: prev[k] for k in ("unavailable", "measured_at", "usage_scoring_run") if k in prev}
     rows = collect(live_specs, inputs, cache, args.retest)
-    summary = summarize(rows, [label(s) for s in live_specs], args.retest, calls)
-    if args.stats_only:
-        summary.pop("usage_scoring_run")
-    summary.update({"answers_file": str(args.answers.relative_to(ROOT)) if args.answers.is_relative_to(ROOT) else str(args.answers),
+    summary = summarize(rows, [label(s) for s in live_specs], args.retest)
+    if not args.stats_only:
+        history.append({"at": run_meta["measured_at"], "usage": usage_by_model(calls)})
+    summary.update({"scoring_runs": history,
+                    "answers_file": str(args.answers.relative_to(ROOT)) if args.answers.is_relative_to(ROOT) else str(args.answers),
                     "judge_specs": live_specs, "retest": args.retest,
                     "stored_judge": "scores saved by the original QA run (JUDGE_MODELS chain of that day)",
                     "answers_cut_at_400_chars": sum(r["answer_chars"] >= 400 for r in rows),
