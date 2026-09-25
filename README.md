@@ -101,15 +101,15 @@ flowchart TD
 
 ## Качество в цифрах
 
-Маршрутизатор, RAG, валидатор и guardrails перепроверены итоговым прогоном на коде после слияния всех веток, остальные строки взяты из последних замеров. Подробности, эксперименты и ограничения метрик — в [EVALS.md](EVALS.md).
+Маршрутизатор, RAG, валидатор и guardrails перепроверены итоговыми прогонами на коде после слияния всех веток (RAG — после исправления правил питания, вывод 22), остальные строки взяты из последних замеров. Подробности, эксперименты и ограничения метрик — в [EVALS.md](EVALS.md).
 
 | Что проверяем | Набор | Результат | Файл |
 |---|---|---|---|
 | Маршрутизатор: верный маршрут / пойманы опасные / лишние эскалации | 66 сообщений, из них 18 опасных | 100% / 100% / 0% | [`router_final_merged.json`](evals/results/router_final_merged.json) |
-| RAG: нужный источник среди 4 фрагментов (hit@4) / MRR | 51 вопрос с ответом в корпусе | 86,3% / 0,786 | [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
-| Ответы: ответил, когда ответ есть / ключевые факты на месте | 51 вопрос с ответом в корпусе | 92,2% / 86,3% | [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
-| Верность источникам / правильность (LLM-судья, 1–5) | 47 ответов, судья `deepseek-v4.1-flash` оценил все | 4,70 / 4,47 | [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
-| Вопросы без ответа в корпусе переданы тренеру | 5 вопросов | 100% | [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
+| RAG: нужный источник среди 4 фрагментов (hit@4) / MRR | 51 вопрос с ответом в корпусе | 88,2% / 0,806 | [`qa_final_nutrition_rules.json`](evals/results/qa_final_nutrition_rules.json) |
+| Ответы: ответил, когда ответ есть / ключевые факты на месте | 51 вопрос с ответом в корпусе | 92,2% / 86,3% | [`qa_final_nutrition_rules.json`](evals/results/qa_final_nutrition_rules.json) |
+| Верность источникам / правильность (LLM-судья, 1–5) | 47 ответов, судья `deepseek-v4.1-flash` оценил все | 4,53–4,70 / 4,47–4,55 (два прогона 25.09) | [`qa_final_nutrition_rules.json`](evals/results/qa_final_nutrition_rules.json), [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
+| Вопросы без ответа в корпусе переданы тренеру | 5 вопросов | 100% | [`qa_final_nutrition_rules.json`](evals/results/qa_final_nutrition_rules.json) |
 | Фото еды: главное блюдо названо верно (top-1) | 80 фото | 72,5% | [`vision_kimi-k2.7-code.json`](evals/results/vision_kimi-k2.7-code.json) |
 | Валидатор Skill: найденные ошибки совпадают с ожидаемыми | 13 случаев | 100% | [`program.json`](evals/results/program.json) |
 | Черновики программ проходят валидатор: сразу / после цикла исправлений | 9 запросов | 77,8% / 100% | [`draft_v2.json`](evals/results/draft_v2.json) |
@@ -118,7 +118,7 @@ flowchart TD
 | Кэш ответов: ошибочные ответы с проверкой слотов / только с порогом | 126 пар вопросов | 0 / 16; перефразы попадают в кэш в 22,7% случаев | [`cache.json`](evals/results/cache.json) |
 | Согласие трёх LLM-судей разных семейств: все согласны по pass/fail / разброс pass% | 44 ответа | 93,2% / не больше 2,3 п. п.; каппа Флейса 0,675 (correctness) и 0,227 (faithfulness) | [`judge_agreement.json`](evals/results/judge_agreement.json) |
 | Стоимость вопроса с поиском и ответом (по ценам Groq) | 56 вопросов | $0,00083 | [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
-| Задержка: маршрут p50 / вопрос p50 и p95 | прогоны выше | 1,39 с / 2,8 с и 5,8 с | [`router_final_merged.json`](evals/results/router_final_merged.json), [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
+| Задержка: маршрут p50 / вопрос p50 и p95 | прогоны выше | 1,39 с / 2,8–3,0 с и 5,8–7,1 с | [`router_final_merged.json`](evals/results/router_final_merged.json), [`qa_final_merged.json`](evals/results/qa_final_merged.json) |
 | Задержка: повтор из кэша / полный путь вопроса (p50, без маршрута) | 10 вопросов | 0,48 с / 2,6 с, 0 вызовов LLM при попадании | [`cache.json`](evals/results/cache.json) |
 | Озвучка ответа: p50 / p95, медианный размер MP3 | 20 вызовов | 1,7 с / 7,0 с, 77,7 КиБ | [`tts.json`](evals/results/tts.json) |
 

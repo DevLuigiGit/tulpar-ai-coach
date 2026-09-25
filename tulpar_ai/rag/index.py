@@ -10,6 +10,7 @@ Embedded Qdrant keeps the same API as a Qdrant server — QDRANT_URL switches to
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
@@ -90,13 +91,22 @@ def _is_document(path: Path) -> bool:
             and not path.name.startswith(("~$", ".")))
 
 
+def corpus_fingerprint() -> str:
+    """Short hash of the text corpus: an edited exercise card or rule gets a fresh collection on the next start."""
+    h = hashlib.sha1()
+    for name in ("exercises.jsonl", "nutrition.md"):
+        f = CORPUS / name
+        h.update(f.read_bytes() if f.exists() else b"")
+    return h.hexdigest()[:8]
+
+
 class Index:
     def __init__(self, embedder: Embedder | None = None, path: Path | None = None, pdf_chunk: int = 400):
         s = get_settings()
         self.embedder = embedder or get_embedder()
         self.pdf_chunk = pdf_chunk
         self.path = path or Path(s.ai_data_dir) / "qdrant"
-        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}_p{PARSING_VERSION}"
+        self.collection = f"coach_{self.embedder.id}_{pdf_chunk}_p{PARSING_VERSION}_{corpus_fingerprint()}"
         self.client = get_client(self.path)
         self._qvecs: OrderedDict[str, list[float]] = OrderedDict()
 

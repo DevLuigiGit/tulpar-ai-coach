@@ -241,7 +241,9 @@ def test_index_collection_changes_with_parsing_version(tmp_path):
 
     idx = Index(embedder=LocalHashEmbedder(), path=tmp_path / "qdrant")
     try:
-        assert idx.collection.endswith(f"_400_p{PARSING_VERSION}")
+        from tulpar_ai.rag.index import corpus_fingerprint
+
+        assert idx.collection.endswith(f"_400_p{PARSING_VERSION}_{corpus_fingerprint()}")
     finally:
         idx.close()
 

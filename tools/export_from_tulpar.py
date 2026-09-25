@@ -14,7 +14,7 @@ What comes out:
   fixtures/demo.json        demo trainer + client, active plan, trainer note, 14 days of diary,
                             recent sessions and weights — generated deterministically
   corpus/exercises.jsonl    one RAG document per exercise that has Russian text
-  corpus/nutrition.md       nutrition rules (safe pace, per-100 g snapshot, floors)
+  corpus/nutrition.md       (not exported: curated client-facing rules from Tulpar's targets.py/water.py)
   skills/tulpar-program-builder/references/exercises_catalog.json
                             compact catalogue for the offline plan validator
 """
@@ -171,12 +171,8 @@ def export(tulpar: Path) -> None:
                                  "text": " ".join(parts)}, ensure_ascii=False) + "\n")
             n_docs += 1
 
-    nutrition = (tulpar / "docs" / "nutrition.md").read_text(encoding="utf-8")
-    # keep only the rules; drop the line about which Ollama models the backend used (stale, internal)
-    nutrition = "\n".join(l for l in nutrition.splitlines() if "Модели Ollama" not in l)
-    (corpus / "nutrition.md").write_text(
-        "<!-- Источник: Tulpar docs/nutrition.md, выгружено tools/export_from_tulpar.py -->\n" + nutrition,
-        encoding="utf-8")
+    # corpus/nutrition.md is curated by hand: Tulpar's docs/nutrition.md is a developer document (endpoints,
+    # tests), so the client-facing rules were rewritten from targets.py and water.py. Not overwritten here.
 
     refs = ROOT / "skills" / "tulpar-program-builder" / "references"
     refs.mkdir(parents=True, exist_ok=True)

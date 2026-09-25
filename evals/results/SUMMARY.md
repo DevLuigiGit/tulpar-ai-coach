@@ -223,3 +223,9 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | final_merged | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.786 | 86.3 | 100.0 | 4.7 | 4.47 | 2809.0 | 220 | 0.000829 |
+
+## qa_final_nutrition_rules — 2026-09-25 22:54
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| final_nutrition_rules | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 86.3 | 100.0 | 4.53 | 4.55 | 2994.5 | 230 | 0.000823 |
