@@ -91,6 +91,14 @@ class Settings(BaseSettings):
     qdrant_url: str = ""  # empty: embedded Qdrant in AI_DATA_DIR/qdrant; http://qdrant:6333 or a Qdrant Cloud URL
     qdrant_api_key: str = ""
 
+    # ── abuse protection (in-memory token buckets; one process = one set of buckets) ──
+    rate_limit_enabled: bool = True
+    chat_rate_per_min: float = 10.0  # sustained messages per minute per (user, IP)
+    chat_burst: int = 10
+    login_rate_per_min: float = 10.0  # demo logins per minute per IP
+    login_burst: int = 20  # a classroom behind one NAT must still get in
+    trust_forwarded_for: bool = True  # behind Railway's proxy the client IP is in X-Forwarded-For
+
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
     trainer_telegram_ids: str = ""  # comma separated numeric Telegram ids of trainers

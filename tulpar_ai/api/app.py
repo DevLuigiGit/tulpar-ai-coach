@@ -24,6 +24,7 @@ from ..rag.index import Index
 from ..rag.retrieve import get_index, set_index
 from ..store import Store, get_store, set_store
 from .auth import client_user, current_user, issue_token, trainer_user
+from .ratelimit import limit_chat, limit_login
 
 log = logging.getLogger("api")
 MAX_UPLOAD = 8 * 1024 * 1024
@@ -90,7 +91,7 @@ class DemoLogin(BaseModel):
     role: str
 
 
-@app.post("/api/auth/demo-login")
+@app.post("/api/auth/demo-login", dependencies=[Depends(limit_login)])
 async def demo_login(body: DemoLogin):
     if not get_settings().allow_demo_login:
         raise HTTPException(404)
@@ -117,7 +118,7 @@ async def _read(f: UploadFile | None) -> bytes | None:
 
 @app.post("/api/chat")
 async def chat(text: str = Form(""), photo: UploadFile | None = File(None), audio: UploadFile | None = File(None),
-               user: User = Depends(client_user)):
+               user: User = Depends(limit_chat)):
     image, voice = await _read(photo), await _read(audio)
     if not (text.strip() or image or voice):
         raise HTTPException(422, "send text, a photo or a voice message")

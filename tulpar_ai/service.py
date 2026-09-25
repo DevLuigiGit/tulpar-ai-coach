@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from datetime import date
 
-from . import notify
+from . import guardrails, notify
 from .gateway import get_gateway
 from .gateway.base import MealItem, PlanOp, User
 from .graph import runner
+from .graph.chat import escalate
 from .store import get_store
 
 MEALS = {"breakfast", "lunch", "dinner", "snack"}
@@ -19,6 +20,7 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
     shown = text or ("[фото]" if image else "[голосовое]" if audio else "")
     await store.add_message(user.id, "user", shown, {"has_photo": bool(image), "has_audio": bool(audio)})
     res = await runner.run_chat_turn(user.id, text=text, image=image, audio=audio, audio_name=audio_name)
+    res = await _guard_output(user, text or res.get("transcript") or shown, res)
     reply = {
         "reply": res.get("reply") or "…",
         "kind": res.get("kind") or "info",
@@ -29,8 +31,25 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
         "escalation_id": res.get("escalation_id"),
         "transcript": res.get("transcript"),
     }
+    if res.get("guard"):
+        reply["guard"] = res["guard"]
     await store.add_message(user.id, "assistant", reply["reply"], {k: v for k, v in reply.items() if k != "reply"})
     return reply
+
+
+async def _guard_output(user: User, request: str, res: dict) -> dict:
+    """The one output filter for every branch (answers, cards, hand-offs), so no path can skip it."""
+    text, action = guardrails.guard_reply(res.get("reply") or "")
+    if action == "pass":
+        return res
+    res = {**res, "reply": text, "guard": action}
+    if action == "blocked_prompt_leak":
+        res.update(kind="refusal", citations=[])
+    elif action == "blocked_dosage" and res.get("kind") != "escalated":
+        esc = await escalate({"client_id": user.id, "text": request, "intent": "escalate", "red_flag": True,
+                              "reason": "output guard: medication dosage"})
+        res.update(kind="escalated", citations=[], escalation_id=esc["escalation_id"])
+    return res
 
 
 async def confirm_meal(user: User, card_id: str, grams: dict[int, float] | None = None, meal: str | None = None) -> dict:

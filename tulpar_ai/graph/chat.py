@@ -7,7 +7,7 @@
                                │      └ rewrite (≤2) ◄──┘ (not enough)
                                ├─► program_request (starts the program graph) ► END
                                ├─► escalate ───────────────────────────────► END
-                               ├─► refuse (prompt injection) ──────────────► END
+                               ├─► refuse (injection, other people's data, abuse) ► END
                                └─► other ──────────────────────────────────► END
 """
 
@@ -21,7 +21,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .. import notify, stt
+from .. import guardrails, notify, stt
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import MATCH_THRESHOLD, MealItem
@@ -37,8 +37,7 @@ INTENTS = {"meal_text", "question", "program_request", "escalate", "other"}
 HARD = re.compile(r"стероид|анабол|тестостерон|рвот|не ем(?:\s+уже)?\s+\d+\s*(?:дн|день|дня|дней|сут)|не ела?\s+\d+\s*(?:дн|день|дня|дней|сут)|"
                   r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц", re.I)
 SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады", re.I)
-INJECTION = re.compile(r"игнорируй (все )?(инструкц|правил)|ignore (all |previous )?instructions|системн\w* промпт|"
-                       r"system prompt|покажи (телефон|номер|данные) клиент|you are now|ты теперь", re.I)
+INJECTION = guardrails.INJECTION  # the full ru/kk/en pattern set lives in guardrails.py
 GRAMS = re.compile(r"(\d{2,4})\s*(?:г|гр|грамм\w*)\b", re.I)
 DEFAULT_GRAMS = 150.0
 
@@ -79,7 +78,10 @@ async def ingest(state: ChatState) -> dict:
 
 async def precheck(state: ChatState) -> dict:
     t = _text(state)
-    return {"flags": {"hard": bool(HARD.search(t)), "soft": bool(SOFT.search(t)), "injection": bool(INJECTION.search(t))}}
+    hard, soft = bool(HARD.search(t)), bool(SOFT.search(t))
+    guard = guardrails.check_input(t, red_flag=hard or soft)
+    return {"flags": {"hard": hard or guard.category == "self_harm", "soft": soft,
+                      "injection": guard.category == "injection", "guard": guard.category}}
 
 
 def _heuristic_intent(t: str, flags: dict) -> str:
@@ -99,8 +101,15 @@ def _heuristic_intent(t: str, flags: dict) -> str:
 
 async def route(state: ChatState) -> dict:
     flags, t = state.get("flags", {}), _text(state)
+    guard = flags.get("guard")
+    if guard == "self_harm":  # before injection: a person at risk is never just "refused"
+        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: self-harm"}
     if flags.get("injection"):
         return {"intent": "refuse", "reason": "prompt-injection pattern"}
+    if guard in ("pii_exfil", "toxic"):
+        return {"intent": "refuse", "reason": f"guardrail: {guard}"}
+    if guard == "dangerous_domain":
+        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: dangerous domain"}
     if state.get("image_path") and not flags.get("hard"):
         return {"intent": "meal_photo", "reason": "photo"}
     if not t:
@@ -289,7 +298,10 @@ async def escalate(state: ChatState) -> dict:
                                        request=_text(state), status="open")
     item = await store.update_proposal(item["id"], draft={"reason": reason, "intent": state.get("intent")})
     await notify.escalation(item)
-    if state.get("red_flag"):
+    guard = state.get("flags", {}).get("guard")
+    if state.get("red_flag") and guard in ("self_harm", "dangerous_domain"):
+        msg = guardrails.REPLIES[guard]
+    elif state.get("red_flag"):
         msg = ("С этим лучше к тренеру и врачу, а не к боту. Я передал ваше сообщение тренеру. "
                "Если боль сильная, острая или не проходит — обратитесь к врачу, а при угрозе жизни звоните 103 или 112.")
     else:
@@ -298,8 +310,8 @@ async def escalate(state: ChatState) -> dict:
 
 
 async def refuse(state: ChatState) -> dict:
-    return {"reply": "Я помогаю с тренировками и питанием по данным вашего клуба. С этим запросом помочь не могу.",
-            "kind": "refusal"}
+    guard = state.get("flags", {}).get("guard")
+    return {"reply": guardrails.REPLIES.get(guard if guard in ("pii_exfil", "toxic") else "injection"), "kind": "refusal"}
 
 
 async def other(state: ChatState) -> dict:

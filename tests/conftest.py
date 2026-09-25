@@ -64,6 +64,7 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setenv("AI_DATA_DIR", str(tmp_path))
     monkeypatch.setenv("TULPAR_MODE", "demo")
     monkeypatch.setenv("RAG_EMBEDDER", "local")
+    monkeypatch.setenv("RATE_LIMIT_ENABLED", "false")  # rate-limit tests switch it on explicitly
     for k in ("OLLAMA_API_KEY", "GROQ_API_KEY", "JINA_API_KEY", "TELEGRAM_BOT_TOKEN", "LANGSMITH_TRACING", "LANGCHAIN_TRACING_V2"):
         monkeypatch.setenv(k, "")
     from tulpar_ai.config import get_settings
