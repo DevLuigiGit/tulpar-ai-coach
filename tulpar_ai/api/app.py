@@ -24,6 +24,7 @@ from ..rag.index import Index
 from ..rag.retrieve import get_index, set_index
 from ..store import Store, get_store, set_store
 from .auth import client_user, current_user, issue_token, trainer_user
+from .ratelimit import limit_chat, limit_login, limit_trainer
 from .telegram_auth import router as telegram_auth_router
 
 log = logging.getLogger("api")
@@ -92,7 +93,7 @@ class DemoLogin(BaseModel):
     role: str
 
 
-@app.post("/api/auth/demo-login")
+@app.post("/api/auth/demo-login", dependencies=[Depends(limit_login)])
 async def demo_login(body: DemoLogin):
     if not get_settings().allow_demo_login:
         raise HTTPException(404)
@@ -119,7 +120,7 @@ async def _read(f: UploadFile | None) -> bytes | None:
 
 @app.post("/api/chat")
 async def chat(text: str = Form(""), photo: UploadFile | None = File(None), audio: UploadFile | None = File(None),
-               user: User = Depends(client_user)):
+               user: User = Depends(limit_chat)):
     image, voice = await _read(photo), await _read(audio)
     if not (text.strip() or image or voice):
         raise HTTPException(422, "send text, a photo or a voice message")
@@ -204,11 +205,13 @@ class ChangeRequest(BaseModel):
 
 
 @app.post("/api/trainer/proposals")
-async def request_change(body: ChangeRequest, user: User = Depends(trainer_user)):
+async def request_change(body: ChangeRequest, user: User = Depends(limit_trainer)):
     try:
         return await service.request_change(user, body.client_id, body.request.strip())
     except PermissionError:
         raise HTTPException(404, "client not found")
+    except service.RejectedText as e:
+        raise HTTPException(422, str(e))
 
 
 @app.get("/api/queue")
@@ -230,13 +233,15 @@ class Decision(BaseModel):
 
 
 @app.post("/api/proposals/{pid}/decision")
-async def decision(pid: str, body: Decision, user: User = Depends(trainer_user)):
+async def decision(pid: str, body: Decision, user: User = Depends(limit_trainer)):
     try:
         return await service.decide(user, pid, body.action, body.comment)
     except LookupError:
         raise HTTPException(404, "proposal not found")
     except PermissionError:
         raise HTTPException(403, "not your proposal")
+    except service.RejectedText as e:
+        raise HTTPException(422, str(e))
     except (ValueError, RuntimeError) as e:
         raise HTTPException(409, str(e))
 

@@ -108,6 +108,16 @@ class Settings(BaseSettings):
     answer_cache_min_score_local: float = 0.99  # hashing embedder: lexical, so in practice only verbatim repeats
     answer_cache_ttl_h: float = 72.0
 
+    # ── abuse protection (in-memory token buckets; one process = one set of buckets) ──
+    rate_limit_enabled: bool = True
+    chat_rate_per_min: float = 10.0  # sustained messages per minute per (user, IP)
+    chat_burst: int = 10
+    login_rate_per_min: float = 10.0  # demo logins per minute per IP
+    login_burst: int = 20  # a classroom behind one NAT must still get in
+    trainer_rate_per_min: float = 4.0  # program drafts and edits: several LLM calls each
+    trainer_burst: int = 6
+    trust_forwarded_for: bool = True  # behind Railway's proxy the client IP is in X-Forwarded-For
+
     # ── Telegram bot (this project's own bot, not Tulpar's) ───────────────────
     telegram_bot_token: str = ""
     trainer_telegram_ids: str = ""  # comma separated numeric Telegram ids of trainers
