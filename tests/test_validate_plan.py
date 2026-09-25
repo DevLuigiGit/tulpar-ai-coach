@@ -38,6 +38,18 @@ def test_replacement_must_keep_the_muscle_group():
     assert codes("Сгибания ног сидя") == set()
 
 
+def test_strength_swap_across_groups_is_a_warning():
+    """Live draft 59e67d98: RDL (ноги) → weighted back extension (спина) is the same hinge; the trainer decides."""
+    v, cat = validator(), catalog()
+    by_name = {e["name"]: e for e in cat.values()}
+    rdl = by_name["Румынская тяга"]
+    plan = {"id": "p", "title": "t", "days": [{"day_index": 2, "title": "Legs", "exercises": [
+        {"id": "w1", "exercise_id": rdl["id"], "exercise_name": rdl["name"], "muscle_group": "ноги"}]}]}
+    ops = [{"op": "replace_exercise", "day_index": 2, "wex_id": "w1", "exercise_id": by_name["Гиперэкстензия с весом"]["id"]}]
+    got = {(x["code"], x["severity"]) for x in v.validate(plan, ops, {"level": "inter", "place": "gym"}, cat)}
+    assert got == {("W_MUSCLE_GROUP", "warning")}
+
+
 def test_core_and_abs_count_as_one_group():
     v, cat = validator(), catalog()
     core = next(e for e in cat.values() if e["muscle_group"] == "кор")

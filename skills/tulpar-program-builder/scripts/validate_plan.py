@@ -49,6 +49,8 @@ BODY_PARTS = {
 REPS_MEASURES = {"weight_reps", "reps", None}
 # The catalogue labels core work two ways; a swap between them is still the same muscle group.
 GROUP_ALIASES = {"кор": "пресс"}
+# Kind of work: swapping strength for cardio or stretching is never a like-for-like replacement.
+NON_STRENGTH = {"кардио", "растяжка"}
 
 
 def load_catalog(path: Path = CATALOG_PATH) -> dict[str, dict]:
@@ -163,9 +165,11 @@ def validate(plan: dict, ops: list[dict], client: dict, catalog: dict[str, dict]
             _, old = _find(plan, op.get("day_index"), op.get("wex_id"))
             was, becomes = muscle_group(old, catalog), muscle_group(ex, catalog)
             if was and becomes and was != becomes:
-                out.append(err("E_MUSCLE_GROUP",
-                               f"«{ex['name']}» ({ex.get('muscle_group')}) заменяет «{old.get('exercise_name')}» "
-                               f"({old.get('muscle_group') or was}): замена должна быть из той же группы мышц", i))
+                pair = f"«{ex['name']}» ({ex.get('muscle_group')}) заменяет «{old.get('exercise_name')}» ({was})"
+                if (was in NON_STRENGTH) != (becomes in NON_STRENGTH) or {was, becomes} <= NON_STRENGTH:
+                    out.append(err("E_MUSCLE_GROUP", f"{pair}: другой вид нагрузки, замена должна быть из той же группы мышц", i))
+                else:  # e.g. RDL (ноги) → weighted back extension (спина): same chain, the trainer judges
+                    out.append(err("W_MUSCLE_GROUP", f"{pair}: другая группа мышц, проверьте, что нагрузка та же", i))
         sets, reps = op.get("sets"), op.get("reps")
         if sets is not None and not (1 <= sets <= vol["sets"] + 2):
             out.append(err("E_VOLUME", f"{sets} подходов вне допустимого диапазона 1–{vol['sets'] + 2} для уровня {level}", i))
