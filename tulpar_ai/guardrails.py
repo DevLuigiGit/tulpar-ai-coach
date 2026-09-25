@@ -29,7 +29,7 @@ _TO_CYR = str.maketrans({"a": "а", "b": "б", "c": "с", "e": "е", "h": "н", 
 _TO_LAT = str.maketrans({"а": "a", "с": "c", "е": "e", "о": "o", "р": "p", "х": "x", "у": "y", "к": "k", "м": "m",
                          "т": "t", "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", "$": "s"})
 _HAS_LETTER = re.compile(r"[a-zа-яәіңғүұқөһ]")
-_SPACED = re.compile(r"(?<![\wа-я*])[a-zа-я](?:[\s.\-_,]+[a-zа-я](?![\wа-я*])){2,}")
+_SPACED = re.compile(r"(?<![\w*])[a-zа-я](?:[\s.\-_,]+[a-zа-я](?![\w*])){2,}")
 _REPEAT = re.compile(r"([a-zа-яәіңғүұқөһ])\1+")
 
 
@@ -43,6 +43,16 @@ def _fold(text: str, table: dict) -> str:
     out = " ".join(toks)
     out = _SPACED.sub(lambda m: re.sub(r"[\s.\-_,]+", "", m.group(0)), out)
     return _REPEAT.sub(r"\1", out)
+
+
+def _fold_mixed(text: str) -> str:
+    """Only mixed-script words get folded to Cyrillic («игн0рируй»), so English stays readable for the en patterns."""
+    toks = []
+    for t in _base(text).split(" "):
+        if re.search(r"[а-я]", t) and re.search(r"[a-z0-9@$]", t):
+            t = t.translate(_TO_CYR)
+        toks.append(t)
+    return " ".join(toks)
 
 
 def normalize(text: str) -> tuple[str, str, str]:
@@ -239,7 +249,7 @@ def detect(text: str) -> set[str]:
         found.add("self_harm")
     if INJECTION.search(low) or INJECTION.search(_fold_mixed(text)) or INJECTION_CASED.search(text or ""):
         found.add("injection")
-    if (REQUEST.search(low) and PII_NEAR.search(low)) or (REQUEST.search(low) and PII_BULK.search(low)):
+    if REQUEST.search(low) and (PII_NEAR.search(low) or PII_BULK.search(low)):
         found.add("pii_exfil")
     if (STEROIDS.search(low) or DRUG_ALWAYS.search(low) or (DRUG.search(low) and DOSE.search(low))
             or _extreme_kcal(low) or _fasting(low)):
@@ -247,16 +257,6 @@ def detect(text: str) -> set[str]:
     if TOXIC_RU.search(cyr) or TOXIC_KK.search(low) or TOXIC_EN.search(lat) or _starred_hit(low):
         found.add("toxic")
     return found
-
-
-def _fold_mixed(text: str) -> str:
-    """Only mixed-script words get folded to Cyrillic («игн0рируй»), so English stays readable for the en patterns."""
-    toks = []
-    for t in _base(text).split(" "):
-        if re.search(r"[а-я]", t) and re.search(r"[a-z0-9@$]", t):
-            t = t.translate(_TO_CYR)
-        toks.append(t)
-    return " ".join(toks)
 
 
 def check_input(text: str, red_flag: bool = False) -> Verdict:
