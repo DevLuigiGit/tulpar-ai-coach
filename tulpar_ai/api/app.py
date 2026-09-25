@@ -22,6 +22,7 @@ from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
 from ..graph import runner
 from ..rag.index import Index
+from ..rag.qdrant import mode as qdrant_mode
 from ..rag.retrieve import get_index, set_index
 from ..store import Store, get_store, set_store
 from .auth import client_user, current_user, issue_token, trainer_user
@@ -87,7 +88,7 @@ async def health_ai():
             "langsmith": bool(os.environ.get("LANGSMITH_API_KEY")),
             "langsmith_tracing": os.environ.get("LANGSMITH_TRACING", "").lower() == "true",
             "telegram": bool(s.telegram_bot_token),
-            "rag_chunks": get_index().count(), "mode": s.tulpar_mode}
+            "rag_chunks": get_index().count(), "qdrant": qdrant_mode(), "mode": s.tulpar_mode}
 
 
 # ── auth ─────────────────────────────────────────────────────────────────────
