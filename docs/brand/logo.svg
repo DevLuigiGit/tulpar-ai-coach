@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Tulpar AI Coach">
+  <rect width="256" height="256" rx="56" fill="#FF5000"/>
+  <path d="M52 176 C 84 112, 146 74, 214 62 C 186 98, 146 126, 98 152 Z" fill="#FFFFFF"/>
+  <path d="M64 198 C 104 156, 158 134, 218 126 C 188 156, 144 176, 100 188 Z" fill="#FFFFFF" opacity="0.82"/>
+  <path d="M80 216 C 118 192, 164 182, 212 184 C 180 204, 142 214, 106 218 Z" fill="#FFFFFF" opacity="0.64"/>
+  <circle cx="196" cy="84" r="10" fill="#141416"/>
+</svg>

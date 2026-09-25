@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Tulpar AI Coach — ИИ-помощник тренера и клиента">
+  <rect width="1200" height="300" rx="28" fill="#141416"/>
+  <g transform="translate(56 42) scale(0.84)">
+    <rect width="256" height="256" rx="56" fill="#FF5000"/>
+    <path d="M52 176 C 84 112, 146 74, 214 62 C 186 98, 146 126, 98 152 Z" fill="#FFFFFF"/>
+    <path d="M64 198 C 104 156, 158 134, 218 126 C 188 156, 144 176, 100 188 Z" fill="#FFFFFF" opacity="0.82"/>
+    <path d="M80 216 C 118 192, 164 182, 212 184 C 180 204, 142 214, 106 218 Z" fill="#FFFFFF" opacity="0.64"/>
+    <circle cx="196" cy="84" r="10" fill="#141416"/>
+  </g>
+  <text x="310" y="138" font-family="Rubik, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="#F4F4F5">Tulpar AI Coach</text>
+  <text x="312" y="192" font-family="'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" fill="#C9C9D1">ИИ-помощник тренера и клиента фитнес-платформы Tulpar</text>
+  <text x="312" y="236" font-family="'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" fill="#FF6A26">LangGraph · MCP · Skill · RAG на Qdrant · фото и голос · LangSmith</text>
+</svg>
