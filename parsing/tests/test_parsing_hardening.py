@@ -148,6 +148,93 @@ def test_load_chunks_skips_broken_and_lock_files(tmp_path, monkeypatch, caplog):
     assert "empty.docx" in caplog.text and "~$good.docx" not in caplog.text
 
 
+class _CountingEmbedder:
+    """LocalHashEmbedder that counts embedded texts and can be told to fail."""
+
+    def __init__(self):
+        from tulpar_ai.rag.embed import LocalHashEmbedder
+
+        self._inner, self.id, self.dim = LocalHashEmbedder(), "local", LocalHashEmbedder.dim
+        self.texts, self.fail = 0, False
+
+    async def embed(self, texts, task):
+        if self.fail:
+            raise OSError("embedding service down")
+        self.texts += len(texts)
+        return await self._inner.embed(texts, task)
+
+
+def _sources(idx) -> set[str]:
+    points, _ = idx.client.scroll(idx.collection, limit=1000, with_payload=["source"])
+    return {p.payload["source"] for p in points}
+
+
+@pytest.fixture
+def small_corpus(tmp_path, monkeypatch):
+    from tulpar_ai.rag import index
+
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    (corpus / "nutrition.md").write_text("# Белок\n\n1,6 г белка на кг веса в день.", encoding="utf-8")
+    write_pdf(corpus / "guide.pdf", [f"{LONG}\n{LONG}", LONG])
+    monkeypatch.setattr(index, "CORPUS", corpus)
+    return corpus
+
+
+async def test_document_that_failed_during_build_is_added_on_next_build(small_corpus, tmp_path, monkeypatch):
+    from tulpar_ai.rag import index
+
+    real = index.chunk_document
+
+    def flaky(path, **kwargs):
+        if path.suffix == ".pdf":
+            raise OSError("transient read error")
+        return real(path, **kwargs)
+
+    embedder = _CountingEmbedder()
+    idx = index.Index(embedder=embedder, path=tmp_path / "qdrant")
+    try:
+        monkeypatch.setattr(index, "chunk_document", flaky)
+        partial = await idx.build()
+        assert _sources(idx) == {"nutrition"}
+        monkeypatch.setattr(index, "chunk_document", real)
+        full = await idx.build()
+        assert _sources(idx) == {"nutrition", "guide.pdf"}
+        assert full == partial + len(real(small_corpus / "guide.pdf", corpus_root=small_corpus))
+        embedded = embedder.texts
+        assert await idx.build() == full and embedder.texts == embedded  # complete index: nothing re-embedded
+    finally:
+        idx.close()
+
+
+async def test_missing_document_repair_failure_keeps_existing_index(small_corpus, tmp_path, monkeypatch):
+    from tulpar_ai.rag import index
+
+    write_pdf(small_corpus / "scan.pdf", [""])  # no text layer: re-parsed on each build, never embedded
+    embedder = _CountingEmbedder()
+    idx = index.Index(embedder=embedder, path=tmp_path / "qdrant")
+    try:
+        built = await idx.build()
+        assert _sources(idx) == {"nutrition", "guide.pdf"}
+        write_pdf(small_corpus / "later.pdf", [LONG])
+        embedder.fail = True
+        assert await idx.build() == built  # embedding outage while adding: the old index keeps serving
+        embedder.fail = False
+        assert await idx.build() > built and "later.pdf" in _sources(idx)
+    finally:
+        idx.close()
+
+
+def test_document_source_matches_chunk_payload(tmp_path):
+    from parsing.chunker import document_source
+
+    (tmp_path / "sub").mkdir()
+    path = write_pdf(tmp_path / "sub" / "a.pdf", [LONG])
+    [chunk] = chunk_document(path, corpus_root=tmp_path)
+    assert chunk["source"] == document_source(path, tmp_path) == "sub/a.pdf"
+    assert document_source(tmp_path / "who_2020_physical_activity.pdf", tmp_path) == "who2020"
+
+
 def test_index_collection_changes_with_parsing_version(tmp_path):
     from tulpar_ai.rag.embed import LocalHashEmbedder
     from tulpar_ai.rag.index import Index

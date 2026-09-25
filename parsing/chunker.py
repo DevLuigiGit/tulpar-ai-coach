@@ -20,6 +20,9 @@ MIN_PDF_CHUNK_CHARS = 80
 
 _SEPARATORS = ("\n\n", "\n", ". ", " ")
 
+WHO_FILE = "who_2020_physical_activity.pdf"
+WHO_SOURCE = "who2020"
+
 
 def split_text(text: str, size: int, overlap: int) -> list[str]:
     if size <= 0 or not 0 <= overlap < size:
@@ -68,6 +71,12 @@ def _next_start(text: str, start: int, end: int, overlap: int) -> int:
     return next_start
 
 
+def document_source(path: Path, corpus_root: Path) -> str:
+    """The `source` payload of a document's chunks: its corpus-relative path, the WHO PDF keeps its old alias."""
+    source = Path(path).relative_to(corpus_root).as_posix()
+    return WHO_SOURCE if source == WHO_FILE else source
+
+
 def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: int = 120) -> list[dict]:
     """Return payloads for the existing Chunk, preserving document IDs and metadata.
 
@@ -77,8 +86,8 @@ def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: i
     its index unused, so the IDs of the other chunks do not move. WHO aliases remain compatible.
     """
     path, corpus_root = Path(path), Path(corpus_root)
-    source = path.relative_to(corpus_root).as_posix()
-    who = source == "who_2020_physical_activity.pdf"
+    source = document_source(path, corpus_root)
+    who = source == WHO_SOURCE
     chunks = []
     for parsed in parse_document(path):
         page = parsed["page"]
@@ -90,7 +99,7 @@ def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: i
             chunks.append({
                 **parsed,
                 "id": chunk_id,
-                "source": "who2020" if who else source,
+                "source": source,
                 "title": "WHO guidelines on physical activity and sedentary behaviour (2020)" if who else path.name,
                 "text": part,
                 "chunk_index": chunk_index,
