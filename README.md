@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://coach-production-18ca.up.railway.app">Демо</a> ·
   <a href="https://t.me/TulparFitnessBot">Telegram-бот</a> ·
+  <a href="https://github.com/DevLuigiGit/tulpar-ai-coach/wiki">Wiki</a> ·
   <a href="ARCHITECTURE.md">Архитектура</a> ·
   <a href="EVALS.md">Оценка качества</a>
 </p>
