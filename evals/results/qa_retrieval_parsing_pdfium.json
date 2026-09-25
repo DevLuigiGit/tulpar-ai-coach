@@ -1,0 +1,916 @@
+{
+ "summary": {
+  "n": 56,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 86.3,
+  "mrr": 0.786,
+  "answered_rate": 0.0,
+  "keyfact_accuracy": 0.0,
+  "correct_refusal_rate": 100.0,
+  "faithfulness_avg": null,
+  "faithfulness_pass": null,
+  "correctness_avg": null,
+  "p50_ms": 490.5,
+  "p95_ms": 1304,
+  "out_tokens_p95": 0,
+  "llm_calls": 2,
+  "tokens_in": 596,
+  "tokens_out": 39,
+  "cost_usd": 0.000382,
+  "fallbacks": 0,
+  "cost_per_question_usd": 7e-06,
+  "hit_at_4_by_tag": {
+   "benefit": 100.0,
+   "chronic": 0.0,
+   "contraindications": 85.7,
+   "cross-lingual": 75.0,
+   "nutrition": 87.5,
+   "pregnancy": 100.0,
+   "reasoning": 100.0,
+   "replacement": 80.0,
+   "sedentary": 100.0,
+   "technique": 94.1,
+   "who": 75.0
+  },
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "q01",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 531,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q02",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 561,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q03",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 571,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q04",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 572,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q05",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 521,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q06",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 535,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q07",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 474,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q08",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 469,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q09",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 488,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q10",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 497,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q11",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 506,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q12",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 1304,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q13",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 889,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q14",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 496,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q15",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 612,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q16",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 4,
+   "keyfacts": null,
+   "ms": 1572,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q17",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 1000,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q18",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 717,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q19",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 555,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q20",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 639,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q21",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 548,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q22",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 536,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q23",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 470,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q24",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 474,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q25",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 641,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q26",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 466,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q27",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 482,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q28",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 481,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q29",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 464,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q30",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 537,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q31",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 447,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q32",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 475,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q33",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 476,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q34",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 558,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q35",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 477,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q36",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 468,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q37",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 489,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q38",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 477,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition",
+    "reasoning"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q39",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 483,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q40",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 501,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q41",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 524,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q42",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 444,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q43",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 492,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q44",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 469,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q45",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 3,
+   "keyfacts": null,
+   "ms": 486,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "sedentary"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q46",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 474,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "sedentary"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q47",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 479,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "pregnancy"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q48",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 571,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "pregnancy"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q49",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 534,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "chronic"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q50",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 479,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q51",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 486,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q52",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 481,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "supplements"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q53",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 477,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "medical",
+    "near-miss"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q54",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3756,
+   "rewrites": 2,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "club-info"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q55",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 478,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "club-info"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q56",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 484,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "supplements"
+   ],
+   "answer": ""
+  }
+ ]
+}
