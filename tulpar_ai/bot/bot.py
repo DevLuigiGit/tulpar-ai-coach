@@ -1,6 +1,7 @@
 """Telegram bot of THIS project (its own token, not Tulpar's bot). Runs inside the service process.
 
-Clients: text, food photos and voice notes go to the chat graph; meal cards get a «Записать» button.
+Clients: text, food photos and voice notes go to the chat graph; meal cards get a «Записать» button,
+answers from the knowledge base get 👍/👎 (a 👎 asks for an optional comment as a reply to the bot).
 Trainers (Telegram ids in TRAINER_TELEGRAM_IDS): receive drafts and escalations with inline buttons —
 the same human-in-the-loop decision as the web queue, one tap from the phone.
 
@@ -16,7 +17,7 @@ from datetime import datetime
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import CallbackQuery, ForceReply, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from .. import notify, service
 from ..config import get_settings
@@ -28,6 +29,8 @@ log = logging.getLogger("bot")
 dp = Dispatcher()
 _bot: Bot | None = None
 _awaiting: dict[int, tuple[str, str]] = {}  # trainer chat id → ("edit" | "reply", proposal id)
+_fb_prompts: dict[tuple[int, int], int] = {}  # (chat id, «что не так?» bot message id) → rated message id
+FB_PROMPTS_MAX = 1000
 
 
 def _is_trainer(tg_id: int) -> bool:
@@ -49,6 +52,11 @@ def _meal_now() -> str:
 
 def _kb(*rows: list[tuple[str, str]]) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t, callback_data=d) for t, d in row] for row in rows])
+
+
+def _feedback_kb(message_id: int, chosen: str | None = None) -> InlineKeyboardMarkup:
+    up, down = ("👍 ✓" if chosen == "up" else "👍"), ("👎 ✓" if chosen == "down" else "👎")
+    return _kb([(up, f"fb:up:{message_id}"), (down, f"fb:down:{message_id}")])
 
 
 def _reply_text(r: dict) -> str:
@@ -102,6 +110,8 @@ async def _run_turn(m: Message, user: User, **kw) -> None:
     kb = None
     if r.get("kind") == "meal_card" and r["meal"]["items"]:
         kb = _kb([("Записать в дневник", f"meal:{r['meal']['card_id']}")])
+    elif r.get("kind") == "answer" and r.get("message_id"):
+        kb = _feedback_kb(r["message_id"])
     await m.answer(_reply_text(r), reply_markup=kb)
 
 
@@ -143,7 +153,19 @@ async def on_text(m: Message):
             return await m.answer("Ответ отправлен клиенту.")
         except Exception as e:
             return await m.answer(f"Не получилось: {e}")
+    reply_to = m.reply_to_message
+    rated = _fb_prompts.pop((m.chat.id, reply_to.message_id), None) if reply_to else None
+    if rated is not None:
+        return await _save_comment(m, user, rated)
     await _run_turn(m, user, text=m.text)
+
+
+async def _save_comment(m: Message, user: User, message_id: int) -> None:
+    try:
+        await service.rate_message(user, message_id, "down", m.text, source="telegram")
+    except (LookupError, ValueError):
+        return await m.answer("Не получилось сохранить комментарий.")
+    await m.answer("Спасибо! Комментарий сохранён — по таким разборам мы улучшаем ответы.")
 
 
 # ── buttons ──────────────────────────────────────────────────────────────────
@@ -157,6 +179,29 @@ async def on_meal(cb: CallbackQuery):
     except Exception as e:
         await cb.message.answer(f"Не получилось записать: {e}")
     await cb.answer()
+
+
+@dp.callback_query(F.data.regexp(r"^fb:(up|down):\d+$"))
+async def on_feedback(cb: CallbackQuery):
+    user = await _user(cb)
+    _, rating, mid = cb.data.split(":")
+    try:
+        await service.rate_message(user, int(mid), rating, source="telegram")
+    except (LookupError, ValueError):
+        return await cb.answer("Эту оценку не получилось сохранить.")
+    try:
+        await cb.message.edit_reply_markup(reply_markup=_feedback_kb(int(mid), rating))
+    except Exception:  # the same button pressed twice → «message is not modified»
+        pass
+    if rating == "up":
+        return await cb.answer("Спасибо за оценку!")
+    await cb.answer()
+    prompt = await cb.message.answer("Спасибо! Что было не так? Ответьте на это сообщение — комментарий поможет "
+                                     "улучшить ответы. Можно и не отвечать.",
+                                     reply_markup=ForceReply(input_field_placeholder="Что не так с ответом"))
+    if len(_fb_prompts) >= FB_PROMPTS_MAX:
+        _fb_prompts.pop(next(iter(_fb_prompts)))
+    _fb_prompts[(prompt.chat.id, prompt.message_id)] = int(mid)
 
 
 @dp.callback_query(F.data.regexp(r"^(acc|rej|edt|rep|cls):"))
