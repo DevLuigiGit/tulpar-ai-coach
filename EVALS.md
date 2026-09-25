@@ -132,6 +132,30 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | qa_local | 56 | local | True | 0.2 | 0.9 | 800 | 60.8 | 0.549 | 0.0 | 100.0 | None | None | 2.0 | 0 | 0.0 |
 
+### RAG: retrieval_parsing_pymupdf
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| qa_retrieval_parsing_pymupdf | 56 | jina3 | False | 0.0 | 0.9 | 400 | 84.3 | 0.776 | 0.0 | 100.0 | None | None | 508.0 | 0 | 7e-06 |
+
+### RAG: text_glm-5.3-flash
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| qa_text_glm-5.3-flash | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 0.0 | 100.0 | None | None | 4409.0 | 400 | 0.000794 |
+
+### RAG: text_gpt-oss-120b
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| qa_text_gpt-oss-120b | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 70.6 | 100.0 | 5 | 4.58 | 2639.5 | 400 | 0.000724 |
+
+### RAG: text_minimax-m3
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| qa_text_minimax-m3 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 80.4 | 100.0 | 4.93 | 4.5 | 2740.5 | 194 | 0.000828 |
+
 ### Маршрутизатор: llm
 
 | arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
@@ -143,6 +167,18 @@
 | arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|
 | router_llm_v2 | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1607.5 | 0.090218 |
+
+### Маршрутизатор: route_glm-5.3-flash
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| router_route_glm-5.3-flash | 66 | 93.9 | 94.4 | 4.2 | 100.0 | 2324.5 | 0.020932 |
+
+### Маршрутизатор: route_gpt-oss-120b
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| router_route_gpt-oss-120b | 66 | 98.5 | 94.4 | 0.0 | 100.0 | 1212.0 | 0.026182 |
 
 ### Маршрутизатор: rules
 
@@ -219,6 +255,18 @@ v2 правился по провалам этого же набора, поэт
 
 **13. Лимиты бесплатных тарифов — реальный риск.** При параллельных прогонах Jina отвечала 429. В продукт добавлены повторы с паузой по Retry-After и откат на порядок векторного поиска, если реранкер недоступен.
 
+**14. Новый парсинг документов не ухудшил поиск.** Пакет `parsing/` (PyMuPDF вместо pypdf, разбиение по абзацам с перекрытием по словам, поддержка DOCX) проверен тем же прогоном только поиска на Jina: hit@4 84,3% против 86,3%, MRR 0,776 против 0,781. Разница — один вопрос из 51: два вопроса о PDF ВОЗ потеряны, один найден. При такой выборке это шум. **Решение:** оставить новый парсинг — он добавляет DOCX и любые документы тренера без правки кода.
+
+**15. Почему основная текстовая модель — `minimax-m3`.** Три модели Ollama Cloud на одном конвейере (те же промпты, Jina, фрагмент 400, t 0, top_p 0,9, max_tokens 400):
+
+| Модель | Маршрут: точность / полнота эскалаций / медиана | Вопросы: получили ответ / ключевые факты / верность источникам | Медиана / p95 ответа | Токены ответа, p95 |
+|---|---|---|---|---|
+| `minimax-m3` | 100% / 100% / 1,6 с (3 повтора) | 86,3% / 80,4% / 4,93 | 2,7 с / 9,6 с | 194 |
+| `gpt-oss:120b` | 98,5% / 94,4% / 1,2 с | 74,5% / 70,6% / 5,00 | 2,6 с / 4,4 с | 400 — упирается в лимит |
+| `glm-5.3-flash` | 93,9% / 94,4% / 2,3 с | 0% — JSON не получен ни разу | 4,4 с / 6,3 с | 400 |
+
+`gpt-oss:120b` пропустила одну эскалацию из 18, а для медицинских сообщений это главная метрика. На вопросах она осторожнее: верность источникам 5,0, но ответ получили на 12 п. п. меньше вопросов, остальные ушли тренеру. Длинное рассуждение съедает лимит токенов. `glm-5.3-flash` в режиме JSON пишет рассуждение на английском вместо ответа («The user asks in Russian…») и обрывается на лимите — для узлов с JSON-контрактом она непригодна. Стоимость по токенам у всех трёх — $0,0007–0,0008 за вопрос, то есть не решает. Слабое место `minimax-m3` — хвост задержки: p95 ответа 9,6 с. **Решение:** основная — `minimax-m3`, резервная — `gpt-oss-120b` на Groq: другой провайдер и самая высокая верность источникам. `glm-5.3-flash` исключена.
+
 ## Эволюция промптов
 
 История изменений — `tulpar_ai/prompts/CHANGELOG.md`: какой провал в евалах привёл к новой версии промпта и как изменились метрики.
@@ -246,6 +294,9 @@ ROUTE_MODELS= .venv/bin/python evals/run.py router --tag rules   # базова�
 .venv/bin/python evals/run.py experiment route_temperature
 .venv/bin/python evals/run.py vision --images-dir ~/Projects/tulpar-opus/docs/qa/food-bench --manifest ~/Projects/tulpar-saas/docs/qa/food-bench/manifest.yaml --models ollama:kimi-k2.7-code --tag kimi
 .venv/bin/python evals/run.py vision --images-dir ~/Projects/tulpar-opus/docs/qa/food-bench --manifest ~/Projects/tulpar-saas/docs/qa/food-bench/manifest.yaml --models ollama:minimax-m3 --tag minimax
+TEXT_MODELS=ollama:gpt-oss:120b .venv/bin/python evals/run.py qa --tag text_gpt-oss-120b      # сравнение текстовых моделей
+ROUTE_MODELS=ollama:gpt-oss:120b .venv/bin/python evals/run.py router --tag route_gpt-oss-120b
+AI_DATA_DIR=data/evals_parsing .venv/bin/python evals/run.py qa --retrieval-only --tag retrieval_parsing_pymupdf
 .venv/bin/python evals/report.py
 ```
 

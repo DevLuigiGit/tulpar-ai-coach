@@ -134,3 +134,45 @@
 | arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|
 | route_gpt-oss-120b | 66 | 98.5 | 94.4 | 0.0 | 100.0 | 1212.0 | 0.026182 |
+
+## router_route_glm-5.3-flash — 2026-09-25 18:29
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_glm-5.3-flash | 66 | 93.9 | 94.4 | 4.2 | 100.0 | 2324.5 | 0.020932 |
+
+## qa_text_gpt-oss-120b — 2026-09-25 18:29
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| text_gpt-oss-120b | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 70.6 | 100.0 | 5 | 4.58 | 2639.5 | 400 | 0.000724 |
+
+## qa_text_glm-5.3-flash — 2026-09-25 18:29
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| text_glm-5.3-flash | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 0.0 | 100.0 | None | None | 3875.0 | 400 | 0.000795 |
+
+## qa_text_minimax-m3 — 2026-09-25 18:29
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| text_minimax-m3 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 86.3 | 100.0 | 4.57 | 4.69 | 2901.0 | 219 | 0.000829 |
+
+## qa_retrieval_parsing_pymupdf — 2026-09-25 18:31
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| retrieval_parsing_pymupdf | 56 | jina3 | False | 0.0 | 0.9 | 400 | 84.3 | 0.776 | 0.0 | 100.0 | None | None | 508.0 | 0 | 7e-06 |
+
+## qa_text_glm-5.3-flash — 2026-09-25 18:36
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| text_glm-5.3-flash | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 0.0 | 100.0 | None | None | 4409.0 | 400 | 0.000794 |
+
+## qa_text_minimax-m3 — 2026-09-25 18:36
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| text_minimax-m3 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 80.4 | 100.0 | 4.93 | 4.5 | 2740.5 | 194 | 0.000828 |

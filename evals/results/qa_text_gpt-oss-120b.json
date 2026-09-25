@@ -1,0 +1,992 @@
+{
+ "summary": {
+  "n": 56,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 86.3,
+  "mrr": 0.781,
+  "answered_rate": 74.5,
+  "keyfact_accuracy": 70.6,
+  "correct_refusal_rate": 100.0,
+  "faithfulness_avg": 5,
+  "faithfulness_pass": 100.0,
+  "correctness_avg": 4.58,
+  "p50_ms": 2639.5,
+  "p95_ms": 4366,
+  "out_tokens_p95": 400,
+  "llm_calls": 51,
+  "tokens_in": 50694,
+  "tokens_out": 13465,
+  "cost_usd": 0.040547,
+  "fallbacks": 0,
+  "cost_per_question_usd": 0.000724,
+  "hit_at_4_by_tag": {
+   "benefit": 100.0,
+   "chronic": 0.0,
+   "contraindications": 85.7,
+   "cross-lingual": 75.0,
+   "nutrition": 87.5,
+   "pregnancy": 100.0,
+   "reasoning": 100.0,
+   "replacement": 80.0,
+   "sedentary": 100.0,
+   "technique": 94.1,
+   "who": 75.0
+  },
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "q01",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2595,
+   "rewrites": 0,
+   "out_tokens": 238,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Лягте на скамью, лопатки сведите, ступни прижмите к полу. Опустите штангу к середине груди, удерживая локти под углом около 45°. Затем выжмите штангу вверх до полного, но не жёсткого выпрямления рук. При травмах плеч, локтей или болях в груди работайте с малым весом и используйте страховку.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q02",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2323,
+   "rewrites": 0,
+   "out_tokens": 296,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Опускайтесь, пока бёдра не достигнут параллели с полом — это считается правильной глубиной приседа со штангой [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q03",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 4366,
+   "rewrites": 0,
+   "out_tokens": 185,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Вакуум живота удерживают около 20 секунд [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": null
+  },
+  {
+   "id": "q04",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 2515,
+   "rewrites": 0,
+   "out_tokens": 316,
+   "tags": [
+    "technique"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q05",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1794,
+   "rewrites": 0,
+   "out_tokens": 213,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Встаньте на четвереньки, опираясь на ладони и колени. Втяните живот, округлите спину и свободно опустите голову вниз. Удерживайте позицию 15 секунд [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q06",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2223,
+   "rewrites": 0,
+   "out_tokens": 340,
+   "tags": [
+    "technique"
+   ],
+   "answer": "В свингах гиря поднимается за счёт мощного разгибания бёдер, а руки лишь удерживают её, не участвуют в подъёме. Работают таз и бёдра, руки только удерживают снаряд [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 4
+  },
+  {
+   "id": "q07",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2523,
+   "rewrites": 0,
+   "out_tokens": 287,
+   "tags": [
+    "technique"
+   ],
+   "answer": "В начале жима гантели держатся ладонями к себе. При выжимании вверх кисти вращаются, так что в верхней точке ладони оказываются впереди, а руки полностью выпрямлены. При опускании гантелей ладони снова возвращаются к себе.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q08",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2047,
+   "rewrites": 0,
+   "out_tokens": 223,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Гриф опускайте, пока он слегка не коснётся лба, не опуская его дальше [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 3
+  },
+  {
+   "id": "q09",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3086,
+   "rewrites": 0,
+   "out_tokens": 320,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Встаньте прямо, держите гантель у груди обеими руками, опуститесь в присед, пока бёдра не лягут на голени, грудь и голова подняты, спина прямая. Внизу задержитесь, локтями разведите колени наружу, затем поднимитесь в исходное положение [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q10",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2326,
+   "rewrites": 0,
+   "out_tokens": 380,
+   "tags": [
+    "technique"
+   ],
+   "answer": "После прыжка полностью выпрямитесь на тумбе, затем спускайтесь вниз шагом, а не спрыгивая [1]. При необходимости можно отойти назад, делая шаг назад с одной ноги, затем второй [1]. При проблемах с коленями уменьшите высоту тумбы и избегайте прыжков вниз [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 4
+  },
+  {
+   "id": "q11",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2773,
+   "rewrites": 0,
+   "out_tokens": 274,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Седло регулируют так, чтобы в нижней точке педалирования нога была почти полностью выпрямлена, а спина оставалась ровной. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q12",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2036,
+   "rewrites": 0,
+   "out_tokens": 186,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": "Становая тяга развивает всю заднюю цепь: разгибатели спины, ягодицы и бицепсы бёдер, а также формирует общую силу тела. [1]\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q13",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3291,
+   "rewrites": 0,
+   "out_tokens": 308,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": "Тяга гантели одной рукой прорабатывает широчайшие мышцы спины каждой стороны отдельно, устраняя мышечный дисбаланс [1]. Это позволяет контролировать нагрузку на каждую сторону более точно.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 4
+  },
+  {
+   "id": "q14",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2922,
+   "rewrites": 0,
+   "out_tokens": 258,
+   "tags": [
+    "technique",
+    "benefit"
+   ],
+   "answer": "Гребной тренажёр развивает выносливость и комплексно прорабатывает мышцы ног, спины, рук и кора [1]. При гребке сначала отталкиваетесь ногами, затем подключаете корпус, в конце подтягиваете рукоять к нижней части рёбер; возврат происходит в обратном порядке — руки, корпус, ноги [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q15",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2480,
+   "rewrites": 0,
+   "out_tokens": 217,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Лягте на спину, прижмите поясницу к полу, оторвите плечи и прямые ноги от пола, руки вытяните за голову; тело должно принять форму пологой дуги. Удерживайте позицию, не позволяя пояснице отрываться от пола. [1]\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q16",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 4,
+   "keyfacts": true,
+   "ms": 3766,
+   "rewrites": 0,
+   "out_tokens": 357,
+   "tags": [
+    "technique"
+   ],
+   "answer": "В жиме ногами колени сгибайте до угла примерно 90°; не допускайте полного выпрямления (замка) и не опускайте платформу глубже этого угла [4][3].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q17",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2608,
+   "rewrites": 0,
+   "out_tokens": 227,
+   "tags": [
+    "technique"
+   ],
+   "answer": "Наклоните корпус вперёд примерно до 45 градусов, спина должна оставаться прямой и слегка согните колени. Тяните штангу к низу живота, сводя лопатки, затем плавно опустите её обратно.[1]\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q18",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2607,
+   "rewrites": 0,
+   "out_tokens": 271,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Приседать со штангой можно, но при проблемах с коленями следует снизить вес и строго контролировать технику [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q19",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2929,
+   "rewrites": 0,
+   "out_tokens": 392,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При болях в коленях замените бег на ходьбу, снизив скорость и наклон. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 3
+  },
+  {
+   "id": "q20",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 2985,
+   "rewrites": 0,
+   "out_tokens": 400,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q21",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3351,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q22",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": false,
+   "ms": 1850,
+   "rewrites": 0,
+   "out_tokens": 301,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При болях в запястьях уменьшите амплитуду отжиманий или делайте их с колен, контролируя технику [4]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q23",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2203,
+   "rewrites": 0,
+   "out_tokens": 293,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "Если есть проблемы с вращательной манжетой, при тяге штанги к подбородку используйте более широкий хват и не поднимайте локти выше плеч [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q24",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2229,
+   "rewrites": 0,
+   "out_tokens": 281,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Да, гиперэкстензию можно выполнять, но при болях в пояснице не следует переразгибать спину в верхней точке и выполнять упражнение без дополнительного отягощения. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q25",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 4455,
+   "rewrites": 0,
+   "out_tokens": 234,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При варикозе можно выполнять прыжки на скакалке, но ограничьте объём и приземляйтесь мягко на носок [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q26",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 4329,
+   "rewrites": 0,
+   "out_tokens": 314,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "Если болят запястья, выполните бёрпи без отжимания и без прыжка, делая упрощённый вариант движения [1]. При этом сохраняйте контроль и держите корпус напряжённым. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": null
+  },
+  {
+   "id": "q27",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 3113,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q28",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2674,
+   "rewrites": 0,
+   "out_tokens": 280,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Да, планку при повышенном давлении можно выполнять, но осторожно: держите тело в прямой линии, не допускайте прогиба поясницы и контролируйте дыхание [1]. При появлении боли сообщите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q29",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 3115,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q30",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1722,
+   "rewrites": 0,
+   "out_tokens": 155,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Противопоказаний у ягодичного мостика нет, существенных ограничений нет [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q31",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1772,
+   "rewrites": 0,
+   "out_tokens": 232,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При проблемах с шеей снизьте вес штанги. Не делайте круговых движений плечами, поднимайте их только вверх к ушам. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q32",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1967,
+   "rewrites": 0,
+   "out_tokens": 218,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": "Tulpar считает, что в одном килограмме веса содержится 7700 ккал [2].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q33",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 5530,
+   "rewrites": 0,
+   "out_tokens": 214,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q34",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 1974,
+   "rewrites": 0,
+   "out_tokens": 183,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q35",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2619,
+   "rewrites": 0,
+   "out_tokens": 199,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": "Минимум калорий, который Tulpar ставит женщине, — 1200 ккал в день [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q36",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2371,
+   "rewrites": 0,
+   "out_tokens": 249,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": "Приложение не опустит норму ниже 1500 ккал для мужчины [2].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q37",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2540,
+   "rewrites": 0,
+   "out_tokens": 272,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": "Нет, ваш прошлый дневник питания не изменится: в записи хранится снимок БЖУ на 100 г, поэтому правка или удаление продукта в базе не переписывает уже залогированный день [2][4].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q38",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 2725,
+   "rewrites": 0,
+   "out_tokens": 400,
+   "tags": [
+    "nutrition",
+    "reasoning"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q39",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 3648,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q40",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 4,
+   "keyfacts": true,
+   "ms": 3633,
+   "rewrites": 0,
+   "out_tokens": 255,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": "ВОЗ рекомендует взрослым заниматься минимум 150–300 минут умеренной аэробной нагрузки в неделю (или 75–150 минут высокой интенсивности, либо их эквивалент) [1][4].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q41",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 2741,
+   "rewrites": 0,
+   "out_tokens": 266,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": "Для получения значимых пользы ВОЗ рекомендует от 75 до 150 минут аэробных упражнений высокой (высокой) интенсивности в неделю, либо эквивалентную комбинацию с умеренной нагрузкой [3][4].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": 5
+  },
+  {
+   "id": "q42",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 3,
+   "keyfacts": true,
+   "ms": 2878,
+   "rewrites": 0,
+   "out_tokens": 308,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": "ВОЗ советует включать силовые (мышечно‑костные) тренировки минимум 3 раза в неделю [1][2].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q43",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 3070,
+   "rewrites": 0,
+   "out_tokens": 400,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q44",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 2620,
+   "rewrites": 0,
+   "out_tokens": 259,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": "Ребёнку 10 лет рекомендуется минимум 60 минут в день умеренной‑или высокой интенсивности, в основном аэробных упражнений [1][2].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q45",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": false,
+   "ms": 2826,
+   "rewrites": 0,
+   "out_tokens": 330,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "sedentary"
+   ],
+   "answer": "ВОЗ определяет сидячее поведение как время, проведённое сидя или лёжа с низкой энергозатратой, будучи бодрствующим, и отмечает, что длительная работа за компьютером относится к такому поведению [3]. В рекомендациях подчёркивается необходимость ограничивать общее время сидения, особенно рекреационное время у экрана, и включать регулярную физическую активность [2][4].\n\nЭто общая информация, а не мед",
+   "faithfulness": 5,
+   "correctness": null
+  },
+  {
+   "id": "q46",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 3300,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "sedentary"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q47",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3262,
+   "rewrites": 0,
+   "out_tokens": 352,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "pregnancy"
+   ],
+   "answer": "ВОЗ рекомендует беременным женщинам заниматься умеренной аэробной физической активностью не менее 150 минут в неделю [1][3][4]. Это количество соответствует рекомендациям для общей взрослой популяции [4]. Также рекомендуется включать разнообразные аэробные и силовые упражнения, если нет противопоказаний [1]. При появлении дискомфорта скажите тренеру.\n\nЭто общая информация, а не медицинская консуль",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q48",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 2,
+   "keyfacts": null,
+   "ms": 2158,
+   "rewrites": 0,
+   "out_tokens": 263,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "pregnancy"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q49",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 2659,
+   "rewrites": 0,
+   "out_tokens": 326,
+   "tags": [
+    "who",
+    "cross-lingual",
+    "chronic"
+   ],
+   "answer": "ВОЗ рекомендует людям с диабетом 2 типа выполнять от 150 до 300 минут умеренной аэробной нагрузки в неделю (или 75 минут интенсивной) и дополнительно 2–3 сеанса силовых тренировок.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q50",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 1815,
+   "rewrites": 0,
+   "out_tokens": 207,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q51",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3033,
+   "rewrites": 0,
+   "out_tokens": 321,
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "answer": "Умеренная нагрузка — это физическая активность с интенсивностью от 3 до менее 6 MET и обычно ощущается как 5‑6 баллов из 10 по шкале восприятия усилий; интенсивная (высокая) нагрузка — от 6 MET и выше, ощущается как 7‑8 баллов из 10.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": null,
+   "correctness": null
+  },
+  {
+   "id": "q52",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 1979,
+   "rewrites": 0,
+   "out_tokens": 186,
+   "tags": [
+    "unanswerable",
+    "supplements"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q53",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3118,
+   "rewrites": 0,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "medical",
+    "near-miss"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q54",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3745,
+   "rewrites": 2,
+   "out_tokens": 0,
+   "tags": [
+    "unanswerable",
+    "club-info"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q55",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 2192,
+   "rewrites": 0,
+   "out_tokens": 250,
+   "tags": [
+    "unanswerable",
+    "club-info"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q56",
+   "rep": 0,
+   "answerable": false,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 2043,
+   "rewrites": 0,
+   "out_tokens": 190,
+   "tags": [
+    "unanswerable",
+    "supplements"
+   ],
+   "answer": ""
+  }
+ ]
+}
