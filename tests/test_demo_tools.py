@@ -47,6 +47,48 @@ def test_demo_scenario_runs_all_steps(env):
     assert sc.sent == [demo_scenario.QUESTION, demo_scenario.MEAL, demo_scenario.PROGRAM] and sc.proposal_id
 
 
+def _run_scenario(drafts: list[str]) -> tuple[demo_scenario.Scenario, list[str], Exception | None]:
+    from tulpar_ai import llm
+    from tulpar_ai.api.app import app
+
+    fake = DemoFake()
+    fake.draft_plan = list(drafts)
+    llm.set_fake(fake)
+    lines: list[str] = []
+    failure = None
+    try:
+        with TestClient(app) as c:
+            sc = demo_scenario.Scenario(c, out=lines.append, draft_timeout=15, poll_s=0.1)
+            try:
+                sc.run()
+            except demo_scenario.StepFailed as e:
+                failure = e
+            sc.proposal = c.get(f"/api/proposals/{sc.proposal_id}",
+                                headers=sc.login("trainer")[0]).json() if sc.proposal_id else None
+    finally:
+        llm.set_fake(None)
+    return sc, lines, failure
+
+
+def test_demo_scenario_sends_invalid_draft_back_before_accepting(env):
+    """3 invalid drafts exhaust the retries and reach the queue with an error: the trainer returns it, then accepts."""
+    sc, lines, failure = _run_scenario(["invalid"] * 3 + ["valid"])
+    text = "\n".join(lines)
+    assert failure is None, text
+    assert "ошибка валидатора" in text and "Тренер: вернуть черновик на доработку" in text
+    assert sc.n == 12 and len(sc.warnings) == 1, text
+    assert sc.proposal["status"] == "applied"
+    assert not [v for v in sc.proposal["violations"] if v["severity"] == "error"]
+
+
+def test_demo_scenario_never_applies_a_draft_with_validator_errors(env):
+    sc, lines, failure = _run_scenario(["invalid"] * 6)
+    text = "\n".join(lines)
+    assert failure is not None and "отклонён" in str(failure), text
+    assert "статус: applied" not in text and "Тренер: отклонить черновик" in text
+    assert sc.proposal["status"] == "rejected"
+
+
 def test_plan_diff():
     before = {"days": [{"title": "Ноги", "exercises": [{"exercise_name": "Присед", "target_sets": 4, "target_reps": 8}]}]}
     after = {"days": [{"title": "Ноги", "exercises": [{"exercise_name": "Ягодичный мост", "target_sets": 4, "target_reps": 10}]}]}

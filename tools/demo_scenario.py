@@ -4,6 +4,8 @@
 
 Steps: client demo-login → RAG question → meal by text (+ confirm) → program request → trainer demo-login →
 queue → accept the draft → the client's plan differs from the one before. Every step prints one or two lines.
+A draft with validator errors is never accepted: the trainer sends it back once with the errors as a comment,
+and rejects it if the second draft still has errors (exit code 1, the plan stays as it was).
 With LANGSMITH_API_KEY set (env or .env) it then prints links to the LangSmith traces of exactly this run.
 Exit code 1 if a step the next ones depend on fails.
 """
@@ -44,6 +46,18 @@ def plan_lines(plan: dict | None) -> list[str]:
         for e in d.get("exercises", []):
             out.append(f"{d.get('title')}: {e.get('exercise_name')} {e.get('target_sets')}×{e.get('target_reps')}")
     return out
+
+
+def draft_errors(p: dict) -> list[dict]:
+    return [v for v in p.get("violations") or [] if v.get("severity") == "error"]
+
+
+def draft_lines(p: dict) -> list[str]:
+    """What the trainer sees on the card: summary, day-level changes, validator findings."""
+    changes = [f"{c['day']}: {c['was'] or '—'} → {c['becomes']}" for c in p.get("changes") or []]
+    issues = [f"{'ошибка' if v.get('severity') == 'error' else 'предупреждение'} валидатора: {short(v['message'])}"
+              for v in p.get("violations") or []]
+    return [f"summary: {short((p.get('draft') or {}).get('summary'))}", *changes, *issues]
 
 
 def plan_diff(before: dict | None, after: dict | None) -> tuple[list[str], list[str]]:
@@ -133,17 +147,23 @@ class Scenario:
         queue = self.call("GET", "/api/queue", tr)
         mine = next((x for x in queue if x["id"] == self.proposal_id), None)
         kinds = ", ".join(f"{x['kind']}:{x['status']}" for x in queue)
-        changes = [f"{c['day']}: {c['was'] or '—'} → {c['becomes']}" for c in p.get("changes") or []]
-        violations = p.get("violations") or []
-        issues = [f"{'ошибка' if v.get('severity') == 'error' else 'предупреждение'} валидатора: {short(v['message'])}"
-                  for v in violations]
         self.step("Тренер: очередь", f"в очереди {len(queue)} ({kinds}); черновик {self.proposal_id[:8]} "
-                                     f"{'есть' if mine else 'НЕ найден'}",
-                  f"summary: {short((p.get('draft') or {}).get('summary'))}", *changes, *issues)
+                                     f"{'есть' if mine else 'НЕ найден'}", *draft_lines(p))
         if mine is None:
             raise StepFailed("черновика нет в очереди тренера")
-        if any(v.get("severity") == "error" for v in violations):
-            self.warn("черновик ушёл тренеру с ошибками валидатора: попытки доработки исчерпаны")
+        errors = draft_errors(p)
+        if errors:  # never accept an invalid plan on stage: one round of trainer feedback, then reject
+            comment = "Исправь ошибки валидатора: " + "; ".join(v["message"] for v in errors)
+            self.call("POST", f"/api/proposals/{self.proposal_id}/decision", tr, json={"action": "edit", "comment": comment})
+            self.step("Тренер: вернуть черновик на доработку", f"комментарий: {short(comment)}")
+            p = self.wait_draft(tr)
+            self.step("Тренер: новый черновик", *draft_lines(p))
+            if draft_errors(p):
+                p = self.call("POST", f"/api/proposals/{self.proposal_id}/decision", tr,
+                              json={"action": "reject", "comment": "Черновик не прошёл проверку валидатора"})
+                self.step("Тренер: отклонить черновик", f"статус: {p['status']}")
+                raise StepFailed("черновик с ошибками валидатора отклонён, план клиента не менялся")
+            self.warn("первый черновик ушёл тренеру с ошибками валидатора, исправлен после комментария тренера")
 
         p = self.call("POST", f"/api/proposals/{self.proposal_id}/decision", tr, json={"action": "accept"})
         self.step("Тренер: принять черновик", f"статус: {p['status']}")
