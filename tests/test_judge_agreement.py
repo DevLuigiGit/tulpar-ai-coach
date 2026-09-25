@@ -95,6 +95,24 @@ def test_retry_only_on_transient_errors():
     assert ja._retry_wait("expected a JSON object", 0) is None
 
 
+async def test_probe_drops_only_hard_refusals_and_rate_limits_are_not_cached(tmp_path, monkeypatch):
+    replies = {"retired": {"score": None, "error": 'ollama 410: {"error":"model was retired"}'},
+               "bad-json": {"score": None, "error": "expected a JSON object, got list"},
+               "limited": {"score": None, "error": "groq 429: Please try again in 2s"}}
+
+    async def fake_once(spec, kind, user, retries=5):
+        return replies[spec.split(":", 1)[1]]
+
+    monkeypatch.setattr(ja, "judge_once", fake_once)
+    cache = ja.Cache(tmp_path / "cache.json")
+    assert "410" in await ja.probe("ollama:retired", "q1", "u", cache)
+    assert await ja.probe("ollama:bad-json", "q1", "u", cache) is None  # one malformed reply ≠ unavailable judge
+    row = {"id": "q1", "sources": "s", "answer": "a", "answerable": False}
+    await ja.score_all(["ollama:bad-json", "groq:limited"], [row], cache, None)
+    keys = list(cache.data)
+    assert len(keys) == 1 and keys[0].startswith("ollama:bad-json|")  # the 429 is retried next run, not scored
+
+
 async def test_judge_user_matches_evals_runner(env, monkeypatch):
     """The agreement study must judge exactly what evals/run.py judges."""
     from tulpar_ai import llm

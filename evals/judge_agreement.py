@@ -261,11 +261,13 @@ async def probe(spec: str, row_id: str, user: str, cache: Cache) -> str | None:
     if cache.data.get(k, {}).get("score") is not None:
         return None
     res = await judge_once(spec, "faithfulness", user, retries=2)
-    if res["score"] is None:
-        return res.get("error", "no score")
-    cache.data[k] = res
-    cache.save()
-    return None
+    if res["score"] is not None:
+        cache.data[k] = res
+        cache.save()
+        return None
+    err = res.get("error", "")
+    # only a hard HTTP refusal (401/404/410…) disqualifies a judge; one malformed reply is just a failed score
+    return err if re.search(r" 4(?!29)\d\d", err) else None
 
 
 async def score_all(specs: list[str], inputs: list[dict], cache: Cache, retest: str | None) -> None:
@@ -283,7 +285,10 @@ async def score_all(specs: list[str], inputs: list[dict], cache: Cache, retest: 
                 k = Cache.key(spec, kind, row["id"], user, rep)
                 if k in cache.data:
                     continue
-                cache.data[k] = await judge_once(spec, kind, user)
+                res = await judge_once(spec, kind, user)
+                if res["score"] is None and _retry_wait(res.get("error", ""), 0) is not None:
+                    continue  # still rate-limited after all retries: leave it for the next run, not a judge failure
+                cache.data[k] = res
                 cache.save()
                 done += 1
                 if done % 10 == 0:
