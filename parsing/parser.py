@@ -1,8 +1,9 @@
 """Extract PDF pages and DOCX paragraphs/tables with source metadata.
 
 PDF text comes from PDFium via pypdfium2 (Apache-2.0 / BSD-3-Clause). PyMuPDF is AGPL-3.0, which would
-force the whole commercial Tulpar SaaS open once this package is reused there; on the WHO PDF both give
-the same text (EVALS.md). OCR is not performed: a scanned PDF yields empty pages and a warning.
+force the whole commercial Tulpar SaaS open once this package is reused there; on the WHO PDF their word
+sequences match by 99.8%, while pypdf also picks up text lying outside the page (evals/parsing_backends.py).
+OCR is not performed: a scanned PDF yields empty pages and a warning.
 """
 
 import logging

@@ -1,0 +1,78 @@
+{
+  "pdf": "who_2020_physical_activity.pdf",
+  "backends": {
+    "pdfium": {
+      "pages": 104,
+      "pages_with_text": 103,
+      "words": 46447,
+      "chunks": 1272,
+      "unconfirmed_words": 23,
+      "unconfirmed_share": 0.0005,
+      "unconfirmed_examples": [
+        "criticala",
+        "importanta",
+        "paa",
+        "conditionsb",
+        "disabilityc",
+        "harm",
+        "b",
+        "s",
+        "enefits",
+        "activit",
+        "r",
+        "ed"
+      ]
+    },
+    "pymupdf": {
+      "pages": 104,
+      "pages_with_text": 103,
+      "words": 46488,
+      "chunks": 1270,
+      "unconfirmed_words": 40,
+      "unconfirmed_share": 0.0009,
+      "unconfirmed_examples": [
+        "e",
+        "a",
+        "d",
+        "h",
+        "s",
+        "t",
+        "ris",
+        "ks",
+        "an",
+        "ar",
+        "ms",
+        "ben"
+      ],
+      "order_similarity_vs_pdfium": 0.9977,
+      "extra_vs_pdfium": 70,
+      "extra_vs_pdfium_on_neighbour_page": 27
+    },
+    "pypdf": {
+      "pages": 104,
+      "pages_with_text": 103,
+      "words": 50622,
+      "chunks": 1387,
+      "unconfirmed_words": 4300,
+      "unconfirmed_share": 0.0849,
+      "unconfirmed_examples": [
+        "and",
+        "activity",
+        "physical",
+        "of",
+        "the",
+        "intensity",
+        "health",
+        "with",
+        "moderate",
+        "adults",
+        "or",
+        "to"
+      ],
+      "order_similarity_vs_pdfium": 0.9537,
+      "extra_vs_pdfium": 4330,
+      "extra_vs_pdfium_on_neighbour_page": 4080
+    }
+  },
+  "skipped": {}
+}
