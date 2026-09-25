@@ -35,6 +35,24 @@
 .t-msg-tag.is-accent { background: var(--accent-soft); color: var(--accent); }
 .t-msg-tag.is-green { background: var(--green-soft); color: var(--green); }
 
+/* ---------- Оценки ответов коуча ---------- */
+
+.t-fb-tiles .t-tile.is-up { background: var(--green-soft); border-color: var(--green-line); }
+.t-fb-tiles .t-tile.is-up .t-tile-value { color: var(--green); }
+.t-fb-tiles .t-tile.is-down { background: var(--red-soft); border-color: var(--red-line); }
+.t-fb-tiles .t-tile.is-down .t-tile-value { color: var(--red-text); }
+.t-fb-list { display: flex; flex-direction: column; gap: var(--s-3); }
+.t-fb-item {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: var(--s-3); border-radius: var(--r-md); background: var(--bg); border: 1px solid var(--border);
+}
+.t-fb-q { font-size: var(--fs-sm); color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+.t-fb-a {
+  font-size: var(--fs-sm); color: var(--text-2); line-height: 1.5; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.t-fb-c { font-size: var(--fs-sm); color: var(--red-text); overflow-wrap: anywhere; }
+
 /* ---------- Адаптив клиентов (после всех правил выше) ---------- */
 
 @media (max-width: 860px) {

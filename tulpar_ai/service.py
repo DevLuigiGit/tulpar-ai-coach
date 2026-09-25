@@ -44,7 +44,8 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
         "transcript": res.get("transcript"),
     }
     rt = get_current_run_tree()
-    payload = {k: v for k, v in reply.items() if k != "reply"} | {"run_id": str(rt.id) if rt else None}
+    payload = {k: v for k, v in reply.items() if k != "reply"} | {
+        "run_id": str(rt.id) if rt else None, "run_project": getattr(rt, "session_name", None) if rt else None}
     reply["message_id"] = await store.add_message(user.id, "assistant", reply["reply"], payload)
     return reply
 
@@ -64,7 +65,8 @@ async def rate_message(user: User, message_id: int, rating: str, comment: str | 
     comment = (comment or "").strip()[: feedback.MAX_COMMENT] or None
     row, updated = await store.set_feedback(message_id=message_id, client_id=user.id, rating=rating, comment=comment,
                                             run_id=payload.get("run_id"), source=source)
-    row["langsmith"] = await feedback.send_to_langsmith(row["run_id"], message_id, rating, comment, updated)
+    row["langsmith"] = feedback.send_later(row["run_id"], message_id, rating, comment, updated,
+                                           project=payload.get("run_project"))
     return row
 
 

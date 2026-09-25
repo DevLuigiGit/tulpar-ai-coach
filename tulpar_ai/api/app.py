@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import service
+from .. import feedback, service
 from ..config import ROOT, get_settings
 from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
@@ -54,6 +54,7 @@ async def lifespan(app: FastAPI):
     yield
     if bot_task is not None:
         bot_task.cancel()
+    await feedback.drain()
     await runner.close_graphs()
     get_index().close()
     set_index(None)

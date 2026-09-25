@@ -1,8 +1,10 @@
 // Одно сообщение ленты: пузырь клиента справа, ответы коуча/тренера слева,
-// служебные заметки по центру. Карточка еды рендерится под ответом коуча.
+// служебные заметки по центру. Карточка еды рендерится под ответом коуча,
+// под ответом коуча — время и оценка 👍/👎.
 import type { ChatMessage, Citation, ConfirmMealResponse } from "../../types";
 import { SOURCE_LABEL, timeShort } from "../../format";
-import { asReply, asSystem, attachments, userText } from "./chatModel";
+import { asReply, asSystem, attachments, canRate, userText } from "./chatModel";
+import AnswerFeedback from "./AnswerFeedback";
 import MealCard from "./MealCard";
 import RichText from "./RichText";
 import { AlertIcon, ArrowRightIcon, CheckIcon, ImageIcon, UserTieIcon, WaveIcon } from "./icons";
@@ -130,7 +132,12 @@ function CoachBubble({ message, hideTranscript, mealLogged, onMealLogged, onOpen
           />
         </div>
       )}
-      <time className="msg-time">{timeShort(message.created_at)}</time>
+      <div className="msg-foot">
+        <time className="msg-time">{timeShort(message.created_at)}</time>
+        {canRate(message) && (
+          <AnswerFeedback messageId={message.id as number} initial={message.feedback ?? null} />
+        )}
+      </div>
     </div>
   );
 }
