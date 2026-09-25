@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import time
 from types import SimpleNamespace
@@ -29,6 +30,24 @@ class FakeLangSmith:
         if not any(c["feedback_id"] == feedback_id for c in self.created):
             raise LookupError("no such feedback")
         self.updated.append({"feedback_id": feedback_id, **kw})
+
+
+class StrictLangSmith(FakeLangSmith):
+    """Keeps feedback by id like the server: a second create with a known id is a conflict."""
+
+    def __init__(self):
+        super().__init__()
+        self.by_id: dict = {}
+
+    def create_feedback(self, run_id, **kw):
+        if kw["feedback_id"] in self.by_id:
+            raise ValueError("409 feedback already exists")
+        super().create_feedback(run_id, **kw)
+        self.by_id[kw["feedback_id"]] = {"run_id": run_id, "score": kw["score"], "comment": kw["comment"]}
+
+    def update_feedback(self, feedback_id, **kw):
+        super().update_feedback(feedback_id, **kw)
+        self.by_id[feedback_id] |= {"score": kw["score"], "comment": kw["comment"]}
 
 
 @pytest.fixture
@@ -96,7 +115,8 @@ async def test_rate_message_rules_and_langsmith(app_state, langsmith):
     r = await service.rate_message(client, mid, "down", "Позвоните мне: +7 701 123 45 67")
     assert r["langsmith"] == "queued" and r["rating"] == "down" and await feedback.drain() == ["sent"]
     upd = langsmith.updated[0]
-    assert upd["score"] == 0 and "[телефон]" in upd["comment"] and upd["feedback_id"] == feedback.feedback_id(mid)
+    assert upd["score"] == 0 and "[телефон]" in upd["comment"]
+    assert upd["feedback_id"] == feedback.feedback_id("run-1", mid)
     assert len(langsmith.created) == 1  # a changed vote updates, not duplicates
 
     with pytest.raises(ValueError):
@@ -127,6 +147,81 @@ async def test_quick_revote_reaches_langsmith_in_order(app_state, langsmith):
     assert len(langsmith.created) == 1 and langsmith.created[0]["score"] == 1
     assert [(u["score"], u["comment"]) for u in langsmith.updated] == [(0, "мимо")]
     assert feedback._locks == {}
+
+
+async def test_store_simultaneous_votes_only_one_is_first(env):
+    from tulpar_ai.store import Store
+
+    store = await Store(env / "app.sqlite").open()
+    mid = await _answer(store, "c1")
+    votes = [store.set_feedback(message_id=mid, client_id="c1", rating=r, comment=None, run_id="run-1", source="web")
+             for r in ("up", "down", "up")]
+    results = await asyncio.gather(*votes)
+    assert sorted(updated for _, updated in results) == [False, True, True]
+    assert await store.feedback_counts() == {"up": 1, "down": 0, "total": 1}  # the last stored vote wins
+    await store.close()
+
+
+@pytest.mark.parametrize("ratings", [("up", "down"), ("down", "up", "down"), ("up", "up", "down", "up")])
+async def test_simultaneous_votes_keep_langsmith_equal_to_local(app_state, monkeypatch, ratings):
+    """aiogram runs callbacks as parallel tasks: a fast 👍→👎 or two open tabs must not leave a stale score."""
+    from tulpar_ai import feedback, service
+
+    store, gw = app_state
+    fake = StrictLangSmith()
+    monkeypatch.setenv("LANGSMITH_API_KEY", "test-key")
+    monkeypatch.setattr(feedback, "langsmith_client", lambda: fake)
+    client = await gw.demo_user("client")
+    mid = await _answer(store, client.id)
+
+    await asyncio.gather(*(service.rate_message(client, mid, r, source="telegram") for r in ratings))
+    assert await feedback.drain() == ["sent"] * len(ratings)
+    local = (await store.list_feedback(client_ids=[client.id]))[0]["rating"]
+    assert len(fake.created) == 1
+    assert fake.by_id == {feedback.feedback_id("run-1", mid): {"run_id": "run-1", "score": feedback.score(local),
+                                                               "comment": None}}
+    assert feedback._locks == {}
+
+
+async def test_votes_reach_langsmith_in_the_order_they_were_stored(app_state, monkeypatch):
+    """The first vote is stored first but its handler resumes last: its create must still go out first."""
+    from tulpar_ai import feedback, service
+
+    store, gw = app_state
+    fake = StrictLangSmith()
+    monkeypatch.setenv("LANGSMITH_API_KEY", "test-key")
+    monkeypatch.setattr(feedback, "langsmith_client", lambda: fake)
+    original = store.set_feedback
+
+    async def slow_first(**kw):
+        res = await original(**kw)
+        if not res[1]:
+            await asyncio.sleep(0.05)
+        return res
+
+    monkeypatch.setattr(store, "set_feedback", slow_first)
+    client = await gw.demo_user("client")
+    mid = await _answer(store, client.id)
+    await asyncio.gather(service.rate_message(client, mid, "up"), service.rate_message(client, mid, "down"))
+    assert await feedback.drain() == ["sent", "sent"]
+    assert [c["score"] for c in fake.created] == [1] and [u["score"] for u in fake.updated] == [0]
+    assert (await store.list_feedback(client_ids=[client.id]))[0]["rating"] == "down"
+
+
+async def test_feedback_id_is_per_run_so_databases_do_not_collide(langsmith, monkeypatch):
+    """Message ids restart at 1 in every app.sqlite: message 6 of the smoke run and of production are different."""
+    from tulpar_ai import feedback
+
+    fake = StrictLangSmith()
+    monkeypatch.setattr(feedback, "langsmith_client", lambda: fake)
+    assert feedback.feedback_id("run-smoke", 6) == feedback.feedback_id("run-smoke", 6)
+    assert feedback.feedback_id("run-smoke", 6) != feedback.feedback_id("run-prod", 6)
+
+    assert await feedback.send_to_langsmith("run-smoke", 6, "up", None) == "sent"
+    assert await feedback.send_to_langsmith("run-prod", 6, "up", None) == "sent"  # a create, not a conflict
+    assert await feedback.send_to_langsmith("run-prod", 6, "down", "мимо", updated=True) == "sent"
+    assert fake.by_id[feedback.feedback_id("run-smoke", 6)]["score"] == 1  # the smoke vote is not touched
+    assert fake.by_id[feedback.feedback_id("run-prod", 6)] == {"run_id": "run-prod", "score": 0, "comment": "мимо"}
 
 
 async def test_langsmith_down_or_untraced_never_fails_the_vote(app_state, monkeypatch):

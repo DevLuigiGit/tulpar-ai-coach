@@ -12,7 +12,8 @@ import asyncio
 import logging
 import os
 import uuid
-from typing import Any
+from contextlib import AbstractAsyncContextManager, asynccontextmanager
+from typing import Any, AsyncIterator
 
 from .pii import mask
 
@@ -27,16 +28,37 @@ LANGSMITH_TIMEOUT_S = 8.0
 _NS = uuid.UUID("0c7a6f1e-3b52-4f4e-9d0a-5a1f6e2b9c47")
 _project_ids: dict[str, Any] = {}
 _pending: set[asyncio.Task] = set()
-_locks: dict[int, list] = {}  # message id → [lock, users]: votes on one message reach LangSmith in order
+_locks: dict[tuple[str, int], list] = {}  # (purpose, message id) → [lock, users]; gone when nobody holds it
+
+
+@asynccontextmanager
+async def _message_lock(purpose: str, message_id: int) -> AsyncIterator[None]:
+    key = (purpose, message_id)
+    entry = _locks.setdefault(key, [asyncio.Lock(), 0])
+    entry[1] += 1
+    try:
+        async with entry[0]:
+            yield
+    finally:
+        entry[1] -= 1
+        if entry[1] == 0:
+            _locks.pop(key, None)
+
+
+def vote_lock(message_id: int) -> AbstractAsyncContextManager[None]:
+    """Held around «store the vote + queue its LangSmith copy»: the copies are then queued in the order the votes
+    were stored, so the last one sent is the vote that is kept locally. The bot and the web share this process."""
+    return _message_lock("vote", message_id)
 
 
 def score(rating: str) -> int:
     return 1 if rating == "up" else 0
 
 
-def feedback_id(message_id: int) -> uuid.UUID:
-    """Stable per message: a changed vote updates the same LangSmith feedback instead of adding a second one."""
-    return uuid.uuid5(_NS, f"message:{message_id}")
+def feedback_id(run_id: str, message_id: int) -> uuid.UUID:
+    """Stable per answer: a changed vote updates the same LangSmith feedback instead of adding a second one.
+    The run id is part of it because message ids restart at 1 in every app.sqlite (local, smoke, production)."""
+    return uuid.uuid5(_NS, f"{run_id}:message:{message_id}")
 
 
 def langsmith_client() -> Any:
@@ -59,7 +81,7 @@ def _project_id(client: Any, project: str | None) -> Any:
 
 
 def _push(run_id: str, message_id: int, rating: str, comment: str | None, updated: bool, project: str | None) -> None:
-    client, fid = langsmith_client(), feedback_id(message_id)
+    client, fid = langsmith_client(), feedback_id(run_id, message_id)
     if updated:
         try:
             client.update_feedback(fid, score=score(rating), comment=comment)
@@ -75,20 +97,14 @@ async def send_to_langsmith(run_id: str | None, message_id: int, rating: str, co
     """-> "sent" | "skipped" (turn was not traced / no key) | "failed" (logged, the vote is kept)."""
     if not run_id or not os.environ.get("LANGSMITH_API_KEY"):
         return "skipped"
-    entry = _locks.setdefault(message_id, [asyncio.Lock(), 0])
-    entry[1] += 1
     try:
-        async with entry[0]:  # a quick 👍→👎 must not let the update overtake the create
+        async with _message_lock("send", message_id):  # a quick 👍→👎 must not let the update overtake the create
             await asyncio.wait_for(asyncio.to_thread(_push, run_id, message_id, rating, mask(comment or "") or None,
                                                      updated, project), LANGSMITH_TIMEOUT_S)
         return "sent"
     except Exception as e:
         log.warning("LangSmith feedback not sent for message %s: %s: %s", message_id, type(e).__name__, str(e)[:200])
         return "failed"
-    finally:
-        entry[1] -= 1
-        if entry[1] == 0:
-            _locks.pop(message_id, None)
 
 
 def send_later(run_id: str | None, message_id: int, rating: str, comment: str | None, updated: bool = False,

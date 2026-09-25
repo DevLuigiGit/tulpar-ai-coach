@@ -95,6 +95,12 @@ class Store:
         await self.db.commit()
         return cur.lastrowid
 
+    async def _changes(self, sql: str, *args) -> int:
+        """-> rows changed by this statement (0 for an INSERT skipped by ON CONFLICT DO NOTHING)."""
+        cur = await self.db.execute(sql, args)
+        await self.db.commit()
+        return cur.rowcount
+
     # ── proposals & escalations ────────────────────────────────────────────
     async def create_proposal(self, *, kind: str, client_id: str, trainer_id: str | None, source: str, request: str,
                               status: str, proposal_id: str | None = None) -> dict:
@@ -166,14 +172,19 @@ class Store:
     # ── feedback on answers (👍/👎) ────────────────────────────────────────
     async def set_feedback(self, *, message_id: int, client_id: str, rating: str, comment: str | None,
                            run_id: str | None, source: str) -> tuple[dict, bool]:
-        """One vote per message: a second vote replaces the first. Returns (row, it was an update)."""
-        existed = await self._one("SELECT id FROM feedback WHERE message_id=?", message_id) is not None
-        await self._exec(
+        """One vote per message: a second vote replaces the first. Returns (row, it was an update).
+
+        The INSERT itself decides which vote is the first one (a SELECT before it would not): two votes arriving at
+        once must not both look like the first, or LangSmith would get two creates for one feedback."""
+        ts = now()
+        inserted = await self._changes(
             "INSERT INTO feedback(message_id,client_id,rating,comment,run_id,source,created_at,updated_at) "
-            "VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(message_id) DO UPDATE SET rating=excluded.rating, "
-            "comment=excluded.comment, source=excluded.source, updated_at=excluded.updated_at",
-            message_id, client_id, rating, comment, run_id, source, now(), now())
-        return await self._one("SELECT * FROM feedback WHERE message_id=?", message_id), existed
+            "VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(message_id) DO NOTHING",
+            message_id, client_id, rating, comment, run_id, source, ts, ts)
+        if not inserted:
+            await self._exec("UPDATE feedback SET rating=?, comment=?, source=?, updated_at=? WHERE message_id=?",
+                             rating, comment, source, ts, message_id)
+        return await self._one("SELECT * FROM feedback WHERE message_id=?", message_id), not inserted
 
     async def list_feedback(self, *, client_ids: list[str] | None = None, rating: str | None = None,
                             limit: int = 50) -> list[dict]:

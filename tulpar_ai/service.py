@@ -63,10 +63,11 @@ async def rate_message(user: User, message_id: int, rating: str, comment: str | 
     if payload.get("kind") not in feedback.RATEABLE_KINDS:
         raise ValueError("this message cannot be rated")
     comment = (comment or "").strip()[: feedback.MAX_COMMENT] or None
-    row, updated = await store.set_feedback(message_id=message_id, client_id=user.id, rating=rating, comment=comment,
-                                            run_id=payload.get("run_id"), source=source)
-    row["langsmith"] = feedback.send_later(row["run_id"], message_id, rating, comment, updated,
-                                           project=payload.get("run_project"))
+    async with feedback.vote_lock(message_id):  # aiogram and the web handle votes concurrently
+        row, updated = await store.set_feedback(message_id=message_id, client_id=user.id, rating=rating,
+                                                comment=comment, run_id=payload.get("run_id"), source=source)
+        row["langsmith"] = feedback.send_later(row["run_id"], message_id, rating, comment, updated,
+                                               project=payload.get("run_project"))
     return row
 
 
