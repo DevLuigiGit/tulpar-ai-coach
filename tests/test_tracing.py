@@ -120,3 +120,50 @@ def test_embedding_trace_payload_is_summarized():
         "task": "retrieval.passage", "count": 1579, "texts": [t[:300] for t in texts[:3]]}
     assert trace_embed_outputs([[0.0] * 1024] * 1579) == {"vectors": 1579, "dim": 1024}
     assert trace_embed_outputs([]) == {"vectors": 0, "dim": 0}
+
+
+async def test_photo_and_voice_bytes_stay_out_of_traces(env, traced, monkeypatch):
+    """A photo is sent once per vision model tried and a voice note once: the trace keeps only their sizes."""
+    import json
+
+    from tulpar_ai import llm
+    from tulpar_ai.config import get_settings
+    from tulpar_ai.graph import runner
+
+    monkeypatch.setenv("VISION_MODELS", "ollama:down,ollama:fake")
+    get_settings.cache_clear()
+    ok = llm._PROVIDERS["ollama"]
+
+    async def first_fails(model, *a, **kw):
+        if model == "down":
+            raise llm.LLMError("ollama 503: down")
+        return await ok(model, *a, **kw)
+
+    monkeypatch.setitem(llm._PROVIDERS, "ollama", first_fails)
+    store, gw = await boot(env)
+    try:
+        client = await gw.demo_user("client")
+        photo, voice = b"\xff\xd8" + b"p" * 600_000, b"OggS" + b"v" * 400_000
+        await runner.run_chat_turn(client.id, image=photo)
+        await runner.run_chat_turn(client.id, audio=voice, audio_name="v.ogg")
+    finally:
+        await shutdown(store)
+    runs = [c.kwargs for c in traced.create_run.call_args_list]
+    vision = [r for r in runs if r["name"] == "llm" and r["inputs"].get("images")]
+    assert len(vision) == 2  # the failed model and the fallback both saw the photo
+    for r in vision:
+        assert r["inputs"]["images"] == [{"type": "image/jpeg", "bytes": len(photo)}]
+    [stt_run] = [r for r in runs if r["name"] == "speech_to_text"]
+    assert stt_run["inputs"] == {"audio": {"bytes": len(voice), "format": "ogg"}, "language": "ru"}
+    biggest = max(len(json.dumps(r.get("inputs"), default=str)) for r in runs)
+    assert biggest < 50_000, biggest
+
+
+def test_trace_input_summaries_without_media():
+    from tulpar_ai.llm import trace_llm_inputs
+    from tulpar_ai.stt import trace_stt_inputs
+
+    plain = {"provider": "ollama", "model": "m", "user": "текст", "images": None}
+    assert trace_llm_inputs(plain) is plain
+    assert trace_stt_inputs({"audio": b"", "filename": "voice", "language": "ru"}) == {
+        "audio": {"bytes": 0, "format": "ogg"}, "language": "ru"}
