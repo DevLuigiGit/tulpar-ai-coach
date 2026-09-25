@@ -92,8 +92,9 @@ class Settings(BaseSettings):
     qdrant_api_key: str = ""
 
     # ── semantic answer cache (question branch only; thresholds by evals/cache_eval.py, EVALS.md) ───
-    # Lowest cosine with zero wrong hits was 0.94 (Jina) / 0.98 (local), but the closest near-miss sat just under
-    # it (0.939 / 0.978), so both keep one grid step of margin: a wrong cached answer is worse than a miss.
+    # The threshold alone cannot stop one-word flips (женщина/мужчина 0.989, в неделю/в день 0.983 with Jina); the
+    # lexical guard in rag/cache_guard.py does. With the guard the lowest threshold with zero wrong hits is 0.91, but
+    # a flip outside the guard's lists (узким/широким хватом) scores 0.909, so 0.95 keeps a margin above it.
     answer_cache: bool = True
     answer_cache_min_score: float = 0.95  # Jina embedder
     answer_cache_min_score_local: float = 0.99  # hashing embedder: lexical, so in practice only verbatim repeats

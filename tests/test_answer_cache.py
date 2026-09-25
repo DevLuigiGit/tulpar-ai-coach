@@ -41,7 +41,7 @@ async def test_repeat_hits_with_the_same_reply(cache, fake_llm):
 async def test_near_miss_does_not_hit(cache):
     await cache.put(Q, REPLY, CITES)
     vec = await cache.index.embed_query(NEAR)
-    nearest = cache._nearest(cache.collection, vec, time.time())
+    [nearest] = cache._nearest(cache.collection, vec, time.time())
     assert nearest is not None and nearest["score"] > 0.9  # lexically very close — and still a different exercise
     assert await cache.lookup(NEAR) is None
 
@@ -147,3 +147,33 @@ async def test_graph_second_turn_skips_answer_model(app_state, fake_llm):
         set_answer_cache(None)
         set_index(None)
         idx.close()
+
+
+FEMALE = "Я женщина, 30 лет. Какой минимум калорий мне поставит Tulpar?"
+MALE = "Я мужчина, 30 лет. Какой минимум калорий мне поставит Tulpar?"
+
+
+async def test_guard_blocks_a_flip_that_clears_the_threshold(cache, monkeypatch):
+    """Jina scores this pair 0.9887: the threshold passes it, the guard must not."""
+    from tulpar_ai.config import get_settings
+    from tulpar_ai.graph import chat
+
+    monkeypatch.setattr(get_settings(), "answer_cache_min_score_local", 0.5)
+    await cache.put(FEMALE, "Нижний предел нормы для женщин — 1200 ккал в день [1].", CITES)
+    [nearest] = cache._nearest(cache.collection, await cache.index.embed_query(MALE), time.time())
+    assert nearest["score"] >= cache.min_score
+    assert await cache.lookup(MALE) is None
+    assert await cache.lookup("Какой минимум калорий мне поставит Tulpar?") is None  # no sex named: no women's answer
+    assert await chat.cache_lookup({"text": MALE, "intent": "question"}) == {}
+    assert (await cache.lookup("Мне 30 лет, я женщина. Какой минимум калорий мне поставит Tulpar?"))["reply"].endswith("[1].")
+
+
+def test_pick_takes_the_nearest_candidate_the_guard_accepts():
+    from tulpar_ai.rag.answer_cache import pick
+
+    male = {"question": MALE, "reply": "1500", "score": 0.99}
+    female = {"question": "Мне 30 лет, я женщина. Какой минимум калорий мне поставит Tulpar?", "reply": "1200", "score": 0.97}
+    best, rejected = pick(FEMALE, [male, female], 0.95)
+    assert best is female and rejected == [{"score": 0.99, "slots": ["sex"]}]
+    assert pick(FEMALE, [male, {**female, "score": 0.9}], 0.95) == (None, [{"score": 0.99, "slots": ["sex"]}])
+    assert pick(FEMALE, [{**female, "score": 0.9}], 0.95) == (None, [])

@@ -5,6 +5,10 @@ answer to one client's question is safe to give another client who asks the same
 reaches the cache — red flags, meals, program requests and injections are routed away before it — and only a
 final answer with citations is stored.
 
+A hit needs two things: the cosine clears the threshold, and the lexical guard (rag/cache_guard.py) finds no slot on
+which the two questions disagree. Embeddings put "Я женщина…" and "Я мужчина…" at 0.99, so the threshold alone cannot
+keep a man from getting the women's answer.
+
 The collection name carries a fingerprint of everything that shapes an answer: the answer prompt (version and
 text) and its sampling settings, the text model chain, the RAG index collection, retrieval settings and the corpus
 files. Changing any of them starts from an empty cache instead of serving answers produced by the old setup.
@@ -24,12 +28,14 @@ from qdrant_client import models
 
 from ..config import get_settings
 from ..prompts import active_version, prompt
+from .cache_guard import conflicts
 from .embed import JinaEmbedder
 from .index import CORPUS, Index
 from .qdrant import get_client
 from .retrieve import get_index
 
 NS = uuid.UUID("5b8f2d0e-6c3a-4e1f-9a7d-1c2b3e4f5a60")
+CANDIDATES = 5  # the nearest entry may be a guarded near-miss while the next one is the real repeat
 
 
 @lru_cache
@@ -54,6 +60,23 @@ def fingerprint(index: Index) -> str:
         f"corpus={corpus_digest()}",
     ]
     return hashlib.sha1("|".join(parts).encode()).hexdigest()[:12]
+
+
+def pick(question: str, candidates: list[dict], min_score: float) -> tuple[dict | None, list[dict]]:
+    """First candidate (nearest first) above the threshold whose question agrees with this one on every guarded slot.
+
+    Also returns the candidates the guard turned down, for the trace. Shared with evals/cache_eval.py so the sweep
+    measures exactly what production serves.
+    """
+    rejected = []
+    for c in candidates:
+        if c["score"] < min_score:
+            break
+        slots = conflicts(question, c["question"])
+        if not slots:
+            return c, rejected
+        rejected.append({"score": round(c["score"], 4), "slots": slots})
+    return None, rejected
 
 
 def _key(question: str) -> str:
@@ -81,24 +104,24 @@ class AnswerCache:
 
     @traceable(run_type="tool", name="answer_cache", process_inputs=_only_question)
     async def lookup(self, question: str) -> dict | None:
-        """Best fresh entry for a masked question if it clears the threshold, else None."""
+        """Best fresh entry for a masked question that clears the threshold and the guard, else None."""
         vec = await self.index.embed_query(question)
         name = self.collection
-        best = self._nearest(name, vec, time.time())
-        hit = best is not None and best["score"] >= self.min_score
+        found = self._nearest(name, vec, time.time(), CANDIDATES)
+        best, rejected = pick(question, found, self.min_score)
         rt = get_current_run_tree()
         if rt is not None:
-            rt.metadata.update({"hit": hit, "score": round(best["score"], 4) if best else None,
-                                "min_score": self.min_score, "collection": name})
-        return best if hit else None
+            rt.metadata.update({"hit": best is not None, "score": round(found[0]["score"], 4) if found else None,
+                                "min_score": self.min_score, "collection": name, "guard_rejected": rejected})
+        return best
 
-    def _nearest(self, name: str, vector: list[float], now: float) -> dict | None:
+    def _nearest(self, name: str, vector: list[float], now: float, limit: int = 1) -> list[dict]:
         if not self.client.collection_exists(name):
-            return None
+            return []
         fresh = models.Filter(must=[models.FieldCondition(
             key="created_at", range=models.Range(gte=now - get_settings().answer_cache_ttl_h * 3600))])
-        res = self.client.query_points(name, query=vector, query_filter=fresh, limit=1, with_payload=True)
-        return {**res.points[0].payload, "score": float(res.points[0].score)} if res.points else None
+        res = self.client.query_points(name, query=vector, query_filter=fresh, limit=limit, with_payload=True)
+        return [{**p.payload, "score": float(p.score)} for p in res.points]
 
     async def put(self, question: str, reply: str, citations: list[dict], created_at: float | None = None) -> bool:
         """Store a final answer. Anything without citations is not a grounded answer and is never cached."""
