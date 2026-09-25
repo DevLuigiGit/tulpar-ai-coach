@@ -176,3 +176,9 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | text_minimax-m3 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.781 | 80.4 | 100.0 | 4.93 | 4.5 | 2740.5 | 194 | 0.000828 |
+
+## tts — 2026-09-25 21:21
+
+| arm | n | ok | errors | voice | p50_ms | p95_ms | min_ms | max_ms | bytes_p50 | bytes_min | bytes_max | audio_s_p50 | speech_chars_p50 | truncated |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| default | 20 | 20 | 0 | ru-RU-SvetlanaNeural | 1735.2 | 6981.0 | 876.7 | 6981.0 | 79560.0 | 46368 | 140256 | 13.3 | 184.5 | 0 |
