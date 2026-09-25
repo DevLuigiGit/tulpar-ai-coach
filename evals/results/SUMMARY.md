@@ -193,3 +193,33 @@
 | arm | n | exact_match |
 |---|---|---|
 | default | 13 | 100.0 |
+
+## program — 2026-09-25 21:57
+
+| arm | n | exact_match |
+|---|---|---|
+| default | 13 | 100.0 |
+
+## router_final_merged — 2026-09-25 21:58
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| final_merged | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1394.5 | 0.025599 |
+
+## qa_final_merged — 2026-09-25 22:02
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| final_merged | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.786 | 84.3 | 100.0 | 4.75 | 4.62 | 2621.5 | 229 | 0.00083 |
+
+## qa_final_merged — 2026-09-25 22:18
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| final_merged | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.786 | 80.4 | 100.0 | 4.74 | 4.68 | 2616.5 | 212 | 0.000826 |
+
+## qa_final_merged — 2026-09-25 22:25
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| final_merged | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.786 | 86.3 | 100.0 | 4.7 | 4.47 | 2809.0 | 220 | 0.000829 |

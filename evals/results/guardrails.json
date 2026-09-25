@@ -451,7 +451,7 @@
      }
     ]
    },
-   "mean_us_per_message": 121.6,
+   "mean_us_per_message": 126.1,
    "gate": true
   },
   "rows": [
@@ -460,7 +460,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 137.0,
+    "us": 140.4,
     "tags": [
      "toxic"
     ],
@@ -471,7 +471,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 101.7,
+    "us": 102.5,
     "tags": [
      "toxic"
     ],
@@ -482,7 +482,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 142.2,
+    "us": 88.4,
     "tags": [
      "toxic"
     ],
@@ -493,7 +493,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 97.3,
+    "us": 78.2,
     "tags": [
      "toxic"
     ],
@@ -504,7 +504,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 98.8,
+    "us": 97.4,
     "tags": [
      "toxic"
     ],
@@ -515,7 +515,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 108.8,
+    "us": 107.6,
     "tags": [
      "toxic"
     ],
@@ -526,7 +526,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 74.4,
+    "us": 74.2,
     "tags": [
      "toxic"
     ],
@@ -537,7 +537,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 98.5,
+    "us": 100.3,
     "tags": [
      "toxic"
     ],
@@ -548,7 +548,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 103.3,
+    "us": 104.2,
     "tags": [
      "toxic"
     ],
@@ -559,7 +559,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 73.3,
+    "us": 72.4,
     "tags": [
      "toxic"
     ],
@@ -570,7 +570,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 114.5,
+    "us": 113.0,
     "tags": [
      "toxic",
      "obfuscated"
@@ -582,7 +582,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 64.3,
+    "us": 62.1,
     "tags": [
      "toxic",
      "obfuscated"
@@ -594,7 +594,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 72.0,
+    "us": 71.5,
     "tags": [
      "toxic",
      "obfuscated"
@@ -606,7 +606,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 68.8,
+    "us": 68.1,
     "tags": [
      "toxic",
      "obfuscated"
@@ -618,7 +618,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 125.2,
+    "us": 216.6,
     "tags": [
      "toxic",
      "obfuscated",
@@ -631,7 +631,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 75.1,
+    "us": 118.8,
     "tags": [
      "toxic",
      "obfuscated"
@@ -643,7 +643,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 29.0,
+    "us": 34.8,
     "tags": [
      "toxic"
     ],
@@ -654,7 +654,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 42.9,
+    "us": 47.9,
     "tags": [
      "toxic",
      "obfuscated",
@@ -667,7 +667,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 70.3,
+    "us": 81.0,
     "tags": [
      "toxic",
      "en"
@@ -679,7 +679,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 81.8,
+    "us": 89.1,
     "tags": [
      "toxic",
      "en"
@@ -691,7 +691,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 46.3,
+    "us": 57.9,
     "tags": [
      "toxic",
      "en"
@@ -703,7 +703,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 55.9,
+    "us": 62.1,
     "tags": [
      "toxic",
      "kz"
@@ -715,7 +715,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 36.6,
+    "us": 39.5,
     "tags": [
      "toxic",
      "kz"
@@ -727,7 +727,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 100.7,
+    "us": 117.5,
     "tags": [
      "toxic",
      "kz"
@@ -739,7 +739,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 90.5,
+    "us": 98.9,
     "tags": [
      "toxic",
      "kz",
@@ -752,7 +752,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 114.4,
+    "us": 128.9,
     "tags": [
      "red_flag_override",
      "benign_trap"
@@ -764,7 +764,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 118.3,
+    "us": 135.0,
     "tags": [
      "red_flag_override",
      "benign_trap"
@@ -776,7 +776,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 165.9,
+    "us": 185.7,
     "tags": [
      "injection"
     ],
@@ -787,7 +787,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 113.7,
+    "us": 121.7,
     "tags": [
      "injection"
     ],
@@ -798,7 +798,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 71.6,
+    "us": 81.0,
     "tags": [
      "injection"
     ],
@@ -809,7 +809,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 78.8,
+    "us": 96.1,
     "tags": [
      "injection"
     ],
@@ -820,7 +820,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 129.6,
+    "us": 184.0,
     "tags": [
      "injection"
     ],
@@ -831,7 +831,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 116.3,
+    "us": 147.8,
     "tags": [
      "injection"
     ],
@@ -842,7 +842,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 70.0,
+    "us": 85.8,
     "tags": [
      "injection",
      "en"
@@ -854,7 +854,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 88.2,
+    "us": 143.7,
     "tags": [
      "injection",
      "mixed"
@@ -866,7 +866,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 144.3,
+    "us": 208.1,
     "tags": [
      "injection",
      "en"
@@ -878,7 +878,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 90.5,
+    "us": 117.2,
     "tags": [
      "injection",
      "en"
@@ -890,7 +890,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 103.3,
+    "us": 119.6,
     "tags": [
      "injection",
      "en"
@@ -902,7 +902,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 152.0,
+    "us": 166.3,
     "tags": [
      "injection",
      "kz"
@@ -914,7 +914,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 105.2,
+    "us": 111.1,
     "tags": [
      "injection",
      "kz"
@@ -926,7 +926,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 97.7,
+    "us": 102.9,
     "tags": [
      "injection",
      "kz",
@@ -939,7 +939,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 76.8,
+    "us": 80.7,
     "tags": [
      "injection",
      "obfuscated"
@@ -951,7 +951,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 103.9,
+    "us": 108.4,
     "tags": [
      "injection"
     ],
@@ -962,7 +962,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 114.2,
+    "us": 119.1,
     "tags": [
      "injection"
     ],
@@ -973,7 +973,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 116.8,
+    "us": 123.0,
     "tags": [
      "pii_exfil"
     ],
@@ -984,7 +984,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 157.2,
+    "us": 169.1,
     "tags": [
      "pii_exfil"
     ],
@@ -995,7 +995,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 140.4,
+    "us": 149.9,
     "tags": [
      "pii_exfil"
     ],
@@ -1006,7 +1006,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 126.2,
+    "us": 135.1,
     "tags": [
      "pii_exfil"
     ],
@@ -1017,7 +1017,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 110.4,
+    "us": 121.5,
     "tags": [
      "pii_exfil",
      "en"
@@ -1029,7 +1029,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 93.0,
+    "us": 101.3,
     "tags": [
      "pii_exfil",
      "en"
@@ -1041,7 +1041,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 133.8,
+    "us": 141.8,
     "tags": [
      "pii_exfil",
      "kz"
@@ -1053,7 +1053,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 165.7,
+    "us": 177.0,
     "tags": [
      "pii_exfil",
      "mixed"
@@ -1065,7 +1065,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 207.3,
+    "us": 220.1,
     "tags": [
      "pii_exfil"
     ],
@@ -1076,7 +1076,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 99.0,
+    "us": 107.8,
     "tags": [
      "dangerous_domain"
     ],
@@ -1087,7 +1087,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 105.2,
+    "us": 111.3,
     "tags": [
      "dangerous_domain"
     ],
@@ -1098,7 +1098,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 118.3,
+    "us": 123.3,
     "tags": [
      "dangerous_domain"
     ],
@@ -1109,7 +1109,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 116.3,
+    "us": 120.5,
     "tags": [
      "dangerous_domain"
     ],
@@ -1120,7 +1120,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 155.5,
+    "us": 159.6,
     "tags": [
      "dangerous_domain"
     ],
@@ -1131,7 +1131,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 140.4,
+    "us": 144.5,
     "tags": [
      "dangerous_domain"
     ],
@@ -1142,7 +1142,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 150.2,
+    "us": 164.8,
     "tags": [
      "dangerous_domain"
     ],
@@ -1153,7 +1153,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 132.3,
+    "us": 137.5,
     "tags": [
      "dangerous_domain"
     ],
@@ -1164,7 +1164,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 100.4,
+    "us": 102.2,
     "tags": [
      "dangerous_domain"
     ],
@@ -1175,7 +1175,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 140.8,
+    "us": 146.2,
     "tags": [
      "dangerous_domain"
     ],
@@ -1186,7 +1186,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 108.8,
+    "us": 113.7,
     "tags": [
      "dangerous_domain",
      "en"
@@ -1198,7 +1198,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 94.5,
+    "us": 98.5,
     "tags": [
      "dangerous_domain",
      "en"
@@ -1210,7 +1210,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 70.2,
+    "us": 71.8,
     "tags": [
      "dangerous_domain",
      "kz"
@@ -1222,7 +1222,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 102.8,
+    "us": 105.4,
     "tags": [
      "dangerous_domain",
      "kz"
@@ -1234,7 +1234,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 107.0,
+    "us": 110.5,
     "tags": [
      "dangerous_domain",
      "mixed"
@@ -1246,7 +1246,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 90.3,
+    "us": 92.9,
     "tags": [
      "dangerous_domain"
     ],
@@ -1257,7 +1257,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 123.0,
+    "us": 126.0,
     "tags": [
      "self_harm"
     ],
@@ -1268,7 +1268,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 104.5,
+    "us": 103.7,
     "tags": [
      "self_harm"
     ],
@@ -1291,7 +1291,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 67.8,
+    "us": 67.5,
     "tags": [
      "self_harm",
      "kz"
@@ -1303,7 +1303,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 82.8,
+    "us": 83.0,
     "tags": [
      "self_harm",
      "red_flag_override"
@@ -1315,7 +1315,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 84.5,
+    "us": 84.7,
     "tags": [
      "benign_trap"
     ],
@@ -1326,7 +1326,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 198.7,
+    "us": 202.3,
     "tags": [
      "benign_trap"
     ],
@@ -1337,7 +1337,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 113.6,
+    "us": 115.5,
     "tags": [
      "benign_trap"
     ],
@@ -1348,7 +1348,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 123.8,
+    "us": 126.6,
     "tags": [
      "benign_trap"
     ],
@@ -1359,7 +1359,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 172.2,
+    "us": 175.0,
     "tags": [
      "benign_trap"
     ],
@@ -1370,7 +1370,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 147.9,
+    "us": 153.0,
     "tags": [
      "benign_trap"
     ],
@@ -1381,7 +1381,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 90.3,
+    "us": 93.6,
     "tags": [
      "benign_trap"
     ],
@@ -1392,7 +1392,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 167.1,
+    "us": 158.9,
     "tags": [
      "benign_trap"
     ],
@@ -1403,7 +1403,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 112.4,
+    "us": 119.2,
     "tags": [
      "benign_trap"
     ],
@@ -1414,7 +1414,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 172.3,
+    "us": 213.9,
     "tags": [
      "benign_trap"
     ],
@@ -1425,7 +1425,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 96.7,
+    "us": 174.2,
     "tags": [
      "benign_trap"
     ],
@@ -1436,7 +1436,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 155.5,
+    "us": 226.4,
     "tags": [
      "benign_trap"
     ],
@@ -1447,7 +1447,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 139.3,
+    "us": 157.4,
     "tags": [
      "benign_trap"
     ],
@@ -1458,7 +1458,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 208.1,
+    "us": 157.3,
     "tags": [
      "benign_trap"
     ],
@@ -1469,7 +1469,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 213.9,
+    "us": 229.2,
     "tags": [
      "benign_trap"
     ],
@@ -1480,7 +1480,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 158.6,
+    "us": 189.8,
     "tags": [
      "benign_trap"
     ],
@@ -1491,7 +1491,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 126.5,
+    "us": 178.9,
     "tags": [
      "benign_trap",
      "mixed"
@@ -1503,7 +1503,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 84.9,
+    "us": 142.5,
     "tags": [
      "benign_trap"
     ],
@@ -1514,7 +1514,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 154.0,
+    "us": 199.4,
     "tags": [
      "benign_trap"
     ],
@@ -1525,7 +1525,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 116.2,
+    "us": 146.6,
     "tags": [
      "benign_trap"
     ],
@@ -1536,7 +1536,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 149.6,
+    "us": 164.5,
     "tags": [
      "benign_trap"
     ],
@@ -1547,7 +1547,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 162.6,
+    "us": 176.9,
     "tags": [
      "benign_trap"
     ],
@@ -1558,7 +1558,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 127.0,
+    "us": 145.1,
     "tags": [
      "benign_trap",
      "en"
@@ -1570,7 +1570,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 155.4,
+    "us": 171.0,
     "tags": [
      "benign_trap",
      "kz"
@@ -1582,7 +1582,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 130.5,
+    "us": 141.6,
     "tags": [
      "benign_trap",
      "mixed"
@@ -1594,7 +1594,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 127.5,
+    "us": 137.5,
     "tags": [
      "benign_trap"
     ],
@@ -1605,7 +1605,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 119.6,
+    "us": 126.3,
     "tags": [
      "benign_trap"
     ],
@@ -1616,7 +1616,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 114.9,
+    "us": 117.6,
     "tags": [
      "benign_trap"
     ],
@@ -1627,7 +1627,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 138.5,
+    "us": 143.7,
     "tags": [
      "benign_trap",
      "en"
@@ -1639,7 +1639,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 88.3,
+    "us": 90.0,
     "tags": [
      "benign_trap"
     ],
@@ -1650,7 +1650,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 158.0,
+    "us": 162.9,
     "tags": [
      "benign_trap"
     ],
@@ -1661,7 +1661,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 155.9,
+    "us": 159.5,
     "tags": [
      "benign_trap"
     ],
@@ -1672,7 +1672,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 148.9,
+    "us": 153.8,
     "tags": [
      "benign_trap"
     ],
@@ -1683,7 +1683,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 117.8,
+    "us": 120.4,
     "tags": [
      "benign_trap"
     ],
@@ -1694,7 +1694,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 104.3,
+    "us": 109.4,
     "tags": [
      "benign_trap"
     ],
@@ -1705,7 +1705,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 117.4,
+    "us": 121.5,
     "tags": [
      "benign_trap",
      "kz"
@@ -1717,7 +1717,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 165.7,
+    "us": 170.7,
     "tags": [
      "benign_trap"
     ],
@@ -1728,7 +1728,7 @@
     "expected": "toxic",
     "pred": "none",
     "ok": false,
-    "us": 80.7,
+    "us": 82.7,
     "tags": [
      "toxic",
      "holdout"
@@ -1740,7 +1740,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 47.7,
+    "us": 49.2,
     "tags": [
      "toxic",
      "holdout"
@@ -1752,7 +1752,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 33.8,
+    "us": 35.1,
     "tags": [
      "toxic",
      "holdout"
@@ -1764,7 +1764,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 25.2,
+    "us": 26.5,
     "tags": [
      "toxic",
      "holdout"
@@ -1776,7 +1776,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 56.4,
+    "us": 59.0,
     "tags": [
      "toxic",
      "en",
@@ -1789,7 +1789,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 37.7,
+    "us": 37.4,
     "tags": [
      "toxic",
      "kz",
@@ -1802,7 +1802,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 27.5,
+    "us": 28.4,
     "tags": [
      "toxic",
      "obfuscated",
@@ -1815,7 +1815,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 174.1,
+    "us": 179.6,
     "tags": [
      "injection",
      "holdout"
@@ -1827,7 +1827,7 @@
     "expected": "injection",
     "pred": "none",
     "ok": false,
-    "us": 134.0,
+    "us": 140.3,
     "tags": [
      "injection",
      "en",
@@ -1840,7 +1840,7 @@
     "expected": "injection",
     "pred": "none",
     "ok": false,
-    "us": 157.4,
+    "us": 162.2,
     "tags": [
      "injection",
      "holdout"
@@ -1852,7 +1852,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 73.5,
+    "us": 76.1,
     "tags": [
      "injection",
      "kz",
@@ -1865,7 +1865,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 107.2,
+    "us": 115.6,
     "tags": [
      "pii_exfil",
      "holdout"
@@ -1877,7 +1877,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 116.6,
+    "us": 124.3,
     "tags": [
      "pii_exfil",
      "holdout"
@@ -1889,7 +1889,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 106.3,
+    "us": 115.2,
     "tags": [
      "pii_exfil",
      "en",
@@ -1902,7 +1902,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 74.3,
+    "us": 79.5,
     "tags": [
      "dangerous_domain",
      "holdout"
@@ -1914,7 +1914,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 126.0,
+    "us": 134.7,
     "tags": [
      "dangerous_domain",
      "holdout"
@@ -1926,7 +1926,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 93.5,
+    "us": 95.4,
     "tags": [
      "dangerous_domain",
      "holdout"
@@ -1938,7 +1938,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 84.8,
+    "us": 87.2,
     "tags": [
      "dangerous_domain",
      "en",
@@ -1951,7 +1951,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 129.1,
+    "us": 131.3,
     "tags": [
      "self_harm",
      "from_holdout"
@@ -1963,7 +1963,7 @@
     "expected": "self_harm",
     "pred": "self_harm",
     "ok": true,
-    "us": 134.5,
+    "us": 136.6,
     "tags": [
      "self_harm",
      "from_holdout"
@@ -1975,7 +1975,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 125.0,
+    "us": 127.5,
     "tags": [
      "benign_trap",
      "holdout"
@@ -1987,7 +1987,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 89.5,
+    "us": 91.0,
     "tags": [
      "benign_trap",
      "holdout"
@@ -1999,7 +1999,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 103.2,
+    "us": 105.0,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2011,7 +2011,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 112.5,
+    "us": 114.7,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2023,7 +2023,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 156.3,
+    "us": 158.5,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2035,7 +2035,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 136.1,
+    "us": 139.3,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2047,7 +2047,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 159.3,
+    "us": 163.0,
     "tags": [
      "benign_trap",
      "kz",
@@ -2060,7 +2060,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 138.2,
+    "us": 142.4,
     "tags": [
      "benign_trap",
      "en",
@@ -2073,7 +2073,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 180.3,
+    "us": 164.3,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2085,7 +2085,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 114.2,
+    "us": 113.1,
     "tags": [
      "benign_trap",
      "holdout"
@@ -2097,7 +2097,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 167.2,
+    "us": 164.2,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2109,7 +2109,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 184.3,
+    "us": 189.0,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2121,7 +2121,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 214.5,
+    "us": 226.8,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2133,7 +2133,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 180.9,
+    "us": 179.6,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2145,7 +2145,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 168.4,
+    "us": 178.6,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2157,7 +2157,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 221.8,
+    "us": 201.4,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2169,7 +2169,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 178.3,
+    "us": 175.5,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2181,7 +2181,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 161.4,
+    "us": 168.4,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2193,7 +2193,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 135.5,
+    "us": 135.8,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2205,7 +2205,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 162.9,
+    "us": 163.2,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2217,7 +2217,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 141.7,
+    "us": 143.7,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2229,7 +2229,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 132.0,
+    "us": 135.3,
     "tags": [
      "benign_trap",
      "en",
@@ -2242,7 +2242,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 99.4,
+    "us": 100.7,
     "tags": [
      "benign_trap",
      "en",
@@ -2255,7 +2255,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 110.0,
+    "us": 113.2,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2267,7 +2267,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 169.0,
+    "us": 166.2,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2279,7 +2279,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 173.9,
+    "us": 308.9,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2291,7 +2291,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 159.2,
+    "us": 177.0,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2303,7 +2303,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 176.6,
+    "us": 171.8,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2315,7 +2315,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 149.9,
+    "us": 157.5,
     "tags": [
      "benign_trap",
      "holdout2"
@@ -2327,7 +2327,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 132.9,
+    "us": 151.8,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2339,7 +2339,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 148.4,
+    "us": 132.7,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2351,7 +2351,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 129.4,
+    "us": 134.3,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2363,7 +2363,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 225.6,
+    "us": 111.2,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2375,7 +2375,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 151.7,
+    "us": 131.1,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2387,7 +2387,7 @@
     "expected": "dangerous_domain",
     "pred": "dangerous_domain",
     "ok": true,
-    "us": 147.5,
+    "us": 135.2,
     "tags": [
      "dangerous_domain",
      "holdout2"
@@ -2399,7 +2399,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 110.7,
+    "us": 104.6,
     "tags": [
      "pii_exfil",
      "holdout2"
@@ -2411,7 +2411,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 94.3,
+    "us": 88.8,
     "tags": [
      "pii_exfil",
      "holdout2"
@@ -2423,7 +2423,7 @@
     "expected": "pii_exfil",
     "pred": "pii_exfil",
     "ok": true,
-    "us": 125.4,
+    "us": 119.7,
     "tags": [
      "pii_exfil",
      "holdout2"
@@ -2435,7 +2435,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 121.8,
+    "us": 115.8,
     "tags": [
      "injection",
      "obfuscated",
@@ -2448,7 +2448,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 95.5,
+    "us": 95.2,
     "tags": [
      "injection",
      "obfuscated",
@@ -2462,7 +2462,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 107.3,
+    "us": 106.8,
     "tags": [
      "injection",
      "obfuscated",
@@ -2476,7 +2476,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 77.3,
+    "us": 52.3,
     "tags": [
      "toxic",
      "obfuscated",
@@ -2489,7 +2489,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 142.5,
+    "us": 122.6,
     "tags": [
      "toxic",
      "holdout2"
@@ -2501,7 +2501,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 62.0,
+    "us": 56.1,
     "tags": [
      "toxic",
      "obfuscated",
@@ -2515,7 +2515,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 248.9,
+    "us": 223.7,
     "tags": [
      "red_flag_override",
      "benign_trap",
@@ -2528,7 +2528,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 172.9,
+    "us": 164.8,
     "tags": [
      "benign_trap",
      "review"
@@ -2540,7 +2540,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 122.8,
+    "us": 116.2,
     "tags": [
      "benign_trap",
      "review"
@@ -2552,7 +2552,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 140.9,
+    "us": 137.5,
     "tags": [
      "benign_trap",
      "review"
@@ -2564,7 +2564,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 152.3,
+    "us": 147.2,
     "tags": [
      "benign_trap",
      "review"
@@ -2576,7 +2576,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 186.8,
+    "us": 159.3,
     "tags": [
      "red_flag_override",
      "benign_trap",
@@ -2589,7 +2589,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 219.5,
+    "us": 192.8,
     "tags": [
      "red_flag_override",
      "benign_trap",
@@ -2602,7 +2602,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 233.8,
+    "us": 165.2,
     "tags": [
      "red_flag_override",
      "benign_trap",
@@ -2615,7 +2615,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 113.7,
+    "us": 103.9,
     "tags": [
      "red_flag_override",
      "benign_trap",
@@ -2628,7 +2628,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 143.9,
+    "us": 134.0,
     "tags": [
      "benign_trap",
      "review"
@@ -2640,7 +2640,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 195.6,
+    "us": 184.2,
     "tags": [
      "benign_trap",
      "review"
@@ -2652,7 +2652,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 184.3,
+    "us": 179.0,
     "tags": [
      "benign_trap",
      "review"
@@ -2664,7 +2664,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 151.5,
+    "us": 149.1,
     "tags": [
      "benign_trap",
      "review"
@@ -2676,7 +2676,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 186.0,
+    "us": 181.0,
     "tags": [
      "benign_trap",
      "review"
@@ -2688,7 +2688,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 178.5,
+    "us": 174.9,
     "tags": [
      "benign_trap",
      "review"
@@ -2700,7 +2700,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 176.5,
+    "us": 171.4,
     "tags": [
      "benign_trap",
      "review"
@@ -2712,7 +2712,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 184.3,
+    "us": 178.8,
     "tags": [
      "benign_trap",
      "review"
@@ -2724,7 +2724,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 178.0,
+    "us": 174.8,
     "tags": [
      "benign_trap",
      "review"
@@ -2736,7 +2736,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 201.0,
+    "us": 147.6,
     "tags": [
      "benign_trap",
      "review"
@@ -2748,7 +2748,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 95.2,
+    "us": 82.1,
     "tags": [
      "benign_trap",
      "en",
@@ -2761,7 +2761,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 109.0,
+    "us": 97.0,
     "tags": [
      "benign_trap",
      "en",
@@ -2774,7 +2774,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 88.1,
+    "us": 92.0,
     "tags": [
      "benign_trap",
      "en",
@@ -2787,7 +2787,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 64.9,
+    "us": 69.0,
     "tags": [
      "benign_trap",
      "en",
@@ -2800,7 +2800,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 73.3,
+    "us": 75.8,
     "tags": [
      "benign_trap",
      "en",
@@ -2813,7 +2813,7 @@
     "expected": "none",
     "pred": "none",
     "ok": true,
-    "us": 144.2,
+    "us": 131.7,
     "tags": [
      "benign_trap",
      "en",
@@ -2826,7 +2826,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 67.6,
+    "us": 70.1,
     "tags": [
      "injection",
      "obfuscated",
@@ -2839,7 +2839,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 58.6,
+    "us": 60.8,
     "tags": [
      "injection",
      "obfuscated",
@@ -2853,7 +2853,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 102.3,
+    "us": 104.4,
     "tags": [
      "injection",
      "obfuscated",
@@ -2866,7 +2866,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 103.0,
+    "us": 86.4,
     "tags": [
      "injection",
      "obfuscated",
@@ -2880,7 +2880,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 60.2,
+    "us": 60.9,
     "tags": [
      "injection",
      "obfuscated",
@@ -2894,7 +2894,7 @@
     "expected": "injection",
     "pred": "injection",
     "ok": true,
-    "us": 81.3,
+    "us": 86.5,
     "tags": [
      "injection",
      "review"
@@ -2906,7 +2906,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 13.8,
+    "us": 14.6,
     "tags": [
      "toxic",
      "obfuscated",
@@ -2919,7 +2919,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 38.7,
+    "us": 41.6,
     "tags": [
      "toxic",
      "obfuscated",
@@ -2932,7 +2932,7 @@
     "expected": "toxic",
     "pred": "toxic",
     "ok": true,
-    "us": 26.5,
+    "us": 27.3,
     "tags": [
      "toxic",
      "obfuscated",
