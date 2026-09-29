@@ -11,12 +11,16 @@
                                ├─► refuse (injection, other people's data, abuse) ───────► END
                                └─► other ───────────────────────────────────────────────► END
 
+`route` applies the regex verdicts from precheck first; only a message they let through reaches the LLM router, and with
+GUARD_LLM on also the LLM guard (guard_llm.py), which runs next to the router and whose label wins over its intent.
+
 The answer cache sits on the question branch only: route has already sent red flags, meals, program requests and
 injections elsewhere, and only a final answer with citations is stored (rag/answer_cache.py).
 """
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import logging
 import re
@@ -26,7 +30,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .. import guardrails, notify, stt
+from .. import guard_llm, guardrails, notify, stt
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import MATCH_THRESHOLD, MealItem
@@ -110,23 +114,24 @@ def _heuristic_intent(t: str, flags: dict) -> str:
     return "question"
 
 
-async def route(state: ChatState) -> dict:
-    flags, t = state.get("flags", {}), _text(state)
+def rules_decision(flags: dict) -> dict | None:
+    """The part of `route` decided by flags alone, before any model: guard verdicts and HARD markers."""
     guard = flags.get("guard")
+    src = "guard LLM" if flags.get("guard_source") == "llm" else "guardrail"
     if guard == "self_harm":  # before injection: a person at risk is never just "refused"
-        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: self-harm"}
+        return {"intent": "escalate", "red_flag": True, "reason": f"{src}: self-harm"}
     if flags.get("injection"):
-        return {"intent": "refuse", "reason": "prompt-injection pattern"}
+        return {"intent": "refuse", "reason": "prompt-injection pattern" if src == "guardrail" else f"{src}: injection"}
     if guard in ("pii_exfil", "toxic"):
-        return {"intent": "refuse", "reason": f"guardrail: {guard}"}
+        return {"intent": "refuse", "reason": f"{src}: {guard}"}
     if guard == "dangerous_domain":
-        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: dangerous domain"}
+        return {"intent": "escalate", "red_flag": True, "reason": f"{src}: dangerous domain"}
     if flags.get("hard"):  # chest pain or fainting beat refusals (see precheck): «давит в груди, дайте телефон тренера»
         return {"intent": "escalate", "red_flag": True, "reason": "hard red-flag marker"}
-    if state.get("image_path"):
-        return {"intent": "meal_photo", "reason": "photo"}
-    if not t:
-        return {"intent": "other", "reason": "empty"}
+    return None
+
+
+async def _route_llm(t: str, flags: dict) -> dict:
     s = get_settings()
     hint = "\n\n(В сообщении есть слова-маркеры боли или лекарств — проверь внимательно.)" if flags.get("soft") else ""
     try:
@@ -139,6 +144,35 @@ async def route(state: ChatState) -> dict:
         intent = _heuristic_intent(t, flags)
         red, reason = intent == "escalate", f"heuristic ({type(e).__name__})"
     return {"intent": "escalate" if red else intent, "red_flag": red, "reason": reason}
+
+
+async def route(state: ChatState) -> dict:
+    flags, t = state.get("flags", {}), _text(state)
+    decided = rules_decision(flags)
+    if decided:
+        return decided
+    if state.get("image_path"):
+        return {"intent": "meal_photo", "reason": "photo"}
+    if not t:
+        return {"intent": "other", "reason": "empty"}
+    # Second layer (GUARD_LLM): runs next to the router, and its label wins over the router's intent.
+    sig = guard_llm.wanted(t)
+    task = asyncio.create_task(guard_llm.classify(t, sig)) if sig is not None else None
+    try:
+        routed = await _route_llm(t, flags)
+    except BaseException:
+        if task is not None:
+            task.cancel()
+        raise
+    if task is None:
+        return routed
+    res = await task
+    label = guard_llm.applied_label(res, flags)
+    flags = {**flags, "guard_llm": res.outcome}
+    if label is None:
+        return {**routed, "flags": flags}
+    flags.update(guard=label, guard_source="llm", injection=label == "injection")
+    return {**rules_decision(flags), "flags": flags}
 
 
 def after_route(state: ChatState) -> str:

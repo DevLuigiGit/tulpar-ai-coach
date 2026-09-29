@@ -63,8 +63,14 @@ class Settings(BaseSettings):
     text_models: str = "ollama:minimax-m3,groq:openai/gpt-oss-120b"
     vision_models: str = "ollama:kimi-k2.7-code,ollama:kimi-k2.6,ollama:minimax-m3"
     judge_models: str = "ollama:deepseek-v4.1-flash,ollama:kimi-k2.6,groq:openai/gpt-oss-120b"  # qwen3.5:397b was retired by Ollama Cloud on 2026-09-25
+    guard_models: str = "ollama:deepseek-v4.1-flash,groq:openai/gpt-oss-20b"
     stt_model: str = "whisper-large-v3-turbo"
     llm_timeout_s: float = 60.0
+
+    # ── second input guard on an LLM (guard_llm.py), after the regex rules; A/B in evals/guardrails_layers.py ──
+    guard_llm: str = "off"  # off | suspicious (only messages with a risk signal) | all (every text the router sees)
+    guard_max_tokens: int = 120
+    guard_timeout_s: float = 8.0  # a slow guard must not hold the reply: past this the router decides alone
 
     # ── voice replies (edge-tts, no key): bot answers a voice note with voice, web has a play button ──
     tts_enabled: bool = True

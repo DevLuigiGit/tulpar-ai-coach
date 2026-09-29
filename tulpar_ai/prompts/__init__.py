@@ -9,7 +9,7 @@ from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
 PROMPT_VERSIONS = {"route": "v2", "rewrite": "v1", "answer": "v3", "vision": "v1", "meal_text": "v1", "draft": "v2",
-                   "judge_faithfulness": "v1", "judge_correctness": "v1"}
+                   "judge_faithfulness": "v1", "judge_correctness": "v1", "guard": "v1"}
 
 
 @lru_cache
