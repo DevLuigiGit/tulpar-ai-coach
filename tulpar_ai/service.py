@@ -203,7 +203,8 @@ async def decide(trainer: User, pid: str, action: str, comment: str | None = Non
         raise ValueError("action must be accept, reject or edit")
     if action == "edit":
         _screen_trainer_text(comment)
-        await store.update_proposal(pid, status="drafting", decision={"action": "edit", "comment": comment})
+        edited = await store.update_proposal(pid, status="drafting", decision={"action": "edit", "comment": comment})
+        await notify.proposal_status(edited or {"id": pid, "status": "drafting"})
         runner.spawn(runner.resume_program(pid, "edit", comment))
     else:
         await runner.resume_program(pid, action, comment)
@@ -217,7 +218,8 @@ async def resolve_escalation(trainer: User, eid: str, reply: str | None) -> dict
         raise LookupError("escalation not found")
     if e["trainer_id"] != trainer.id:
         raise PermissionError("not your client")
-    await store.update_proposal(eid, status="resolved", reply=reply or None)
+    resolved = await store.update_proposal(eid, status="resolved", reply=reply or None)
+    await notify.proposal_status(resolved or {"id": eid, "status": "resolved", "reply": reply})
     if reply:
         text = f"Тренер ответил: {reply}"
         await store.add_message(e["client_id"], "assistant", text, {"kind": "trainer_reply"})

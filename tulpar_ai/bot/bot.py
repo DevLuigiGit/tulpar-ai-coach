@@ -232,12 +232,43 @@ async def on_feedback(cb: CallbackQuery):
     _fb_prompts[(prompt.chat.id, prompt.message_id)] = int(mid)
 
 
+_STATUS_LINE = {
+    "applied": "✅ Применено — программа клиента обновлена",
+    "rejected": "✖️ Отклонено — программа не изменилась",
+    "drafting": "✏️ Отправлено на доработку — придёт новый черновик",
+    "failed": "⚠️ Не удалось применить — черновик в очереди с ошибкой",
+    "resolved": "✅ Закрыто",
+}
+_ACTIONABLE = {"acc": "pending", "rej": "pending", "edt": "pending", "rep": "open", "cls": "open"}
+
+
+async def _close_message(msg: Message, status_line: str) -> None:
+    """Remove the buttons and append the outcome, so a stale card can't be pressed again."""
+    await get_store().forget_tg_message(msg.chat.id, msg.message_id)
+    try:
+        await msg.edit_text(f"{msg.text or ''}\n\n{status_line}", reply_markup=None)
+    except Exception:  # text unchanged or too old to edit — at least drop the buttons
+        try:
+            await msg.edit_reply_markup(reply_markup=None)
+        except Exception:
+            log.info("could not update decision message %s", msg.message_id)
+
+
 @dp.callback_query(F.data.regexp(r"^(acc|rej|edt|rep|cls):"))
 async def on_decision(cb: CallbackQuery):
     user = await _user(cb)
     kind, pid = cb.data.split(":", 1)
     if user.role != "trainer":
         return await cb.answer("Только для тренера", show_alert=True)
+    current = await get_store().get_proposal(pid)
+    if current is None:
+        await _close_message(cb.message, "⚠️ Этой записи больше нет")
+        return await cb.answer()
+    if current["status"] != _ACTIONABLE[kind]:
+        # decided elsewhere (the web cabinet, another trainer chat, MCP) — say so instead of a raw error
+        line = _STATUS_LINE.get(current["status"], f"Статус: {current['status']}")
+        await _close_message(cb.message, f"{line} (решение уже принято в другом окне)")
+        return await cb.answer("Уже решено в другом окне", show_alert=False)
     try:
         if kind == "acc":
             p = await service.decide(user, pid, "accept")
@@ -258,8 +289,9 @@ async def on_decision(cb: CallbackQuery):
             await service.resolve_escalation(user, pid, None)
             await cb.message.edit_reply_markup(reply_markup=None)
             await cb.message.answer("Закрыто без ответа.")
-    except Exception as e:
-        await cb.message.answer(f"Не получилось: {e}")
+    except Exception:
+        log.exception("trainer decision %s on %s failed", kind, pid)
+        await cb.message.answer("Не получилось выполнить действие. Обновите очередь (/queue) и попробуйте ещё раз.")
     await cb.answer()
 
 
@@ -277,15 +309,18 @@ def _proposal_text(p: dict) -> str:
 
 
 async def _send_proposal(chat_id: int, p: dict) -> None:
-    await _bot.send_message(chat_id, _proposal_text(p), reply_markup=_kb(
+    text = _proposal_text(p)
+    msg = await _bot.send_message(chat_id, text, reply_markup=_kb(
         [("Принять", f"acc:{p['id']}"), ("Отклонить", f"rej:{p['id']}")], [("Поправить", f"edt:{p['id']}")]))
+    await get_store().add_tg_message(p["id"], chat_id, msg.message_id, text)
 
 
 async def _send_escalation(chat_id: int, e: dict) -> None:
     reason = (e.get("draft") or {}).get("reason", "")
-    await _bot.send_message(chat_id, f"Нужен тренер: {e.get('client_name', 'клиент')}\n«{e.get('request', '')}»\n"
-                                     f"Причина: {reason}",
-                            reply_markup=_kb([("Ответить", f"rep:{e['id']}"), ("Закрыть", f"cls:{e['id']}")]))
+    text = f"Нужен тренер: {e.get('client_name', 'клиент')}\n«{e.get('request', '')}»\nПричина: {reason}"
+    msg = await _bot.send_message(chat_id, text, reply_markup=_kb([("Ответить", f"rep:{e['id']}"),
+                                                                   ("Закрыть", f"cls:{e['id']}")]))
+    await get_store().add_tg_message(e["id"], chat_id, msg.message_id, text)
 
 
 class BotSink:
@@ -304,6 +339,19 @@ class BotSink:
     async def to_client(self, client_id: str, text: str) -> None:
         for ch in await get_store().tg_chats_for_user(client_id):
             await _bot.send_message(ch["chat_id"], text)
+
+    async def proposal_status(self, p: dict) -> None:
+        line = _STATUS_LINE.get(p.get("status", ""))
+        if not line:
+            return
+        if p.get("status") == "resolved":
+            line += " — ответ отправлен клиенту" if p.get("reply") else " без ответа"
+        for m in await get_store().pop_tg_messages(p["id"]):
+            try:
+                await _bot.edit_message_text(f"{m['text']}\n\n{line}", chat_id=m["chat_id"],
+                                             message_id=m["message_id"], reply_markup=None)
+            except Exception:  # deleted by the user or too old to edit
+                log.info("could not update decision message %s in chat %s", m["message_id"], m["chat_id"])
 
 
 async def start_bot() -> asyncio.Task:

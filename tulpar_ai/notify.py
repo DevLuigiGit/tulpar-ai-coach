@@ -43,3 +43,12 @@ async def escalation(item: dict) -> None:
 
 async def to_client(client_id: str, text: str) -> None:
     await _each(lambda s: s.to_client(client_id, text))
+
+
+async def proposal_status(p: dict) -> None:
+    """A proposal or escalation left the «waiting for the trainer» state (decided in the web, the bot or MCP)."""
+    await _each(lambda s: getattr(s, "proposal_status", _noop)(p))
+
+
+async def _noop(_p: dict) -> None:
+    return None
