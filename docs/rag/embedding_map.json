@@ -1,0 +1,927 @@
+{
+ "note": "Real vectors of the production index; the questions are real golden questions (not synthetic). Cosines are in the original 1024-d space; the 2-D map is an illustration and distorts distances.",
+ "collection": "coach_jina3_400_p2_b064ec4f",
+ "embed_model": "jina-embeddings-v3",
+ "query_task": "retrieval.query",
+ "passage_task": "retrieval.passage",
+ "dim": 1024,
+ "chunks": 1476,
+ "chunks_by_source": {
+  "who2020": 1272,
+  "exercises": 196,
+  "nutrition": 8
+ },
+ "retrieval": {
+  "dense_top_n": 4,
+  "rerank": "off (RAG_RERANK=auto for Jina)",
+  "rewrite": "not applied",
+  "hit_rule": "evals/run.py _hit_rank (WHO page ±1)",
+  "rag_min_score": 0.2
+ },
+ "random_baseline": {
+  "n": 200,
+  "seed": 42,
+  "pool": "corpus minus the question's expected chunks"
+ },
+ "projection": {
+  "method": "umap",
+  "n_neighbors": 15,
+  "min_dist": 0.1,
+  "metric": "cosine",
+  "seed": 42,
+  "fit": "chunks + questions",
+  "neighbour_preservation": {
+   "chunk_knn_recall@15": 0.495,
+   "question_top3_within_10_nearest_on_map": 0.583
+  }
+ },
+ "api": {
+  "texts_embedded_this_run": 0,
+  "corpus_reembedded": false
+ },
+ "summary": {
+  "questions": 12,
+  "who_questions": 8,
+  "who_hit@3": 6,
+  "who_hit@4": 6,
+  "who_top3_chunks_from_who_pdf": 24,
+  "who_top3_chunks_total": 24,
+  "who_cos_relevant_median": 0.6149,
+  "who_cos_random_mean_median": 0.2374,
+  "who_cos_random_p95_max": 0.5058,
+  "hit@3_all": 10,
+  "qdrant_top4_match": 12
+ },
+ "eval_cross_check": {
+  "file": "evals/results/qa_final_nutrition_rules.json",
+  "compared": 12,
+  "same_rank": 12
+ },
+ "questions": [
+  {
+   "id": "q40",
+   "question": "Сколько минут в неделю взрослому нужно заниматься по рекомендациям ВОЗ?",
+   "short": "Сколько минут в неделю нужно взрослому",
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 12
+    },
+    {
+     "source": "who2020",
+     "page": 42
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:45:6",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 45,
+     "score": 0.725
+    },
+    {
+     "id": "who:400:12:0",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 12,
+     "score": 0.6773
+    },
+    {
+     "id": "who:400:59:9",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 59,
+     "score": 0.6631
+    },
+    {
+     "id": "who:400:46:19",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 46,
+     "score": 0.6616
+    }
+   ],
+   "hit_rank": 2,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:12:0",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 12,
+    "score": 0.6773
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2784,
+    "p5": 0.0818,
+    "p95": 0.4998,
+    "max": 0.6596
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.307,
+    "p5": 0.1461,
+    "p95": 0.5246,
+    "max": 0.6631
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q42",
+   "question": "Сколько раз в неделю ВОЗ советует делать силовые тренировки?",
+   "short": "Сколько раз в неделю силовые",
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 12
+    },
+    {
+     "source": "who2020",
+     "page": 42
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:38:1",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 38,
+     "score": 0.6624
+    },
+    {
+     "id": "who:400:22:8",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 22,
+     "score": 0.623
+    },
+    {
+     "id": "who:400:38:2",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 38,
+     "score": 0.6216
+    },
+    {
+     "id": "who:400:38:5",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 38,
+     "score": 0.6076
+    }
+   ],
+   "hit_rank": 5,
+   "hit@4": false,
+   "hit@3": false,
+   "relevant": {
+    "id": "who:400:11:1",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 11,
+    "score": 0.6025
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2158,
+    "p5": 0.0733,
+    "p95": 0.3759,
+    "max": 0.5574
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2198,
+    "p5": 0.059,
+    "p95": 0.4173,
+    "max": 0.6076
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q43",
+   "question": "Маме 68 лет. Что по ВОЗ ей нужно кроме ходьбы, чтобы не падать?",
+   "short": "Маме 68 лет: что кроме ходьбы",
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 14
+    },
+    {
+     "source": "who2020",
+     "page": 53
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:9:5",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 9,
+     "score": 0.6211
+    },
+    {
+     "id": "who:400:54:8",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 54,
+     "score": 0.5966
+    },
+    {
+     "id": "who:400:53:5",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 53,
+     "score": 0.5762
+    },
+    {
+     "id": "who:400:55:8",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 55,
+     "score": 0.5705
+    }
+   ],
+   "hit_rank": 2,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:54:8",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 54,
+    "score": 0.5966
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2613,
+    "p5": 0.0731,
+    "p95": 0.4134,
+    "max": 0.5135
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2693,
+    "p5": 0.1433,
+    "p95": 0.4123,
+    "max": 0.5116
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q44",
+   "question": "Сколько должен двигаться ребёнок 10 лет в день?",
+   "short": "Ребёнок 10 лет: сколько двигаться",
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 11
+    },
+    {
+     "source": "who2020",
+     "page": 35
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:35:5",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 35,
+     "score": 0.6273
+    },
+    {
+     "id": "who:400:11:0",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 11,
+     "score": 0.6103
+    },
+    {
+     "id": "who:400:37:6",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 37,
+     "score": 0.5676
+    },
+    {
+     "id": "who:400:70:2",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 70,
+     "score": 0.5399
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:35:5",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 35,
+    "score": 0.6273
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.1838,
+    "p5": -0.0014,
+    "p95": 0.3837,
+    "max": 0.5399
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2008,
+    "p5": -0.0191,
+    "p95": 0.4075,
+    "max": 0.5143
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q45",
+   "question": "У меня сидячая работа, весь день за компьютером. Что об этом говорит ВОЗ?",
+   "short": "Сидячая работа: что говорит ВОЗ",
+   "tags": [
+    "who",
+    "cross-lingual",
+    "sedentary"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 12
+    },
+    {
+     "source": "who2020",
+     "page": 48
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:39:0",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 39,
+     "score": 0.5396
+    },
+    {
+     "id": "who:400:52:3",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 52,
+     "score": 0.5088
+    },
+    {
+     "id": "who:400:47:14",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 47,
+     "score": 0.5073
+    },
+    {
+     "id": "who:400:52:4",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 52,
+     "score": 0.5048
+    }
+   ],
+   "hit_rank": 3,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:47:14",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 47,
+    "score": 0.5073
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2523,
+    "p5": 0.0961,
+    "p95": 0.4268,
+    "max": 0.4917
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2789,
+    "p5": 0.1309,
+    "p95": 0.4278,
+    "max": 0.4917
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q47",
+   "question": "Я беременна. Сколько можно заниматься по рекомендациям ВОЗ?",
+   "short": "Беременность: сколько заниматься",
+   "tags": [
+    "who",
+    "cross-lingual",
+    "pregnancy"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 16
+    },
+    {
+     "source": "who2020",
+     "page": 57
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:16:3",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 16,
+     "score": 0.7458
+    },
+    {
+     "id": "who:400:16:4",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 16,
+     "score": 0.6877
+    },
+    {
+     "id": "who:400:59:14",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 59,
+     "score": 0.679
+    },
+    {
+     "id": "who:400:59:13",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 59,
+     "score": 0.6714
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:16:3",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 16,
+    "score": 0.7458
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2224,
+    "p5": 0.0819,
+    "p95": 0.4231,
+    "max": 0.5983
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2252,
+    "p5": 0.0624,
+    "p95": 0.4568,
+    "max": 0.5924
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q49",
+   "question": "У меня диабет 2 типа. Сколько активности в неделю советует ВОЗ?",
+   "short": "Диабет 2 типа: сколько активности",
+   "tags": [
+    "who",
+    "cross-lingual",
+    "chronic"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 18
+    },
+    {
+     "source": "who2020",
+     "page": 62
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:65:14",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 65,
+     "score": 0.7238
+    },
+    {
+     "id": "who:400:65:11",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 65,
+     "score": 0.6732
+    },
+    {
+     "id": "who:400:65:15",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 65,
+     "score": 0.6389
+    },
+    {
+     "id": "who:400:65:10",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 65,
+     "score": 0.6373
+    }
+   ],
+   "hit_rank": 19,
+   "hit@4": false,
+   "hit@3": false,
+   "relevant": {
+    "id": "who:400:18:9",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 18,
+    "score": 0.5548
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2799,
+    "p5": 0.0664,
+    "p95": 0.5058,
+    "max": 0.6732
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.2892,
+    "p5": 0.09,
+    "p95": 0.4895,
+    "max": 0.585
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q51",
+   "question": "Как понять, что нагрузка умеренная, а не интенсивная?",
+   "short": "Умеренная или интенсивная нагрузка",
+   "tags": [
+    "who",
+    "cross-lingual"
+   ],
+   "expected_sources": [
+    {
+     "source": "who2020",
+     "page": 9
+    }
+   ],
+   "top": [
+    {
+     "id": "who:400:9:3",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 9,
+     "score": 0.6548
+    },
+    {
+     "id": "who:400:9:18",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 9,
+     "score": 0.5213
+    },
+    {
+     "id": "who:400:77:4",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 77,
+     "score": 0.5204
+    },
+    {
+     "id": "who:400:9:4",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 9,
+     "score": 0.4837
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "who:400:9:3",
+    "source": "who2020",
+    "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+    "page": 9,
+    "score": 0.6548
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.1842,
+    "p5": 0.0469,
+    "p95": 0.337,
+    "max": 0.4311
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.188,
+    "p5": 0.0448,
+    "p95": 0.3314,
+    "max": 0.4196
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q01",
+   "question": "Как правильно жать штангу лёжа? Под каким углом держать локти?",
+   "short": "Жим лёжа: угол локтей",
+   "tags": [
+    "technique"
+   ],
+   "expected_sources": [
+    {
+     "source": "exercises",
+     "title": "Жим штанги лёжа"
+    }
+   ],
+   "top": [
+    {
+     "id": "ex:70e89bbc-954a-5b75-aefe-dd5522235f77",
+     "source": "exercises",
+     "title": "Жим штанги лёжа",
+     "page": null,
+     "score": 0.6247
+    },
+    {
+     "id": "ex:410ee52c-b94e-5385-8647-bdc96fe5e440",
+     "source": "exercises",
+     "title": "Жим штанги лёжа узким хватом",
+     "page": null,
+     "score": 0.5776
+    },
+    {
+     "id": "ex:6c6fb950-5a4f-57c5-ad56-09666dd828f2",
+     "source": "exercises",
+     "title": "Складка лёжа",
+     "page": null,
+     "score": 0.561
+    },
+    {
+     "id": "ex:2e04782a-e0df-5f50-8c0d-1e2f55a7a651",
+     "source": "exercises",
+     "title": "Жим гантелей лёжа",
+     "page": null,
+     "score": 0.5581
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "ex:70e89bbc-954a-5b75-aefe-dd5522235f77",
+    "source": "exercises",
+    "title": "Жим штанги лёжа",
+    "page": null,
+    "score": 0.6247
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.1534,
+    "p5": -0.015,
+    "p95": 0.4335,
+    "max": 0.545
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.0938,
+    "p5": -0.044,
+    "p95": 0.1906,
+    "max": 0.2628
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q18",
+   "question": "У меня проблемы с коленями. Можно ли мне приседать со штангой?",
+   "short": "Больные колени и присед со штангой",
+   "tags": [
+    "contraindications"
+   ],
+   "expected_sources": [
+    {
+     "source": "exercises",
+     "title": "Приседания со штангой"
+    }
+   ],
+   "top": [
+    {
+     "id": "ex:821649c5-f01e-547e-9e47-d264185d53e4",
+     "source": "exercises",
+     "title": "Приседания со штангой",
+     "page": null,
+     "score": 0.628
+    },
+    {
+     "id": "ex:640fa081-db7d-56a9-b2f1-565d551c657a",
+     "source": "exercises",
+     "title": "Жим штанги стоя",
+     "page": null,
+     "score": 0.5049
+    },
+    {
+     "id": "ex:70e89bbc-954a-5b75-aefe-dd5522235f77",
+     "source": "exercises",
+     "title": "Жим штанги лёжа",
+     "page": null,
+     "score": 0.4977
+    },
+    {
+     "id": "ex:254dca15-7921-511a-a0bb-f6cd465ce60c",
+     "source": "exercises",
+     "title": "Планка с подтягиванием колена",
+     "page": null,
+     "score": 0.4944
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "ex:821649c5-f01e-547e-9e47-d264185d53e4",
+    "source": "exercises",
+    "title": "Приседания со штангой",
+    "page": null,
+    "score": 0.628
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.2036,
+    "p5": 0.0146,
+    "p95": 0.3887,
+    "max": 0.44
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.1716,
+    "p5": -0.0101,
+    "p95": 0.2952,
+    "max": 0.3372
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q34",
+   "question": "Хочу набрать массу. Сколько максимум можно прибавлять в неделю?",
+   "short": "Набор массы: сколько в неделю",
+   "tags": [
+    "nutrition"
+   ],
+   "expected_sources": [
+    {
+     "source": "nutrition"
+    }
+   ],
+   "top": [
+    {
+     "id": "nut:Белки, жиры и углеводы:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Белки, жиры и углеводы",
+     "page": null,
+     "score": 0.4408
+    },
+    {
+     "id": "who:400:12:4",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 12,
+     "score": 0.4243
+    },
+    {
+     "id": "nut:Точная цель: вес к дате и безопасный темп:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Точная цель: вес к дате и безопасный темп",
+     "page": null,
+     "score": 0.3992
+    },
+    {
+     "id": "who:400:38:1",
+     "source": "who2020",
+     "title": "WHO guidelines on physical activity and sedentary behaviour (2020)",
+     "page": 38,
+     "score": 0.3955
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "nut:Белки, жиры и углеводы:0",
+    "source": "nutrition",
+    "title": "Правила питания Tulpar — Белки, жиры и углеводы",
+    "page": null,
+    "score": 0.4408
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.0663,
+    "p5": -0.0613,
+    "p95": 0.2348,
+    "max": 0.2998
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.0543,
+    "p5": -0.0691,
+    "p95": 0.2206,
+    "max": 0.3395
+   },
+   "qdrant_top4_match": true
+  },
+  {
+   "id": "q39",
+   "question": "Как Tulpar считает мою дневную норму калорий?",
+   "short": "Как считается норма калорий",
+   "tags": [
+    "nutrition"
+   ],
+   "expected_sources": [
+    {
+     "source": "nutrition"
+    }
+   ],
+   "top": [
+    {
+     "id": "nut:Как считается дневная норма калорий:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Как считается дневная норма калорий",
+     "page": null,
+     "score": 0.7996
+    },
+    {
+     "id": "nut:Правила питания Tulpar:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Правила питания Tulpar",
+     "page": null,
+     "score": 0.7868
+    },
+    {
+     "id": "nut:Точная цель: вес к дате и безопасный темп:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Точная цель: вес к дате и безопасный темп",
+     "page": null,
+     "score": 0.7704
+    },
+    {
+     "id": "nut:Питание:0",
+     "source": "nutrition",
+     "title": "Правила питания Tulpar — Питание",
+     "page": null,
+     "score": 0.6488
+    }
+   ],
+   "hit_rank": 1,
+   "hit@4": true,
+   "hit@3": true,
+   "relevant": {
+    "id": "nut:Как считается дневная норма калорий:0",
+    "source": "nutrition",
+    "title": "Правила питания Tulpar — Как считается дневная норма калорий",
+    "page": null,
+    "score": 0.7996
+   },
+   "random": {
+    "n": 200,
+    "mean": 0.027,
+    "p5": -0.0589,
+    "p95": 0.1344,
+    "max": 0.308
+   },
+   "random_who": {
+    "n": 200,
+    "mean": 0.0264,
+    "p5": -0.0655,
+    "p95": 0.1365,
+    "max": 0.1719
+   },
+   "qdrant_top4_match": true
+  }
+ ]
+}
