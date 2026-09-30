@@ -274,30 +274,37 @@ async def on_decision(cb: CallbackQuery):
         line = _STATUS_LINE.get(current["status"], f"Статус: {current['status']}")
         await _close_message(cb.message, f"{line} (решение уже принято в другом окне)")
         return await cb.answer("Уже решено в другом окне", show_alert=False)
+    if kind in ("edt", "rep"):
+        _awaiting[cb.message.chat.id] = ("edit" if kind == "edt" else "reply", pid)
+        await cb.message.answer("Напишите одним сообщением, что поправить в черновике." if kind == "edt"
+                                else "Напишите ответ клиенту одним сообщением.")
+        return await cb.answer()
     try:
-        if kind == "acc":
-            p = await service.decide(user, pid, "accept")
-            await cb.message.edit_reply_markup(reply_markup=None)
-            await cb.message.answer("Применено. Программа клиента обновлена." if p["status"] == "applied"
-                                    else f"Статус: {p['status']}. {p.get('reply') or ''}")
-        elif kind == "rej":
-            await service.decide(user, pid, "reject")
-            await cb.message.edit_reply_markup(reply_markup=None)
-            await cb.message.answer("Отклонено. Программа не изменилась.")
-        elif kind == "edt":
-            _awaiting[cb.message.chat.id] = ("edit", pid)
-            await cb.message.answer("Напишите одним сообщением, что поправить в черновике.")
-        elif kind == "rep":
-            _awaiting[cb.message.chat.id] = ("reply", pid)
-            await cb.message.answer("Напишите ответ клиенту одним сообщением.")
-        elif kind == "cls":
-            await service.resolve_escalation(user, pid, None)
-            await cb.message.edit_reply_markup(reply_markup=None)
-            await cb.message.answer("Закрыто без ответа.")
+        if kind == "cls":
+            p = await service.resolve_escalation(user, pid, None)
+        else:
+            p = await service.decide(user, pid, "accept" if kind == "acc" else "reject")
+    except service.AlreadyDecided as e:  # decided a moment ago in another window
+        await _close_message(cb.message, f"{_STATUS_LINE.get(e.status, e.status)} (решение уже принято в другом окне)")
+        return await cb.answer("Уже решено в другом окне")
     except Exception:
         log.exception("trainer decision %s on %s failed", kind, pid)
         await cb.message.answer("Не получилось выполнить действие. Обновите очередь (/queue) и попробуйте ещё раз.")
-    await cb.answer()
+        return await cb.answer()
+    # The decision is made. The card may already be closed by BotSink.proposal_status (the graph announces every
+    # decision): closing it again is harmless, and no failure to edit it is reported as a failed decision —
+    # the screenshot bug: «✅ Применено» on the card and «Не получилось выполнить действие» under it.
+    status = (p or {}).get("status", "")
+    line = _STATUS_LINE.get(status, f"Статус: {status}")
+    if kind == "cls":
+        line += " без ответа"
+    try:
+        await _close_message(cb.message, line)
+        if kind == "acc" and status != "applied":  # the trainer must see why nothing changed
+            await cb.message.answer(f"{line}. {(p or {}).get('reply') or ''}".strip())
+    except Exception:
+        log.warning("decision %s on %s is saved, the card was not updated", kind, pid, exc_info=True)
+    await cb.answer({"acc": "Применено", "rej": "Отклонено", "cls": "Закрыто"}.get(kind, "") if status != "failed" else "")
 
 
 # ── outgoing notifications ───────────────────────────────────────────────────

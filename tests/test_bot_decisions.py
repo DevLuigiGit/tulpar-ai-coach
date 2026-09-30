@@ -120,3 +120,60 @@ async def test_second_resolve_is_refused_and_the_client_gets_one_reply(env, fake
         assert len(replies) == 1 and "Уберите присед" in replies[0]["text"]
     finally:
         await shutdown(store)
+
+
+async def test_accept_in_telegram_reports_success_once(env, fake_llm, monkeypatch):
+    """Screenshot bug of 30.09: pressing «Принять» applied the draft and the sink closed the card, then the handler's
+    own edit of the same card failed with Telegram's «message is not modified» — and the trainer got «Не получилось
+    выполнить действие» under a card that said «✅ Применено»."""
+    from tulpar_ai import notify
+    from tulpar_ai.bot import bot
+    from tulpar_ai.graph import runner
+
+    class TelegramMessage(FakeMessage):
+        closed = False
+
+        async def edit_text(self, text, reply_markup=None):
+            if self.closed:
+                raise RuntimeError("Telegram server says - Bad Request: message is not modified")
+            await super().edit_text(text, reply_markup)
+
+        async def edit_reply_markup(self, reply_markup=None):
+            if self.closed:
+                raise RuntimeError("Telegram server says - Bad Request: message is not modified")
+            await super().edit_reply_markup(reply_markup)
+
+    msg = TelegramMessage(555, 44, "Черновик для Айдара")
+
+    class ClosingBot(FakeBot):
+        async def edit_message_text(self, text, chat_id, message_id, reply_markup=None):
+            await super().edit_message_text(text, chat_id, message_id, reply_markup)
+            if (chat_id, message_id) == (555, 44):
+                msg.closed = True
+
+    store, gw = await boot(env)
+    fake = ClosingBot()
+    monkeypatch.setattr(bot, "_bot", fake)
+    notify.clear_sinks()
+    notify.add_sink(bot.BotSink())
+    try:
+        client = await gw.demo_user("client")
+        trainer = await gw.demo_user("trainer")
+        p = await runner.new_program_proposal(client.id, trainer.id, "Замени первое упражнение на щадящее", "trainer")
+        p = await wait_status(store, p["id"], "pending")
+        await store.add_tg_message(p["id"], 555, 44, "Черновик для Айдара")
+
+        async def as_trainer(_cb):
+            return trainer
+
+        monkeypatch.setattr(bot, "_user", as_trainer)
+        cb = FakeCallback(f"acc:{p['id']}", msg)
+        await bot.on_decision(cb)
+
+        assert (await store.get_proposal(p["id"]))["status"] == "applied"
+        assert any("✅ Применено" in e["text"] and e["markup"] is None for e in fake.edits)  # the card is closed
+        assert not any("Не получилось" in a for a in msg.answers), msg.answers
+        assert cb.toasts == ["Применено"]
+    finally:
+        notify.clear_sinks()
+        await shutdown(store)
