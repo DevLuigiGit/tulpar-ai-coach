@@ -146,7 +146,7 @@ flowchart TD
 | RAG | `tulpar_ai/rag/`: `index.py`, `retrieve.py`, `embed.py` (Jina или локальный запасной вариант), `qdrant.py`. Обоснование решений — раздел RAG в [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Обработка документов | пакет [`parsing/`](parsing/README.md): pypdfium2 читает PDF постранично, python-docx — DOCX, дальше очистка и нарезка с перекрытием. Корпус — `corpus/`. Бэкенды PDF сравнены в `evals/parsing_backends.py` |
 | Мультимодальность | фото еды (`tulpar_ai/graph/chat.py`), голос → текст (`tulpar_ai/stt.py`), текст → голос (`tulpar_ai/tts.py`) |
-| LangSmith | трейсы всех вызовов LLM, ретривера, инструментов и голоса, проект `tulpar-ai-coach`. Оценки 👍/👎 привязаны к трейсу (`tulpar_ai/feedback.py`) |
+| LangSmith | трейсы всех вызовов LLM, ретривера, инструментов и голоса, проект `tulpar-ai-coach`. Оценки 👍/👎 привязаны к трейсу (`tulpar_ai/feedback.py`). Golden-наборы загружены как датасеты, прогоны — как эксперименты, их можно сравнивать в интерфейсе (`evals/langsmith_sync.py`) |
 | Golden dataset, метрики, A/B, гиперпараметры | `evals/golden/`, `evals/run.py`, [EVALS.md](EVALS.md), история промптов — `tulpar_ai/prompts/CHANGELOG.md` |
 | Фронтенд | `web/` (Vite + React): чат клиента и кабинет тренера, это же приложение открывается как Mini App. Telegram-бот — `tulpar_ai/bot/` |
 
@@ -160,7 +160,7 @@ flowchart TD
 | Отложенный набор маршрутизатора с интервалами Клоппера — Пирсона | `evals/router_holdout.py`, `evals/golden/router_holdout_llm.jsonl` |
 | Симуляция пользователей: 6 LLM-персон против локального сервиса | `evals/simulate_users.py`, [docs/user-simulation.md](docs/user-simulation.md) |
 | Семантический кэш ответов с лексической проверкой слотов | `tulpar_ai/rag/answer_cache.py`, `tulpar_ai/rag/cache_guard.py`, `evals/cache_eval.py` |
-| Резервные модели (fallback) | `tulpar_ai/llm.py`: цепочки моделей по ролям в `.env`. Если недоступны все модели, маршрут строится по правилам, а вопросы уходят тренеру |
+| Резервные модели (fallback) и страховка от медленной модели | `tulpar_ai/llm.py`: цепочки моделей по ролям в `.env`. Если основная модель не ответила за 5 с (маршрут) или 9 с (ответ), параллельно спрашивается резервная и берётся первый ответ. Если недоступны все модели, маршрут строится по правилам, а вопросы уходят тренеру |
 | Docker | `Dockerfile` (веб и API в одном контейнере), `docker-compose.yml` (сервис и Qdrant) |
 | Евалы в CI | `.github/workflows/ci.yml` на каждом pull request: тесты и валидатор, а при наличии ключей ещё маршрутизатор и RAG. Ключи в секреты GitHub кладёт `tools/github_secrets.sh` |
 | Деплой на Railway | `railway.json`, `tools/railway_keys.sh` |
