@@ -32,6 +32,7 @@ from ..pii import mask
 from ..prompts import prompt
 from ..skill import instructions, validator
 from ..store import get_store
+from ..draft_check import summary_mismatches
 from . import draft_agent as agent
 
 MAX_DRAFTS = 3
@@ -154,6 +155,8 @@ async def run_draft(state: ProgramState) -> dict:
 
 async def validate(state: ProgramState) -> dict:
     violations = validator().validate(state["plan"], state["draft"]["ops"], state["client"], _catalog())
+    if state["draft"]["ops"]:  # the summary the trainer reads first must not promise more than the operations do
+        violations += summary_mismatches(state["plan"], state["draft"]["ops"], state["draft"].get("summary"))
     return {"violations": violations}
 
 

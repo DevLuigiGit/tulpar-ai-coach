@@ -301,14 +301,15 @@ async def suite_draft(args) -> dict:
                 st = {"proposal_id": p["id"], "client_id": client["id"], "trainer_id": trainer.id, "request": req,
                       "source": "trainer"}
                 st.update(await pg.load_context(st))
-                first_ok = None
+                first_ok, first_codes, summaries = None, [], []
                 while True:
                     st.update(await pg.run_draft(st))  # the node DRAFT_MODE selects, as in the graph
                     agent_log += st.pop("agent_log", None) or []
                     st.update(await pg.validate(st))
                     errs = [v for v in st["violations"] if v["severity"] == "error"]
+                    summaries.append(st["draft"]["summary"][:300])
                     if first_ok is None:
-                        first_ok = not errs
+                        first_ok, first_codes = not errs, [v["code"] for v in errs]
                     if pg.after_validate(st) == "publish":
                         break
                 ms = int((time.perf_counter() - t0) * 1000)
@@ -324,6 +325,7 @@ async def suite_draft(args) -> dict:
                          "llm_calls": len(calls), "tool_calls": ag.get("tool_calls", 0), "tools": ag.get("tools", {}),
                          "rejected_finals": ag.get("rejected_finals", 0), "protocol_errors": ag.get("protocol_errors", 0),
                          "fallbacks": sum(1 for c in calls if c["fallback"]),
+                         "first_errors": first_codes, "summaries": summaries, "ops_final": st["draft"]["ops"],
                          "agent_log": agent_log, "summary": st["draft"]["summary"][:200], "ms": ms})
     await store.close()
     mean = lambda xs: round(statistics.mean(xs), 2) if xs else 0  # noqa: E731
@@ -331,6 +333,8 @@ async def suite_draft(args) -> dict:
                "first_try_valid": pct(r["first_try_valid"] for r in rows),
                "final_valid": pct(r["final_valid"] for r in rows),
                "avg_drafts": mean([r["drafts"] for r in rows]),
+               "summary_mismatch_first": pct("E_SUMMARY_MISMATCH" in r["first_errors"] for r in rows),
+               "summary_mismatch_final": pct("E_SUMMARY_MISMATCH" in r["errors"] for r in rows),
                "request_respected": pct(r["respected"] for r in rows),
                "llm_calls_per_request": mean([r["llm_calls"] for r in rows]),
                "tool_calls_per_request": mean([r["tool_calls"] for r in rows]),

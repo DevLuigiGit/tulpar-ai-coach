@@ -390,3 +390,15 @@
 | arm | n | draft_mode | first_try_valid | final_valid | request_respected | avg_drafts | llm_calls_per_request | tool_calls_per_request | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|---|---|---|
 | mode_agent | 18 | agent | 88.9 | 100.0 | 100.0 | 1.11 | 4.5 | 5.44 | 18874.5 | 0.262409 |
+
+## qa_kb_gaps_before — 2026-09-30 14:35
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| kb_gaps_before | 8 | jina3 | False | 0.0 | 0.9 | 400 | 0.0 | 0.0 | 37.5 | 0.0 | 4.33 | 3.33 | 4076.0 | 202 | 0.00108 |
+
+## draft_agent_summary_check — 2026-09-30 14:38
+
+| arm | n | draft_mode | first_try_valid | final_valid | request_respected | avg_drafts | llm_calls_per_request | tool_calls_per_request | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|---|---|---|
+| agent_summary_check | 18 | agent | 100.0 | 100.0 | 94.4 | 1 | 3.72 | 4.61 | 13463.5 | 0.214596 |

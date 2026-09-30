@@ -41,7 +41,7 @@ class FakeLLM:
             wex, group = re.search(rf"wex_id=({UUID}) \| [^|]+ \| ([^|]+) \|", user).groups()
             cand = re.findall(rf"^- ({UUID}) \| [^|]+ \| {re.escape(group.strip())} \|", user, re.M)
             ex = "00000000-0000-0000-0000-000000000000" if kind == "invalid" else cand[0]
-            return json.dumps({"summary": f"Заменить первое упражнение ({kind})", "rationale": "тест",
+            return json.dumps({"summary": self.summary(kind, user), "rationale": "тест",
                                "ops": [{"op": "replace_exercise", "day_index": 0, "wex_id": wex, "exercise_id": ex,
                                         "sets": 3, "reps": 10, "reason": "тест"}]})
         if "AI-коуч фитнес-клуба Tulpar" in system:
@@ -71,8 +71,15 @@ class FakeLLM:
                 "reason": "тест"}]
         if kind != "invalid" and "check_plan" not in steps:
             return json.dumps({"action": "check_plan", "args": {"ops": ops}})
-        return json.dumps({"action": "final", "summary": f"Заменить первое упражнение ({kind})", "rationale": "тест",
-                           "ops": ops})
+        return json.dumps({"action": "final", "summary": self.summary(kind, user), "rationale": "тест", "ops": ops})
+
+    @staticmethod
+    def summary(kind: str, user: str) -> str:
+        """«overclaim»: the summary promises to replace the first two exercises, the ops replace only the first."""
+        if kind == "overclaim":
+            first, second = re.findall(rf"wex_id={UUID} \| ([^|]+) \|", user)[:2]
+            return f"Заменить {first.strip()} и {second.strip()} на щадящие варианты ({kind})"
+        return f"Заменить первое упражнение ({kind})"
 
 
 @pytest.fixture
