@@ -1,0 +1,187 @@
+{
+ "summary": {
+  "n": 8,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 0.0,
+  "mrr": 0.0,
+  "answered_rate": 50.0,
+  "keyfact_accuracy": 50.0,
+  "correct_refusal_rate": 0.0,
+  "faithfulness_avg": 4.25,
+  "faithfulness_pass": 100.0,
+  "correctness_avg": 4,
+  "p50_ms": 3038.5,
+  "p95_ms": 8420,
+  "out_tokens_p95": 330,
+  "llm_calls": 8,
+  "tokens_in": 12423,
+  "tokens_out": 1754,
+  "cost_usd": 0.008715,
+  "fallbacks": 0,
+  "rag_variant": "default",
+  "collection": "coach_jina3_400_p2_b064ec4f",
+  "jina_requests": 17,
+  "jina_tokens": 72022,
+  "cost_per_question_usd": 0.001089,
+  "hit_at_4_by_tag": {
+   "home": 0.0,
+   "kb_gap": 0.0,
+   "kz": 0.0,
+   "nutrition": 0.0,
+   "plateau": 0.0,
+   "sitting": 0.0,
+   "steps": 0.0,
+   "timing": 0.0,
+   "training": 0.0
+  },
+  "gate": false
+ },
+ "rows": [
+  {
+   "id": "g01",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 3206,
+   "rewrites": 0,
+   "out_tokens": 258,
+   "tags": [
+    "kb_gap",
+    "training"
+   ],
+   "answer": "По данным обзора Schoenfeld et al., 2021, для гипертрофии хорошо работает диапазон ~6–12 повторений, и в одном исследовании 3 подхода по 8–12RM дали больший прирост толщины мышц бедра, чем 2–4RM [3]. При этом для роста силы в нижней части тела в другом исследовании значимый прирост 1RM показали и 6–8RM (~11 повторений), и даже 30–40RM (~10 повторений) [2]. То есть ваши 4×8 укладываются в диапазон,",
+   "faithfulness": 4,
+   "correctness": 4
+  },
+  {
+   "id": "g02",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 1810,
+   "rewrites": 0,
+   "out_tokens": 175,
+   "tags": [
+    "kb_gap",
+    "training"
+   ],
+   "answer": "2 минуты — это нормальный диапазон отдыха, который используется в ряде исследований по гипертрофии [1,3]. Однако NSCA рекомендует для роста мышц более короткие интервалы — 30–90 секунд [2,4]. То есть ваши 2 минуты — не мало, а скорее ближе к «осторожному» варианту: полного восстановления может не хватить, но и укоротить не обязательно. Если чувствуете, что к последним повторам не добираете — можно",
+   "faithfulness": 4,
+   "correctness": 4
+  },
+  {
+   "id": "g03",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3204,
+   "rewrites": 0,
+   "out_tokens": 173,
+   "tags": [
+    "kb_gap",
+    "training",
+    "home"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g04",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 2734,
+   "rewrites": 0,
+   "out_tokens": 168,
+   "tags": [
+    "kb_gap",
+    "nutrition",
+    "plateau"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g05",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 8420,
+   "rewrites": 0,
+   "out_tokens": 330,
+   "tags": [
+    "kb_gap",
+    "nutrition"
+   ],
+   "answer": "По правилам Tulpar для похудения считается базовый обмен по формуле Миффлина — Сан-Жеора, затем умножается на коэффициент активности (1,55 для умеренной, 1,2 для сидячего, 1,375 для лёгкой, 1,725 для высокой, 1,9 для спортсмена), и от этой цифры поддержания отнимается 20% [2]. При этом норма не опускается ниже 1500 ккал в день для мужчин и 1200 ккал для женщин, чтобы не голодать [1]. Если задать ж",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "g06",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 2873,
+   "rewrites": 0,
+   "out_tokens": 215,
+   "tags": [
+    "kb_gap",
+    "nutrition",
+    "timing"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g07",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 5030,
+   "rewrites": 0,
+   "out_tokens": 266,
+   "tags": [
+    "kb_gap",
+    "steps",
+    "kz"
+   ],
+   "answer": "10 000 қадам — бәріне бірдей сай келмейтін, жалпыланған сан [3]. Пайда ~7500 қадам/күн деңгейінде теңеледі, ал салмақ тастау немесе метаболикалық синдром қаупін азайту үшін одан да көп қадам қажет [4]. Ересектер мен созылмалы ауруы бар адамдар үшін төменгі мақсат жарамды болуы мүмкін [1]. Сіздің жасыңыз бен белсенділігіңізді ескерсек, бастапқы нұсқа ретінде 7500 қадам/күн мақсатын алып, жағдайыңыз",
+   "faithfulness": 4,
+   "correctness": 3
+  },
+  {
+   "id": "g08",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 1687,
+   "rewrites": 0,
+   "out_tokens": 169,
+   "tags": [
+    "kb_gap",
+    "sitting",
+    "kz"
+   ],
+   "answer": ""
+  }
+ ]
+}

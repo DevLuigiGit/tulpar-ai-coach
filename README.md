@@ -256,6 +256,7 @@ mcp/                пример конфига Claude Desktop
 
 - `corpus/who_2020_physical_activity.pdf` — WHO guidelines on physical activity and sedentary behaviour, 2020, © World Health Organization. Лицензия CC BY-NC-SA 3.0 IGO: документ используется некоммерчески и с указанием авторства.
 - `corpus/exercises.jsonl` (собственность проекта Tulpar), `corpus/nutrition.md` и демо-данные в `fixtures/` взяты из сидов и документации Tulpar. Реальных людей в демо-данных нет.
+- `corpus/evidence/` — шесть открытых научных статей из Europe PMC: пять под CC BY 4.0 и одна (о шагах в день, BMJ Open) под CC BY-NC 4.0. Список, авторы и изменения — в `corpus/SOURCES.md`.
 - Бенчмарк из 80 фото еды в репозиторий не входит, потому что это чужие снимки.
 - PyMuPDF (AGPL-3.0) заменён на pypdfium2 (Apache-2.0 / BSD-3-Clause).
 

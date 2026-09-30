@@ -77,6 +77,21 @@ def document_source(path: Path, corpus_root: Path) -> str:
     return WHO_SOURCE if source == WHO_FILE else source
 
 
+def document_title(path: Path) -> str:
+    """The title citations show: a DOCX's own title (File → Properties) when it has one, else the file name."""
+    path = Path(path)
+    if path.suffix.lower() == ".docx":
+        try:
+            from docx import Document
+
+            title = (Document(path).core_properties.title or "").strip()
+            if title:
+                return title
+        except Exception:  # noqa: BLE001 — a broken property block still leaves the file name
+            pass
+    return path.name
+
+
 def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: int = 120) -> list[dict]:
     """Return payloads for the existing Chunk, preserving document IDs and metadata.
 
@@ -89,6 +104,7 @@ def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: i
     source = document_source(path, corpus_root)
     who = source == WHO_SOURCE
     chunks = []
+    title = "WHO guidelines on physical activity and sedentary behaviour (2020)" if who else document_title(path)
     for parsed in parse_document(path):
         page = parsed["page"]
         for chunk_index, part in enumerate(split_text(parsed["text"], size, overlap)):
@@ -100,7 +116,7 @@ def chunk_document(path: Path, *, corpus_root: Path, size: int = 400, overlap: i
                 **parsed,
                 "id": chunk_id,
                 "source": source,
-                "title": "WHO guidelines on physical activity and sedentary behaviour (2020)" if who else path.name,
+                "title": title,
                 "text": part,
                 "chunk_index": chunk_index,
             })
