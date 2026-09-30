@@ -100,7 +100,8 @@ async def start_program(proposal_id: str) -> dict:
     init = {"proposal_id": p["id"], "client_id": p["client_id"], "trainer_id": p["trainer_id"], "request": p["request"],
             "source": p["source"]}
     try:
-        return await _program.ainvoke(init, _cfg(f"prop:{proposal_id}", "program_change", proposal=proposal_id[:8]))
+        return await _program.ainvoke(init, _cfg(f"prop:{proposal_id}", "program_change", proposal=proposal_id[:8]),
+                                      durability=PROGRAM_DURABILITY)
     except Exception as e:
         log.exception("program graph failed")
         await get_store().update_proposal(proposal_id, status="failed", reply=f"{type(e).__name__}: {e}"[:300])
@@ -108,6 +109,11 @@ async def start_program(proposal_id: str) -> dict:
 
 
 RESUME_WAIT_S = 20.0  # how long a decision waits for the graph to reach its review pause
+# The program graph checkpoints each step before the next one starts. By default LangGraph writes checkpoints in the
+# background, so on a slow disk `publish` could mark the proposal pending while the last saved checkpoint was still
+# at `validate` (CI, 30.09: next=() with a finished validate task) — and a decision saw a graph that looked finished.
+# The graph runs in the background and waits for a person anyway: the few ms of a synchronous write cost nothing.
+PROGRAM_DURABILITY = "sync"
 
 
 def _at_review(snap) -> bool:
@@ -123,15 +129,17 @@ async def resume_program(proposal_id: str, action: str, comment: str | None = No
     # (a slow CI runner showed an empty or not-yet-interrupted snapshot for longer than 5 s: wait longer, and in the end
     # accept a graph that stands before `review` even if its interrupt is not visible yet — the pre-agent behaviour)
     deadline = time.monotonic() + RESUME_WAIT_S
-    # a finished graph (a checkpoint with nothing next) is refused at once; a running or not yet visible one is awaited
-    while not _at_review(snap) and (snap.next or snap.created_at is None) and time.monotonic() < deadline:
+    # a finished graph (nothing next and no task in flight) is refused at once; a running or not yet visible one is
+    # awaited — a snapshot taken between a node's writes and the next checkpoint has next=() but still a task
+    while not _at_review(snap) and (snap.next or snap.tasks or snap.created_at is None) and time.monotonic() < deadline:
         await asyncio.sleep(0.05)
         snap = await _program.aget_state(cfg)
     if "review" not in (snap.next or ()):
         log.warning("resume %s refused: next=%s checkpoint=%s step=%s tasks=%s", proposal_id[:8], snap.next,
                     snap.created_at, (snap.metadata or {}).get("step"), [(t.name, len(t.interrupts)) for t in snap.tasks])
         raise RuntimeError("proposal is not waiting for a decision")
-    return await _program.ainvoke(Command(resume={"action": action, "comment": comment}), cfg)
+    return await _program.ainvoke(Command(resume={"action": action, "comment": comment}), cfg,
+                                  durability=PROGRAM_DURABILITY)
 
 
 async def recover_drafting() -> int:
@@ -141,7 +149,7 @@ async def recover_drafting() -> int:
         cfg = _cfg(f"prop:{p['id']}", "program_change")
         snap = await _program.aget_state(cfg)
         if snap.next and "review" not in snap.next:
-            spawn(_program.ainvoke(None, cfg))
+            spawn(_program.ainvoke(None, cfg, durability=PROGRAM_DURABILITY))
             n += 1
         elif not snap.next and not snap.values:
             spawn(start_program(p["id"]))
