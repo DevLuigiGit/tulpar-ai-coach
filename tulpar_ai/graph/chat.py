@@ -30,7 +30,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .. import guard_llm, guardrails, notify, nutrition_calc, portions, stt
+from .. import guard_llm, guardrails, notify, nutrition_calc, portions, progress, stt
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import MATCH_THRESHOLD, MealItem
@@ -110,6 +110,7 @@ async def _recent_client_texts(state: ChatState) -> list[str]:
 async def ingest(state: ChatState) -> dict:
     if not state.get("audio_path"):
         return {}
+    progress.stage("listen")
     p = Path(state["audio_path"])
     mode = get_settings().stt_language
     recent = await _recent_client_texts(state) if mode == "hint" else []
@@ -175,6 +176,7 @@ async def _route_llm(t: str, flags: dict) -> dict:
 
 
 async def route(state: ChatState) -> dict:
+    progress.stage("route")
     flags, t = state.get("flags", {}), _text(state)
     decided = rules_decision(flags)
     if decided:
@@ -240,6 +242,7 @@ async def cache_store(state: ChatState) -> dict:
 
 
 async def retrieve_node(state: ChatState) -> dict:
+    progress.stage("search")
     s = get_settings()
     q = state.get("query") or _text(state)
     hits = await retrieve(q)
@@ -294,6 +297,7 @@ async def _profile_hit(state: ChatState) -> dict | None:
 
 
 async def answer(state: ChatState) -> dict:
+    progress.stage("answer")
     s = get_settings()
     hits = [h for h in state.get("hits", []) if h.get("source") != PROFILE_SOURCE]
     profile = await _profile_hit(state)
@@ -408,6 +412,7 @@ async def _meal_card(state: ChatState, wanted: list[dict]) -> dict:
 
 
 async def meal_photo(state: ChatState) -> dict:
+    progress.stage("photo")
     s = get_settings()
     b64 = base64.b64encode(Path(state["image_path"]).read_bytes()).decode()
     try:
@@ -458,6 +463,7 @@ async def extract_meal(text: str) -> list[dict]:
 
 
 async def meal_text(state: ChatState) -> dict:
+    progress.stage("meal")
     wanted = await extract_meal(_text(state))
     if not wanted:
         return {"reply": "Не понял, что записать. Пример: «гречка 200 г и курица 150 г».", "kind": "info"}
@@ -466,6 +472,7 @@ async def meal_text(state: ChatState) -> dict:
 
 # ── hand-offs to people ──────────────────────────────────────────────────────
 async def program_request(state: ChatState) -> dict:
+    progress.stage("program")
     from .runner import new_program_proposal  # late import: runner imports this module
 
     trainer = await get_gateway().trainer_of(state["client_id"])

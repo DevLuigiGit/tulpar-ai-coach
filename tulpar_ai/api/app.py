@@ -5,6 +5,8 @@ Contract used by web/, bot and the MCP server — see ARCHITECTURE.md «API».
 
 from __future__ import annotations
 
+import asyncio
+import json
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -12,11 +14,11 @@ from typing import Literal
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import feedback, service, tts
+from .. import feedback, progress, service, tts
 from ..config import ROOT, get_settings
 from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
@@ -129,6 +131,58 @@ async def chat(text: str = Form(""), photo: UploadFile | None = File(None), audi
         raise HTTPException(422, "send text, a photo or a voice message")
     return await service.chat_turn(user, text.strip(), image=image, audio=voice,
                                    audio_name=(audio.filename if audio else "voice.ogg") or "voice.ogg")
+
+
+_turns: set[asyncio.Task] = set()
+
+
+@app.post("/api/chat/stream")
+async def chat_stream(text: str = Form(""), photo: UploadFile | None = File(None), audio: UploadFile | None = File(None),
+                      user: User = Depends(limit_chat)):
+    """The same turn as POST /api/chat, as server-sent events: `stage` events while the graph works («route»,
+    «search», «answer», «meal»…), then one `done` event with the same reply JSON — or `error`. The web chat shows the
+    stage in its «Коуч думает…» line; the reply itself is not streamed (EVALS finding 27)."""
+    image, voice = await _read(photo), await _read(audio)
+    if not (text.strip() or image or voice):
+        raise HTTPException(422, "send text, a photo or a voice message")
+    events: asyncio.Queue = asyncio.Queue()
+
+    async def turn() -> dict:
+        token = progress.bind(lambda name: events.put_nowait({"type": "stage", "stage": name}))
+        try:
+            return await service.chat_turn(user, text.strip(), image=image, audio=voice,
+                                           audio_name=(audio.filename if audio else "voice.ogg") or "voice.ogg")
+        finally:
+            progress.unbind(token)
+
+    async def stream():
+        task = asyncio.create_task(turn())
+        _turns.add(task)  # a turn outlives a client that went away: the reply is stored and shows up in the history
+        task.add_done_callback(_turns.discard)
+        getter = None
+        try:
+            while True:
+                getter = asyncio.create_task(events.get())
+                done, _ = await asyncio.wait({task, getter}, return_when=asyncio.FIRST_COMPLETED)
+                if getter in done:
+                    yield f"data: {json.dumps(getter.result(), ensure_ascii=False)}\n\n"
+                    continue
+                getter.cancel()
+                while not events.empty():
+                    yield f"data: {json.dumps(events.get_nowait(), ensure_ascii=False)}\n\n"
+                break
+            try:
+                reply = task.result()
+                yield f"data: {json.dumps({'type': 'done', 'reply': reply}, ensure_ascii=False, default=str)}\n\n"
+            except Exception:
+                log.exception("streamed chat turn failed")
+                yield f"data: {json.dumps({'type': 'error', 'detail': 'Не получилось обработать сообщение'})}\n\n"
+        finally:
+            if getter is not None and not getter.done():
+                getter.cancel()
+
+    return StreamingResponse(stream(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
 class SpeakRequest(BaseModel):

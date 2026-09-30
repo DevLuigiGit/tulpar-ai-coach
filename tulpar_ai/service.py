@@ -48,6 +48,8 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
     }
     if res.get("guard"):
         reply["guard"] = res["guard"]
+    if res.get("cache_score") is not None:  # answered from the semantic cache (tools/warm_cache.py shows the hits)
+        reply["cache_score"] = round(float(res["cache_score"]), 4)
     if res.get("transcript") is not None and res.get("stt_language"):
         reply["stt_language"] = res["stt_language"]
     rt = get_current_run_tree()

@@ -167,6 +167,92 @@ function fileName(f: File | Blob, fallback: string): string {
 export const chat = (form: FormData) =>
   request<ChatReply>("/api/chat", { form, timeoutMs: LONG_TIMEOUT_MS });
 
+/** Этап, на котором сейчас граф: «route» — разбор сообщения, «search» — поиск по базе знаний и т. д. */
+export type ChatStage = "listen" | "route" | "search" | "answer" | "meal" | "photo" | "program";
+
+const INTERRUPTED = { interrupted: true };
+
+/** Связь оборвалась, когда сервер уже принял сообщение: ответ сохранится и появится в истории. */
+export const isInterrupted = (e: unknown) => e instanceof ApiError && e.detail === INTERRUPTED;
+
+/**
+ * Тот же запрос, что chat(), через POST /api/chat/stream: пока граф работает, приходят этапы (onStage), потом
+ * тот же ответ целиком. Сам текст не стримится — это замерили, выигрыша нет. Если потокового адреса нет (старый
+ * сервер), отправляет обычный запрос.
+ */
+export async function chatStreamed(form: FormData, onStage: (stage: ChatStage) => void): Promise<ChatReply> {
+  const headers: Record<string, string> = { Accept: "text/event-stream" };
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), LONG_TIMEOUT_MS);
+  try {
+    let res: Response;
+    try {
+      res = await fetch("/api/chat/stream", { method: "POST", headers, body: form, signal: ctrl.signal });
+    } catch (e) {
+      if (ctrl.signal.aborted) throw new ApiError(0, "Сервер не ответил вовремя. Попробуйте ещё раз.");
+      throw new ApiError(0, "Нет связи с сервером", e);
+    }
+    // Нет такого адреса (старый сервер) — сообщение не принято, можно отправить обычным запросом.
+    if (res.status === 404 || res.status === 405) return await chat(form);
+    if (res.status === 401) {
+      logout();
+      throw new ApiError(401, "Сессия истекла, войдите снова");
+    }
+    if (!res.ok) {
+      const text = await res.text();
+      let data: unknown = text;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        /* текст ошибки как есть */
+      }
+      throw new ApiError(res.status, describeError(res.status, data), data);
+    }
+    let buf = "";
+    // Разбирает готовые события из буфера; возвращает ответ, когда пришёл «done».
+    const drain = (): ChatReply | null => {
+      let cut: number;
+      while ((cut = buf.indexOf("\n\n")) >= 0) {
+        const line = buf.slice(0, cut).split("\n").find((l) => l.startsWith("data: "));
+        buf = buf.slice(cut + 2);
+        if (!line) continue;
+        const ev = JSON.parse(line.slice(6)) as { type: string; stage?: ChatStage; reply?: ChatReply; detail?: string };
+        if (ev.type === "stage" && ev.stage) onStage(ev.stage);
+        else if (ev.type === "done" && ev.reply) return ev.reply;
+        else if (ev.type === "error") throw new ApiError(500, ev.detail || "Ошибка сервера, попробуйте позже", ev);
+      }
+      return null;
+    };
+    try {
+      if (!res.body) {
+        // WebView без потокового чтения: тот же ответ целиком, когда запрос завершится (повторно не отправляем —
+        // сервер сообщение уже принял).
+        buf = await res.text();
+        const reply = drain();
+        if (reply) return reply;
+      } else {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const reply = drain();
+          if (reply) return reply;
+        }
+      }
+    } catch (e) {
+      if (e instanceof ApiError) throw e;
+      throw new ApiError(0, "Связь прервалась — ответ появится в чате после обновления", INTERRUPTED);
+    }
+    throw new ApiError(0, "Связь прервалась — ответ появится в чате после обновления", INTERRUPTED);
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
 /** Озвучка ответа коуча: MP3 (audio/mpeg). */
 export const speech = (text: string) => request<Blob>("/api/tts", { json: { text }, blob: true });
 

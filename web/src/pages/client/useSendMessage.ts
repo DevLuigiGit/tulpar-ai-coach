@@ -1,7 +1,7 @@
 // Отправка в чат: черновик (текст + фото + голосовое), оптимистичное сообщение,
 // защита от двойной отправки, возврат черновика в поле при ошибке.
 import { useCallback, useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
-import { chat, chatForm, errorText } from "../../api";
+import { chatForm, chatStreamed, errorText, isInterrupted, type ChatStage } from "../../api";
 import type { ChatMessage } from "../../types";
 import { draftReady, type Draft } from "./Composer";
 import { MAX_FILE_BYTES, localMessage, msgKey, replyToMessage } from "./chatModel";
@@ -11,6 +11,8 @@ const EMPTY: Draft = { text: "", photo: null, audio: null };
 export interface Sending {
   since: number;
   withMedia: boolean;
+  /** Этап графа из /api/chat/stream: «ищу в базе знаний…», «считаю калории…». */
+  stage?: ChatStage;
 }
 
 interface Options {
@@ -74,7 +76,9 @@ export function useSendMessage({ setMessages, refresh, onPreview, onSent }: Opti
       onSent();
 
       try {
-        const reply = await chat(chatForm({ text, photo: d.photo, audio: d.audio }));
+        const reply = await chatStreamed(chatForm({ text, photo: d.photo, audio: d.audio }), (stage) =>
+          setSending((cur) => (cur ? { ...cur, stage } : cur)),
+        );
         setMessages((m) => [...m, replyToMessage(reply)]);
         busy.current = false;
         setSending(null);
@@ -82,6 +86,12 @@ export function useSendMessage({ setMessages, refresh, onPreview, onSent }: Opti
       } catch (e) {
         busy.current = false;
         setSending(null);
+        if (isInterrupted(e)) {
+          // Сервер уже принял сообщение: ответ сохранится — не возвращаем черновик, чтобы не отправить дважды.
+          setError(errorText(e));
+          void refresh();
+          return;
+        }
         setMessages((m) => m.filter((x) => x.id !== mine.id));
         setError(errorText(e));
         if (quick === undefined) {

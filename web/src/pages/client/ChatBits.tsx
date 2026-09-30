@@ -1,5 +1,6 @@
 // Мелкие части чата: индикатор «Коуч думает…» и пустое состояние с примерами.
 import { useEffect, useState } from "react";
+import type { ChatStage } from "../../api";
 import { SparkIcon } from "./icons";
 
 export const EXAMPLE_PROMPTS = [
@@ -8,8 +9,18 @@ export const EXAMPLE_PROMPTS = [
   "Хочу добавить кардио в программу",
 ];
 
-/** Пока ждём ответ (до 90 с): точки + счётчик секунд и подсказка на долгом ожидании. */
-export function TypingIndicator({ since, withMedia }: { since: number; withMedia: boolean }) {
+const STAGE_LABEL: Record<ChatStage, string> = {
+  listen: "Слушаю голосовое…",
+  route: "Разбираю сообщение…",
+  search: "Ищу в базе знаний…",
+  answer: "Пишу ответ по источникам…",
+  meal: "Считаю калории…",
+  photo: "Смотрю на фото…",
+  program: "Передаю просьбу тренеру…",
+};
+
+/** Пока ждём ответ (до 90 с): точки, этап графа (если сервер его прислал), счётчик секунд и подсказка. */
+export function TypingIndicator({ since, withMedia, stage }: { since: number; withMedia: boolean; stage?: ChatStage }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = window.setInterval(() => setNow(Date.now()), 1000);
@@ -33,7 +44,7 @@ export function TypingIndicator({ since, withMedia }: { since: number; withMedia
           <i />
           <i />
         </span>
-        <span className="typing-label">Коуч думает…</span>
+        <span className="typing-label">{(stage && STAGE_LABEL[stage]) || "Коуч думает…"}</span>
         {sec >= 5 && <span className="typing-sec num">{sec} с</span>}
       </div>
       {hint && <div className="typing-hint">{hint}</div>}

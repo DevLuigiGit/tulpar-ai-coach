@@ -139,7 +139,13 @@ export default function ChatPage({ onOpenPlan }: ChatPageProps) {
           );
         })}
 
-        {sender.sending && <TypingIndicator since={sender.sending.since} withMedia={sender.sending.withMedia} />}
+        {sender.sending && (
+          <TypingIndicator
+            since={sender.sending.since}
+            withMedia={sender.sending.withMedia}
+            stage={sender.sending.stage}
+          />
+        )}
       </div>
 
       <div className="chat-bottom">
