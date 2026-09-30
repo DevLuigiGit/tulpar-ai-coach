@@ -55,6 +55,7 @@
   font-size: var(--fs-2xs);
   font-weight: 600;
 }
+.meal-hint.is-estimate { background: var(--grey-soft); color: var(--muted); font-weight: 500; }
 
 .meal-grams {
   flex: 0 0 auto;

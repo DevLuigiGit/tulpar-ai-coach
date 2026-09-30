@@ -148,12 +148,22 @@ def tokens(text: str) -> set[str]:
     return {w[:6] for w in t.split() if w and w not in _STOP}
 
 
+# What a Russian noun or adjective changes in its cases: «плов» ~ «плова», but «хлеб» ≁ «хлебцы», «батон» ≁ «батончик».
+_ENDINGS = {"", "а", "я", "у", "ю", "е", "и", "ы", "о", "ь", "й", "ой", "ей", "ом", "ем", "ам", "ям", "ах", "ях", "ов", "ев",
+            "ий", "ый", "ая", "яя", "ое", "ее", "ые", "ие", "ую", "юю", "их", "ых", "им", "ым", "ого", "его", "ому", "ему",
+            "ами", "ями", "ыми", "ими"}
+
+
 def _same(x: str, y: str) -> bool:
-    """Russian cases differ in endings: «плова» ~ «плов», «гречки» ~ «гречка». Common prefix of ≥4 letters."""
+    """Russian cases differ in endings: «плова» ~ «плов», «гречки» ~ «гречка». Common prefix of ≥4 letters, and what
+    is left of both words after it must be a case ending, not a new word («хлеб» → «хлебцы» is another product)."""
     if x == y:
         return True
     short, long_ = sorted((x, y), key=len)
-    return len(short) >= 4 and long_.startswith(short[: max(4, len(short) - 1)])
+    if len(short) < 4:
+        return False
+    stem = short[: max(4, len(short) - 1)]
+    return long_.startswith(stem) and long_[len(stem):] in _ENDINGS and short[len(stem):] in _ENDINGS
 
 
 ADDITION_PENALTY = 0.05
@@ -185,6 +195,10 @@ def food_score(query: str, name: str) -> float:
     (the «с X» of the name) costs a little: it changes the calories."""
     qb, qa, qw = name_parts(query)
     nb, na, nw = name_parts(name)
+    if not any(w[0].isdigit() for w in qb | qa):  # «Молоко 2.5%» is plain «молоко» to someone who named no fat %
+        nb = {w for w in nb if not w[0].isdigit()}
+    if qb and not any(_same(x, y) for x in qb for y in nb):
+        return 0.0  # the dish must match, not its addition: «пельмени со сметаной» is not «Сметана 15%»
     a = qb | qa | {"-" + x for x in qw}
     b = nb | na | {"-" + y for y in nw if any(_same(x, y) for x in qw)}
     if not a or not b:
@@ -197,8 +211,16 @@ def food_score(query: str, name: str) -> float:
     return max(0.0, min(score, 1.0))
 
 
+# Everyday names the catalog spells differently: «чёрный хлеб» is rye bread, not «Хлебцы» or «Чернослив».
+_ALIASES = [(re.compile(r"\bч[её]рн\w*\s+хлеб\w*|\bхлеб\w*\s+ч[её]рн\w*", re.I), "хлеб ржаной")]
+
+
 def rank_foods(query: str, foods: list[dict], limit: int = 5) -> list[Food]:
+    for pattern, canonical in _ALIASES:
+        query = pattern.sub(canonical, query or "")
     scored = [(food_score(query, f["name"]), f) for f in foods]
     scored = [x for x in scored if x[0] > 0]
-    scored.sort(key=lambda x: (-x[0], len(x[1]["name"])))
+    # ties keep the catalog order: Tulpar lists the everyday variant first («Яйцо куриное» before «Яйцо утиное»,
+    # «Молоко 2.5%» before «Молоко козье»), which the old shortest-name rule turned upside down
+    scored.sort(key=lambda x: -x[0])
     return [Food(**{**f, "score": round(s, 3)}) for s, f in scored[:limit]]

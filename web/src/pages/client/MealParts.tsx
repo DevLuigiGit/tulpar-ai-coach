@@ -11,11 +11,13 @@ interface RowProps {
   grams: number;
   /** Граммы подставлены по умолчанию — просим уточнить. */
   askGrams: boolean;
+  /** Граммы оценены по «две ложки», «пара» — показываем, откуда они. */
+  estimated?: boolean;
   disabled: boolean;
   onChange: (v: string) => void;
 }
 
-export function MealItemRow({ item, value, grams, askGrams, disabled, onChange }: RowProps) {
+export function MealItemRow({ item, value, grams, askGrams, estimated, disabled, onChange }: RowProps) {
   const invalid = Number.isNaN(grams);
   const p = portion(item, invalid ? 0 : grams);
   const asked = item.asked_as && item.asked_as.toLowerCase() !== item.name.toLowerCase() ? item.asked_as : null;
@@ -35,6 +37,9 @@ export function MealItemRow({ item, value, grams, askGrams, disabled, onChange }
           <span>У {invalid ? "—" : fmt0(p.carbs)}</span>
         </div>
         {askGrams && <div className="meal-hint">уточните граммы</div>}
+        {estimated && (
+          <div className="meal-hint is-estimate">примерно{item.measure ? `: «${item.measure}»` : ""}</div>
+        )}
       </div>
       <div className={`meal-grams ${invalid ? "is-invalid" : ""} ${askGrams ? "is-ask" : ""}`}>
         <input
