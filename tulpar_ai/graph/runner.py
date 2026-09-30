@@ -128,6 +128,8 @@ async def resume_program(proposal_id: str, action: str, comment: str | None = No
         await asyncio.sleep(0.05)
         snap = await _program.aget_state(cfg)
     if "review" not in (snap.next or ()):
+        log.warning("resume %s refused: next=%s checkpoint=%s step=%s tasks=%s", proposal_id[:8], snap.next,
+                    snap.created_at, (snap.metadata or {}).get("step"), [(t.name, len(t.interrupts)) for t in snap.tasks])
         raise RuntimeError("proposal is not waiting for a decision")
     return await _program.ainvoke(Command(resume={"action": action, "comment": comment}), cfg)
 
