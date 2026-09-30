@@ -88,6 +88,25 @@
 .typing-sec { color: var(--faint); font-size: var(--fs-xs); }
 .typing-hint { font-size: var(--fs-xs); color: var(--muted); padding: 0 6px; max-width: 280px; }
 
+/* ---------- Ответ, который ещё пишется (стриминг) ---------- */
+
+/* Курсор в конце последнего абзаца или пункта списка. */
+.is-streaming .rich > p:last-child::after,
+.is-streaming .rich > ul:last-child > li:last-child::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: stream-caret 1s steps(2, start) infinite;
+}
+@keyframes stream-caret {
+  to { visibility: hidden; }
+}
+
 /* ---------- Пустое состояние ---------- */
 
 .chat-empty {
@@ -135,6 +154,8 @@
 @media (prefers-reduced-motion: reduce) {
   .msg, .msg-system { animation: none; }
   .typing-dots i { animation-duration: 2.4s; }
+  .is-streaming .rich > p:last-child::after,
+  .is-streaming .rich > ul:last-child > li:last-child::after { animation: none; opacity: 0.6; }
 }
 
 /* ---------- Время ответа + «Прослушать» ---------- */

@@ -5,6 +5,7 @@ Contract used by web/, bot and the MCP server — see ARCHITECTURE.md «API».
 
 from __future__ import annotations
 
+import json
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -12,7 +13,7 @@ from typing import Literal
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -129,6 +130,30 @@ async def chat(text: str = Form(""), photo: UploadFile | None = File(None), audi
         raise HTTPException(422, "send text, a photo or a voice message")
     return await service.chat_turn(user, text.strip(), image=image, audio=voice,
                                    audio_name=(audio.filename if audio else "voice.ogg") or "voice.ogg")
+
+
+async def streaming_on() -> None:
+    if not get_settings().streaming:
+        raise HTTPException(404, "streaming is off")  # the web then falls back to POST /api/chat
+
+
+def _sse(event: dict | None) -> str:
+    if event is None:
+        return ": keep-alive\n\n"
+    return f"data: {json.dumps(event, ensure_ascii=False, default=str)}\n\n"
+
+
+@app.post("/api/chat/stream", dependencies=[Depends(streaming_on)])
+async def chat_stream(text: str = Form(""), photo: UploadFile | None = File(None), audio: UploadFile | None = File(None),
+                      user: User = Depends(limit_chat)):
+    """/api/chat as Server-Sent Events: stage → delta… → done (the /api/chat JSON). See streaming.py."""
+    image, voice = await _read(photo), await _read(audio)
+    if not (text.strip() or image or voice):
+        raise HTTPException(422, "send text, a photo or a voice message")
+    events = service.chat_turn_events(user, text.strip(), image=image, audio=voice,
+                                      audio_name=(audio.filename if audio else "voice.ogg") or "voice.ogg")
+    return StreamingResponse((_sse(e) async for e in events), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no"})
 
 
 class SpeakRequest(BaseModel):

@@ -13,6 +13,9 @@
 
 The answer cache sits on the question branch only: route has already sent red flags, meals, program requests and
 injections elsewhere, and only a final answer with citations is stored (rag/answer_cache.py).
+
+In a streamed turn (POST /api/chat/stream) the nodes also report stages and the answer node streams the answer text
+through the output guard (streaming.py). Without a bound sink those calls do nothing and every node behaves as before.
 """
 
 from __future__ import annotations
@@ -26,11 +29,11 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .. import guardrails, notify, stt
+from .. import guardrails, notify, streaming, stt
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import MATCH_THRESHOLD, MealItem
-from ..llm import LLMError, chat, json_call
+from ..llm import LLMError, chat, chat_stream, json_call
 from ..pii import mask
 from ..prompts import prompt
 from ..rag.answer_cache import get_answer_cache
@@ -81,6 +84,7 @@ def _text(state: ChatState) -> str:
 
 async def ingest(state: ChatState) -> dict:
     if state.get("audio_path"):
+        streaming.stage("listen")
         p = Path(state["audio_path"])
         return {"transcript": await stt.transcribe(p.read_bytes(), filename=p.name)}
     return {}
@@ -111,6 +115,7 @@ def _heuristic_intent(t: str, flags: dict) -> str:
 
 
 async def route(state: ChatState) -> dict:
+    streaming.stage("route")
     flags, t = state.get("flags", {}), _text(state)
     guard = flags.get("guard")
     if guard == "self_harm":  # before injection: a person at risk is never just "refused"
@@ -147,6 +152,7 @@ def after_route(state: ChatState) -> str:
 
 # ── question branch: cache → retrieve → (rewrite ≤2) → answer → cache ───────
 async def cache_lookup(state: ChatState) -> dict:
+    streaming.stage("search")
     cache = get_answer_cache()
     if cache is None:
         return {}
@@ -157,6 +163,10 @@ async def cache_lookup(state: ChatState) -> dict:
         return {}
     if hit is None:
         return {}
+    if streaming.active():  # a cached answer goes out at once, but only what the output guard lets through
+        shown, action = guardrails.guard_reply(hit["reply"])
+        if not action.startswith("blocked"):
+            streaming.delta(shown)
     return {"reply": hit["reply"], "citations": hit["citations"], "kind": "answer", "cache_score": hit["score"]}
 
 
@@ -176,6 +186,7 @@ async def cache_store(state: ChatState) -> dict:
 
 
 async def retrieve_node(state: ChatState) -> dict:
+    streaming.stage("search")
     s = get_settings()
     q = state.get("query") or _text(state)
     hits = await retrieve(q)
@@ -208,13 +219,42 @@ def _sources(hits: list[dict]) -> str:
     return "\n\n".join(lines)
 
 
-async def answer(state: ChatState) -> dict:
+DISCLAIMER = "\n\nЭто общая информация, а не медицинская консультация."
+
+
+async def _answer_json(user: str) -> dict:
+    """The answer model's JSON. In a streamed turn the "answer" text goes to the client sentence by sentence while
+    the model writes it — each sentence only after the output guard has passed everything up to it."""
     s = get_settings()
+    kw = dict(temperature=s.answer_temperature, top_p=s.answer_top_p, max_tokens=s.answer_max_tokens)
+    if not streaming.active():
+        data, _ = await json_call("text", prompt("answer"), user, **kw)
+        return data
+    field, text = streaming.JsonStringField("answer"), streaming.GuardedText(streaming.delta)
+
+    def on_piece(piece: str) -> None:
+        try:
+            text.push(field.feed(piece))
+            if field.closed:
+                text.close(text.raw.strip() + DISCLAIMER)
+        except Exception:  # the live preview is optional; the reply itself comes from the parsed JSON
+            log.warning("answer stream preview failed", exc_info=True)
+            text.stopped = True
+
+    res = await chat_stream("text", prompt("answer"), user, json_mode=True, on_delta=on_piece, **kw)
+    if not isinstance(res.data, dict):
+        raise LLMError(f"expected a JSON object, got {type(res.data).__name__}")
+    if res.data.get("sufficient", True):  # the disclaimer only once the reply is known to be an answer
+        text.finish(str(res.data.get("answer", "")).strip() + DISCLAIMER)
+    return res.data
+
+
+async def answer(state: ChatState) -> dict:
+    streaming.stage("answer")
     hits = state.get("hits", [])
     user = f"Вопрос клиента: {mask(_text(state))}\n\nИсточники:\n{_sources(hits)}"
     try:
-        data, _ = await json_call("text", prompt("answer"), user, temperature=s.answer_temperature,
-                                  top_p=s.answer_top_p, max_tokens=s.answer_max_tokens)
+        data = await _answer_json(user)
     except LLMError:
         return {"sufficient": False, "reason": "answer model unavailable"}
     used = [int(n) for n in data.get("citations", []) if str(n).isdigit() and 1 <= int(n) <= len(hits)]
@@ -222,8 +262,7 @@ async def answer(state: ChatState) -> dict:
              for n in used]
     if not data.get("sufficient", True):
         return {"sufficient": False, "reason": "model: sources do not answer"}
-    disclaimer = "\n\nЭто общая информация, а не медицинская консультация."
-    return {"reply": str(data.get("answer", "")).strip() + disclaimer, "citations": cites, "kind": "answer"}
+    return {"reply": str(data.get("answer", "")).strip() + DISCLAIMER, "citations": cites, "kind": "answer"}
 
 
 def after_answer(state: ChatState) -> str:
@@ -301,6 +340,7 @@ async def _meal_card(state: ChatState, wanted: list[dict]) -> dict:
 
 
 async def meal_photo(state: ChatState) -> dict:
+    streaming.stage("meal")
     s = get_settings()
     b64 = base64.b64encode(Path(state["image_path"]).read_bytes()).decode()
     try:
@@ -319,6 +359,7 @@ async def meal_photo(state: ChatState) -> dict:
 
 
 async def meal_text(state: ChatState) -> dict:
+    streaming.stage("meal")
     try:
         data, _ = await json_call("text", prompt("meal_text"), mask(_text(state)), temperature=0.0, max_tokens=300)
         wanted = [{"name": str(i["name"]), "grams": i.get("grams")} for i in data.get("items", []) if i.get("name")]

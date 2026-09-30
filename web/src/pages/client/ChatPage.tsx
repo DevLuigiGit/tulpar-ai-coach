@@ -14,7 +14,7 @@ import Spinner from "../../components/Spinner";
 import { ageMs, asReply, attachments, isLocal, loggedCardIds, msgKey, transcriptAfter } from "./chatModel";
 import { useChatHistory } from "./useChatHistory";
 import { useSendMessage } from "./useSendMessage";
-import { ChatEmpty, TypingIndicator } from "./ChatBits";
+import { ChatEmpty, PendingReply } from "./ChatBits";
 import Composer from "./Composer";
 import MessageBubble from "./MessageBubble";
 import DaySeparator, { dayKey } from "./DaySeparator";
@@ -51,10 +51,17 @@ export default function ChatPage({ onOpenPlan }: ChatPageProps) {
   }, []);
 
   const { messages, setMessages, load, refresh, retry } = useChatHistory(paused, adoptPreview);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+  const lastServerId = useCallback(
+    () => messagesRef.current.reduce((max, m) => (typeof m.id === "number" && m.id > max ? m.id : max), 0),
+    [],
+  );
 
   const sender = useSendMessage({
     setMessages,
     refresh: () => refresh(),
+    lastServerId,
     onPreview: (id, url) => {
       pendingPreview.current = url;
       setPreviews((p) => ({ ...p, [id]: url }));
@@ -139,7 +146,7 @@ export default function ChatPage({ onOpenPlan }: ChatPageProps) {
           );
         })}
 
-        {sender.sending && <TypingIndicator since={sender.sending.since} withMedia={sender.sending.withMedia} />}
+        {sender.sending && <PendingReply sending={sender.sending} />}
       </div>
 
       <div className="chat-bottom">

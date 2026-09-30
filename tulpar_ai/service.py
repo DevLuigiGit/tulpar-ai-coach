@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import asyncio
+import logging
 from datetime import date
+from typing import AsyncIterator
 
 from langsmith import traceable
 from langsmith.run_helpers import get_current_run_tree
 
-from . import feedback, guardrails, notify
+from . import feedback, guardrails, notify, streaming
+from .config import get_settings
 from .gateway import get_gateway
 from .gateway.base import MealItem, PlanOp, User
 from .graph import runner
@@ -16,6 +20,8 @@ from .pii import mask
 from .store import get_store
 
 MEALS = {"breakfast", "lunch", "dinner", "snack"}
+log = logging.getLogger("service")
+STREAM_ERROR = "Не получилось ответить, попробуйте ещё раз."
 
 
 def _turn_inputs(inputs: dict) -> dict:
@@ -52,6 +58,37 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
         "run_id": str(rt.id) if rt else None, "run_project": getattr(rt, "session_name", None) if rt else None}
     reply["message_id"] = await store.add_message(user.id, "assistant", reply["reply"], payload)
     return reply
+
+
+async def chat_turn_events(user: User, text: str = "", image: bytes | None = None, audio: bytes | None = None,
+                           audio_name: str = "voice.ogg") -> AsyncIterator[dict | None]:
+    """POST /api/chat/stream: the same `chat_turn`, with an event sink bound for the graph nodes.
+
+    Yields {"type": "stage"} and {"type": "delta"} events, then {"type": "done", **the /api/chat reply} or
+    {"type": "error"}; None means «nothing new yet» (the endpoint sends a keep-alive comment). The turn runs as its own
+    task, so a client that disconnects mid-way does not cut it: it finishes and is stored like a /api/chat turn."""
+    queue: asyncio.Queue = asyncio.Queue()
+
+    async def run() -> None:
+        streaming.bind(queue.put_nowait)
+        try:
+            reply = await chat_turn(user, text, image=image, audio=audio, audio_name=audio_name)
+            queue.put_nowait({"type": "done", **reply})
+        except Exception:
+            log.exception("streamed chat turn failed")
+            queue.put_nowait({"type": "error", "message": STREAM_ERROR})
+
+    runner.spawn(run())
+    keepalive = get_settings().stream_keepalive_s
+    while True:
+        try:
+            ev = await asyncio.wait_for(queue.get(), timeout=keepalive)
+        except asyncio.TimeoutError:
+            yield None
+            continue
+        yield ev
+        if ev["type"] in ("done", "error"):
+            return
 
 
 async def _guard_output(user: User, request: str, res: dict) -> dict:

@@ -167,6 +167,127 @@ function fileName(f: File | Blob, fallback: string): string {
 export const chat = (form: FormData) =>
   request<ChatReply>("/api/chat", { form, timeoutMs: LONG_TIMEOUT_MS });
 
+// ---------- Стриминг ответа (POST /api/chat/stream, Server-Sent Events) ----------
+
+/** Этапы хода: listen — распознаю голосовое, route — разбираю сообщение, search — ищу в источниках,
+ *  answer — пишу ответ, meal — считаю КБЖУ. */
+export type StreamStage = "listen" | "route" | "search" | "answer" | "meal";
+
+export interface StreamHandlers {
+  onStage?: (stage: StreamStage) => void;
+  /** Очередной кусок ответа — уже прошёл фильтр вывода на сервере. */
+  onDelta?: (text: string) => void;
+}
+
+/**
+ * Сбой стрима. phase:
+ *   before — сервер ход не начал (нет связи, стриминг выключен, 5xx): можно отправить обычным POST /api/chat;
+ *   during — связь оборвалась после начала хода: сервер допишет и сохранит ответ сам, повтор дал бы дубль;
+ *   server — сервер сообщил об ошибке хода (как 500 у /api/chat).
+ */
+export class StreamError extends Error {
+  phase: "before" | "during" | "server";
+  constructor(message: string, phase: StreamError["phase"]) {
+    super(message);
+    this.name = "StreamError";
+    this.phase = phase;
+  }
+}
+
+type StreamEvent =
+  | { type: "stage"; stage: StreamStage }
+  | { type: "delta"; text: string }
+  | ({ type: "done" } & ChatReply)
+  | { type: "error"; message?: string };
+
+/** Ответ коуча по частям: fetch + ReadableStream (EventSource не умеет POST с файлами и заголовком Authorization). */
+export async function chatStream(form: FormData, handlers: StreamHandlers = {}): Promise<ChatReply> {
+  const headers: Record<string, string> = { Accept: "text/event-stream" };
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), LONG_TIMEOUT_MS);
+  // Состояние меняют обработчики событий — держим его в объекте, а не в let (иначе TS «сузит» тип до null).
+  const st: { started: boolean; reply: ChatReply | null } = { started: false, reply: null };
+
+  const handle = (ev: StreamEvent) => {
+    st.started = true;
+    if (ev.type === "stage") handlers.onStage?.(ev.stage);
+    else if (ev.type === "delta") handlers.onDelta?.(ev.text);
+    else if (ev.type === "done") {
+      const { type: _type, ...rest } = ev;
+      st.reply = rest as ChatReply;
+    } else if (ev.type === "error") throw new StreamError(ev.message || "Ошибка сервера, попробуйте позже", "server");
+  };
+
+  try {
+    let res: Response;
+    try {
+      res = await fetch("/api/chat/stream", { method: "POST", headers, body: form, signal: ctrl.signal });
+    } catch {
+      throw new StreamError("Нет связи с сервером", "before");
+    }
+    if (res.status === 401) {
+      logout();
+      throw new ApiError(401, "Сессия истекла, войдите снова");
+    }
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      let data: unknown = text;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        /* не JSON */
+      }
+      // Эти ответы обычный запрос повторил бы так же — показываем их сразу.
+      if (res.status === 413 || res.status === 422 || res.status === 429) {
+        throw new ApiError(res.status, describeError(res.status, data), data);
+      }
+      throw new StreamError(describeError(res.status, data), "before");
+    }
+
+    const reader = res.body && typeof res.body.getReader === "function" ? res.body.getReader() : null;
+    if (!reader) {
+      // Нет потокового тела (старый WebView): ждём ответ целиком, ход уже идёт.
+      parseEvents(await res.text(), handle);
+    } else {
+      const decoder = new TextDecoder();
+      let buf = "";
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const cut = buf.lastIndexOf("\n\n");
+        if (cut >= 0) {
+          parseEvents(buf.slice(0, cut), handle);
+          buf = buf.slice(cut + 2);
+        }
+      }
+      parseEvents(buf + decoder.decode(), handle);
+    }
+    if (st.reply) return st.reply;
+    throw new StreamError("Ответ оборвался", st.started ? "during" : "before");
+  } catch (e) {
+    if (e instanceof StreamError || e instanceof ApiError) throw e;
+    const msg = ctrl.signal.aborted ? "Сервер не ответил вовремя" : "Связь с сервером прервалась";
+    throw new StreamError(msg, st.started ? "during" : "before");
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+/** Разбор SSE: события разделены пустой строкой, данные — строки «data:»; комментарии «:» пропускаем. */
+function parseEvents(chunk: string, handle: (ev: StreamEvent) => void): void {
+  for (const block of chunk.replace(/\r\n/g, "\n").split("\n\n")) {
+    const data = block
+      .split("\n")
+      .filter((l) => l.startsWith("data:"))
+      .map((l) => l.slice(5).replace(/^ /, ""))
+      .join("\n");
+    if (data) handle(JSON.parse(data) as StreamEvent);
+  }
+}
+
 /** Озвучка ответа коуча: MP3 (audio/mpeg). */
 export const speech = (text: string) => request<Blob>("/api/tts", { json: { text }, blob: true });
 

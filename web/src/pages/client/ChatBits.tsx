@@ -1,5 +1,8 @@
-// Мелкие части чата: индикатор «Коуч думает…» и пустое состояние с примерами.
+// Мелкие части чата: ожидающий ответ (этап хода или растущий текст) и пустое состояние с примерами.
 import { useEffect, useState } from "react";
+import type { StreamStage } from "../../api";
+import type { Sending } from "./useSendMessage";
+import RichText from "./RichText";
 import { SparkIcon } from "./icons";
 
 export const EXAMPLE_PROMPTS = [
@@ -8,18 +11,54 @@ export const EXAMPLE_PROMPTS = [
   "Хочу добавить кардио в программу",
 ];
 
-/** Пока ждём ответ (до 90 с): точки + счётчик секунд и подсказка на долгом ожидании. */
-export function TypingIndicator({ since, withMedia }: { since: number; withMedia: boolean }) {
+export const STAGE_LABEL: Record<StreamStage, string> = {
+  listen: "Распознаю голосовое…",
+  route: "Разбираю сообщение…",
+  search: "Ищу в источниках…",
+  answer: "Пишу ответ…",
+  meal: "Считаю КБЖУ…",
+};
+
+function useSeconds(since: number): number {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(id);
   }, []);
-  const sec = Math.max(0, Math.floor((now - since) / 1000));
+  return Math.max(0, Math.floor((now - since) / 1000));
+}
+
+/** Ожидающий ответ: пока текста нет — индикатор с этапом, потом — пузырь, который растёт по предложениям. */
+export function PendingReply({ sending }: { sending: Sending }) {
+  if (sending.text) return <StreamingBubble text={sending.text} />;
+  return <TypingIndicator since={sending.since} withMedia={sending.withMedia} stage={sending.stage} />;
+}
+
+function StreamingBubble({ text }: { text: string }) {
+  return (
+    <div className="msg msg-assistant" aria-live="polite" aria-busy="true">
+      <div className="bubble bubble-coach is-streaming">
+        <RichText text={text} />
+      </div>
+    </div>
+  );
+}
+
+/** Пока ждём ответ (до 90 с): точки, этап хода (если сервер его прислал), счётчик секунд и подсказка. */
+export function TypingIndicator({
+  since,
+  withMedia,
+  stage = null,
+}: {
+  since: number;
+  withMedia: boolean;
+  stage?: StreamStage | null;
+}) {
+  const sec = useSeconds(since);
   const hint =
     sec >= 45
       ? "Почти готово — сложные запросы занимают до полутора минут"
-      : sec >= 12
+      : sec >= 12 && !stage
         ? withMedia
           ? "Разбираю вложение и сверяюсь со справочником"
           : "Сверяюсь с источниками"
@@ -33,7 +72,7 @@ export function TypingIndicator({ since, withMedia }: { since: number; withMedia
           <i />
           <i />
         </span>
-        <span className="typing-label">Коуч думает…</span>
+        <span className="typing-label">{(stage && STAGE_LABEL[stage]) || "Коуч думает…"}</span>
         {sec >= 5 && <span className="typing-sec num">{sec} с</span>}
       </div>
       {hint && <div className="typing-hint">{hint}</div>}

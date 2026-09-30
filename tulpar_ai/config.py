@@ -108,6 +108,11 @@ class Settings(BaseSettings):
     answer_cache_min_score_local: float = 0.99  # hashing embedder: lexical, so in practice only verbatim repeats
     answer_cache_ttl_h: float = 72.0
 
+    # ── streamed chat replies in the web (POST /api/chat/stream, SSE); off → the endpoint is 404 and the web uses
+    # POST /api/chat. Time to the first words vs the full reply: EVALS.md «Стриминг».
+    streaming: bool = True
+    stream_keepalive_s: float = 10.0  # SSE comment while nothing happens, so proxies keep the connection open
+
     # ── abuse protection (in-memory token buckets; one process = one set of buckets) ──
     rate_limit_enabled: bool = True
     chat_rate_per_min: float = 10.0  # sustained messages per minute per (user, IP)

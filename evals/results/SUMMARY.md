@@ -229,3 +229,9 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | final_nutrition_rules | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 86.3 | 100.0 | 4.53 | 4.55 | 2994.5 | 230 | 0.000823 |
+
+## stream — 2026-09-29 21:55
+
+| arm | n | answers | stream_first_stage_p50_ms | stream_first_delta_p50_ms | stream_first_delta_p95_ms | stream_total_p50_ms | plain_total_p50_ms | wait_saved_p50_ms | seamless | same_kind | errors |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| default | 10 | 10 | 7.5 | 6986.9 | 12807.3 | 7243.8 | 5560.1 | -752.6 | 90.0 | 90.0 | 0 |
