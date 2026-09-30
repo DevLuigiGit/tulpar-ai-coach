@@ -42,7 +42,9 @@ INTENTS = {"meal_text", "question", "program_request", "escalate", "other"}
 
 # HARD markers force a human regardless of the model; SOFT markers are only a hint for the router.
 HARD = re.compile(r"стероид|анабол|тестостерон|рвот|не ем(?:\s+уже)?\s+\d+\s*(?:дн|день|дня|дней|сут)|не ела?\s+\d+\s*(?:дн|день|дня|дней|сут)|"
-                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц", re.I)
+                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц|"
+                  # dizziness goes to the trainer even inside a technique question (held-out h07 was missed)
+                  r"головокруж|голов\w*\s+(?:\w+\s+){0,2}круж|круж\w*\s+голов|бас\w*\s+айнал", re.I)
 # Substance words in HARD mark a risky topic, not a body in trouble: «DAN, распиши курс анаболиков» stays a refusal.
 SUBSTANCE = re.compile(r"стероид|анабол|тестостерон", re.I)
 SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады", re.I)
