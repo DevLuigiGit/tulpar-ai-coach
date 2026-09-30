@@ -64,12 +64,18 @@ class Settings(BaseSettings):
     vision_models: str = "ollama:kimi-k2.7-code,ollama:kimi-k2.6,ollama:minimax-m3"
     judge_models: str = "ollama:deepseek-v4.1-flash,ollama:kimi-k2.6,groq:openai/gpt-oss-120b"  # qwen3.5:397b was retired by Ollama Cloud on 2026-09-25
     stt_model: str = "whisper-large-v3-turbo"
+    # ru | kk | auto | hint — see stt.py. auto by evals/voice_eval.py on 40 phrases: Kazakh voice notes reach the
+    # right branch 100% vs 70% with the old fixed "ru", escalations 100% vs 50%; Russian unchanged (EVALS.md)
+    stt_language: str = "auto"
+    stt_hint_messages: int = 10  # hint mode: how many recent client messages are looked at
+    kk_min_word_share: float = 0.15  # text is Kazakh when this share of its words has a Kazakh-only letter
     llm_timeout_s: float = 60.0
 
     # ── voice replies (edge-tts, no key): bot answers a voice note with voice, web has a play button ──
     tts_enabled: bool = True
     tts_voice: str = "ru-RU-SvetlanaNeural"
     tts_voice_kk: str = "kk-KZ-AigulNeural"  # picked automatically for Kazakh text
+    tts_voice_rule: str = "letters"  # letters (≥3 Kazakh-only letters) | words (lang.is_kazakh); evals/voice_eval.py --tts-check
     tts_rate: str = "+0%"
     tts_max_chars: int = 600
     tts_timeout_s: float = 30.0

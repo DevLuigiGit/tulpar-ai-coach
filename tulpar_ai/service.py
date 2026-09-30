@@ -27,13 +27,14 @@ def _turn_inputs(inputs: dict) -> dict:
 
 @traceable(run_type="chain", name="chat_turn", process_inputs=_turn_inputs)
 async def chat_turn(user: User, text: str = "", image: bytes | None = None, audio: bytes | None = None,
-                    audio_name: str = "voice.ogg") -> dict:
+                    audio_name: str = "voice.ogg", lang_hint: str | None = None) -> dict:
     """One client message → graph → stored reply. The reply carries `message_id` so the client can rate it;
     the LangSmith run id (when tracing is on) goes into the stored payload to attach 👍/👎 to the trace."""
     store = get_store()
     shown = text or ("[фото]" if image else "[голосовое]" if audio else "")
     await store.add_message(user.id, "user", shown, {"has_photo": bool(image), "has_audio": bool(audio)})
-    res = await runner.run_chat_turn(user.id, text=text, image=image, audio=audio, audio_name=audio_name)
+    res = await runner.run_chat_turn(user.id, text=text, image=image, audio=audio, audio_name=audio_name,
+                                     lang_hint=lang_hint)
     res = await _guard_output(user, text or res.get("transcript") or shown, res)
     reply = {
         "reply": res.get("reply") or "…",
@@ -47,6 +48,8 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
     }
     if res.get("guard"):
         reply["guard"] = res["guard"]
+    if res.get("transcript") is not None and res.get("stt_language"):
+        reply["stt_language"] = res["stt_language"]
     rt = get_current_run_tree()
     payload = {k: v for k, v in reply.items() if k != "reply"} | {
         "run_id": str(rt.id) if rt else None, "run_project": getattr(rt, "session_name", None) if rt else None}

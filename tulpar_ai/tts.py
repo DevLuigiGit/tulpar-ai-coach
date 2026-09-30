@@ -15,14 +15,13 @@ from typing import Callable
 from langsmith import traceable
 
 from .config import get_settings
+from .lang import KK_LETTERS, is_kazakh
 from .pii import mask
 
 _fake: Callable[[str, str], bytes] | None = None
 
 DISCLAIMER = "Это общая информация, а не медицинская консультация."
 TRUNCATED_TAIL = "Остальное — в текстовом ответе."
-# Letters that exist in Kazakh Cyrillic but not in Russian: enough of them means the Kazakh voice.
-_KK_LETTERS = set("әғқңөұүһіӘҒҚҢӨҰҮҺІ")
 
 _CITE = re.compile(r"\s*\[\d+(?:\s*[,–-]\s*\d+)*\]")
 _LINK = re.compile(r"\[([^\]]+)\]\((?:[^)]+)\)")
@@ -69,7 +68,11 @@ def speech_text(text: str, max_chars: int | None = None) -> str:
 
 def pick_voice(text: str) -> str:
     s = get_settings()
-    return s.tts_voice_kk if sum(ch in _KK_LETTERS for ch in text) >= 3 else s.tts_voice
+    if s.tts_voice_rule == "words":  # share of Kazakh words, as for speech recognition (lang.py)
+        kazakh = is_kazakh(text)
+    else:  # letters: three Kazakh-only letters anywhere in the text (the original rule)
+        kazakh = sum(ch in KK_LETTERS for ch in text) >= 3
+    return s.tts_voice_kk if kazakh else s.tts_voice
 
 
 def _trace_outputs(audio: bytes | None) -> dict:
