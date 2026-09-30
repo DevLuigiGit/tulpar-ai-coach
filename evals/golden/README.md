@@ -8,6 +8,11 @@
 | `qa.jsonl` | находит ли RAG нужный источник и отвечает ли по нему, отдаёт ли тренеру вопросы без ответа в корпусе | 56 | `.venv/bin/python evals/run.py qa` |
 | `program.jsonl` | ловит ли валидатор Skill ошибки в правках программы | 12 | `.venv/bin/python evals/run.py program` |
 | `router_holdout_llm.jsonl` | маршрутизатор на отложенном наборе, который не видели при настройке. **Синтетика: сообщения написала LLM** | 45 | `.venv/bin/python evals/router_holdout.py run` |
+| `guardrails.jsonl`, `guardrails_output.jsonl` | входной и выходной фильтр: срезы dev, holdout, holdout2 | 209 и 23 | `.venv/bin/python evals/guardrails_eval.py` |
+| `guardrails_holdout3.jsonl` | слои защиты на новых атаках: 54 атаки и 36 безобидных. Написан при разработке до появления LLM-модератора, для настройки не использовался | 90 | `.venv/bin/python evals/guardrails_layers.py` |
+| `retrieval_synth.jsonl` | только поиск: находится ли конкретный фрагмент корпуса. **Синтетика: вопросы к фрагментам написала `deepseek-v4.1-flash`, проверила `kimi-k2.6`**; журнал сборки — `retrieval_synth.meta.json` | 174 | `evals/retrieval_eval.py run` (команда — в `EVALS.md`) |
+| `voice_phrases.jsonl` | распознавание казахских и смешанных голосовых и маршрут после него: у каждой фразы интент, флаг опасности и голос edge-tts; аудио в git не хранится | 40 | `.venv/bin/python evals/voice_eval.py` |
+| `cache_pairs.jsonl` | выдаёт ли кэш ответ на перефраз и не выдаёт ли на похожий, но другой вопрос | 126 пар | `.venv/bin/python evals/cache_eval.py sweep` |
 
 Числа в таблицах ниже посчитаны по файлам 24.09.2026 (`router_holdout_llm.jsonl` — 29–30.09.2026). Пересчитать теги любого файла:
 
