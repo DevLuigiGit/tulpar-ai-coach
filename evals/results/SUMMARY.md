@@ -426,3 +426,27 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | answer_v5_profile_evidence | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 82.4 | 100.0 | 4.69 | 4.33 | 2489.5 | 277 | 0.001175 |
+
+## program — 2026-09-30 15:24
+
+| arm | n | exact_match |
+|---|---|---|
+| default | 13 | 100.0 |
+
+## program — 2026-09-30 15:24
+
+| arm | n | exact_match |
+|---|---|---|
+| default | 13 | 100.0 |
+
+## router_route_v4_hedge — 2026-09-30 16:23
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_v4_hedge | 70 | 100.0 | 100.0 | 0.0 | 100.0 | 1200.5 | 0.031366 |
+
+## qa_qa_hedge_nojudge — 2026-09-30 16:25
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| qa_hedge_nojudge | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 86.3 | 100.0 | None | None | 1989.5 | 233 | 0.001087 |

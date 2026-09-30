@@ -60,7 +60,8 @@ def p95(xs) -> float:
 def usage_stats(calls: list[dict]) -> dict:
     return {"llm_calls": len(calls), "tokens_in": sum(c["in"] for c in calls), "tokens_out": sum(c["out"] for c in calls),
             "cost_usd": round(sum(price(c["provider"], c["model"], c["in"], c["out"]) for c in calls), 6),
-            "fallbacks": sum(1 for c in calls if c["fallback"])}
+            "fallbacks": sum(1 for c in calls if c["fallback"]),
+            "hedged": sum(1 for c in calls if c.get("hedged"))}  # a slow first provider was overtaken (LLM_HEDGE)
 
 
 RAG_VARIANT_ARGS = ("rag_hybrid", "rag_bm25", "rag_late_chunking", "rag_embed_dim", "rag_context_headers",

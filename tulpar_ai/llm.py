@@ -10,6 +10,7 @@ Every call is a LangSmith run of type `llm` with provider, model, token usage an
 
 from __future__ import annotations
 
+import asyncio
 import json
 import re
 import time
@@ -38,6 +39,7 @@ class LLMResult:
     output_tokens: int = 0
     latency_ms: int = 0
     errors: list[str] = field(default_factory=list)
+    hedged: bool = False  # the next provider was asked too because this role's first one was slow (LLM_HEDGE)
 
 
 FakeFn = Callable[..., Awaitable[str] | str]
@@ -166,6 +168,33 @@ async def _traced_call(provider: str, model: str, system: str, user: str, *, ima
     return {"text": text, "usage_metadata": {"input_tokens": pt, "output_tokens": ct, "total_tokens": pt + ct}}
 
 
+def hedge_after(role: str) -> float:
+    """Seconds after which a slow first provider gets company from the next one: LLM_HEDGE, e.g. «route:5,text:8».
+    0 — no hedging for the role (vision, judge, guard: the guard has its own timeout and fails open)."""
+    for part in (get_settings().llm_hedge or "").split(","):
+        name, _, sec = part.partition(":")
+        if name.strip() == role:
+            try:
+                return max(0.0, float(sec))
+            except ValueError:
+                return 0.0
+    return 0.0
+
+
+async def _attempt(provider: str, model: str, system: str, user: str, *, images, json_mode, temperature, top_p,
+                   max_tokens, fallback_used: bool, errors: list[str]) -> LLMResult:
+    t0 = time.perf_counter()
+    out = await _traced_call(provider, model, system, user, images=images, json_mode=json_mode, temperature=temperature,
+                             top_p=top_p, max_tokens=max_tokens, fallback_used=fallback_used)
+    res = LLMResult(text=out["text"], provider=provider, model=model, fallback_used=fallback_used,
+                    input_tokens=out["usage_metadata"]["input_tokens"],
+                    output_tokens=out["usage_metadata"]["output_tokens"],
+                    latency_ms=int((time.perf_counter() - t0) * 1000), errors=list(errors))
+    if json_mode:
+        res.data = parse_json(res.text)  # invalid JSON is a failure of this provider, like a 5xx
+    return res
+
+
 async def chat(
     role: str,
     system: str,
@@ -189,29 +218,63 @@ async def chat(
 
     s = get_settings()
     chain = models or s.chain(role)
-    errors: list[str] = []
-    for i, (provider, model) in enumerate(chain):
-        if provider not in _PROVIDERS or not s.provider_ready(provider):
-            errors.append(f"{provider}: no key")
-            continue
-        t0 = time.perf_counter()
+    skipped: list[tuple[int, str]] = []  # providers without a key, by position in the chain
+    errors: list[str] = []  # real failures so far: network, 4xx/5xx, invalid JSON
+    ready: list[tuple[int, str, str]] = []  # (position in the chain, provider, model); a later position is a fallback
+    for pos, (p, m) in enumerate(chain):
+        if p in _PROVIDERS and s.provider_ready(p):
+            ready.append((pos, p, m))
+        else:
+            skipped.append((pos, f"{p}: no key"))
+
+    def before(pos: int) -> list[str]:
+        return [msg for at, msg in skipped if at < pos] + errors
+    hedge = hedge_after(role)
+    kw = dict(images=images, json_mode=json_mode, temperature=temperature, top_p=top_p, max_tokens=max_tokens)
+    i = 0
+    while i < len(ready):
+        # A failure moves on to the next provider at once, as before. A provider that is merely slow (Ollama Cloud
+        # answered in 15–26 s now and then) gets the next one asked in parallel after `hedge` seconds; the first
+        # answer wins and the other request is cancelled. Only the tail is affected: p95 of an answer is ~7 s.
+        who: dict[asyncio.Future, str] = {}
+        pos, provider, model = ready[i]
+        first = asyncio.ensure_future(_attempt(provider, model, system, user, fallback_used=pos > 0 or bool(errors),
+                                               errors=before(pos), **kw))
+        who[first] = f"{provider}:{model}"
+        pending: set[asyncio.Future] = {first}
+        hedged = False
         try:
-            out = await _traced_call(provider, model, system, user, images=images, json_mode=json_mode,
-                                     temperature=temperature, top_p=top_p, max_tokens=max_tokens,
-                                     fallback_used=bool(errors))
-            res = LLMResult(text=out["text"], provider=provider, model=model, fallback_used=i > 0 or bool(errors),
-                            input_tokens=out["usage_metadata"]["input_tokens"],
-                            output_tokens=out["usage_metadata"]["output_tokens"],
-                            latency_ms=int((time.perf_counter() - t0) * 1000), errors=errors)
-            if json_mode:
-                res.data = parse_json(res.text)
+            if hedge and i + 1 < len(ready):
+                done, _ = await asyncio.wait(pending, timeout=hedge)
+                if not done:
+                    bpos, bp, bm = ready[i + 1]
+                    second = asyncio.ensure_future(_attempt(
+                        bp, bm, system, user, fallback_used=True,
+                        errors=before(bpos) + [f"{provider}:{model}: no answer after {hedge:g} s"], **kw))
+                    who[second] = f"{bp}:{bm}"
+                    pending.add(second)
+                    hedged = True
+            winner: LLMResult | None = None
+            while pending and winner is None:
+                done, pending = await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED)
+                for t in done:
+                    if t.exception() is None and winner is None:
+                        winner = t.result()
+                    elif t.exception() is not None:  # network, 4xx/5xx, invalid JSON
+                        e = t.exception()
+                        errors.append(f"{who[t]}: {type(e).__name__}: {str(e)[:160]}")
+        finally:
+            for t in pending:  # the slower answer, or everything if the caller gave up (guard's wait_for)
+                t.cancel()
+        if winner is not None:
+            winner.hedged = hedged
             if _recorder is not None:
-                _recorder.append({"role": role, "provider": provider, "model": model, "in": res.input_tokens,
-                                  "out": res.output_tokens, "ms": res.latency_ms, "fallback": res.fallback_used})
-            return res
-        except Exception as e:  # network, 4xx/5xx, invalid JSON → next provider
-            errors.append(f"{provider}:{model}: {type(e).__name__}: {str(e)[:160]}")
-    raise LLMError("all providers failed: " + " | ".join(errors))
+                _recorder.append({"role": role, "provider": winner.provider, "model": winner.model,
+                                  "in": winner.input_tokens, "out": winner.output_tokens, "ms": winner.latency_ms,
+                                  "fallback": winner.fallback_used, "hedged": hedged})
+            return winner
+        i += 2 if hedged else 1
+    raise LLMError("all providers failed: " + " | ".join([msg for _, msg in skipped] + errors))
 
 
 async def json_call(role: str, system: str, user: str, **kw) -> tuple[dict, LLMResult]:

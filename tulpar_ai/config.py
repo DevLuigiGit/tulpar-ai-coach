@@ -71,6 +71,9 @@ class Settings(BaseSettings):
     stt_hint_messages: int = 10  # hint mode: how many recent client messages are looked at
     kk_min_word_share: float = 0.15  # text is Kazakh when this share of its words has a Kazakh-only letter
     llm_timeout_s: float = 60.0
+    # route and answer calls a client waits for: after this many seconds without an answer the next provider of the
+    # chain is asked in parallel, first answer wins (llm.chat). p50 of a route is ~1.4 s, of an answer ~2.4 s, p95 ~7 s
+    llm_hedge: str = "route:5,text:9"
 
     # ── second input guard on an LLM (guard_llm.py), after the regex rules; A/B in evals/guardrails_layers.py ──
     guard_llm: str = "off"  # off | suspicious (only messages with a risk signal) | all (every text the router sees)
