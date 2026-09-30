@@ -259,5 +259,8 @@ async def main() -> int:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("cmd", choices=["run", "recompute"], help="run = live two passes; recompute = re-score saved routings")
+    ap.add_argument("--out", help="result file, relative to the repo root (default evals/results/router_holdout_llm.json)")
     a = ap.parse_args()
+    if a.out:
+        OUT = ROOT / a.out
     raise SystemExit(asyncio.run(main()) if a.cmd == "run" else recompute(OUT))

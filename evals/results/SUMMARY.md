@@ -294,3 +294,75 @@
 | auto+ru / kk | 20 | 6.8 | 36.8 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | 650.0 | 0 |
 | auto+ru / mixed | 10 | 13.0 | 52.6 | 90.0 | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 677.0 | 0 |
 | auto+ru / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 565.5 | 0 |
+
+## meal_text_before_v1 — 2026-09-30 11:29
+
+| arm | n | items | product_found | grams_ok | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|
+| before_v1 | 26 | 32 | 81.2 | 62.5 | 51.6 | 0.0 | 5 | 0 | 1792 |
+
+## router_route_v3 — 2026-09-30 11:31
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_v3 | 68 | 100.0 | 100.0 | 0.0 | 95.6 | 1360.0 | 0.085796 |
+
+## meal_text_after_v2 — 2026-09-30 11:32
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| after_v2 | 26 | 31 | 100.0 | 96.8 | 90.3 | 9.7 | 80.6 | 0 | 0 | 1617 |
+
+## meal_text_after_v2 — 2026-09-30 11:34
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| after_v2 | 26 | 31 | 100.0 | 100.0 | 100.0 | 0.0 | 90.6 | 1 | 0 | 1687 |
+
+## meal_text_holdout_v2 — 2026-09-30 11:35
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| holdout_v2 | 16 | 18 | 88.9 | 88.9 | 88.9 | 5.3 | 94.7 | 3 | 0 | 1737 |
+
+## meal_text_holdout_v2 — 2026-09-30 11:37
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| holdout_v2 | 16 | 18 | 94.4 | 94.4 | 94.4 | 5.3 | 94.7 | 2 | 0 | 1751 |
+
+## meal_text_after_v2 — 2026-09-30 11:38
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| after_v2 | 26 | 31 | 100.0 | 96.8 | 96.8 | 3.1 | 87.5 | 1 | 0 | 2458 |
+
+## router_route_v2_recheck — 2026-09-30 11:39
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_v2_recheck | 68 | 100.0 | 100.0 | 0.0 | 97.1 | 1435.0 | 0.078428 |
+
+## meal_text_after_v2 — 2026-09-30 11:42
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| after_v2 | 26 | 31 | 100.0 | 100.0 | 100.0 | 0.0 | 90.6 | 1 | 0 | 1605 |
+
+## meal_text_holdout_v2 — 2026-09-30 11:43
+
+| arm | n | items | product_found | grams_ok | grams_informed | default_share | estimate_share | extra_items | errors | p50_ms |
+|---|---|---|---|---|---|---|---|---|---|---|
+| holdout_v2 | 16 | 18 | 100.0 | 100.0 | 100.0 | 5.3 | 94.7 | 1 | 0 | 1626 |
+
+## qa_personal_v3_noprofile — 2026-09-30 11:51
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| personal_v3_noprofile | 6 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 0.0 | 0.0 | 5 | 2.75 | 4221.5 | 294 | 0.000967 |
+
+## qa_personal_v4_profile — 2026-09-30 11:52
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| personal_v4_profile | 6 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 100.0 | 0.0 | 5 | 5 | 2690.0 | 152 | 0.001164 |
