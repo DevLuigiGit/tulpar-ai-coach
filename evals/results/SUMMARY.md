@@ -229,3 +229,9 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | final_nutrition_rules | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 86.3 | 100.0 | 4.53 | 4.55 | 2994.5 | 230 | 0.000823 |
+
+## router_after_dizziness_rule — 2026-09-30 09:58
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| after_dizziness_rule | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1202.5 | 0.025083 |
