@@ -99,3 +99,24 @@ async def test_pressing_a_stale_card_explains_in_russian(env, fake_llm, monkeypa
         assert (await store.get_proposal(p["id"]))["status"] == "applied"  # nothing applied twice
     finally:
         await shutdown(store)
+
+
+async def test_second_resolve_is_refused_and_the_client_gets_one_reply(env, fake_llm):
+    import pytest
+
+    from tulpar_ai import service
+
+    store, gw = await boot(env)
+    try:
+        client = await gw.demo_user("client")
+        trainer = await gw.demo_user("trainer")
+        e = await store.create_proposal(kind="escalation", client_id=client.id, trainer_id=trainer.id,
+                                        source="client", request="Колено болит при приседе", status="open")
+        await service.resolve_escalation(trainer, e["id"], "Уберите присед до встречи")
+        with pytest.raises(service.AlreadyDecided):
+            await service.resolve_escalation(trainer, e["id"], "Test")
+        replies = [m for m in await store.history(client.id, limit=50)
+                   if (m.get("payload") or {}).get("kind") == "trainer_reply"]
+        assert len(replies) == 1 and "Уберите присед" in replies[0]["text"]
+    finally:
+        await shutdown(store)

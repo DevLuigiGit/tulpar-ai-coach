@@ -179,8 +179,12 @@ async def on_text(m: Message):
                 return await m.answer("Отправил AI на доработку. Новый черновик придёт сюда.")
             await service.resolve_escalation(user, pid, m.text)
             return await m.answer("Ответ отправлен клиенту.")
-        except Exception as e:
-            return await m.answer(f"Не получилось: {e}")
+        except service.AlreadyDecided as e:
+            line = _STATUS_LINE.get(e.status, f"статус: {e.status}")
+            return await m.answer(f"{line} — решение уже принято в другом окне, ваш текст не отправлен.")
+        except Exception:
+            log.exception("trainer %s on %s failed", action, pid)
+            return await m.answer("Не получилось. Обновите очередь (/queue) и попробуйте ещё раз.")
     reply_to = m.reply_to_message
     rated = _fb_prompts.pop((m.chat.id, reply_to.message_id), None) if reply_to else None
     if rated is not None:
