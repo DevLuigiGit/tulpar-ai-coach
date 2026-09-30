@@ -86,7 +86,13 @@ async def test_agent_searches_checks_then_submits(world, fake_llm):
     p = await runner.new_program_proposal(client.id, trainer.id, "Замени первое упражнение", "trainer")
     p = await wait_status(store, p["id"], "pending")
     assert p["draft"]["ops"] and not [v for v in p["violations"] if v["severity"] == "error"]
-    snap = await runner.program_graph().aget_state({"configurable": {"thread_id": f"prop:{p['id']}"}})
+    # «pending» is written by `publish` a moment before the review pause is checkpointed: wait for the pause
+    cfg = {"configurable": {"thread_id": f"prop:{p['id']}"}}
+    for _ in range(200):
+        snap = await runner.program_graph().aget_state(cfg)
+        if snap.next == ("review",):
+            break
+        await asyncio.sleep(0.05)
     assert snap.next == ("review",)
     log = snap.values["agent_log"]
     assert [r["action"] for r in log] == ["search_exercises", "check_plan", "final"]
