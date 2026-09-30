@@ -1,0 +1,148 @@
+{
+ "summary": {
+  "n": 6,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 83.3,
+  "mrr": 0.833,
+  "answered_rate": 100.0,
+  "keyfact_accuracy": 100.0,
+  "correct_refusal_rate": 0.0,
+  "faithfulness_avg": 5,
+  "faithfulness_pass": 100.0,
+  "correctness_avg": 5,
+  "p50_ms": 2690.0,
+  "p95_ms": 5328,
+  "out_tokens_p95": 152,
+  "llm_calls": 6,
+  "tokens_in": 10959,
+  "tokens_out": 652,
+  "cost_usd": 0.006981,
+  "fallbacks": 0,
+  "rag_variant": "default",
+  "collection": "coach_jina3_400_p2_b064ec4f",
+  "jina_requests": 0,
+  "jina_tokens": 0,
+  "cost_per_question_usd": 0.001164,
+  "hit_at_4_by_tag": {
+   "nutrition": 100.0,
+   "personal": 83.3,
+   "restriction": 0.0
+  },
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "p01",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3296,
+   "rewrites": 0,
+   "out_tokens": 111,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "По правилам Tulpar ваша дневная норма — 2250 ккал в день (это с учётом цели «снижение веса» −20% от поддержания) [5]. Белок — 168 г, жиры — 62 г, углеводы — 253 г; вода — 2,7 л, в день тренировки — 3,2 л [5].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "p02",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1653,
+   "rewrites": 0,
+   "out_tokens": 76,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "Вам нужно 168 г белка в день [5]. Это следует из общего правила — 2 г белка на каждый килограмм веса [1], и при вашем весе 84,2 кг получается 168 г [5].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "p03",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 1911,
+   "rewrites": 0,
+   "out_tokens": 97,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "По вашему профилю дневная норма воды — 2,7 л, а в день тренировки (пн, ср, пт) — 3,2 л [5]. Расчёт сделан по правилу 32 мл на каждый килограмм веса с округлением до 100 мл [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "p04",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 5328,
+   "rewrites": 0,
+   "out_tokens": 152,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "Для поддержания веса вам нужно 2812 ккал в день — это ваша норма калорийности поддержания при умеренной активности [5]. Сейчас ваша цель — снижение веса, поэтому рабочая норма с дефицитом −20% составляет 2250 ккал в день [5]. Если вопрос про другие цифры или как считается поддержание, формула такая: базовый обмен по Миффлину — Сан-Жеору умножается на коэффициент активности (1,55 при умеренной) [2]",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "p05",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "ms": 3058,
+   "rewrites": 0,
+   "out_tokens": 77,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "По вашей норме в Tulpar: 253 г углеводов в день [5]. Считается так: калорийность нормы минус калории белка и жиров, делённые на 4 ккал/г [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "p06",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 2322,
+   "rewrites": 0,
+   "out_tokens": 139,
+   "tags": [
+    "personal",
+    "restriction"
+   ],
+   "answer": "Скакалка действительно активно сжигает калории и развивает выносливость [1]. Однако в вашем профиле тренер пока исключил прыжки из-за жалоб на левое колено после бега [5]. Для жиросжигания ориентируйтесь на вашу норму по калориям — 2250 ккал в день с учётом дефицита [5]. При боли в колене скажите тренеру, чтобы он подобрал безопасную замену.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  }
+ ]
+}

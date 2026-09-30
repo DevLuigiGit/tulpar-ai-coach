@@ -1,0 +1,144 @@
+{
+ "summary": {
+  "n": 6,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 83.3,
+  "mrr": 0.833,
+  "answered_rate": 66.7,
+  "keyfact_accuracy": 0.0,
+  "correct_refusal_rate": 0.0,
+  "faithfulness_avg": 5,
+  "faithfulness_pass": 100.0,
+  "correctness_avg": 2.75,
+  "p50_ms": 4221.5,
+  "p95_ms": 12653,
+  "out_tokens_p95": 294,
+  "llm_calls": 6,
+  "tokens_in": 8367,
+  "tokens_out": 1094,
+  "cost_usd": 0.005801,
+  "fallbacks": 0,
+  "rag_variant": "default",
+  "collection": "coach_jina3_400_p2_b064ec4f",
+  "jina_requests": 6,
+  "jina_tokens": 147,
+  "cost_per_question_usd": 0.000967,
+  "hit_at_4_by_tag": {
+   "nutrition": 100.0,
+   "personal": 83.3,
+   "restriction": 0.0
+  },
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "p01",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 4085,
+   "rewrites": 0,
+   "out_tokens": 294,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "p02",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": false,
+   "ms": 4358,
+   "rewrites": 0,
+   "out_tokens": 118,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "Вам нужно 2 г белка на каждый килограмм веса тела в день. Например, при весе 70 кг — 140 г белка в день [1]. Это правило одинаково для похудения, поддержания и набора массы [1]. Для точного расчёта укажите ваш вес в профиле, и я смогу посчитать дневную норму калорий и БЖУ.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 3
+  },
+  {
+   "id": "p03",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": false,
+   "ms": 2843,
+   "rewrites": 0,
+   "out_tokens": 133,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "Норма воды — 32 мл на каждый килограмм веса, с округлением до 100 мл. Например, при весе 70 кг это около 2,2 л в день [1]. В день тренировки норма увеличивается на 500 мл [1]. Минимум — 1,5 л, максимум — 5 л в день; пока вес не указан, ориентир — 2,5 л (10 стаканов по 250 мл) [1].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "p04",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": false,
+   "ms": 12653,
+   "rewrites": 0,
+   "out_tokens": 134,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": "Сначала считается базовый обмен по формуле Миффлина — Сан-Жеора [2].\n\nЗатем базовый обмен умножается на коэффициент активности — это и есть калорийность поддержания веса [2].\n\nЧтобы я посчитал(а) точную норму поддержания для вас, нужны ваш рост, вес и возраст — если чего-то не хватает в профиле, Tulpar попросит их заполнить [2].\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 2
+  },
+  {
+   "id": "p05",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": 1,
+   "keyfacts": null,
+   "ms": 3682,
+   "rewrites": 0,
+   "out_tokens": 225,
+   "tags": [
+    "personal",
+    "nutrition"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "p06",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": false,
+   "ms": 4731,
+   "rewrites": 0,
+   "out_tokens": 190,
+   "tags": [
+    "personal",
+    "restriction"
+   ],
+   "answer": "Да, прыжки на скакалке можно использовать для жиросжигания: это кардиоупражнение активно сжигает калории и развивает выносливость [1]. Техника простая: прыгайте на носках невысоко, колени мягко амортизируют приземление, локти прижаты к корпусу, скакалку вращайте кистями в ровном ритме [1]. Обратите внимание на противопоказания: при проблемах с коленями, голеностопом или варикозе нужно ограничить о",
+   "faithfulness": 5,
+   "correctness": 2
+  }
+ ]
+}

@@ -156,6 +156,14 @@ async def judge(kind: str, **kw) -> int | None:
     return None
 
 
+def demo_profile(first_name: str) -> dict:
+    """ClientContext.for_llm() of a demo client straight from fixtures/demo.json: what the answer node sees in chat."""
+    fx = json.loads((ROOT / "fixtures" / "demo.json").read_text(encoding="utf-8"))
+    c = next(c for c in fx["clients"] if c["name"].lower().startswith(first_name.lower()))
+    keys = ("sex", "age", "height_cm", "goal", "level", "place", "training_days", "activity", "weight_kg", "goal_weight_kg")
+    return {"profile": {k: c.get(k) for k in keys}, "trainer_note": c.get("trainer_note")}
+
+
 async def suite_qa(args) -> dict:
     from tulpar_ai import llm
     from tulpar_ai.config import get_settings
@@ -171,11 +179,12 @@ async def suite_qa(args) -> dict:
     await idx.build()
     set_index(idx)
     rows, calls_all = [], []
-    for c in load("qa.jsonl")[: args.limit or None]:
+    profile = demo_profile(args.profile) if getattr(args, "profile", None) else None
+    for c in load(getattr(args, "golden", "") or "qa.jsonl")[: args.limit or None]:
         for rep in range(args.repeats):
             with llm.record() as calls:
                 t0 = time.perf_counter()
-                st: dict = {"text": c["question"], "intent": "question"}
+                st: dict = {"text": c["question"], "intent": "question", **({"profile": profile} if profile else {})}
                 while True:
                     st.update(await g.retrieve_node(st))
                     nxt = g.after_retrieve(st)
@@ -456,6 +465,8 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--manifest")
     ap.add_argument("--models")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--golden", default="", help="qa suite: another golden file in evals/golden (qa_personal.jsonl)")
+    ap.add_argument("--profile", choices=["айдар", "дана"], help="qa suite: answer with this demo client's profile")
     ap.add_argument("--trace", action="store_true")
     return ap
 

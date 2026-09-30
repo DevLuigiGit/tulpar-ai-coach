@@ -1,0 +1,1314 @@
+{
+ "summary": {
+  "n": 26,
+  "items": 31,
+  "product_found": 100.0,
+  "grams_ok": 100.0,
+  "grams_informed": 100.0,
+  "default_share": 0.0,
+  "estimate_share": 90.6,
+  "extra_items": 1,
+  "errors": 0,
+  "p50_ms": 1605,
+  "prompt": "meal_text v2",
+  "by_tag": {
+   "bowl": 100.0,
+   "catalog_match": 100.0,
+   "cup": 100.0,
+   "explicit": 100.0,
+   "explicit_ml": 100.0,
+   "from_simulation": 100.0,
+   "glass": 100.0,
+   "handful": 100.0,
+   "implicit_one": 100.0,
+   "kz": 100.0,
+   "kz_dish": 100.0,
+   "piece": 100.0,
+   "portion": 100.0,
+   "slice": 100.0,
+   "spoon": 100.0
+  }
+ },
+ "rows": [
+  {
+   "id": "m01",
+   "rep": 0,
+   "text": "Выпил кофе, положил две ложки сахара",
+   "tags": [
+    "spoon",
+    "from_simulation"
+   ],
+   "wanted": [
+    {
+     "name": "кофе",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": null
+    },
+    {
+     "name": "сахар",
+     "grams": 14,
+     "grams_source": "estimate",
+     "measure": "две ложки"
+    }
+   ],
+   "card": [
+    {
+     "name": "Кофе чёрный без сахара",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": null
+    },
+    {
+     "name": "Сахар",
+     "grams": 14.0,
+     "grams_source": "estimate",
+     "measure": "две ложки"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Кофе",
+      "grams": [
+       150,
+       300
+      ]
+     },
+     "found": "Кофе чёрный без сахара",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    },
+    {
+     "expected": {
+      "any_of": [
+       "Сахар",
+       "Сахар-песок"
+      ],
+      "grams": [
+       8,
+       20
+      ]
+     },
+     "found": "Сахар",
+     "grams": 14.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m02",
+   "rep": 0,
+   "text": "Пара печенек к чаю",
+   "tags": [
+    "piece",
+    "from_simulation"
+   ],
+   "wanted": [
+    {
+     "name": "печенье",
+     "grams": 24,
+     "grams_source": "estimate",
+     "measure": "пара"
+    },
+    {
+     "name": "чай",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "card": [
+    {
+     "name": "Печенье овсяное",
+     "grams": 24.0,
+     "grams_source": "estimate",
+     "measure": "пара"
+    },
+    {
+     "name": "Чай чёрный без сахара",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Печенье",
+      "grams": [
+       15,
+       45
+      ]
+     },
+     "found": "Печенье овсяное",
+     "grams": 24.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": [
+    "Чай чёрный без сахара"
+   ]
+  },
+  {
+   "id": "m03",
+   "rep": 0,
+   "text": "Съел пять мантов",
+   "tags": [
+    "piece",
+    "from_simulation"
+   ],
+   "wanted": [
+    {
+     "name": "мант",
+     "grams": 225,
+     "grams_source": "estimate",
+     "measure": "пять"
+    }
+   ],
+   "card": [
+    {
+     "name": "Манты",
+     "grams": 225.0,
+     "grams_source": "estimate",
+     "measure": "пять"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Манты",
+      "grams": [
+       175,
+       300
+      ]
+     },
+     "found": "Манты",
+     "grams": 225.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m04",
+   "rep": 0,
+   "text": "Кусок черного хлеба",
+   "tags": [
+    "slice",
+    "from_simulation",
+    "catalog_match"
+   ],
+   "wanted": [
+    {
+     "name": "чёрный хлеб",
+     "grams": 30,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "card": [
+    {
+     "name": "Хлеб ржаной",
+     "grams": 30.0,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Хлеб ржаной",
+       "Хлеб бородинский",
+       "Хлеб ржано-пшеничный (Дарницкий)"
+      ],
+      "grams": [
+       20,
+       50
+      ]
+     },
+     "found": "Хлеб ржаной",
+     "grams": 30.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m05",
+   "rep": 0,
+   "text": "Чай с сахаром",
+   "tags": [
+    "cup",
+    "from_simulation",
+    "catalog_match"
+   ],
+   "wanted": [
+    {
+     "name": "чай с сахаром",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "card": [
+    {
+     "name": "Чай чёрный с сахаром",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Чай чёрный с сахаром",
+       "Чай с лимоном и сахаром"
+      ],
+      "grams": [
+       150,
+       300
+      ]
+     },
+     "found": "Чай чёрный с сахаром",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m06",
+   "rep": 0,
+   "text": "Стакан кефира перед сном",
+   "tags": [
+    "glass"
+   ],
+   "wanted": [
+    {
+     "name": "кефир",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": "стакан"
+    }
+   ],
+   "card": [
+    {
+     "name": "Кефир 1%",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": "стакан"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Кефир",
+      "grams": [
+       180,
+       260
+      ]
+     },
+     "found": "Кефир 1%",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m07",
+   "rep": 0,
+   "text": "Тарелка борща и кусок хлеба",
+   "tags": [
+    "bowl",
+    "slice"
+   ],
+   "wanted": [
+    {
+     "name": "борщ",
+     "grams": 300,
+     "grams_source": "estimate",
+     "measure": "тарелка"
+    },
+    {
+     "name": "хлеб",
+     "grams": 30,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "card": [
+    {
+     "name": "Борщ",
+     "grams": 300.0,
+     "grams_source": "estimate",
+     "measure": "тарелка"
+    },
+    {
+     "name": "Хлеб белый",
+     "grams": 30.0,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Борщ",
+      "grams": [
+       250,
+       400
+      ]
+     },
+     "found": "Борщ",
+     "grams": 300.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    },
+    {
+     "expected": {
+      "prefix": "Хлеб ",
+      "grams": [
+       20,
+       50
+      ]
+     },
+     "found": "Хлеб белый",
+     "grams": 30.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m08",
+   "rep": 0,
+   "text": "На завтрак два яйца и банан",
+   "tags": [
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "яйцо",
+     "grams": 110,
+     "grams_source": "estimate",
+     "measure": "два"
+    },
+    {
+     "name": "банан",
+     "grams": 120,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "card": [
+    {
+     "name": "Яйцо куриное",
+     "grams": 110.0,
+     "grams_source": "estimate",
+     "measure": "два"
+    },
+    {
+     "name": "Банан",
+     "grams": 120.0,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Яйцо",
+      "grams": [
+       90,
+       130
+      ]
+     },
+     "found": "Яйцо куриное",
+     "grams": 110.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    },
+    {
+     "expected": {
+      "any_of": [
+       "Банан"
+      ],
+      "grams": [
+       90,
+       150
+      ]
+     },
+     "found": "Банан",
+     "grams": 120.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m09",
+   "rep": 0,
+   "text": "Горсть грецких орехов",
+   "tags": [
+    "handful"
+   ],
+   "wanted": [
+    {
+     "name": "грецкий орех",
+     "grams": 30,
+     "grams_source": "estimate",
+     "measure": "горсть"
+    }
+   ],
+   "card": [
+    {
+     "name": "Грецкий орех",
+     "grams": 30.0,
+     "grams_source": "estimate",
+     "measure": "горсть"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Грецкий орех"
+      ],
+      "grams": [
+       20,
+       45
+      ]
+     },
+     "found": "Грецкий орех",
+     "grams": 30.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m10",
+   "rep": 0,
+   "text": "Столовая ложка оливкового масла в салат",
+   "tags": [
+    "spoon"
+   ],
+   "wanted": [
+    {
+     "name": "оливковое масло",
+     "grams": 15,
+     "grams_source": "estimate",
+     "measure": "столовая ложка"
+    }
+   ],
+   "card": [
+    {
+     "name": "Оливковое масло",
+     "grams": 15.0,
+     "grams_source": "estimate",
+     "measure": "столовая ложка"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Масло оливковое",
+       "Масло оливковое Extra Virgin",
+       "Оливковое масло"
+      ],
+      "grams": [
+       10,
+       20
+      ]
+     },
+     "found": "Оливковое масло",
+     "grams": 15.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m11",
+   "rep": 0,
+   "text": "Ложка мёда",
+   "tags": [
+    "spoon"
+   ],
+   "wanted": [
+    {
+     "name": "мёд",
+     "grams": 10,
+     "grams_source": "estimate",
+     "measure": "ложка"
+    }
+   ],
+   "card": [
+    {
+     "name": "Мёд",
+     "grams": 10.0,
+     "grams_source": "estimate",
+     "measure": "ложка"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Мёд",
+      "grams": [
+       6,
+       25
+      ]
+     },
+     "found": "Мёд",
+     "grams": 10.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m12",
+   "rep": 0,
+   "text": "Три блина",
+   "tags": [
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "блин",
+     "grams": 150,
+     "grams_source": "estimate",
+     "measure": "три"
+    }
+   ],
+   "card": [
+    {
+     "name": "Блины",
+     "grams": 150.0,
+     "grams_source": "estimate",
+     "measure": "три"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Блин",
+      "grams": [
+       120,
+       200
+      ]
+     },
+     "found": "Блины",
+     "grams": 150.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m13",
+   "rep": 0,
+   "text": "Порция плова",
+   "tags": [
+    "portion"
+   ],
+   "wanted": [
+    {
+     "name": "плов",
+     "grams": 250,
+     "grams_source": "estimate",
+     "measure": "порция"
+    }
+   ],
+   "card": [
+    {
+     "name": "Плов",
+     "grams": 250.0,
+     "grams_source": "estimate",
+     "measure": "порция"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Плов",
+      "grams": [
+       200,
+       350
+      ]
+     },
+     "found": "Плов",
+     "grams": 250.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m14",
+   "rep": 0,
+   "text": "200 г гречки и одна куриная грудка",
+   "tags": [
+    "explicit",
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "гречка",
+     "grams": 200.0,
+     "grams_source": "user"
+    },
+    {
+     "name": "куриная грудка",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": "одна"
+    }
+   ],
+   "card": [
+    {
+     "name": "Гречка отварная",
+     "grams": 200.0,
+     "grams_source": "user",
+     "measure": null
+    },
+    {
+     "name": "Куриная грудка",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": "одна"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Гречка",
+      "grams": [
+       195,
+       205
+      ]
+     },
+     "found": "Гречка отварная",
+     "grams": 200.0,
+     "source": "user",
+     "ok": true,
+     "informed": true
+    },
+    {
+     "expected": {
+      "any_of": [
+       "Куриная грудка",
+       "Курица грудка отварная",
+       "Курица грудка жареная",
+       "Курица грудка без кожи сырая"
+      ],
+      "grams": [
+       120,
+       250
+      ]
+     },
+     "found": "Куриная грудка",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m15",
+   "rep": 0,
+   "text": "Кусок пиццы",
+   "tags": [
+    "slice"
+   ],
+   "wanted": [
+    {
+     "name": "пицца",
+     "grams": 110,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "card": [
+    {
+     "name": "Пицца",
+     "grams": 110.0,
+     "grams_source": "estimate",
+     "measure": "кусок"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Пицца"
+      ],
+      "grams": [
+       80,
+       150
+      ]
+     },
+     "found": "Пицца",
+     "grams": 110.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m16",
+   "rep": 0,
+   "text": "Чашка капучино",
+   "tags": [
+    "cup"
+   ],
+   "wanted": [
+    {
+     "name": "капучино",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": "чашка"
+    }
+   ],
+   "card": [
+    {
+     "name": "Капучино",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": "чашка"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Капучино"
+      ],
+      "grams": [
+       150,
+       300
+      ]
+     },
+     "found": "Капучино",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m17",
+   "rep": 0,
+   "text": "Выпил пол-литра молока",
+   "tags": [
+    "explicit_ml"
+   ],
+   "wanted": [
+    {
+     "name": "молоко",
+     "grams": 500.0,
+     "grams_source": "user"
+    }
+   ],
+   "card": [
+    {
+     "name": "Молоко 2.5%",
+     "grams": 500.0,
+     "grams_source": "user",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Молоко",
+      "grams": [
+       450,
+       550
+      ]
+     },
+     "found": "Молоко 2.5%",
+     "grams": 500.0,
+     "source": "user",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m18",
+   "rep": 0,
+   "text": "Три сырника",
+   "tags": [
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "сырник",
+     "grams": 150,
+     "grams_source": "estimate",
+     "measure": "три"
+    }
+   ],
+   "card": [
+    {
+     "name": "Сырники",
+     "grams": 150.0,
+     "grams_source": "estimate",
+     "measure": "три"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Сырники",
+      "grams": [
+       120,
+       210
+      ]
+     },
+     "found": "Сырники",
+     "grams": 150.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m19",
+   "rep": 0,
+   "text": "Съела яблоко",
+   "tags": [
+    "piece",
+    "implicit_one"
+   ],
+   "wanted": [
+    {
+     "name": "яблоко",
+     "grams": 180,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "card": [
+    {
+     "name": "Яблоко",
+     "grams": 180.0,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Яблоко",
+      "grams": [
+       120,
+       220
+      ]
+     },
+     "found": "Яблоко",
+     "grams": 180.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m20",
+   "rep": 0,
+   "text": "4 баурсака",
+   "tags": [
+    "piece",
+    "kz_dish"
+   ],
+   "wanted": [
+    {
+     "name": "баурсак",
+     "grams": 100,
+     "grams_source": "estimate",
+     "measure": "4"
+    }
+   ],
+   "card": [
+    {
+     "name": "Баурсак",
+     "grams": 100.0,
+     "grams_source": "estimate",
+     "measure": "4"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Баурсак",
+      "grams": [
+       60,
+       160
+      ]
+     },
+     "found": "Баурсак",
+     "grams": 100.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m21",
+   "rep": 0,
+   "text": "Кружка молока",
+   "tags": [
+    "cup"
+   ],
+   "wanted": [
+    {
+     "name": "молоко",
+     "grams": 300,
+     "grams_source": "estimate",
+     "measure": "кружка"
+    }
+   ],
+   "card": [
+    {
+     "name": "Молоко 2.5%",
+     "grams": 300.0,
+     "grams_source": "estimate",
+     "measure": "кружка"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Молоко",
+      "grams": [
+       220,
+       350
+      ]
+     },
+     "found": "Молоко 2.5%",
+     "grams": 300.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m22",
+   "rep": 0,
+   "text": "Екі жұмыртқа жедім",
+   "tags": [
+    "piece",
+    "kz"
+   ],
+   "wanted": [
+    {
+     "name": "яйцо",
+     "grams": 110,
+     "grams_source": "estimate",
+     "measure": "екі"
+    }
+   ],
+   "card": [
+    {
+     "name": "Яйцо куриное",
+     "grams": 110.0,
+     "grams_source": "estimate",
+     "measure": "екі"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Яйцо",
+      "grams": [
+       90,
+       130
+      ]
+     },
+     "found": "Яйцо куриное",
+     "grams": 110.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m23",
+   "rep": 0,
+   "text": "Съел 150 г творога и банан",
+   "tags": [
+    "explicit",
+    "implicit_one"
+   ],
+   "wanted": [
+    {
+     "name": "творог",
+     "grams": 150.0,
+     "grams_source": "user"
+    },
+    {
+     "name": "банан",
+     "grams": 120,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "card": [
+    {
+     "name": "Творог 2%",
+     "grams": 150.0,
+     "grams_source": "user",
+     "measure": null
+    },
+    {
+     "name": "Банан",
+     "grams": 120.0,
+     "grams_source": "estimate",
+     "measure": null
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Творог",
+      "grams": [
+       145,
+       155
+      ]
+     },
+     "found": "Творог 2%",
+     "grams": 150.0,
+     "source": "user",
+     "ok": true,
+     "informed": true
+    },
+    {
+     "expected": {
+      "any_of": [
+       "Банан"
+      ],
+      "grams": [
+       90,
+       150
+      ]
+     },
+     "found": "Банан",
+     "grams": 120.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m24",
+   "rep": 0,
+   "text": "Стакан апельсинового сока",
+   "tags": [
+    "glass"
+   ],
+   "wanted": [
+    {
+     "name": "апельсиновый сок",
+     "grams": 200,
+     "grams_source": "estimate",
+     "measure": "стакан"
+    }
+   ],
+   "card": [
+    {
+     "name": "Сок апельсиновый",
+     "grams": 200.0,
+     "grams_source": "estimate",
+     "measure": "стакан"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Сок апельсиновый",
+       "Апельсин сок фреш"
+      ],
+      "grams": [
+       180,
+       260
+      ]
+     },
+     "found": "Сок апельсиновый",
+     "grams": 200.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m25",
+   "rep": 0,
+   "text": "Две сосиски",
+   "tags": [
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "сосиска",
+     "grams": 100,
+     "grams_source": "estimate",
+     "measure": "две"
+    }
+   ],
+   "card": [
+    {
+     "name": "Сосиски",
+     "grams": 100.0,
+     "grams_source": "estimate",
+     "measure": "две"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "any_of": [
+       "Сосиски"
+      ],
+      "grams": [
+       80,
+       130
+      ]
+     },
+     "found": "Сосиски",
+     "grams": 100.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  },
+  {
+   "id": "m26",
+   "rep": 0,
+   "text": "Пять пельменей",
+   "tags": [
+    "piece"
+   ],
+   "wanted": [
+    {
+     "name": "пельмень",
+     "grams": 60,
+     "grams_source": "estimate",
+     "measure": "пять"
+    }
+   ],
+   "card": [
+    {
+     "name": "Пельмени отварные",
+     "grams": 60.0,
+     "grams_source": "estimate",
+     "measure": "пять"
+    }
+   ],
+   "unknown": [],
+   "per_item": [
+    {
+     "expected": {
+      "prefix": "Пельмени",
+      "grams": [
+       45,
+       100
+      ]
+     },
+     "found": "Пельмени отварные",
+     "grams": 60.0,
+     "source": "estimate",
+     "ok": true,
+     "informed": true
+    }
+   ],
+   "extra": []
+  }
+ ]
+}
