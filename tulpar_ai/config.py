@@ -96,8 +96,9 @@ class Settings(BaseSettings):
     draft_top_p: float = 0.9
     draft_max_tokens: int = 1500
     # draft step of the program graph: `agent` — the model calls tools (catalogue search, client context, the Skill
-    # validator) in a loop; `candidates` — one call with a precomputed candidate list. Default by A/B (EVALS.md).
-    draft_mode: str = "candidates"
+    # validator) in a loop; `candidates` — one call with a precomputed candidate list. A/B 30.09 (EVALS.md), 9 requests
+    # × 2: valid first try 61.1% → 88.9%, valid in the end 88.9% → 100%, p50 7.6 → 18.9 s (drafting runs in background)
+    draft_mode: str = "agent"
     draft_agent_max_steps: int = 5  # tool steps per draft; then one call that must return the final draft
     vision_temperature: float = 0.0
     vision_max_tokens: int = 300

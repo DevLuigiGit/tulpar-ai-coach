@@ -8,7 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
-PROMPT_VERSIONS = {"route": "v3", "rewrite": "v1", "answer": "v4", "vision": "v1", "meal_text": "v2", "draft": "v2",
+PROMPT_VERSIONS = {"route": "v4", "rewrite": "v1", "answer": "v4", "vision": "v1", "meal_text": "v2", "draft": "v2",
                    "judge_faithfulness": "v1", "judge_correctness": "v1",
                    "translate_en": "v1", "guard": "v1"}
 
