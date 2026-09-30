@@ -235,6 +235,7 @@
 | arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|
 | after_dizziness_rule | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1202.5 | 0.025083 |
+
 ## qa_variants_default — 2026-09-29 21:53
 
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
@@ -270,3 +271,26 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | variants_ctx | 56 | jina3 | False | 0.0 | 0.9 | 400 | 82.4 | 0.734 | 0.0 | 100.0 | None | None | 3.0 | 0 | 7e-06 |
+
+## voice_kk — 2026-09-29 21:54
+
+| arm | n | cer | wer | kk_script | intent_accuracy | escalation_recall | false_escalation_rate | agree_with_text | stt_calls | stt_p50_ms | stt_errors |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| text (no STT) / kk | 20 | 0.0 | 0.0 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | None | 0 |
+| text (no STT) / mixed | 10 | 0.0 | 0.0 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 10 | None | 0 |
+| text (no STT) / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | None | 0 |
+| ru / kk | 20 | 26.1 | 81.6 | 65.0 | 70.0 | 50.0 | 0.0 | 70.0 | 20 | 757.5 | 0 |
+| ru / mixed | 10 | 20.4 | 64.2 | 30.0 | 80.0 | 50.0 | 12.5 | 80.0 | 10 | 744.5 | 0 |
+| ru / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 692.0 | 0 |
+| kk / kk | 20 | 6.8 | 36.8 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | 655.5 | 0 |
+| kk / mixed | 10 | 13.0 | 52.6 | 100.0 | 90.0 | 50.0 | 0.0 | 90.0 | 10 | 697.0 | 0 |
+| kk / ru | 10 | 80.4 | 77.0 | None | 30.0 | 0.0 | 0.0 | 30.0 | 10 | 920.0 | 0 |
+| auto / kk | 20 | 6.8 | 36.8 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | 650.0 | 0 |
+| auto / mixed | 10 | 13.0 | 52.6 | 90.0 | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 677.0 | 0 |
+| auto / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 565.5 | 0 |
+| hint / kk | 20 | 6.8 | 36.8 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | 655.5 | 0 |
+| hint / mixed | 10 | 12.9 | 52.6 | 70.0 | 80.0 | 50.0 | 12.5 | 80.0 | 10 | 674.5 | 0 |
+| hint / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 692.0 | 0 |
+| auto+ru / kk | 20 | 6.8 | 36.8 | 100.0 | 100.0 | 100.0 | 0.0 | 100.0 | 20 | 650.0 | 0 |
+| auto+ru / mixed | 10 | 13.0 | 52.6 | 90.0 | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 677.0 | 0 |
+| auto+ru / ru | 10 | 0.0 | 0.0 | None | 100.0 | 100.0 | 0.0 | 100.0 | 10 | 565.5 | 0 |

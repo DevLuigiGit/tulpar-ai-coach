@@ -162,7 +162,8 @@ async def on_voice(m: Message):
     name = "voice.ogg" if m.voice else (m.audio.file_name or "audio.mp3")
     if user.role == "trainer":
         return await m.answer("Голосовые обрабатываются для клиентов. Очередь: /queue")
-    await _run_turn(m, user, voice_reply=bool(m.voice), audio=buf.getvalue(), audio_name=name)
+    await _run_turn(m, user, voice_reply=bool(m.voice), audio=buf.getvalue(), audio_name=name,
+                    lang_hint=m.from_user.language_code if m.from_user else None)
 
 
 @dp.message(F.text)

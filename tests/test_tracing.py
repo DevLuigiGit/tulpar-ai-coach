@@ -155,7 +155,8 @@ async def test_photo_and_voice_bytes_stay_out_of_traces(env, traced, monkeypatch
     for r in vision:
         assert r["inputs"]["images"] == [{"type": "image/jpeg", "bytes": len(photo)}]
     [stt_run] = [r for r in runs if r["name"] == "speech_to_text"]
-    assert stt_run["inputs"] == {"audio": {"bytes": len(voice), "format": "ogg"}, "language": "ru"}
+    # STT_LANGUAGE=auto by default: Whisper gets no language hint and the trace says so
+    assert stt_run["inputs"] == {"audio": {"bytes": len(voice), "format": "ogg"}, "language": "auto"}
     biggest = max(len(json.dumps(r.get("inputs"), default=str)) for r in runs)
     assert biggest < 50_000, biggest
 
