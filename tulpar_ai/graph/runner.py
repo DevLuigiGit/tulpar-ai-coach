@@ -123,7 +123,8 @@ async def resume_program(proposal_id: str, action: str, comment: str | None = No
     # (a slow CI runner showed an empty or not-yet-interrupted snapshot for longer than 5 s: wait longer, and in the end
     # accept a graph that stands before `review` even if its interrupt is not visible yet — the pre-agent behaviour)
     deadline = time.monotonic() + RESUME_WAIT_S
-    while not _at_review(snap) and time.monotonic() < deadline:
+    # a finished graph (a checkpoint with nothing next) is refused at once; a running or not yet visible one is awaited
+    while not _at_review(snap) and (snap.next or snap.created_at is None) and time.monotonic() < deadline:
         await asyncio.sleep(0.05)
         snap = await _program.aget_state(cfg)
     if "review" not in (snap.next or ()):
