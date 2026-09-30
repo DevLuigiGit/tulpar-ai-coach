@@ -107,8 +107,12 @@ async def start_program(proposal_id: str) -> dict:
         raise
 
 
+RESUME_WAIT_S = 20.0  # how long a decision waits for the graph to reach its review pause
+
+
 def _at_review(snap) -> bool:
-    return "review" in (snap.next or ()) and any(t.interrupts for t in snap.tasks)
+    interrupted = any(t.interrupts for t in snap.tasks) or bool(getattr(snap, "interrupts", ()))
+    return "review" in (snap.next or ()) and interrupted
 
 
 async def resume_program(proposal_id: str, action: str, comment: str | None = None) -> dict:
@@ -116,11 +120,13 @@ async def resume_program(proposal_id: str, action: str, comment: str | None = No
     snap = await _program.aget_state(cfg)
     # `publish` marks the proposal pending a few ms before the review interrupt is checkpointed: a decision that
     # fast waits for it instead of racing the graph that is still running
-    deadline = time.monotonic() + 5
-    while snap.next and not _at_review(snap) and time.monotonic() < deadline:
-        await asyncio.sleep(0.02)
+    # (a slow CI runner showed an empty or not-yet-interrupted snapshot for longer than 5 s: wait longer, and in the end
+    # accept a graph that stands before `review` even if its interrupt is not visible yet — the pre-agent behaviour)
+    deadline = time.monotonic() + RESUME_WAIT_S
+    while not _at_review(snap) and time.monotonic() < deadline:
+        await asyncio.sleep(0.05)
         snap = await _program.aget_state(cfg)
-    if not _at_review(snap):
+    if "review" not in (snap.next or ()):
         raise RuntimeError("proposal is not waiting for a decision")
     return await _program.ainvoke(Command(resume={"action": action, "comment": comment}), cfg)
 
