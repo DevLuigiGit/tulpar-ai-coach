@@ -1,0 +1,189 @@
+{
+ "summary": {
+  "n": 8,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 0.0,
+  "mrr": 0.0,
+  "answered_rate": 62.5,
+  "keyfact_accuracy": 62.5,
+  "correct_refusal_rate": 0.0,
+  "faithfulness_avg": 5,
+  "faithfulness_pass": 100.0,
+  "correctness_avg": 3.4,
+  "p50_ms": 3218.0,
+  "p95_ms": 9037,
+  "out_tokens_p95": 320,
+  "llm_calls": 8,
+  "tokens_in": 13503,
+  "tokens_out": 1991,
+  "cost_usd": 0.00954,
+  "fallbacks": 0,
+  "rag_variant": "default",
+  "collection": "coach_jina3_400_p2_b064ec4f",
+  "jina_requests": 0,
+  "jina_tokens": 0,
+  "cost_per_question_usd": 0.001192,
+  "hit_at_4_by_tag": {
+   "home": 0.0,
+   "kb_gap": 0.0,
+   "kz": 0.0,
+   "nutrition": 0.0,
+   "plateau": 0.0,
+   "sitting": 0.0,
+   "steps": 0.0,
+   "timing": 0.0,
+   "training": 0.0
+  },
+  "gate": false
+ },
+ "rows": [
+  {
+   "id": "g01",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 3112,
+   "rewrites": 0,
+   "out_tokens": 308,
+   "tags": [
+    "kb_gap",
+    "training"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g02",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 1861,
+   "rewrites": 0,
+   "out_tokens": 245,
+   "tags": [
+    "kb_gap",
+    "training"
+   ],
+   "answer": "В источниках нет единого ответа, сколько именно отдыхать в базовых упражнениях. Обзор [2] указывает, что NSCA рекомендует относительно короткие периоды отдыха — 30–90 секунд для оптимизации гипертрофии [2]. При этом в исследовании [1] участники тяжёлой группы отдыхали 3 минуты между подходами, а умеренной — 1 минуту [1]; в другом исследовании авторов все участники отдыхали 2 минуты [3]. Schoenfeld",
+   "faithfulness": 5,
+   "correctness": 3
+  },
+  {
+   "id": "g03",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 9037,
+   "rewrites": 0,
+   "out_tokens": 174,
+   "tags": [
+    "kb_gap",
+    "training",
+    "home"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g04",
+   "rep": 0,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "ms": 8038,
+   "rewrites": 0,
+   "out_tokens": 236,
+   "tags": [
+    "kb_gap",
+    "nutrition",
+    "plateau"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "g05",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 1863,
+   "rewrites": 0,
+   "out_tokens": 173,
+   "tags": [
+    "kb_gap",
+    "nutrition"
+   ],
+   "answer": "По правилам Tulpar калории для похудения считаются так: сначала базовый обмен по формуле Миффлина — Сан-Жеора, затем умножение на коэффициент активности и минус 20% от поддержания [2]. Tulpar не опускает норму ниже безопасного минимума: 1500 ккал для мужчин и 1200 ккал для женщин [1]. Для вашего профиля уже посчитана норма — 2250 ккал в день с распределением белков 168 г, жиров 62 г и углеводов 25",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "g06",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 4388,
+   "rewrites": 0,
+   "out_tokens": 273,
+   "tags": [
+    "kb_gap",
+    "nutrition",
+    "timing"
+   ],
+   "answer": "Жёсткого запрета именно на 18:00 в источниках нет: исследования обсуждают поздний ужин и еду в «биологическую ночь» в целом [1][3]. При этом поздний ужин и еда ночью ассоциируются с повышенным риском ожирения, дислипидемии, гипергликемии и метаболического синдрома [4], а в обзоре подчёркивается, что необычное время приёмов пищи может нарушать циркадные ритмы [1]. Конкретной «безопасной» цифры (нап",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "g07",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 3324,
+   "rewrites": 0,
+   "out_tokens": 320,
+   "tags": [
+    "kb_gap",
+    "steps",
+    "kz"
+   ],
+   "answer": "10 000 қадам — бәріне бірдей міндетті норма емес [3]. Зерттеулер бойынша қадам саны жасқа, дене дайындығына және тіршілік жағдайына байланысты [3]. Төмендер нында пайдасы 2700 қадамнан 4400 қадамға көтерілгенде-ақ көрінеді [3], ал қосымша пайда шамамен 7500 қадам/күн деңгейінде тоқтайды [4]. Салмақ тастау немесе метаболикалық синдром қаупін азайту қажет болса, қадам санын одан әрі арттыру керек, з",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "g08",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": true,
+   "ms": 3072,
+   "rewrites": 0,
+   "out_tokens": 262,
+   "tags": [
+    "kb_gap",
+    "sitting",
+    "kz"
+   ],
+   "answer": "Источники говорят, что длительное сидение повышает риски, а прерывать сидячее время полезно короткими активными перерывами. Исследование Taylor et al. (2021) показало, что даже здоровые люди выигрывают от того, что встают и ходят быстрым шагом во время перерывов [1]. Авторы предлагают не просто заменять сидение стоянием, а регулярно прерывать длительное сидение короткими активными паузами [1]. Так",
+   "faithfulness": 5,
+   "correctness": 2
+  }
+ ]
+}

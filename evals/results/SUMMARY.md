@@ -402,3 +402,27 @@
 | arm | n | draft_mode | first_try_valid | final_valid | request_respected | avg_drafts | llm_calls_per_request | tool_calls_per_request | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|---|---|---|
 | agent_summary_check | 18 | agent | 100.0 | 100.0 | 94.4 | 1 | 3.72 | 4.61 | 13463.5 | 0.214596 |
+
+## qa_kb_gaps_after — 2026-09-30 14:55
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| kb_gaps_after | 8 | jina3 | False | 0.0 | 0.9 | 400 | 0.0 | 0.0 | 50.0 | 0.0 | 4.25 | 4 | 3038.5 | 330 | 0.001089 |
+
+## qa_answer_v4_profile_evidence — 2026-09-30 15:00
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_v4_profile_evidence | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 88.2 | 100.0 | 4.77 | 4.46 | 2397.0 | 247 | 0.001088 |
+
+## qa_kb_gaps_answer_v5 — 2026-09-30 15:01
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| kb_gaps_answer_v5 | 8 | jina3 | False | 0.0 | 0.9 | 400 | 0.0 | 0.0 | 62.5 | 0.0 | 5 | 3.4 | 3218.0 | 320 | 0.001192 |
+
+## qa_answer_v5_profile_evidence — 2026-09-30 15:06
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_v5_profile_evidence | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 82.4 | 100.0 | 4.69 | 4.33 | 2489.5 | 277 | 0.001175 |
