@@ -235,3 +235,38 @@
 | arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
 |---|---|---|---|---|---|---|---|
 | after_dizziness_rule | 66 | 100.0 | 100.0 | 0.0 | 100.0 | 1202.5 | 0.025083 |
+## qa_variants_default — 2026-09-29 21:53
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_default | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 0.0 | 100.0 | None | None | 712.0 | 0 | 4e-06 |
+
+## qa_variants_d512 — 2026-09-29 21:54
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_d512 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 0.0 | 100.0 | None | None | 3.0 | 0 | 7e-06 |
+
+## qa_variants_d256 — 2026-09-29 21:54
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_d256 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.796 | 0.0 | 100.0 | None | None | 3.0 | 0 | 3e-06 |
+
+## qa_variants_hybrid — 2026-09-29 21:55
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_hybrid | 56 | jina3 | False | 0.0 | 0.9 | 400 | 86.3 | 0.778 | 0.0 | 100.0 | None | None | 16.0 | 0 | 7e-06 |
+
+## qa_variants_mq_en — 2026-09-29 21:59
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_mq_en | 56 | jina3 | False | 0.0 | 0.9 | 400 | 82.4 | 0.693 | 0.0 | 100.0 | None | None | 3165.5 | 0 | 0.000201 |
+
+## qa_variants_ctx — 2026-09-29 22:00
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| variants_ctx | 56 | jina3 | False | 0.0 | 0.9 | 400 | 82.4 | 0.734 | 0.0 | 100.0 | None | None | 3.0 | 0 | 7e-06 |

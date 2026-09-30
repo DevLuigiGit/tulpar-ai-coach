@@ -181,7 +181,9 @@ async def retrieve_node(state: ChatState) -> dict:
     s = get_settings()
     q = state.get("query") or _text(state)
     hits = await retrieve(q)
-    top = hits[0]["rerank_score"] if hits else 0.0
+    # The best score, not the first hit's: after RRF fusion (hybrid, multi-query) the first hit is the best fused
+    # rank, not necessarily the closest cosine. Dense or reranked lists are sorted by score, so there it is the same.
+    top = max((h["rerank_score"] for h in hits), default=0.0)
     return {"query": q, "hits": hits, "sufficient": top >= s.rag_min_score}
 
 

@@ -99,6 +99,19 @@ class Settings(BaseSettings):
     qdrant_url: str = ""  # empty: embedded Qdrant in AI_DATA_DIR/qdrant; http://qdrant:6333 or a Qdrant Cloud URL
     qdrant_api_key: str = ""
 
+    # ── retrieval variants (rag/variants.py, EVALS.md). Defaults = the setup measured before them. A variant that
+    # changes what is stored gets its own collection name, so an index built one way is never searched another way.
+    rag_hybrid: bool = False  # on: dense + BM25 sparse vectors in one collection, Qdrant Query API RRF fusion
+    rag_bm25: str = "auto"  # auto: fastembed Qdrant/bm25 (ru+en Snowball), lite if it cannot load | fastembed | lite
+    rag_late_chunking: bool = False  # Jina late chunking: chunks of one WHO page window / one file embedded together
+    rag_late_max_chars: int = 12000  # per late-chunking request: well under Jina's 8192-token context
+    rag_late_window_pages: int = 3
+    rag_embed_dim: int = 1024  # Matryoshka: 1024 | 512 | 256 — Jina vectors truncated and L2-renormalised
+    rag_context_headers: bool = False  # «ВОЗ 2020 · раздел · стр. N» prepended to the embedded text, not the answer's
+    rag_multi_query: str = "off"  # en: a Russian question is also searched in English, the lists fused by RRF
+    rag_rrf_k: int = 60
+    rag_embed_cache: str = "off"  # passages | all (also query vectors): Jina vectors on disk, AI_DATA_DIR/emb_cache
+
     # ── semantic answer cache (question branch only; thresholds by evals/cache_eval.py, EVALS.md) ───
     # The threshold alone cannot stop one-word flips (женщина/мужчина 0.989, в неделю/в день 0.983 with Jina); the
     # lexical guard in rag/cache_guard.py does. With the guard the lowest threshold with zero wrong hits is 0.91, but

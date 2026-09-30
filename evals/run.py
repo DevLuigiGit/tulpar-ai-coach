@@ -6,7 +6,9 @@
     python evals/run.py draft                     # LLM drafts for demo clients → validator pass rate
     python evals/run.py vision --images-dir PATH --manifest PATH [--models ollama:kimi-k2.7-code]
     python evals/run.py experiment NAME           # rag_rerank | answer_temperature | answer_top_p |
-                                                  # route_temperature | chunk_size | embedder
+                                                  # route_temperature | chunk_size | embedder | rag_variants
+    python evals/run.py qa --retrieval-only --hybrid on [--bm25 lite] [--late-chunking on] [--embed-dim 512]
+                           [--context-headers on] [--multi-query en]    # retrieval variants (rag/variants.py)
 Every run writes evals/results/<name>.json (summary + per-item rows) and appends a table to
 evals/results/SUMMARY.md. LangSmith tracing is OFF during evals unless --trace (free tier: 5k traces/mo).
 Exit code 1 if a suite's gate fails (used by CI).
@@ -61,8 +63,15 @@ def usage_stats(calls: list[dict]) -> dict:
             "fallbacks": sum(1 for c in calls if c["fallback"])}
 
 
+RAG_VARIANT_ARGS = ("rag_hybrid", "rag_bm25", "rag_late_chunking", "rag_embed_dim", "rag_context_headers",
+                    "rag_multi_query")
+
+
 def boot_settings(args) -> None:
     os.environ.setdefault("AI_DATA_DIR", str(ROOT / "data" / "evals"))
+    # Jina vectors (passages and the golden questions) and translations on disk: an arm or a re-run that needs the
+    # same vectors does not spend the API quota again. Same vectors, same numbers — only the calls are saved.
+    os.environ.setdefault("RAG_EMBED_CACHE", "all")
     if not getattr(args, "trace", False):
         os.environ["LANGSMITH_TRACING"] = "false"
         os.environ["LANGCHAIN_TRACING_V2"] = "false"
@@ -74,6 +83,10 @@ def boot_settings(args) -> None:
         v = getattr(args, k, None)
         if v is not None:
             setattr(s, k, ("on" if v else "off") if k == "rag_rerank" else v)
+    for k in RAG_VARIANT_ARGS:
+        v = getattr(args, k, None)
+        if v is not None:
+            setattr(s, k, (v == "on") if v in ("on", "off") and k != "rag_multi_query" else v)
 
 
 # ── router ───────────────────────────────────────────────────────────────────
@@ -150,7 +163,10 @@ async def suite_qa(args) -> dict:
     from tulpar_ai.rag.index import Index
     from tulpar_ai.rag.retrieve import effective_rerank, set_index
 
+    from tulpar_ai.rag.embed import USAGE
+
     s = get_settings()
+    jina0 = dict(USAGE)
     idx = Index(pdf_chunk=args.pdf_chunk, path=Path(s.ai_data_dir) / "qdrant")
     await idx.build()
     set_index(idx)
@@ -207,6 +223,10 @@ async def suite_qa(args) -> dict:
         "correctness_avg": round(statistics.mean(corr), 2) if corr else None,
         "p50_ms": statistics.median([r["ms"] for r in rows]) if rows else 0, "p95_ms": p95([r["ms"] for r in rows]),
         "out_tokens_p95": p95(outs), **usage_stats(calls_all)}
+    summary["rag_variant"] = idx.variant.cache_tag() or "default"
+    summary["collection"] = idx.collection
+    summary["jina_requests"] = USAGE["requests"] - jina0["requests"]  # index build + queries, after the disk cache
+    summary["jina_tokens"] = USAGE["tokens"] - jina0["tokens"]
     summary["cost_per_question_usd"] = round(summary["cost_usd"] / (len(rows) or 1), 6)
     summary["hit_at_4_by_tag"] = {t: pct(r["rank"] is not None and r["rank"] <= 4 for r in ans if t in r["tags"])
                                   for t in sorted({t for r in ans for t in r["tags"]})}
@@ -382,6 +402,10 @@ EXPERIMENTS = {
     "chunk_size": ("qa", [{"pdf_chunk": 400, "judge": False, "retrieval_only": True},
                           {"pdf_chunk": 800, "judge": False, "retrieval_only": True},
                           {"pdf_chunk": 1200, "judge": False, "retrieval_only": True}]),
+    # Retrieval variants, one knob per arm against the default (rag/variants.py). Retrieval only: no answer model.
+    "rag_variants": ("qa", [{"judge": False, "retrieval_only": True, **arm} for arm in (
+        {}, {"rag_hybrid": True}, {"rag_late_chunking": True}, {"rag_embed_dim": 512}, {"rag_embed_dim": 256},
+        {"rag_context_headers": True}, {"rag_multi_query": "en"})]),
 }
 
 KEYS = {"router": ["n", "intent_accuracy", "escalation_recall", "false_escalation_rate", "stability", "p50_ms", "cost_usd"],
@@ -422,6 +446,12 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--pdf-chunk", type=int, default=400)
     ap.add_argument("--no-judge", dest="judge", action="store_false")
     ap.add_argument("--retrieval-only", action="store_true")
+    ap.add_argument("--hybrid", dest="rag_hybrid", choices=["on", "off"], help="dense + BM25 sparse, RRF fusion")
+    ap.add_argument("--bm25", dest="rag_bm25", choices=["auto", "fastembed", "lite"])
+    ap.add_argument("--late-chunking", dest="rag_late_chunking", choices=["on", "off"], help="Jina late chunking")
+    ap.add_argument("--embed-dim", dest="rag_embed_dim", type=int, choices=[1024, 512, 256])
+    ap.add_argument("--context-headers", dest="rag_context_headers", choices=["on", "off"])
+    ap.add_argument("--multi-query", dest="rag_multi_query", choices=["off", "en"])
     ap.add_argument("--images-dir")
     ap.add_argument("--manifest")
     ap.add_argument("--models")
@@ -446,6 +476,8 @@ async def main() -> int:
         for k in ("limit", "judge", "trace", "images_dir", "manifest", "models", "repeats"):
             setattr(a, k, getattr(args, k))
         a.rag_rerank = None
+        for k in RAG_VARIANT_ARGS:  # an arm sets its own knob; the command line sets the rest for every arm
+            setattr(a, k, getattr(args, k, None))
         for k, v in arm.items():
             setattr(a, k, v)
         boot_settings(a)  # fresh settings per arm: nothing leaks from the previous arm

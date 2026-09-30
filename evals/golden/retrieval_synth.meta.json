@@ -1,0 +1,90 @@
+{
+ "synthetic": true,
+ "created": "2026-09-29 21:57",
+ "seed": 20260929,
+ "rows": 174,
+ "gen_model": "ollama:deepseek-v4.1-flash",
+ "gen_temperature": 0.7,
+ "verify_model": "ollama:kimi-k2.6",
+ "chunking": {
+  "pdf_chunk": 400,
+  "pdf_overlap": 120,
+  "parsing_version": 2,
+  "corpus_fingerprint": "b064ec4f",
+  "chunks": 1476
+ },
+ "plan": {
+  "strata": {
+   "exercises": 9,
+   "nutrition": 7,
+   "who": 120
+  },
+  "quota": {
+   "exercises": 60,
+   "nutrition": 19,
+   "who": 120
+  }
+ },
+ "rows_by_source": {
+  "exercises": 59,
+  "nutrition": 16,
+  "who2020": 99
+ },
+ "candidates_tried": {
+  "exercises": 61,
+  "nutrition": 7,
+  "who": 391
+ },
+ "skipped_by_generator": {
+  "nutrition": 1,
+  "who": 275
+ },
+ "dropped": 20,
+ "drops": {
+  "verify_not_answerable": 18,
+  "verbatim_copy": 1,
+  "verify_not_specific": 1
+ },
+ "drops_by_kind": {
+  "exercises": {
+   "verify_not_answerable": 2
+  },
+  "nutrition": {
+   "verbatim_copy": 1
+  },
+  "who": {
+   "verify_not_answerable": 16,
+   "verify_not_specific": 1
+  }
+ },
+ "relevance_groups_by_rule": {
+  "source": 174,
+  "evidence-overlap": 11,
+  "evidence-repeat": 32,
+  "near-duplicate": 13
+ },
+ "rows_with_extra_relevant": 35,
+ "evidence_verbatim": 167,
+ "evidence_missing": 1,
+ "lexical_overlap": {
+  "synth_exercises": 0.375,
+  "synth_nutrition": 0.523,
+  "synth_who_n": 99,
+  "synth_who_number_shared": 0.04,
+  "synth_who_latin_term": 0.02,
+  "qa_exercises": 0.463,
+  "qa_exercises_n": 35,
+  "qa_nutrition": 0.624,
+  "qa_nutrition_n": 8,
+  "qa_who_n": 12,
+  "qa_who_number_shared": 0.25,
+  "qa_who_latin_term": 0.0
+ },
+ "llm_responses_used": 652,
+ "llm_responses_used_by_model": {
+  "kimi-k2.6": 193,
+  "deepseek-v4.1-flash": 459
+ },
+ "llm_calls_this_run": 144,
+ "prompts_sha1": "c5ecc8e40121"
+}
