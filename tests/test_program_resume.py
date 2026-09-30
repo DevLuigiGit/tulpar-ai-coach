@@ -55,8 +55,7 @@ async def test_validator_forces_redraft(app_state, fake_llm):
     p = await runner.new_program_proposal(client.id, trainer.id, "Замени первое упражнение", "trainer")
     p = await wait_status(store, p["id"], "pending")
     assert "(valid)" in p["draft"]["summary"]
-    drafts = [c for c in fake_llm.calls if c["system"].startswith("Ты помогаешь тренеру")]
-    assert len(drafts) == 2
+    assert fake_llm.drafts == 2
 
 
 async def test_trainer_edit_then_reject(app_state, fake_llm):

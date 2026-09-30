@@ -5,6 +5,10 @@
                                                                         ├─► draft  (trainer: «поправь», ≤2 rounds)
                                                                         └─► reject ─► END
 
+`draft` is one of two nodes, chosen by DRAFT_MODE on every entry: `draft` (one call over a precomputed candidate
+list) or `draft_agent` (the model calls catalogue search, client context and the Skill validator in a bounded loop,
+see draft_agent.py). The loop around it and the review are the same for both.
+
 `review` contains ONLY the interrupt: on resume LangGraph re-runs the interrupted node from its start,
 so everything with side effects (LLM calls, writes, notifications) sits in other nodes. `apply` is
 idempotent through the store: a replayed resume sees status=applied and does nothing.
@@ -17,6 +21,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
+from langsmith.run_helpers import get_current_run_tree
 
 from .. import notify
 from ..config import get_settings
@@ -27,6 +32,7 @@ from ..pii import mask
 from ..prompts import prompt
 from ..skill import instructions, validator
 from ..store import get_store
+from . import draft_agent as agent
 
 MAX_DRAFTS = 3
 MAX_EDIT_ROUNDS = 2
@@ -49,6 +55,7 @@ class ProgramState(TypedDict, total=False):
     feedback: str
     decision: dict
     status: str
+    agent_log: list[dict]
 
 
 def _catalog() -> dict[str, dict]:
@@ -89,17 +96,10 @@ async def load_context(state: ProgramState) -> dict:
 
 
 def after_load(state: ProgramState) -> str:
-    return END if state.get("status") == "failed" else "draft"
+    return END if state.get("status") == "failed" else draft_node()
 
 
-def _plan_for_prompt(plan: dict) -> str:
-    lines = [f"План «{plan['title']}»"]
-    for d in plan["days"]:
-        lines.append(f"День day_index={d['day_index']} «{d['title']}»:")
-        for e in d["exercises"]:
-            lines.append(f"  - wex_id={e['id']} | {e['exercise_name']} | {e.get('muscle_group')} | "
-                         f"{e.get('target_sets')}×{e.get('target_reps')}")
-    return "\n".join(lines)
+_plan_for_prompt = agent.plan_text
 
 
 async def draft(state: ProgramState) -> dict:
@@ -134,6 +134,24 @@ async def draft(state: ProgramState) -> dict:
     return {"draft": d, "draft_attempts": state.get("draft_attempts", 0) + 1}
 
 
+async def draft_agent(state: ProgramState) -> dict:
+    d, log = await agent.run(state)
+    rt = get_current_run_tree()
+    if rt is not None:  # LangSmith: the node's run carries the agent's step counts next to its tool runs
+        rt.metadata.update({"draft_mode": "agent", **agent.stats(log)})
+    return {"draft": d, "draft_attempts": state.get("draft_attempts", 0) + 1, "agent_log": log}
+
+
+def draft_node() -> str:
+    """The node that drafts, by DRAFT_MODE (read on every entry: a paused proposal resumes in the current mode)."""
+    return "draft_agent" if get_settings().draft_mode == "agent" else "draft"
+
+
+async def run_draft(state: ProgramState) -> dict:
+    """The draft step outside the graph (evals): the node DRAFT_MODE selects."""
+    return await (draft_agent if draft_node() == "draft_agent" else draft)(state)
+
+
 async def validate(state: ProgramState) -> dict:
     violations = validator().validate(state["plan"], state["draft"]["ops"], state["client"], _catalog())
     return {"violations": violations}
@@ -141,7 +159,7 @@ async def validate(state: ProgramState) -> dict:
 
 def after_validate(state: ProgramState) -> str:
     errors = [v for v in state["violations"] if v["severity"] == "error"]
-    return "draft" if errors and state["draft_attempts"] < MAX_DRAFTS else "publish"
+    return draft_node() if errors and state["draft_attempts"] < MAX_DRAFTS else "publish"
 
 
 async def publish(state: ProgramState) -> dict:
@@ -175,7 +193,7 @@ def after_review(state: ProgramState) -> str:
     if action == "accept":
         return "apply"
     if action == "edit" and state.get("edit_rounds", 0) <= MAX_EDIT_ROUNDS:
-        return "draft"
+        return draft_node()
     return "reject"
 
 
@@ -210,15 +228,16 @@ async def reject(state: ProgramState) -> dict:
 
 def build_program_graph():
     g = StateGraph(ProgramState)
-    for name, fn in [("load_context", load_context), ("draft", draft), ("validate", validate), ("publish", publish),
-                     ("review", review), ("apply", apply), ("reject", reject)]:
+    for name, fn in [("load_context", load_context), ("draft", draft), ("draft_agent", draft_agent), ("validate", validate),
+                     ("publish", publish), ("review", review), ("apply", apply), ("reject", reject)]:
         g.add_node(name, fn)
     g.add_edge(START, "load_context")
-    g.add_conditional_edges("load_context", after_load, ["draft", END])
+    g.add_conditional_edges("load_context", after_load, ["draft", "draft_agent", END])
     g.add_edge("draft", "validate")
-    g.add_conditional_edges("validate", after_validate, ["draft", "publish"])
+    g.add_edge("draft_agent", "validate")
+    g.add_conditional_edges("validate", after_validate, ["draft", "draft_agent", "publish"])
     g.add_conditional_edges("publish", after_publish, ["review", END])
-    g.add_conditional_edges("review", after_review, ["apply", "draft", "reject"])
+    g.add_conditional_edges("review", after_review, ["apply", "draft", "draft_agent", "reject"])
     g.add_edge("apply", END)
     g.add_edge("reject", END)
     return g

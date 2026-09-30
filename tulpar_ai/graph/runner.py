@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 import uuid
 from pathlib import Path
 
@@ -37,8 +38,10 @@ async def open_graphs(path: Path | None = None) -> None:
     _program = build_program_graph().compile(checkpointer=_saver)
 
 
-async def close_graphs() -> None:
+async def close_graphs(grace_s: float = 2.0) -> None:
     global _conn, _saver, _chat, _program
+    if _tasks:  # a graph that has just published is a few ms from its review checkpoint: let it get there
+        await asyncio.wait(list(_tasks), timeout=grace_s)
     for t in list(_tasks):
         t.cancel()
     if _conn is not None:
@@ -104,10 +107,20 @@ async def start_program(proposal_id: str) -> dict:
         raise
 
 
+def _at_review(snap) -> bool:
+    return "review" in (snap.next or ()) and any(t.interrupts for t in snap.tasks)
+
+
 async def resume_program(proposal_id: str, action: str, comment: str | None = None) -> dict:
     cfg = _cfg(f"prop:{proposal_id}", "program_change", proposal=proposal_id[:8])
     snap = await _program.aget_state(cfg)
-    if not snap.next or "review" not in snap.next:
+    # `publish` marks the proposal pending a few ms before the review interrupt is checkpointed: a decision that
+    # fast waits for it instead of racing the graph that is still running
+    deadline = time.monotonic() + 5
+    while snap.next and not _at_review(snap) and time.monotonic() < deadline:
+        await asyncio.sleep(0.02)
+        snap = await _program.aget_state(cfg)
+    if not _at_review(snap):
         raise RuntimeError("proposal is not waiting for a decision")
     return await _program.ainvoke(Command(resume={"action": action, "comment": comment}), cfg)
 

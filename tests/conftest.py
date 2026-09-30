@@ -17,6 +17,8 @@ class FakeLLM:
     def __init__(self):
         self.calls: list[dict] = []
         self.draft_plan: list[str] = ["valid"]
+        self.drafts = 0  # drafts started, in either DRAFT_MODE
+        self.agent_kind = "valid"
 
     def __call__(self, *, role, system, user, images, json_mode):
         self.calls.append({"role": role, "system": system[:80], "user": user[:200]})
@@ -31,7 +33,10 @@ class FakeLLM:
             return json.dumps({"intent": "question", "red_flag": False, "reason": "q"})
         if "поисковый запрос" in system:
             return json.dumps({"query": user + " physical activity minutes per week"})
+        if '"action": "check_plan"' in system:  # draft agent (DRAFT_MODE=agent): search → check → final
+            return self.agent_step(user)
         if "tulpar-program-builder" in system:
+            self.drafts += 1
             kind = self.draft_plan.pop(0) if self.draft_plan else "valid"
             wex, group = re.search(rf"wex_id=({UUID}) \| [^|]+ \| ([^|]+) \|", user).groups()
             cand = re.findall(rf"^- ({UUID}) \| [^|]+ \| {re.escape(group.strip())} \|", user, re.M)
@@ -47,6 +52,27 @@ class FakeLLM:
         if "по фотографии" in system:
             return json.dumps({"items": [{"name": "плов", "alternatives": ["плов с говядиной"], "confidence": "high"}], "note": ""})
         return json.dumps({"score": 5, "reason": "fake"})
+
+    def agent_step(self, user: str) -> str:
+        """One step of the draft agent. `draft_plan` kinds apply per draft: "invalid" keeps submitting an unknown
+        exercise until the forced final, so the graph's validator sends the draft back."""
+        if "Шаги:\n(пока нет)" in user:
+            self.drafts += 1
+            self.agent_kind = self.draft_plan.pop(0) if self.draft_plan else "valid"
+        kind = self.agent_kind
+        wex, group = re.search(rf"wex_id=({UUID}) \| [^|]+ \| ([^|]+) \|", user).groups()
+        group = group.strip()
+        steps = user.split("Шаги:", 1)[1]
+        found = re.findall(rf"^({UUID}) \| [^|]+ \| {re.escape(group)} \|", steps, re.M)
+        ex = "00000000-0000-0000-0000-000000000000" if kind == "invalid" else (found[0] if found else None)
+        if ex is None:
+            return json.dumps({"action": "search_exercises", "args": {"query": "", "muscle_group": group}})
+        ops = [{"op": "replace_exercise", "day_index": 0, "wex_id": wex, "exercise_id": ex, "sets": 3, "reps": 10,
+                "reason": "тест"}]
+        if kind != "invalid" and "check_plan" not in steps:
+            return json.dumps({"action": "check_plan", "args": {"ops": ops}})
+        return json.dumps({"action": "final", "summary": f"Заменить первое упражнение ({kind})", "rationale": "тест",
+                           "ops": ops})
 
 
 @pytest.fixture

@@ -3,10 +3,10 @@
     python evals/run.py router [--repeats 3] [--route-temperature 0.0]
     python evals/run.py qa [--rerank on|off] [--temperature 0.2] [--top-p 0.9] [--max-tokens 700] [--repeats 1]
     python evals/run.py program                   # deterministic: validator vs golden error codes
-    python evals/run.py draft                     # LLM drafts for demo clients → validator pass rate
+    python evals/run.py draft [--draft-mode agent|candidates] [--repeats 2]   # LLM drafts → validator pass rate
     python evals/run.py vision --images-dir PATH --manifest PATH [--models ollama:kimi-k2.7-code]
     python evals/run.py experiment NAME           # rag_rerank | answer_temperature | answer_top_p |
-                                                  # route_temperature | chunk_size | embedder
+                                                  # route_temperature | chunk_size | embedder | draft_mode
 Every run writes evals/results/<name>.json (summary + per-item rows) and appends a table to
 evals/results/SUMMARY.md. LangSmith tracing is OFF during evals unless --trace (free tier: 5k traces/mo).
 Exit code 1 if a suite's gate fails (used by CI).
@@ -70,7 +70,7 @@ def boot_settings(args) -> None:
 
     get_settings.cache_clear()
     s = get_settings()
-    for k in ("route_temperature", "answer_temperature", "answer_top_p", "answer_max_tokens", "rag_rerank"):
+    for k in ("route_temperature", "answer_temperature", "answer_top_p", "answer_max_tokens", "rag_rerank", "draft_mode"):
         v = getattr(args, k, None)
         if v is not None:
             setattr(s, k, ("on" if v else "off") if k == "rag_rerank" else v)
@@ -245,7 +245,9 @@ DRAFT_REQUESTS = [
 
 async def suite_draft(args) -> dict:
     from tulpar_ai import llm
+    from tulpar_ai.config import get_settings
     from tulpar_ai.gateway import build_gateway, set_gateway
+    from tulpar_ai.graph import draft_agent
     from tulpar_ai.graph import program as pg
     from tulpar_ai.store import Store, set_store
 
@@ -257,39 +259,54 @@ async def suite_draft(args) -> dict:
     await gw.start()
     set_gateway(gw)
     trainer = await gw.demo_user("trainer")
+    mode = get_settings().draft_mode
     rows, calls_all = [], []
-    for tg, req in DRAFT_REQUESTS[: args.limit or None]:
-        client = await store.demo_user_by_tg(tg)
-        p = await store.create_proposal(kind="program", client_id=client["id"], trainer_id=trainer.id, source="trainer",
-                                        request=req, status="drafting")
-        with llm.record() as calls:
-            t0 = time.perf_counter()
-            st = {"proposal_id": p["id"], "client_id": client["id"], "trainer_id": trainer.id, "request": req, "source": "trainer"}
-            st.update(await pg.load_context(st))
-            first_ok = None
-            while True:
-                st.update(await pg.draft(st))
-                st.update(await pg.validate(st))
-                errs = [v for v in st["violations"] if v["severity"] == "error"]
-                if first_ok is None:
-                    first_ok = not errs
-                if pg.after_validate(st) == "publish":
-                    break
-            ms = int((time.perf_counter() - t0) * 1000)
-        calls_all += calls
-        errs = [v for v in st["violations"] if v["severity"] == "error"]
-        cat = {e.id: e.model_dump() for e in gw.exercises()}
-        rows.append({"client": tg, "request": req, "ops": len(st["draft"]["ops"]), "drafts": st["draft_attempts"],
-                     "respected": request_respected(req, st["draft"]["ops"], cat),
-                     "first_try_valid": first_ok, "final_valid": not errs and bool(st["draft"]["ops"]),
-                     "errors": [e["code"] for e in errs], "warnings": [v["code"] for v in st["violations"] if v["severity"] == "warning"],
-                     "summary": st["draft"]["summary"][:200], "ms": ms})
+    for rep in range(max(1, getattr(args, "repeats", 1) or 1)):
+        for tg, req in DRAFT_REQUESTS[: args.limit or None]:
+            client = await store.demo_user_by_tg(tg)
+            p = await store.create_proposal(kind="program", client_id=client["id"], trainer_id=trainer.id,
+                                            source="trainer", request=req, status="drafting")
+            agent_log: list[dict] = []
+            with llm.record() as calls:
+                t0 = time.perf_counter()
+                st = {"proposal_id": p["id"], "client_id": client["id"], "trainer_id": trainer.id, "request": req,
+                      "source": "trainer"}
+                st.update(await pg.load_context(st))
+                first_ok = None
+                while True:
+                    st.update(await pg.run_draft(st))  # the node DRAFT_MODE selects, as in the graph
+                    agent_log += st.pop("agent_log", None) or []
+                    st.update(await pg.validate(st))
+                    errs = [v for v in st["violations"] if v["severity"] == "error"]
+                    if first_ok is None:
+                        first_ok = not errs
+                    if pg.after_validate(st) == "publish":
+                        break
+                ms = int((time.perf_counter() - t0) * 1000)
+            calls_all += calls
+            errs = [v for v in st["violations"] if v["severity"] == "error"]
+            cat = {e.id: e.model_dump() for e in gw.exercises()}
+            ag = draft_agent.stats(agent_log) if agent_log else {}
+            rows.append({"client": tg, "request": req, "rep": rep, "ops": len(st["draft"]["ops"]),
+                         "drafts": st["draft_attempts"], "respected": request_respected(req, st["draft"]["ops"], cat),
+                         "first_try_valid": first_ok, "final_valid": not errs and bool(st["draft"]["ops"]),
+                         "errors": [e["code"] for e in errs],
+                         "warnings": [v["code"] for v in st["violations"] if v["severity"] == "warning"],
+                         "llm_calls": len(calls), "tool_calls": ag.get("tool_calls", 0), "tools": ag.get("tools", {}),
+                         "rejected_finals": ag.get("rejected_finals", 0), "protocol_errors": ag.get("protocol_errors", 0),
+                         "fallbacks": sum(1 for c in calls if c["fallback"]),
+                         "agent_log": agent_log, "summary": st["draft"]["summary"][:200], "ms": ms})
     await store.close()
-    summary = {"n": len(rows), "first_try_valid": pct(r["first_try_valid"] for r in rows),
+    mean = lambda xs: round(statistics.mean(xs), 2) if xs else 0  # noqa: E731
+    summary = {"n": len(rows), "draft_mode": mode, "repeats": max(1, getattr(args, "repeats", 1) or 1),
+               "first_try_valid": pct(r["first_try_valid"] for r in rows),
                "final_valid": pct(r["final_valid"] for r in rows),
-               "avg_drafts": round(statistics.mean([r["drafts"] for r in rows]), 2) if rows else 0,
+               "avg_drafts": mean([r["drafts"] for r in rows]),
                "request_respected": pct(r["respected"] for r in rows),
-               "p50_ms": statistics.median([r["ms"] for r in rows]) if rows else 0, **usage_stats(calls_all)}
+               "llm_calls_per_request": mean([r["llm_calls"] for r in rows]),
+               "tool_calls_per_request": mean([r["tool_calls"] for r in rows]),
+               "p50_ms": statistics.median([r["ms"] for r in rows]) if rows else 0, "p95_ms": p95([r["ms"] for r in rows]),
+               **usage_stats(calls_all)}
     summary["gate"] = summary["final_valid"] >= 75
     return {"summary": summary, "rows": rows}
 
@@ -379,6 +396,7 @@ EXPERIMENTS = {
                                   {"answer_temperature": 0.7, "repeats": 3}]),
     "answer_top_p": ("qa", [{"answer_top_p": 0.9}, {"answer_top_p": 1.0}]),
     "route_temperature": ("router", [{"route_temperature": 0.0, "repeats": 3}, {"route_temperature": 0.7, "repeats": 3}]),
+    "draft_mode": ("draft", [{"draft_mode": "candidates"}, {"draft_mode": "agent"}]),
     "chunk_size": ("qa", [{"pdf_chunk": 400, "judge": False, "retrieval_only": True},
                           {"pdf_chunk": 800, "judge": False, "retrieval_only": True},
                           {"pdf_chunk": 1200, "judge": False, "retrieval_only": True}]),
@@ -387,7 +405,8 @@ EXPERIMENTS = {
 KEYS = {"router": ["n", "intent_accuracy", "escalation_recall", "false_escalation_rate", "stability", "p50_ms", "cost_usd"],
         "qa": ["n", "embedder", "rerank", "temperature", "top_p", "pdf_chunk", "hit_at_4", "mrr", "keyfact_accuracy",
                "correct_refusal_rate", "faithfulness_avg", "correctness_avg", "p50_ms", "out_tokens_p95", "cost_per_question_usd"],
-        "program": ["n", "exact_match"], "draft": ["n", "first_try_valid", "final_valid", "request_respected", "avg_drafts", "p50_ms", "cost_usd"],
+        "program": ["n", "exact_match"], "draft": ["n", "draft_mode", "first_try_valid", "final_valid", "request_respected", "avg_drafts",
+                  "llm_calls_per_request", "tool_calls_per_request", "p50_ms", "cost_usd"],
         "vision": ["n", "models", "top1", "top3", "errors", "p50_ms"]}
 
 
@@ -419,6 +438,7 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--top-p", type=float, dest="answer_top_p")
     ap.add_argument("--max-tokens", type=int, dest="answer_max_tokens")
     ap.add_argument("--route-temperature", type=float)
+    ap.add_argument("--draft-mode", choices=["agent", "candidates"])
     ap.add_argument("--pdf-chunk", type=int, default=400)
     ap.add_argument("--no-judge", dest="judge", action="store_false")
     ap.add_argument("--retrieval-only", action="store_true")

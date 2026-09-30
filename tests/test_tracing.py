@@ -79,6 +79,7 @@ def runs_by_trace(client: MagicMock) -> dict[str, list[dict]]:
 
 async def test_each_chat_turn_is_one_trace_with_all_its_external_calls(env, traced):
     from tulpar_ai.graph import runner
+    from tulpar_ai.graph.program import draft_node
     from tulpar_ai.rag.retrieve import set_index
 
     store, gw = await boot(env)
@@ -91,7 +92,8 @@ async def test_each_chat_turn_is_one_trace_with_all_its_external_calls(env, trac
             ({"text": "съел 200 г плова и чай"}, {"llm", "meal_text"}),
             ({"image": b"\xff\xd8fakejpeg"}, {"llm", "meal_photo"}),
             ({"audio": b"OggS-fake", "audio_name": "v.ogg"}, {"speech_to_text", "llm", "meal_text"}),
-            ({"text": "Замени, пожалуйста, упражнение в программе"}, {"llm", "program_request", "program_change", "draft"}),
+            ({"text": "Замени, пожалуйста, упражнение в программе"},
+             {"llm", "program_request", "program_change", draft_node()}),
         ]
         for kw, expected in turns:
             before = set(runs_by_trace(traced))

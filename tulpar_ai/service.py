@@ -7,7 +7,7 @@ from datetime import date
 from langsmith import traceable
 from langsmith.run_helpers import get_current_run_tree
 
-from . import feedback, guardrails, notify
+from . import feedback, guardrails, notify, tools
 from .gateway import get_gateway
 from .gateway.base import MealItem, PlanOp, User
 from .graph import runner
@@ -232,25 +232,8 @@ async def my_proposals(client: User) -> list[dict]:
 
 def search_exercises(q: str | None, muscle_group: str | None, equipment: str | None, avoid_text: str | None,
                      limit: int = 30) -> list[dict]:
-    from .skill import validator
-
-    v = validator()
-    hurt = v.body_parts(avoid_text) if avoid_text else set()
-    ql = (q or "").lower()
-    out = []
-    for e in get_gateway().exercises():
-        if ql and ql not in e.name.lower():
-            continue
-        if muscle_group and e.muscle_group != muscle_group:
-            continue
-        if equipment and e.equipment != equipment:
-            continue
-        if hurt & v.body_parts(e.contraindications):
-            continue
-        out.append(e.model_dump())
-        if len(out) >= limit:
-            break
-    return out
+    """/api/exercises (the MCP tool `search_exercises`): the same catalogue search the draft agent uses."""
+    return [e.model_dump() for e in tools.find_exercises(q, muscle_group, equipment, avoid_text)[:limit]]
 
 
 async def apply_ops_direct(trainer: User, client_id: str, ops: list[dict]) -> dict:  # used by tests/tools only
