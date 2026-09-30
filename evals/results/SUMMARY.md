@@ -372,3 +372,21 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | answer_v4_profile | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.806 | 88.2 | 100.0 | 4.85 | 4.48 | 3415.0 | 197 | 0.001072 |
+
+## draft_mode_candidates — 2026-09-30 12:02
+
+| arm | n | draft_mode | first_try_valid | final_valid | request_respected | avg_drafts | llm_calls_per_request | tool_calls_per_request | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|---|---|---|
+| mode_candidates | 18 | candidates | 61.1 | 88.9 | 100.0 | 1.61 | 1.61 | 0 | 7585.0 | 0.120723 |
+
+## router_route_v4 — 2026-09-30 12:05
+
+| arm | n | intent_accuracy | escalation_recall | false_escalation_rate | stability | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|
+| route_v4 | 70 | 100.0 | 100.0 | 0.0 | 98.6 | 1416.5 | 0.094602 |
+
+## draft_mode_agent — 2026-09-30 12:09
+
+| arm | n | draft_mode | first_try_valid | final_valid | request_respected | avg_drafts | llm_calls_per_request | tool_calls_per_request | p50_ms | cost_usd |
+|---|---|---|---|---|---|---|---|---|---|---|
+| mode_agent | 18 | agent | 88.9 | 100.0 | 100.0 | 1.11 | 4.5 | 5.44 | 18874.5 | 0.262409 |

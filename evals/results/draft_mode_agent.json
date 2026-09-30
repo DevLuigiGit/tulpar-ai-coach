@@ -1,0 +1,1400 @@
+{
+ "summary": {
+  "n": 18,
+  "draft_mode": "agent",
+  "repeats": 2,
+  "first_try_valid": 88.9,
+  "final_valid": 100.0,
+  "avg_drafts": 1.11,
+  "request_respected": 100.0,
+  "llm_calls_per_request": 4.5,
+  "tool_calls_per_request": 5.44,
+  "p50_ms": 18874.5,
+  "p95_ms": 54266,
+  "llm_calls": 81,
+  "tokens_in": 419661,
+  "tokens_out": 18746,
+  "cost_usd": 0.262409,
+  "fallbacks": 0,
+  "gate": true
+ },
+ "rows": [
+  {
+   "client": "demo-student",
+   "request": "Колено беспокоит: замени приседания и выпады на щадящие упражнения",
+   "rep": 0,
+   "ops": 2,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 4,
+   "tool_calls": 5,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": "machine"
+     },
+     "found": 3
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 2,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 4,
+     "action": "final",
+     "ops": 2,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В день «Ноги» приседания со штангой меняем на разгибания ног в тренажёре, румынскую тягу — на гуд-морнинг. Жим ногами оставляем с пометкой про неполную амплитуду.",
+   "ms": 19789
+  },
+  {
+   "client": "demo-student",
+   "request": "Убери из программы упражнения, опасные для больного колена, и замени на щадящие",
+   "rep": 0,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 6,
+   "tool_calls": 7,
+   "tools": {
+    "check_plan": 1,
+    "get_client_context": 1,
+    "search_exercises": 5
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": "machine"
+     },
+     "found": 3
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "разгибания",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 1
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": false,
+     "errors": [
+      "E_OP_FIELDS"
+     ]
+    },
+    {
+     "step": 5,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": "machine"
+     },
+     "found": 3
+    },
+    {
+     "step": 6,
+     "action": "final",
+     "ops": 1
+    }
+   ],
+   "summary": "В день Legs: приседания со штангой заменяю на безопасную альтернативу — жим ногами узкой постановкой; приседания в смите оставляю как ещё одну опцию. По жиму ногам нужен комментарий тренера — он проти",
+   "ms": 35698
+  },
+  {
+   "client": "demo-student",
+   "request": "Добавь кардио в конец дня ног, 1 упражнение",
+   "rep": 0,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 3,
+   "tool_calls": 4,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "Добавляю в конец дня ног кардио — гребной тренажёр, который не нагружает колено.",
+   "ms": 9877
+  },
+  {
+   "client": "demo-student",
+   "request": "Клиент устаёт: уменьши объём в тяговом дне на один подход",
+   "rep": 0,
+   "ops": 5,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 3,
+   "tool_calls": 3,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 5,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 5,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В тяговом дне уменьшаю по 1 подходу во всех упражнениях: становая тяга и подтягивания 3× (было 4×6 и 3×8), тяга штанги в наклоне, тяга верхнего блока и подъём штанги на бицепс — 2× (было 3×).",
+   "ms": 11595
+  },
+  {
+   "client": "demo-student",
+   "request": "Замени жим штанги лёжа на вариант с гантелями",
+   "rep": 0,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 3,
+   "tool_calls": 4,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "жим гантел",
+      "muscle_group": "грудь",
+      "equipment": ""
+     },
+     "found": 3
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В дне Push заменяем жим штанги лёжа на жим гантелей лёжа, остальные упражнения не трогаем.",
+   "ms": 10119
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Тренируется дома: замени всё, что требует тренажёров или штанги",
+   "rep": 0,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "llm_calls": 3,
+   "tool_calls": 5,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "мост",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 2
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "мост",
+      "muscle_group": "ягодиц",
+      "equipment": ""
+     },
+     "found": 0
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В понедельнике ягодичный мост со штангой заменён на ягодичный мостик без инвентаря — остальные упражнения в плане уже подходят для дома (без тренажёров и штанги).",
+   "ms": 10479
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Добавь упражнение на пресс во второй день",
+   "rep": 0,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "llm_calls": 4,
+   "tool_calls": 4,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "пресс",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 4,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В среду добавляю обратные скручивания 3×15 — упражнение на пресс без инвентаря, подходит для занятий дома.",
+   "ms": 8601
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Хочет больше кардио: добавь по одному кардио-упражнению в каждый день",
+   "rep": 0,
+   "ops": 3,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL",
+    "W_VOLUME_LEVEL",
+    "W_VOLUME_LEVEL"
+   ],
+   "llm_calls": 4,
+   "tool_calls": 5,
+   "tools": {
+    "check_plan": 3,
+    "get_client_context": 1,
+    "search_exercises": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": false,
+     "errors": [
+      "E_VOLUME",
+      "E_VOLUME",
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 4,
+     "action": "final",
+     "ops": 3,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В каждый из трёх тренировочных дней добавляем по одному кардио-упражнению — «Джампинг-джек» 3×25 (своим весом, подходит для дома). Упражнение встаёт последним в дне.",
+   "ms": 14206
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Сделай первый день чуть легче для новичка",
+   "rep": 0,
+   "ops": 5,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL"
+   ],
+   "llm_calls": 5,
+   "tool_calls": 8,
+   "tools": {
+    "check_plan": 3,
+    "get_client_context": 1,
+    "search_exercises": 4
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "присед",
+      "muscle_group": "ноги",
+      "equipment": "bodyweight"
+     },
+     "found": 0
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "присед",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 7
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "грудь",
+      "equipment": ""
+     },
+     "found": 13
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "пресс",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 5,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 5,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 5,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В Понедельнике снижаем объём у всех пяти упражнений с 3 подходов до 2, а повторения у воздушных приседаний, ягодичного моста и скручиваний — с 15 до 12, у отжиманий с колен — с 10 до 8, у планки — с 4",
+   "ms": 24085
+  },
+  {
+   "client": "demo-student",
+   "request": "Колено беспокоит: замени приседания и выпады на щадящие упражнения",
+   "rep": 1,
+   "ops": 2,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 5,
+   "tool_calls": 5,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 1,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "invalid",
+     "error": "нет поля \"action\""
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 2,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 2,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В день «Ноги» заменяю приседания со штангой на жим ногами узкой постановкой (без осевой нагрузки на колено), а румынскую тягу — на отведение ноги назад в кроссовере (щадящая работа для задней поверхно",
+   "ms": 19395
+  },
+  {
+   "client": "demo-student",
+   "request": "Убери из программы упражнения, опасные для больного колена, и замени на щадящие",
+   "rep": 1,
+   "ops": 2,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 4,
+   "tool_calls": 5,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 4,
+     "action": "final",
+     "ops": 2,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В день Legs меняем приседания со штангой на приседания в смите (контролируемая амплитуда, щадит левое колено), румынскую тягу — на боковые выпады (без глубокого сгибания колена). Жим ногами оставляем ",
+   "ms": 19748
+  },
+  {
+   "client": "demo-student",
+   "request": "Добавь кардио в конец дня ног, 1 упражнение",
+   "rep": 1,
+   "ops": 1,
+   "drafts": 2,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 11,
+   "tool_calls": 12,
+   "tools": {
+    "check_plan": 8,
+    "get_client_context": 2,
+    "search_exercises": 2
+   },
+   "rejected_finals": 3,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ],
+     "auto_check": true
+    },
+    {
+     "step": 6,
+     "action": "final",
+     "ops": 1
+    },
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ],
+     "auto_check": true
+    },
+    {
+     "step": 4,
+     "action": "final",
+     "ops": 1,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ],
+     "auto_check": true
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "Добавляем в конец дня ног кардио на гребном тренажёре (4×5 минут) — нагружает верх тела, не давит на колено и есть в зале. Тренировка на ноги удлинится на одно упражнение.",
+   "ms": 54266
+  },
+  {
+   "client": "demo-student",
+   "request": "Клиент устаёт: уменьши объём в тяговом дне на один подход",
+   "rep": 1,
+   "ops": 5,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 3,
+   "tool_calls": 3,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 5,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 5,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В тяговом дне уменьшил на 1 подход каждое упражнение: становая тяга 3×6, подтягивания 2×8, тяга штанги в наклоне 2×10, тяга верхнего блока к груди 2×12, подъём штанги на бицепс 2×12.",
+   "ms": 18354
+  },
+  {
+   "client": "demo-student",
+   "request": "Замени жим штанги лёжа на вариант с гантелями",
+   "rep": 1,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_REMAINING_CONTRA",
+    "W_REMAINING_CONTRA"
+   ],
+   "llm_calls": 3,
+   "tool_calls": 4,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "жим гантелей",
+      "muscle_group": "грудь",
+      "equipment": ""
+     },
+     "found": 3
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В день «Push» заменяю жим штанги лёжа на жим гантелей лёжа, объём оставляю 4×8.",
+   "ms": 7770
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Тренируется дома: замени всё, что требует тренажёров или штанги",
+   "rep": 1,
+   "ops": 1,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "llm_calls": 5,
+   "tool_calls": 8,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 1,
+    "search_exercises": 5
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "мост",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 2
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": "bodyweight"
+     },
+     "found": 0
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "ноги",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "грудь",
+      "equipment": ""
+     },
+     "found": 13
+    },
+    {
+     "step": 3,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "пресс",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В Понедельнике заменяю «Ягодичный мост со штангой» на «Ягодичный мостик» без инвентаря.",
+   "ms": 44291
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Добавь упражнение на пресс во второй день",
+   "rep": 1,
+   "ops": 1,
+   "drafts": 2,
+   "respected": true,
+   "first_try_valid": false,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [],
+   "llm_calls": 5,
+   "tool_calls": 6,
+   "tools": {
+    "check_plan": 2,
+    "get_client_context": 2,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "пресс",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "final",
+     "ops": 0
+    },
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "пресс",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 1,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 3,
+     "action": "final",
+     "ops": 1,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "Добавляю V-складку в среду: 3×12.",
+   "ms": 13748
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Хочет больше кардио: добавь по одному кардио-упражнению в каждый день",
+   "rep": 1,
+   "ops": 3,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL",
+    "W_VOLUME_LEVEL",
+    "W_VOLUME_LEVEL"
+   ],
+   "llm_calls": 5,
+   "tool_calls": 6,
+   "tools": {
+    "check_plan": 3,
+    "get_client_context": 1,
+    "search_exercises": 2
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 0,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 1,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": "bodyweight"
+     },
+     "found": 3
+    },
+    {
+     "step": 2,
+     "action": "search_exercises",
+     "tool": "search_exercises",
+     "args": {
+      "query": "",
+      "muscle_group": "кардио",
+      "equipment": ""
+     },
+     "found": 15
+    },
+    {
+     "step": 3,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": false,
+     "errors": [
+      "E_VOLUME",
+      "E_VOLUME",
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 3,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 3,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "Добавляю по одному кардио-упражнению в начало каждого дня: джампинг-джек в понедельник, high knees в среду, конькобежец в пятницу — 3×25.",
+   "ms": 22399
+  },
+  {
+   "client": "demo-student-2",
+   "request": "Сделай первый день чуть легче для новичка",
+   "rep": 1,
+   "ops": 4,
+   "drafts": 1,
+   "respected": true,
+   "first_try_valid": true,
+   "final_valid": true,
+   "errors": [],
+   "warnings": [
+    "W_VOLUME_LEVEL"
+   ],
+   "llm_calls": 5,
+   "tool_calls": 4,
+   "tools": {
+    "check_plan": 3,
+    "get_client_context": 1
+   },
+   "rejected_finals": 0,
+   "protocol_errors": 1,
+   "fallbacks": 0,
+   "agent_log": [
+    {
+     "step": 1,
+     "action": "get_client_context",
+     "tool": "get_client_context"
+    },
+    {
+     "step": 2,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 4,
+     "ok": false,
+     "errors": [
+      "E_VOLUME"
+     ]
+    },
+    {
+     "step": 3,
+     "action": "invalid",
+     "error": "неизвестное действие 'set_volume'; допустимые: get_client_context, search_exercises, check_plan, final"
+    },
+    {
+     "step": 4,
+     "action": "check_plan",
+     "tool": "check_plan",
+     "ops": 4,
+     "ok": true,
+     "errors": []
+    },
+    {
+     "step": 5,
+     "action": "final",
+     "ops": 4,
+     "ok": true,
+     "errors": [],
+     "auto_check": true
+    }
+   ],
+   "summary": "В Понедельнике снижаю объём у 4 упражнений: приседания, мост, планка и скручивания — повторы уменьшены, чтобы тренировка была легче для новичка.",
+   "ms": 20972
+  }
+ ]
+}
