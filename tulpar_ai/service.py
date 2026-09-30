@@ -27,13 +27,14 @@ def _turn_inputs(inputs: dict) -> dict:
 
 @traceable(run_type="chain", name="chat_turn", process_inputs=_turn_inputs)
 async def chat_turn(user: User, text: str = "", image: bytes | None = None, audio: bytes | None = None,
-                    audio_name: str = "voice.ogg") -> dict:
+                    audio_name: str = "voice.ogg", lang_hint: str | None = None) -> dict:
     """One client message → graph → stored reply. The reply carries `message_id` so the client can rate it;
     the LangSmith run id (when tracing is on) goes into the stored payload to attach 👍/👎 to the trace."""
     store = get_store()
     shown = text or ("[фото]" if image else "[голосовое]" if audio else "")
     await store.add_message(user.id, "user", shown, {"has_photo": bool(image), "has_audio": bool(audio)})
-    res = await runner.run_chat_turn(user.id, text=text, image=image, audio=audio, audio_name=audio_name)
+    res = await runner.run_chat_turn(user.id, text=text, image=image, audio=audio, audio_name=audio_name,
+                                     lang_hint=lang_hint)
     res = await _guard_output(user, text or res.get("transcript") or shown, res)
     reply = {
         "reply": res.get("reply") or "…",
@@ -47,6 +48,8 @@ async def chat_turn(user: User, text: str = "", image: bytes | None = None, audi
     }
     if res.get("guard"):
         reply["guard"] = res["guard"]
+    if res.get("transcript") is not None and res.get("stt_language"):
+        reply["stt_language"] = res["stt_language"]
     rt = get_current_run_tree()
     payload = {k: v for k, v in reply.items() if k != "reply"} | {
         "run_id": str(rt.id) if rt else None, "run_project": getattr(rt, "session_name", None) if rt else None}
@@ -190,6 +193,14 @@ async def request_change(trainer: User, client_id: str, request: str) -> dict:
     return await runner.new_program_proposal(client_id, trainer.id, request, source="trainer")
 
 
+class AlreadyDecided(ValueError):
+    """The trainer acted on a card that was already decided elsewhere (the web cabinet, the bot, another chat)."""
+
+    def __init__(self, status: str):
+        super().__init__(f"proposal is {status}, not waiting for a decision")
+        self.status = status
+
+
 async def decide(trainer: User, pid: str, action: str, comment: str | None = None) -> dict:
     store = get_store()
     p = await store.get_proposal(pid)
@@ -198,12 +209,13 @@ async def decide(trainer: User, pid: str, action: str, comment: str | None = Non
     if p["trainer_id"] != trainer.id:
         raise PermissionError("not your proposal")
     if p["status"] != "pending":
-        raise ValueError(f"proposal is {p['status']}, not pending")
+        raise AlreadyDecided(p["status"])
     if action not in ("accept", "reject", "edit"):
         raise ValueError("action must be accept, reject or edit")
     if action == "edit":
         _screen_trainer_text(comment)
-        await store.update_proposal(pid, status="drafting", decision={"action": "edit", "comment": comment})
+        edited = await store.update_proposal(pid, status="drafting", decision={"action": "edit", "comment": comment})
+        await notify.proposal_status(edited or {"id": pid, "status": "drafting"})
         runner.spawn(runner.resume_program(pid, "edit", comment))
     else:
         await runner.resume_program(pid, action, comment)
@@ -217,7 +229,10 @@ async def resolve_escalation(trainer: User, eid: str, reply: str | None) -> dict
         raise LookupError("escalation not found")
     if e["trainer_id"] != trainer.id:
         raise PermissionError("not your client")
-    await store.update_proposal(eid, status="resolved", reply=reply or None)
+    if e["status"] != "open":  # closed elsewhere: a second reply would reach the client twice
+        raise AlreadyDecided(e["status"])
+    resolved = await store.update_proposal(eid, status="resolved", reply=reply or None)
+    await notify.proposal_status(resolved or {"id": eid, "status": "resolved", "reply": reply})
     if reply:
         text = f"Тренер ответил: {reply}"
         await store.add_message(e["client_id"], "assistant", text, {"kind": "trainer_reply"})

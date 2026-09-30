@@ -108,6 +108,7 @@ export default function MealCard({ card, initiallyLogged = false, onLogged }: Me
               value={grams[i]}
               grams={parsed[i]}
               askGrams={item.grams_source === "default" && !touched[i]}
+              estimated={item.grams_source === "estimate" && !touched[i]}
               disabled={done || saving}
               onChange={(v) => setAt(i, v)}
             />

@@ -8,6 +8,8 @@ interface TelegramWebApp {
   initData: string;
   initDataUnsafe?: { user?: { id: number; first_name?: string } };
   version?: string;
+  platform?: string;
+  isFullscreen?: boolean;
   ready(): void;
   expand(): void;
   close(): void;
@@ -15,6 +17,10 @@ interface TelegramWebApp {
   disableVerticalSwipes?(): void;
   setHeaderColor?(color: string): void;
   setBackgroundColor?(color: string): void;
+  setBottomBarColor?(color: string): void;
+  requestFullscreen?(): void;
+  lockOrientation?(): void;
+  onEvent?(event: string, cb: () => void): void;
 }
 
 declare global {
@@ -25,6 +31,8 @@ declare global {
 
 const TG_USER_KEY = "tac_tg_user";
 const BG = "#0B0B0C";
+/** Полный экран — только на телефоне: в Telegram Desktop он разворачивает окно на весь монитор. */
+const PHONES = new Set(["ios", "android", "android_x"]);
 
 /** WebApp, только если страница реально открыта из Telegram (initData не пустая). */
 export function telegramApp(): TelegramWebApp | null {
@@ -59,11 +67,28 @@ export function startTelegram(): void {
       app.setHeaderColor?.(BG);
       app.setBackgroundColor?.(BG);
     }
+    if (at("7.10")) app.setBottomBarColor?.(BG);
     // Иначе свайп вниз по ленте чата сворачивает приложение.
     if (at("7.7")) app.disableVerticalSwipes?.();
+    fullscreen(app, at);
   } catch {
     /* старый клиент Telegram — работаем как обычная страница */
   }
+}
+
+/**
+ * Полный экран (Bot API 8.0): приложение занимает весь экран телефона, шапки Telegram нет — его кнопки «Закрыть»
+ * и «⋯» парят поверх нашей шапки. Класс tg-fullscreen включает раскладку под них (telegram.css) и снимается,
+ * если пользователь вышел из полного экрана. Ориентация закрепляется: чат при повороте не перестраивается.
+ */
+function fullscreen(app: TelegramWebApp, at: (v: string) => boolean): void {
+  const root = document.documentElement;
+  const sync = () => root.classList.toggle("tg-fullscreen", !!app.isFullscreen);
+  app.onEvent?.("fullscreenChanged", sync);
+  sync();
+  if (!at("8.0") || !PHONES.has(app.platform ?? "")) return;
+  app.requestFullscreen?.();
+  app.lockOrientation?.();
 }
 
 /** Масштаб в Mini App не нужен: щипок или двойной тап увеличивают страницу, и вёрстка уезжает вбок.

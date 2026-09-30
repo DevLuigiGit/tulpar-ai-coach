@@ -1,0 +1,221 @@
+{
+ "synthetic": true,
+ "notice": "Синтетические пользователи — LLM-персоны, не реальные люди; это нагрузочно-поведенческий тест, а не отзывы клиентов.",
+ "run": {
+  "started": "2026-09-29T16:30:46+00:00",
+  "duration_s": 28.9,
+  "base": "http://localhost:8095",
+  "seed": 7,
+  "dialogs_requested": 1,
+  "max_turns_per_dialog": 2,
+  "max_persona_turns": 4,
+  "persona_models": [
+   "kimi-k2.6",
+   "deepseek-v4.1-flash"
+  ],
+  "product_model_not_used_for_personas": "minimax-m3",
+  "accounts": "distinct: one demo client per dialog, created in the service's SQLite with DemoGateway.telegram_user (the per-Telegram-tester copy) and adjusted to the persona; requests via X-Internal-Secret + X-Act-As",
+  "service_langsmith_project": "tulpar-ai-coach-sim",
+  "seed_note": "seed picks the order/subset of personas; LLM sampling itself is not seeded"
+ },
+ "dialogs": 1,
+ "client_messages": 2,
+ "client_messages_ok": 2,
+ "voice_messages": 1,
+ "persona_turns_used": 2,
+ "intents": {
+  "meal_text": 2
+ },
+ "kinds": {
+  "meal_card": 2
+ },
+ "questions": {
+  "by_router_intent": {
+   "n": 0,
+   "answered": 0,
+   "answered_pct": null,
+   "answered_with_citations": 0
+  },
+  "by_scenario_beat": {
+   "n": 0,
+   "answered": 0,
+   "answered_pct": null
+  }
+ },
+ "expectations": {
+  "checked": 2,
+  "met": 2,
+  "met_pct": 100.0
+ },
+ "escalations": {
+  "n": 0,
+  "justified_by_client_persona": 0,
+  "not_justified_by_client_persona": 0,
+  "resolved_by_trainer_persona": 0,
+  "justified_by_trainer_persona": 0,
+  "items": []
+ },
+ "simulated_feedback": {
+  "rated": 2,
+  "sent_ok": 2,
+  "up": 1,
+  "down": 1,
+  "up_pct": 50.0,
+  "by_persona": {
+   "parent": {
+    "up": 1,
+    "down": 1,
+    "up_pct": 50.0
+   }
+  },
+  "langsmith": {
+   "queued": 2
+  },
+  "comment_prefix": "[симуляция]"
+ },
+ "latency_s": {
+  "n": 2,
+  "p50": 3.58,
+  "p95": 4.89,
+  "max": 4.89,
+  "mean": 3.58,
+  "p50_by_kind": {
+   "meal_card": 3.58
+  }
+ },
+ "answer_cache": {
+  "visible": true,
+  "project": "tulpar-ai-coach-sim",
+  "cache_lookups": 0,
+  "hits": 0,
+  "hit_rate_pct": null,
+  "scores": []
+ },
+ "meals": {
+  "cards": 2,
+  "confirmed": 2,
+  "items_with_default_grams": 2,
+  "unknown_items": 0
+ },
+ "trainer": {
+  "items_handled": 0,
+  "decisions": {},
+  "program_final_status": {},
+  "items": []
+ },
+ "persona_llm": {
+  "models": [
+   "kimi-k2.6",
+   "deepseek-v4.1-flash"
+  ],
+  "calls": 3,
+  "failed_attempts": 0,
+  "answered_by": {
+   "kimi-k2.6": 3
+  },
+  "p50_ms": 6580.0
+ },
+ "http_429_retries": 0,
+ "errors": [],
+ "problems": [
+  {
+   "persona": "parent",
+   "turn": 1,
+   "message": "короче с утра доела за детьми кашу грамм сто и кофе с сахаром две ложки",
+   "transcript": null,
+   "reply": "Нашёл 3 поз., всего ≈ 145 ккал: • Манная каша: 100 г ≈ 80 ккал • Кофе чёрный без сахара: 150 г ≈ 3 ккал — уточните граммы • Сахар: 16 г ≈ 62 ккал Проверьте граммы и нажмите «Записать».",
+   "kind": "meal_card",
+   "intent": "meal_text",
+   "notes": [
+    "👎 персоны (misunderstood): коуч не понял что кофе был с сахаром а не отдельно и придумал 150 г черного кофе которых не было"
+   ]
+  }
+ ],
+ "dialogues": [
+  {
+   "persona": "parent",
+   "name": "Айгерим (синт.)",
+   "goal": "быстро записывать еду и понять, как тренироваться дома по 20 минут",
+   "turns": [
+    {
+     "persona": "parent",
+     "turn": 1,
+     "beat": "записать завтрак с опечатками: доела за детьми кашу грамм 100 и кофе с сахаром две ложки",
+     "expect": [
+      "meal_card"
+     ],
+     "message": "короче с утра доела за детьми кашу грамм сто и кофе с сахаром две ложки",
+     "message_scripted_fallback": false,
+     "voice": false,
+     "transcript": null,
+     "reply": "Нашёл 3 поз., всего ≈ 145 ккал:\n• Манная каша: 100 г ≈ 80 ккал\n• Кофе чёрный без сахара: 150 г ≈ 3 ккал — уточните граммы\n• Сахар: 16 г ≈ 62 ккал\n\nПроверьте граммы и нажмите «Записать».",
+     "kind": "meal_card",
+     "intent": "meal_text",
+     "guard": null,
+     "citations_n": 0,
+     "latency_s": 2.28,
+     "message_id": 2,
+     "proposal_id": null,
+     "escalation_id": null,
+     "expectation_ok": true,
+     "meal": {
+      "items": [
+       "Манная каша 100 г",
+       "Кофе чёрный без сахара 150 г",
+       "Сахар 16 г"
+      ],
+      "unknown": [],
+      "default_grams": 1,
+      "logged": 3,
+      "total_kcal": 145
+     },
+     "rating": "down",
+     "reason": "коуч не понял что кофе был с сахаром а не отдельно и придумал 150 г черного кофе которых не было",
+     "issue": "misunderstood",
+     "escalation_justified": null,
+     "feedback_http": 200,
+     "feedback_langsmith": "queued"
+    },
+    {
+     "persona": "parent",
+     "turn": 2,
+     "beat": "надиктовать голосом обед: тарелка чечевичного супа и кусок хлеба",
+     "expect": [
+      "meal_card"
+     ],
+     "message": "ну короче обед у меня тарелка чечевичного супа так нормальная и кусок хлеба белого ну грамм может пятьдесят",
+     "message_scripted_fallback": false,
+     "voice": true,
+     "transcript": "Ну короче, обед у меня тарелка чечевичного супа, так нормальная, и кусок хлеба белого, ну грамм может 50.",
+     "reply": "Нашёл 2 поз., всего ≈ 230 ккал:\n• Чечевичный суп-пюре готовый: 150 г ≈ 98 ккал — уточните граммы\n• Хлеб белый: 50 г ≈ 132 ккал\n\nПроверьте граммы и нажмите «Записать».",
+     "kind": "meal_card",
+     "intent": "meal_text",
+     "guard": null,
+     "citations_n": 0,
+     "latency_s": 4.89,
+     "message_id": 5,
+     "proposal_id": null,
+     "escalation_id": null,
+     "expectation_ok": true,
+     "meal": {
+      "items": [
+       "Чечевичный суп-пюре готовый 150 г",
+       "Хлеб белый 50 г"
+      ],
+      "unknown": [],
+      "default_grams": 1,
+      "logged": 2,
+      "total_kcal": 230
+     },
+     "rating": "up",
+     "reason": "нормально понял суп и хлеб граммы примерно угадал тарелка как 150 г нормально для обычной тарелки супа",
+     "issue": "none",
+     "escalation_justified": null,
+     "feedback_http": 200,
+     "feedback_langsmith": "queued"
+    }
+   ],
+   "synthetic": true
+  }
+ ]
+}

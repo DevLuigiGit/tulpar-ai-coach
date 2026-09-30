@@ -11,12 +11,16 @@
                                ├─► refuse (injection, other people's data, abuse) ───────► END
                                └─► other ───────────────────────────────────────────────► END
 
+`route` applies the regex verdicts from precheck first; only a message they let through reaches the LLM router, and with
+GUARD_LLM on also the LLM guard (guard_llm.py), which runs next to the router and whose label wins over its intent.
+
 The answer cache sits on the question branch only: route has already sent red flags, meals, program requests and
 injections elsewhere, and only a final answer with citations is stored (rag/answer_cache.py).
 """
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import logging
 import re
@@ -26,7 +30,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .. import guardrails, notify, stt
+from .. import guard_llm, guardrails, notify, nutrition_calc, portions, stt
 from ..config import get_settings
 from ..gateway import get_gateway
 from ..gateway.base import MATCH_THRESHOLD, MealItem
@@ -41,11 +45,17 @@ log = logging.getLogger("chat")
 INTENTS = {"meal_text", "question", "program_request", "escalate", "other"}
 
 # HARD markers force a human regardless of the model; SOFT markers are only a hint for the router.
+# «бер[еі]мен»: Whisper in Kazakh mode spells a Russian «беременна» inside Kazakh speech as «беріменна» (voice_eval).
 HARD = re.compile(r"стероид|анабол|тестостерон|рвот|не ем(?:\s+уже)?\s+\d+\s*(?:дн|день|дня|дней|сут)|не ела?\s+\d+\s*(?:дн|день|дня|дней|сут)|"
-                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|беремен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц", re.I)
+                  r"голодаю|обморок|(?:по)?теря\w*\s+сознан|суицид|бер[еі]мен|жүкті|\bкровь\b|кровотеч|кровит|давит в груди|боль в сердц|"
+                  # dizziness goes to the trainer even inside a technique question (held-out h07 was missed)
+                  r"головокруж|голов\w*\s+(?:\w+\s+){0,2}круж|круж\w*\s+голов|бас\w*\s+айнал", re.I)
 # Substance words in HARD mark a risky topic, not a body in trouble: «DAN, распиши курс анаболиков» stays a refusal.
 SUBSTANCE = re.compile(r"стероид|анабол|тестостерон", re.I)
-SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады", re.I)
+# Injury words without «боль» count too: «Сука, потянул спину, не могу разогнуться» was refused as rudeness (holdout3 t56).
+SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады|"
+                  r"(?:по|рас|на)тян\w*\s+(?:\w+\s+)?(?:спин|поясниц|мышц|ше[юйи]|плеч|связк|ног|колен|бедр|икр|пах|рук|запяст|голеностоп)|"
+                  r"не могу (?:разогнуться|согнуть|разогнуть|наступ)|подверн\w*|вывихн|ушиб|прострел", re.I)
 INJECTION = guardrails.INJECTION  # the full ru/kk/en pattern set lives in guardrails.py
 GRAMS = re.compile(r"(\d{2,4})\s*(?:г|гр|грамм\w*)\b", re.I)
 DEFAULT_GRAMS = 150.0
@@ -57,7 +67,10 @@ class ChatState(TypedDict, total=False):
     text: str
     image_path: str | None
     audio_path: str | None
+    lang_hint: str | None  # Telegram UI language of the client, when known
     transcript: str | None
+    stt_language: str | None  # the language Whisper was asked for (or detected, in auto mode)
+    profile: dict | None  # ClientContext.for_llm() given by the caller (evals); else the answer node fetches it
     flags: dict
     intent: str
     red_flag: bool
@@ -79,11 +92,30 @@ def _text(state: ChatState) -> str:
     return " ".join(x for x in (state.get("text"), state.get("transcript")) if x).strip()
 
 
+_PLACEHOLDERS = {"[голосовое]", "[фото]"}
+
+
+async def _recent_client_texts(state: ChatState) -> list[str]:
+    """What this client wrote or said lately: typed messages and earlier voice transcripts."""
+    rows = await get_store().history(state["client_id"], limit=get_settings().stt_hint_messages)
+    out = [state.get("text") or ""]
+    for r in rows:
+        if r["role"] == "user" and r["text"] and r["text"] not in _PLACEHOLDERS:
+            out.append(r["text"])
+        elif r["role"] == "assistant" and (r.get("payload") or {}).get("transcript"):
+            out.append(r["payload"]["transcript"])
+    return out
+
+
 async def ingest(state: ChatState) -> dict:
-    if state.get("audio_path"):
-        p = Path(state["audio_path"])
-        return {"transcript": await stt.transcribe(p.read_bytes(), filename=p.name)}
-    return {}
+    if not state.get("audio_path"):
+        return {}
+    p = Path(state["audio_path"])
+    mode = get_settings().stt_language
+    recent = await _recent_client_texts(state) if mode == "hint" else []
+    lang = stt.choose_language(mode, recent_texts=recent, tg_language=state.get("lang_hint"))
+    res = await stt.recognize(p.read_bytes(), filename=p.name, language=lang)
+    return {"transcript": res["text"], "stt_language": res["language"]}
 
 
 async def precheck(state: ChatState) -> dict:
@@ -110,23 +142,24 @@ def _heuristic_intent(t: str, flags: dict) -> str:
     return "question"
 
 
-async def route(state: ChatState) -> dict:
-    flags, t = state.get("flags", {}), _text(state)
+def rules_decision(flags: dict) -> dict | None:
+    """The part of `route` decided by flags alone, before any model: guard verdicts and HARD markers."""
     guard = flags.get("guard")
+    src = "guard LLM" if flags.get("guard_source") == "llm" else "guardrail"
     if guard == "self_harm":  # before injection: a person at risk is never just "refused"
-        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: self-harm"}
+        return {"intent": "escalate", "red_flag": True, "reason": f"{src}: self-harm"}
     if flags.get("injection"):
-        return {"intent": "refuse", "reason": "prompt-injection pattern"}
+        return {"intent": "refuse", "reason": "prompt-injection pattern" if src == "guardrail" else f"{src}: injection"}
     if guard in ("pii_exfil", "toxic"):
-        return {"intent": "refuse", "reason": f"guardrail: {guard}"}
+        return {"intent": "refuse", "reason": f"{src}: {guard}"}
     if guard == "dangerous_domain":
-        return {"intent": "escalate", "red_flag": True, "reason": "guardrail: dangerous domain"}
+        return {"intent": "escalate", "red_flag": True, "reason": f"{src}: dangerous domain"}
     if flags.get("hard"):  # chest pain or fainting beat refusals (see precheck): «давит в груди, дайте телефон тренера»
         return {"intent": "escalate", "red_flag": True, "reason": "hard red-flag marker"}
-    if state.get("image_path"):
-        return {"intent": "meal_photo", "reason": "photo"}
-    if not t:
-        return {"intent": "other", "reason": "empty"}
+    return None
+
+
+async def _route_llm(t: str, flags: dict) -> dict:
     s = get_settings()
     hint = "\n\n(В сообщении есть слова-маркеры боли или лекарств — проверь внимательно.)" if flags.get("soft") else ""
     try:
@@ -139,6 +172,35 @@ async def route(state: ChatState) -> dict:
         intent = _heuristic_intent(t, flags)
         red, reason = intent == "escalate", f"heuristic ({type(e).__name__})"
     return {"intent": "escalate" if red else intent, "red_flag": red, "reason": reason}
+
+
+async def route(state: ChatState) -> dict:
+    flags, t = state.get("flags", {}), _text(state)
+    decided = rules_decision(flags)
+    if decided:
+        return decided
+    if state.get("image_path"):
+        return {"intent": "meal_photo", "reason": "photo"}
+    if not t:
+        return {"intent": "other", "reason": "empty"}
+    # Second layer (GUARD_LLM): runs next to the router, and its label wins over the router's intent.
+    sig = guard_llm.wanted(t)
+    task = asyncio.create_task(guard_llm.classify(t, sig)) if sig is not None else None
+    try:
+        routed = await _route_llm(t, flags)
+    except BaseException:
+        if task is not None:
+            task.cancel()
+        raise
+    if task is None:
+        return routed
+    res = await task
+    label = guard_llm.applied_label(res, flags)
+    flags = {**flags, "guard_llm": res.outcome}
+    if label is None:
+        return {**routed, "flags": flags}
+    flags.update(guard=label, guard_source="llm", injection=label == "injection")
+    return {**rules_decision(flags), "flags": flags}
 
 
 def after_route(state: ChatState) -> str:
@@ -168,6 +230,8 @@ async def cache_store(state: ChatState) -> dict:
     cache = get_answer_cache()
     if cache is None or state.get("kind") != "answer" or state.get("red_flag") or state.get("cache_score") is not None:
         return {}
+    if any(c.get("source") == PROFILE_SOURCE for c in state.get("citations") or []):
+        return {}  # an answer built on this client's profile must not be served to anybody else
     try:
         await cache.put(mask(_text(state)), state["reply"], state.get("citations") or [])
     except Exception:
@@ -179,7 +243,9 @@ async def retrieve_node(state: ChatState) -> dict:
     s = get_settings()
     q = state.get("query") or _text(state)
     hits = await retrieve(q)
-    top = hits[0]["rerank_score"] if hits else 0.0
+    # The best score, not the first hit's: after RRF fusion (hybrid, multi-query) the first hit is the best fused
+    # rank, not necessarily the closest cosine. Dense or reranked lists are sorted by score, so there it is the same.
+    top = max((h["rerank_score"] for h in hits), default=0.0)
     return {"query": q, "hits": hits, "sufficient": top >= s.rag_min_score}
 
 
@@ -208,9 +274,31 @@ def _sources(hits: list[dict]) -> str:
     return "\n\n".join(lines)
 
 
+PROFILE_SOURCE = "profile"
+
+
+async def _profile_hit(state: ChatState) -> dict | None:
+    """The client's profile, trainer's restrictions and daily norm as one more numbered source (nutrition_calc.py)."""
+    ctx = state.get("profile")
+    if ctx is None and state.get("client_id"):
+        try:
+            ctx = (await get_gateway().client_context(state["client_id"])).for_llm()
+        except Exception:  # noqa: BLE001 — no profile is a worse answer, not a failed turn
+            log.warning("client context for the answer failed", exc_info=True)
+            return None
+    text = nutrition_calc.profile_source(ctx) if ctx else None
+    if not text:
+        return None
+    return {"id": PROFILE_SOURCE, "title": "Ваш профиль и норма по правилам Tulpar", "text": text,
+            "source": PROFILE_SOURCE, "page": None, "rerank_score": None}
+
+
 async def answer(state: ChatState) -> dict:
     s = get_settings()
-    hits = state.get("hits", [])
+    hits = [h for h in state.get("hits", []) if h.get("source") != PROFILE_SOURCE]
+    profile = await _profile_hit(state)
+    if profile:
+        hits = [*hits, profile]
     user = f"Вопрос клиента: {mask(_text(state))}\n\nИсточники:\n{_sources(hits)}"
     try:
         data, _ = await json_call("text", prompt("answer"), user, temperature=s.answer_temperature,
@@ -221,9 +309,10 @@ async def answer(state: ChatState) -> dict:
     cites = [{"n": n, "title": hits[n - 1]["title"], "page": hits[n - 1].get("page"), "source": hits[n - 1]["source"]}
              for n in used]
     if not data.get("sufficient", True):
-        return {"sufficient": False, "reason": "model: sources do not answer"}
+        return {"sufficient": False, "reason": "model: sources do not answer", "hits": hits}
     disclaimer = "\n\nЭто общая информация, а не медицинская консультация."
-    return {"reply": str(data.get("answer", "")).strip() + disclaimer, "citations": cites, "kind": "answer"}
+    return {"reply": str(data.get("answer", "")).strip() + disclaimer, "citations": cites, "kind": "answer",
+            "hits": hits}
 
 
 def after_answer(state: ChatState) -> str:
@@ -232,6 +321,9 @@ def after_answer(state: ChatState) -> str:
 
 # ── food ─────────────────────────────────────────────────────────────────────
 _COMPOSITE = re.compile(r"\s+(?:с|со|и)\s+", re.I)
+# a spoonful next to a dish, not a second dish: «пельмени со сметаной», «блины с мёдом», «кофе с молоком»
+_CONDIMENT = re.compile(r"^(?:сметан|соус|кетчуп|майонез|горчиц|сахар|м[её]д|молок|сливк|масл|лимон|варень|джем|сгущ|"
+                        r"зелен|специ|сироп|кориц)", re.I)
 
 
 async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict], list[dict]]:
@@ -245,10 +337,18 @@ async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict]
                 best = found[0]
                 break
         if best is None and _COMPOSITE.search(w["name"]):
+            parts = [x.strip() for x in _COMPOSITE.split(w["name"]) if x.strip()]
+            if len(parts) > 1 and all(_CONDIMENT.search(x) for x in parts[1:]):
+                # the dish carries the grams the client named («шесть пельменей» → 72 г); the condiment is left out
+                # rather than guessed: 150 g of «сметана» would outweigh the dish
+                sub_items, sub_unknown = await _resolve_items(client_id, [{**w, "name": parts[0]}])
+                if sub_items:
+                    items.extend({**it, "asked_as": w["name"]} for it in sub_items)
+                    unknown.extend(sub_unknown)
+                    continue
             # «гречка с курицей» is rarely a catalog row, its parts usually are: split the grams evenly and
             # mark them as a guess so the card asks the client to check them
-            parts = [x.strip() for x in _COMPOSITE.split(w["name"]) if x.strip()]
-            share = float(w["grams"]) / len(parts) if w.get("grams") else None
+            share = float(w["grams"]) / len(parts) if w.get("grams") else None  # an estimate stays a guess
             sub_items, sub_unknown = await _resolve_items(client_id, [{"name": x, "grams": share} for x in parts])
             if sub_items:
                 items.extend({**it, "asked_as": w["name"], "grams_source": "default"} for it in sub_items)
@@ -258,9 +358,11 @@ async def _resolve_items(client_id: str, wanted: list[dict]) -> tuple[list[dict]
             unknown.append({"name": w["name"], "alternatives": w.get("alternatives", [])})
             continue
         grams = float(w.get("grams") or DEFAULT_GRAMS)
+        source = (w.get("grams_source") or "user") if w.get("grams") else "default"
         items.append({**MealItem(food_id=best.id, name=best.name, grams=grams, kcal=best.kcal, protein=best.protein,
                                  fat=best.fat, carbs=best.carbs).model_dump(),
-                      "asked_as": w["name"], "grams_source": "user" if w.get("grams") else "default"})
+                      "asked_as": w["name"], "grams_source": source,
+                      **({"measure": w["measure"]} if source == "estimate" and w.get("measure") else {})})
     return items, unknown
 
 
@@ -284,7 +386,12 @@ def _card_text(items: list[dict], unknown: list[dict]) -> str:
     lines = []
     for it in items:
         kcal = round(it["kcal"] * it["grams"] / 100)
-        tail = " — уточните граммы" if it["grams_source"] == "default" else ""
+        if it["grams_source"] == "default":
+            tail = " — уточните граммы"
+        elif it["grams_source"] == "estimate":
+            tail = f" — примерно, «{it['measure']}»" if it.get("measure") else " — примерно"
+        else:
+            tail = ""
         lines.append(f"• {it['name']}: {int(it['grams'])} г ≈ {kcal} ккал{tail}")
     for u in unknown:
         lines.append(f"• «{u['name']}» — нет в справочнике, можно добавить вручную")
@@ -318,12 +425,40 @@ async def meal_photo(state: ChatState) -> dict:
     return await _meal_card(state, wanted)
 
 
-async def meal_text(state: ChatState) -> dict:
+def _wanted(item: dict, text: str = "") -> dict:
+    """One item of the meal_text answer → what to look up: the grams the client named, else qty × unit weight from
+    portions.py («две ложки» → 14 г, marked as an estimate), else the count read off the message itself (the model
+    sometimes leaves qty empty), else nothing — the card falls back to DEFAULT_GRAMS."""
+    name = str(item["name"]).strip()
     try:
-        data, _ = await json_call("text", prompt("meal_text"), mask(_text(state)), temperature=0.0, max_tokens=300)
-        wanted = [{"name": str(i["name"]), "grams": i.get("grams")} for i in data.get("items", []) if i.get("name")]
+        grams = float(item["grams"]) if item.get("grams") not in (None, "") else None
+    except (TypeError, ValueError):
+        grams = None
+    if grams and grams > 0:
+        return {"name": name, "grams": grams, "grams_source": "user"}
+    est = portions.estimate_grams(name, item.get("qty"), item.get("unit"))
+    said = str(item.get("said") or "").strip() or None
+    if not est and text:
+        found = portions.measure_in_text(text, name)
+        if found:
+            est, said = portions.estimate_grams(name, found[0], found[1]), found[2] or said
+    if est:
+        return {"name": name, "grams": est, "grams_source": "estimate", "measure": said}
+    return {"name": name, "grams": None}
+
+
+async def extract_meal(text: str) -> list[dict]:
+    """A meal message → [{"name", "grams", "grams_source"?, "measure"?}] for the catalog search (evals/meal_eval.py
+    calls it too)."""
+    try:
+        data, _ = await json_call("text", prompt("meal_text"), mask(text), temperature=0.0, max_tokens=400)
+        return [_wanted(i, text) for i in data.get("items", []) if isinstance(i, dict) and i.get("name")]
     except LLMError:
-        wanted = parse_meal_text(_text(state))
+        return parse_meal_text(text)
+
+
+async def meal_text(state: ChatState) -> dict:
+    wanted = await extract_meal(_text(state))
     if not wanted:
         return {"reply": "Не понял, что записать. Пример: «гречка 200 г и курица 150 г».", "kind": "info"}
     return await _meal_card(state, wanted)

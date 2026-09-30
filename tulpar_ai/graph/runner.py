@@ -62,9 +62,9 @@ def _cfg(thread: str, run_name: str, **meta) -> dict:
 
 
 async def run_chat_turn(client_id: str, text: str = "", image: bytes | None = None, audio: bytes | None = None,
-                        audio_name: str = "voice.ogg") -> dict:
+                        audio_name: str = "voice.ogg", lang_hint: str | None = None) -> dict:
     turn = str(uuid.uuid4())
-    state: dict = {"client_id": client_id, "turn_id": turn, "text": text or ""}
+    state: dict = {"client_id": client_id, "turn_id": turn, "text": text or "", "lang_hint": lang_hint}
     if image:
         p = get_settings().data_path("uploads", f"{turn}.jpg")
         p.write_bytes(image)

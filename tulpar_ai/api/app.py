@@ -278,6 +278,8 @@ class Resolve(BaseModel):
 async def resolve(eid: str, body: Resolve, user: User = Depends(trainer_user)):
     try:
         return await service.resolve_escalation(user, eid, body.reply)
+    except service.AlreadyDecided as e:
+        raise HTTPException(409, str(e))
     except LookupError:
         raise HTTPException(404, "not found")
     except PermissionError:

@@ -43,7 +43,9 @@ export interface MealItem {
   fat: number;
   carbs: number;
   asked_as: string;
-  grams_source: "user" | "default";
+  grams_source: "user" | "default" | "estimate";
+  /** Как клиент назвал количество, когда граммы оценены по нему: «две ложки», «пара». */
+  measure?: string;
 }
 
 export interface UnknownFood {

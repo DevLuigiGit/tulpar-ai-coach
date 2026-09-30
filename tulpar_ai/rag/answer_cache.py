@@ -33,6 +33,7 @@ from .embed import JinaEmbedder
 from .index import CORPUS, Index
 from .qdrant import get_client
 from .retrieve import get_index
+from .variants import variant_of
 
 NS = uuid.UUID("5b8f2d0e-6c3a-4e1f-9a7d-1c2b3e4f5a60")
 CANDIDATES = 5  # the nearest entry may be a guarded near-miss while the next one is the real repeat
@@ -59,6 +60,12 @@ def fingerprint(index: Index) -> str:
         f"retrieval={s.rag_top_k}/{s.rag_top_n}/{s.rag_rerank}/{s.rag_min_score}",
         f"corpus={corpus_digest()}",
     ]
+    # Retrieval variants (rag/variants.py): the stored-side ones already change index.collection; the query-side one
+    # (multi-query) does not, so the whole variant is added — only when it is not the default, which keeps the
+    # fingerprint, and the cache already filled in production, unchanged for the default setup.
+    variant = variant_of(index).cache_tag()
+    if variant:
+        parts.append(f"variant={variant}")
     return hashlib.sha1("|".join(parts).encode()).hexdigest()[:12]
 
 

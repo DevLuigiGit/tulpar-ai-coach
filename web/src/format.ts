@@ -40,6 +40,7 @@ export const SOURCE_LABEL: Record<string, string> = {
   exercises: "Каталог упражнений",
   nutrition: "Справочник питания",
   who2020: "ВОЗ, 2020",
+  profile: "Ваш профиль: норма посчитана по правилам питания Tulpar",
 };
 
 const GOAL: Record<string, string> = {

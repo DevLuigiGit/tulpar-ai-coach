@@ -206,18 +206,21 @@ async def apply(state: ProgramState) -> dict:
     try:
         before, after = await get_gateway().apply_ops(state["client_id"], state["trainer_id"], ops)
     except Exception as e:
-        await store.update_proposal(state["proposal_id"], status="failed", decision=state.get("decision"),
-                                    reply=f"не удалось применить: {e}"[:300])
+        p = await store.update_proposal(state["proposal_id"], status="failed", decision=state.get("decision"),
+                                        reply=f"не удалось применить: {e}"[:300])
+        await notify.proposal_status(p or {"id": state["proposal_id"], "status": "failed"})
         return {"status": "failed"}
-    await store.update_proposal(state["proposal_id"], status="applied", before=before.model_dump(),
-                                after=after.model_dump(), decision=state.get("decision"))
+    p = await store.update_proposal(state["proposal_id"], status="applied", before=before.model_dump(),
+                                    after=after.model_dump(), decision=state.get("decision"))
+    await notify.proposal_status(p or {"id": state["proposal_id"], "status": "applied"})
     await notify.to_client(state["client_id"], "Тренер обновил вашу программу: " + state["draft"]["summary"])
     return {"status": "applied"}
 
 
 async def reject(state: ProgramState) -> dict:
     decision = state.get("decision") or {}
-    await get_store().update_proposal(state["proposal_id"], status="rejected", decision=decision)
+    p = await get_store().update_proposal(state["proposal_id"], status="rejected", decision=decision)
+    await notify.proposal_status(p or {"id": state["proposal_id"], "status": "rejected"})
     if state.get("source") == "client":
         msg = "Тренер посмотрел ваш запрос и решил пока оставить программу без изменений."
         if decision.get("comment"):

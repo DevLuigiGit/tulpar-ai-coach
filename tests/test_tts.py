@@ -61,12 +61,30 @@ def test_speech_text_caps_without_sentence_end(env):
     assert len(body) <= 100 and body.endswith("слово.")
 
 
-def test_kazakh_text_gets_kazakh_voice(env):
+@pytest.mark.parametrize("rule", ["letters", "words"])
+def test_kazakh_text_gets_kazakh_voice(env, monkeypatch, rule):
     from tulpar_ai.config import get_settings
 
+    monkeypatch.setenv("TTS_VOICE_RULE", rule)
+    get_settings.cache_clear()
     s = get_settings()
     assert tts.pick_voice("Сәлеметсіз бе! Бүгін жаттығу күні.") == s.tts_voice_kk
     assert tts.pick_voice("Добрый день! Сегодня тренировка.") == s.tts_voice
+
+
+def test_voice_rules_differ_on_russian_text_with_kazakh_names(env, monkeypatch):
+    from tulpar_ai.config import get_settings
+
+    card = "Тренер ответил: Добрый день! Я поговорила с Айгүл Қасымқызы, с понедельника вы занимаетесь у неё."
+    mixed = "Тренер ответил: Жақсы, кардио қосамыз, но сначала неделю лёгкая нагрузка."
+    voices = {}
+    for rule in ("letters", "words"):
+        monkeypatch.setenv("TTS_VOICE_RULE", rule)
+        get_settings.cache_clear()
+        voices[rule] = (tts.pick_voice(card), tts.pick_voice(mixed))
+    s = get_settings()
+    assert voices["letters"] == (s.tts_voice_kk, s.tts_voice)  # 3 letters in two names; 2 letters in a mixed reply
+    assert voices["words"] == (s.tts_voice, s.tts_voice_kk)  # 2 of 16 words; 2 of 10 words
 
 
 # ── synthesize ───────────────────────────────────────────────────────────────

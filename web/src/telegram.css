@@ -36,6 +36,30 @@ html.tg-webapp #root {
   }
 }
 
+/* Полный экран (класс tg-fullscreen ставит telegram.ts): статус-бар и кнопки Telegram «Закрыть» и «⋯» парят поверх
+   приложения. Шапка уходит под них, как у нативного приложения: её фон доходит до края экрана, название встаёт
+   по центру полосы с кнопками Telegram, а «Выйти» и имя прячутся — справа «⋯», сессия и так привязана к Telegram.
+   #root отдаёт шапке свой верхний отступ; экраны без шапки (вход, загрузка) остаются ниже кнопок. */
+html.tg-webapp {
+  --tac-tg-top: calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px));
+}
+html.tg-webapp.tg-fullscreen .app {
+  margin-top: calc(-1 * var(--tac-tg-top));
+  height: calc(100% + var(--tac-tg-top));
+}
+html.tg-webapp.tg-fullscreen .app-header {
+  padding-top: var(--tg-safe-area-inset-top, 0px);
+}
+html.tg-webapp.tg-fullscreen .app-header-inner {
+  height: max(var(--tg-content-safe-area-inset-top, 0px), 44px);
+  justify-content: center;
+}
+html.tg-webapp.tg-fullscreen .app-header-inner > .grow,
+html.tg-webapp.tg-fullscreen .app-header-inner > .user-pill,
+html.tg-webapp.tg-fullscreen .app-header-inner > .btn {
+  display: none;
+}
+
 /* Шапка: прокручивается .app-main, а не документ, — sticky тут только отрывал шапку при сдвиге документа. */
 html.tg-webapp .app-header {
   position: relative;

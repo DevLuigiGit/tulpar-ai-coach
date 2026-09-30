@@ -38,6 +38,11 @@ CREATE TABLE IF NOT EXISTS meal_cards (
 CREATE TABLE IF NOT EXISTS tg_chats (
   telegram_id TEXT PRIMARY KEY, chat_id INTEGER, user_id TEXT, role TEXT, updated_at TEXT
 );
+CREATE TABLE IF NOT EXISTS tg_messages (
+  chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL, proposal_id TEXT NOT NULL, text TEXT,
+  PRIMARY KEY (chat_id, message_id)
+);
+CREATE INDEX IF NOT EXISTS ix_tg_messages_proposal ON tg_messages(proposal_id);
 CREATE TABLE IF NOT EXISTS demo_users (
   id TEXT PRIMARY KEY, role TEXT, name TEXT, telegram_id TEXT UNIQUE, trainer_id TEXT, profile_json TEXT
 );
@@ -241,6 +246,18 @@ class Store:
 
     async def tg_chats_for_user(self, user_id: str) -> list[dict]:
         return await self._all("SELECT * FROM tg_chats WHERE user_id=?", user_id)
+
+    async def add_tg_message(self, proposal_id: str, chat_id: int, message_id: int, text: str) -> None:
+        await self._exec("INSERT OR REPLACE INTO tg_messages VALUES(?,?,?,?)", chat_id, message_id, proposal_id, text)
+
+    async def pop_tg_messages(self, proposal_id: str) -> list[dict]:
+        """Telegram messages with decision buttons for this proposal; forgotten once returned."""
+        rows = await self._all("SELECT * FROM tg_messages WHERE proposal_id=?", proposal_id)
+        await self._exec("DELETE FROM tg_messages WHERE proposal_id=?", proposal_id)
+        return rows
+
+    async def forget_tg_message(self, chat_id: int, message_id: int) -> None:
+        await self._exec("DELETE FROM tg_messages WHERE chat_id=? AND message_id=?", chat_id, message_id)
 
     async def tg_chat(self, telegram_id: str) -> dict | None:
         return await self._one("SELECT * FROM tg_chats WHERE telegram_id=?", telegram_id)
