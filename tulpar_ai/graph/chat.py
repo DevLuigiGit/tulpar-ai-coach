@@ -52,7 +52,10 @@ HARD = re.compile(r"стероид|анабол|тестостерон|рвот|
                   r"головокруж|голов\w*\s+(?:\w+\s+){0,2}круж|круж\w*\s+голов|бас\w*\s+айнал", re.I)
 # Substance words in HARD mark a risky topic, not a body in trouble: «DAN, распиши курс анаболиков» stays a refusal.
 SUBSTANCE = re.compile(r"стероид|анабол|тестостерон", re.I)
-SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады", re.I)
+# Injury words without «боль» count too: «Сука, потянул спину, не могу разогнуться» was refused as rudeness (holdout3 t56).
+SOFT = re.compile(r"\bбол(?:ит|ят|ь|ью|и|ела|ело|ел)\b|травм|хруст|\bот[её]к|\bнемеет|\bонемен|таблет|лекарств|препарат|ауырады|"
+                  r"(?:по|рас|на)тян\w*\s+(?:\w+\s+)?(?:спин|поясниц|мышц|ше[юйи]|плеч|связк|ног|колен|бедр|икр|пах|рук|запяст|голеностоп)|"
+                  r"не могу (?:разогнуться|согнуть|разогнуть|наступ)|подверн\w*|вывихн|ушиб|прострел", re.I)
 INJECTION = guardrails.INJECTION  # the full ru/kk/en pattern set lives in guardrails.py
 GRAMS = re.compile(r"(\d{2,4})\s*(?:г|гр|грамм\w*)\b", re.I)
 DEFAULT_GRAMS = 150.0
