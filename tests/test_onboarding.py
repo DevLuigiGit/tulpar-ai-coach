@@ -273,3 +273,34 @@ async def test_plan_meta_survives_an_accepted_change(app_state):
                                   [PlanOp(op="set_volume", day_index=0, wex_id=wex.id, sets=4, reps=8)])
     assert after.meta == before.meta and after.meta["subtitle"]
     assert (await gw.active_plan(aidar["id"])).meta == before.meta
+
+
+async def test_restart_fixes_home_plans_stored_before_the_seed_fix(app_state):
+    """Дана and home clients saved their plan with the barbell hip thrust before the fix; a restart swaps that row,
+    and a row the trainer changed to a home exercise stays."""
+    import copy
+
+    store, gw = app_state
+    barbell = next(e for e in gw._exercises if e.name == "Ягодичный мост со штангой")
+    dana = gw._demo["clients"][1]
+    old = copy.deepcopy(dana["active_plan"])
+    row = next(e for d in old["days"] for e in d["exercises"] if e["exercise_name"] == "Ягодичный мостик")
+    row.update(exercise_id=barbell.id, exercise_name=barbell.name, equipment="barbell")
+    trainer_row = old["days"][0]["exercises"][0]
+    trainer_row.update(exercise_name="Планка")  # a trainer's edit to a home exercise: not touched
+    await store.put_demo_plan(dana["id"], old)
+
+    u = await gw.guest_user("h" * 32)
+    await gw.update_profile(u.id, "Гость", {**{k: v for k, v in ANKETA.items() if k != "name"}, "place": "home"})
+    guest_plan = await store.get_demo_plan(u.id)
+    for d in guest_plan["days"]:
+        for e in d["exercises"]:
+            if e["exercise_name"] == "Ягодичный мостик":
+                e.update(exercise_id=barbell.id, exercise_name=barbell.name, equipment="barbell")
+    await store.put_demo_plan(u.id, guest_plan)
+
+    await gw.start()  # what a restart does on a seeded database
+    for cid in (dana["id"], u.id):
+        names = [e["exercise_name"] for d in (await store.get_demo_plan(cid))["days"] for e in d["exercises"]]
+        assert "Ягодичный мост со штангой" not in names and "Ягодичный мостик" in names
+    assert (await store.get_demo_plan(dana["id"]))["days"][0]["exercises"][0]["exercise_name"] == "Планка"

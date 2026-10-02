@@ -157,8 +157,20 @@ async def judge(kind: str, **kw) -> int | None:
     return None
 
 
+# A first-launch questionnaire written for the eval (not a real person): qa_personal_new.jsonl expects its numbers.
+QUESTIONNAIRE = {"sex": "female", "age": 31, "height_cm": 168, "weight_kg": 62, "goal": "cut", "level": "beginner",
+                 "place": "home", "activity": "light", "limitations": "болит колено при приседаниях",
+                 "restrictions": ["болит колено при приседаниях"], "onboarded": True}
+
+
 def demo_profile(first_name: str) -> dict:
-    """ClientContext.for_llm() of a demo client straight from fixtures/demo.json: what the answer node sees in chat."""
+    """ClientContext.for_llm() of a demo client straight from fixtures/demo.json: what the answer node sees in chat.
+    «новый» is a client who has not filled in the questionnaire yet, «анкета» one who has (QUESTIONNAIRE)."""
+    if first_name == "новый":
+        return {"profile": {k: None for k in ("sex", "age", "height_cm", "weight_kg", "goal", "level", "place",
+                                              "activity")} | {"onboarded": False}, "trainer_note": None}
+    if first_name == "анкета":
+        return {"profile": dict(QUESTIONNAIRE), "trainer_note": None}
     fx = json.loads((ROOT / "fixtures" / "demo.json").read_text(encoding="utf-8"))
     c = next(c for c in fx["clients"] if c["name"].lower().startswith(first_name.lower()))
     keys = ("sex", "age", "height_cm", "goal", "level", "place", "training_days", "activity", "weight_kg", "goal_weight_kg")
@@ -204,8 +216,11 @@ async def suite_qa(args) -> dict:
             rank = _hit_rank(first_hits, c["expected_sources"]) if c["answerable"] else None
             low = answer.lower().replace("–", "-")
             keyfacts = all(tok.lower() in low for tok in c["must_include"]) if c["answerable"] and answered else None
+            # without a questionnaire: the answer asks for it, or the escalate node does (own-norm questions only)
+            own_norm = bool(g._ABOUT_ME.search(c["question"]) and g._NORM.search(c["question"]))
             row = {"id": c["id"], "rep": rep, "answerable": c["answerable"], "answered": answered, "rank": rank,
-                   "keyfacts": keyfacts, "ms": ms, "rewrites": st.get("rewrites", 0),
+                   "keyfacts": keyfacts, "asks_questionnaire": answered and "анкет" in low, "own_norm": own_norm,
+                   "ms": ms, "rewrites": st.get("rewrites", 0),
                    "out_tokens": sum(x["out"] for x in calls if x["role"] == "text"), "tags": c.get("tags", []),
                    "answer": answer[:400]}
             if answered and args.judge:
@@ -240,6 +255,10 @@ async def suite_qa(args) -> dict:
     summary["cost_per_question_usd"] = round(summary["cost_usd"] / (len(rows) or 1), 6)
     summary["hit_at_4_by_tag"] = {t: pct(r["rank"] is not None and r["rank"] <= 4 for r in ans if t in r["tags"])
                                   for t in sorted({t for r in ans for t in r["tags"]})}
+    if getattr(args, "profile", None) == "новый":
+        summary["asks_questionnaire_rate"] = pct(r["asks_questionnaire"] for r in rows)
+        summary["to_trainer_without_fallback"] = pct(not r["answered"] for r in rows)
+        summary["to_trainer"] = pct(not r["answered"] and not r["own_norm"] for r in rows)
     summary["gate"] = summary["hit_at_4"] >= 70
     return {"summary": summary, "rows": rows}
 
@@ -491,7 +510,8 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--models")
     ap.add_argument("--tag", default="")
     ap.add_argument("--golden", default="", help="qa suite: another golden file in evals/golden (qa_personal.jsonl)")
-    ap.add_argument("--profile", choices=["айдар", "дана"], help="qa suite: answer with this demo client's profile")
+    ap.add_argument("--profile", choices=["айдар", "дана", "новый", "анкета"],
+                    help="qa suite: answer with this demo client's profile; «новый» — no questionnaire yet")
     ap.add_argument("--trace", action="store_true")
     return ap
 

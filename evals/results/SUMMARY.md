@@ -450,3 +450,15 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | qa_hedge_nojudge | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 86.3 | 100.0 | None | None | 1989.5 | 233 | 0.001087 |
+
+## qa_onboarding_unfilled — 2026-10-02 12:36
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| onboarding_unfilled | 18 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 27.8 | 0.0 | None | None | 3957.0 | 238 | 0.001023 |
+
+## qa_onboarding_filled — 2026-10-02 12:38
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| onboarding_filled | 18 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 94.4 | 0.0 | 5 | 4.82 | 3134.0 | 193 | 0.001071 |

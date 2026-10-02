@@ -12,6 +12,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import logging
 import uuid
 from datetime import date, timedelta
 
@@ -21,7 +22,9 @@ from ..store import Store
 from .base import (ClientContext, ClientSummary, Exercise, Food, MealItem, Plan, PlanOp, User, rank_foods)
 
 FIX = ROOT / "fixtures"
+log = logging.getLogger("gateway.demo")
 PROFILE_FIELDS = ("sex", "age", "height_cm", "weight_kg", "goal", "level", "place", "activity")
+GYM_ONLY = {"barbell", "machine", "cable"}
 
 
 class DemoGateway:
@@ -36,6 +39,7 @@ class DemoGateway:
 
     async def start(self) -> None:
         if await self.store.demo_user_count() > 0:
+            await self._sync_home_plans()
             return
         tr = self._demo["trainer"]
         await self.store.upsert_demo_user({"id": tr["id"], "role": "trainer", "name": tr["name"],
@@ -45,6 +49,31 @@ class DemoGateway:
 
     async def close(self) -> None:
         return None
+
+    async def _sync_home_plans(self) -> None:
+        """A correction of the home seed reaches plans stored before it: Tulpar's home seeds listed a barbell hip
+        thrust (tools/export_from_tulpar.py swaps it for the floor bridge). A row of a home plan that still holds a
+        gym-only exercise takes the seed's exercise for the same row; rows a trainer changed keep their exercise."""
+        gear = {e.id: e.equipment for e in self._exercises}
+        demo = {c["id"]: c["active_plan"] for c in self._demo["clients"]}
+        for row in await self.store.demo_clients(self._demo["trainer"]["id"]):
+            seed = demo.get(row["id"])
+            if seed is None and row["profile"].get("place") == "home":
+                seed = self._plan_copy("home", row["id"])
+            plan = await self.store.get_demo_plan(row["id"])
+            if not seed or not plan or (seed.get("meta") or {}).get("place") != "home":
+                continue
+            by_id = {e["id"]: e for d in seed["days"] for e in d["exercises"]}
+            fixed = 0
+            for d in plan["days"]:
+                for e in d["exercises"]:
+                    want = by_id.get(e["id"])
+                    if want and gear.get(e.get("exercise_id")) in GYM_ONLY and want["exercise_id"] != e.get("exercise_id"):
+                        e.update({k: want[k] for k in ("exercise_id", "exercise_name", "muscle_group", "equipment")})
+                        fixed += 1
+            if fixed:
+                await self.store.put_demo_plan(row["id"], plan)
+                log.info("home plan of %s: %d gym-only exercise(s) replaced from the seed", row["id"], fixed)
 
     async def _seed_client(self, c: dict, trainer_id: str) -> None:
         profile = {k: c.get(k) for k in ("sex", "age", "height_cm", "goal", "level", "place", "training_days",
