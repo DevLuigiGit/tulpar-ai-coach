@@ -27,6 +27,8 @@ def test_guest_fills_the_questionnaire(env, fake_llm):
     with TestClient(app) as c:
         user, h = _guest(c)
         assert c.get("/api/me", headers=h).json()["needs_onboarding"] is True
+        ids = {x["id"] for x in c.get("/api/trainer/clients", headers=_trainer(c)).json()}
+        assert user["id"] not in ids  # an anonymous visitor appears for the trainer after the questionnaire
         blank = c.get("/api/my/profile", headers=h).json()
         assert blank["onboarded"] is False and blank["sex"] is None and blank["weight_kg"] is None
         assert c.get("/api/my/plan", headers=h).json()["days"], "a starter plan from the first minute"

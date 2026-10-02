@@ -154,6 +154,8 @@ class DemoGateway:
         out = []
         for row in await self.store.demo_clients(trainer_id):
             p = row["profile"]
+            if str(row.get("telegram_id") or "").startswith("guest:") and not p.get("onboarded"):
+                continue  # a web visitor who has not introduced themselves yet is not a client of this trainer
             plan = await self.store.get_demo_plan(row["id"])
             out.append(ClientSummary(id=row["id"], name=row["name"], goal=p.get("goal"), level=p.get("level"),
                                      place=p.get("place"),
