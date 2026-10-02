@@ -44,7 +44,7 @@ export const SOURCE_LABEL: Record<string, string> = {
 };
 
 const GOAL: Record<string, string> = {
-  cut: "Сушка",
+  cut: "Снижение веса",
   keep: "Поддержание",
   gain: "Набор массы",
   lose_weight: "Снижение веса",

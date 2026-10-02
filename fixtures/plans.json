@@ -210,10 +210,10 @@
      },
      {
       "id": "4f2cc39c-36f9-5f6f-878a-55da42e83052",
-      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
-      "exercise_name": "Ягодичный мост со штангой",
+      "exercise_id": "8375447f-e4a1-51a1-aa2e-e939ed21c7f3",
+      "exercise_name": "Ягодичный мостик",
       "muscle_group": "ноги",
-      "equipment": "barbell",
+      "equipment": null,
       "target_sets": 3,
       "target_reps": 15
      },
@@ -1396,10 +1396,10 @@
      },
      {
       "id": "62911ef0-ce00-57db-ac09-21102b29f0e3",
-      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
-      "exercise_name": "Ягодичный мост со штангой",
+      "exercise_id": "8375447f-e4a1-51a1-aa2e-e939ed21c7f3",
+      "exercise_name": "Ягодичный мостик",
       "muscle_group": "ноги",
-      "equipment": "barbell",
+      "equipment": null,
       "target_sets": 3,
       "target_reps": 20
      },
@@ -2104,10 +2104,10 @@
     "exercises": [
      {
       "id": "8350fa33-4c57-58b9-a2a1-652555f2c24e",
-      "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
-      "exercise_name": "Ягодичный мост со штангой",
+      "exercise_id": "8375447f-e4a1-51a1-aa2e-e939ed21c7f3",
+      "exercise_name": "Ягодичный мостик",
       "muscle_group": "ноги",
-      "equipment": "barbell",
+      "equipment": null,
       "target_sets": 3,
       "target_reps": 15
      },

@@ -239,3 +239,37 @@ async def test_own_norm_without_questionnaire_asks_for_it_not_the_trainer(app_st
     assert pain["kind"] == "escalated"
     await gw.update_profile(u.id, "Гость", {k: v for k, v in ANKETA.items() if k != "name"})
     assert (await chat.escalate(st))["kind"] == "escalated"  # filled in: a real gap goes to the trainer
+
+
+def test_home_plan_needs_no_gym_and_keeps_its_subtitle(env, fake_llm):
+    """Tulpar's home seeds listed a barbell hip thrust (tools/export_from_tulpar.py swaps it for the floor bridge);
+    the plan's meta reaches the web, so the client sees «3 дня, только своё тело» under the title."""
+    import json
+
+    from tulpar_ai.api.app import app
+    from tulpar_ai.config import ROOT
+
+    catalog = {e["id"]: e for e in json.loads((ROOT / "fixtures" / "exercises.json").read_text(encoding="utf-8"))}
+    for plan in json.loads((ROOT / "fixtures" / "plans.json").read_text(encoding="utf-8")):
+        if plan["meta"].get("place") == "home":
+            gear = {catalog[e["exercise_id"]]["equipment"] for d in plan["days"] for e in d["exercises"]}
+            assert not gear & {"barbell", "machine", "cable"}, plan["title"]
+    with TestClient(app) as c:
+        _, h = _guest(c)
+        c.put("/api/my/profile", json={**ANKETA, "place": "home"}, headers=h).raise_for_status()
+        plan = c.get("/api/my/plan", headers=h).json()
+        assert plan["meta"]["subtitle"] == "3 дня, только своё тело"
+        assert "Ягодичный мостик" in {e["exercise_name"] for d in plan["days"] for e in d["exercises"]}
+
+
+async def test_plan_meta_survives_an_accepted_change(app_state):
+    from tulpar_ai.gateway.base import PlanOp
+
+    _, gw = app_state
+    aidar = gw._demo["clients"][0]
+    before = await gw.active_plan(aidar["id"])
+    wex = before.days[0].exercises[0]
+    _, after = await gw.apply_ops(aidar["id"], gw._demo["trainer"]["id"],
+                                  [PlanOp(op="set_volume", day_index=0, wex_id=wex.id, sets=4, reps=8)])
+    assert after.meta == before.meta and after.meta["subtitle"]
+    assert (await gw.active_plan(aidar["id"])).meta == before.meta

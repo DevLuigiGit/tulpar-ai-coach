@@ -38,6 +38,25 @@ def sid(kind: str, name: str) -> str:
     return str(uuid.uuid5(NS, f"{kind}:{name}"))
 
 
+# Tulpar's home plan seeds («Новичок дома — без железа», «Жиросжигание — дома», «Экспресс 20 минут») list the
+# barbell hip thrust; at home it is the floor bridge. The fix lives here, Tulpar's repository stays read-only.
+HOME_SWAPS = {"Ягодичный мост со штангой": "Ягодичный мостик"}
+GYM_ONLY = {"barbell", "machine", "cable"}
+
+
+def fix_home_plan(plan: dict, by_name: dict) -> None:
+    for d in plan["days"]:
+        for e in d["exercises"]:
+            if e["equipment"] not in GYM_ONLY:
+                continue
+            swap = by_name.get(HOME_SWAPS.get(e["exercise_name"], ""))
+            if swap is None:
+                print(f"warning: home plan «{plan['title']}» needs {e['equipment']}: {e['exercise_name']}")
+                continue
+            e.update(exercise_id=swap["id"], exercise_name=swap["name"], muscle_group=swap["muscle_group"],
+                     equipment=swap["equipment"])
+
+
 def seed_literals(seed_py: Path, names: set[str]) -> dict:
     tree = ast.parse(seed_py.read_text(encoding="utf-8"))
     out = {}
@@ -142,6 +161,8 @@ def export(tulpar: Path) -> None:
                          "weekday": d.get("weekday"), "exercises": exs})
         plans.append({"id": sid("plan", p["title"]), "title": p["title"], "mode": p.get("mode"),
                       "meta": p.get("meta", {}), "days": days})
+        if plans[-1]["meta"].get("place") == "home":
+            fix_home_plan(plans[-1], by_name)
 
     demo = build_demo(plans, foods, by_name)
 

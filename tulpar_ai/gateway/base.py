@@ -53,6 +53,7 @@ class Plan(BaseModel):
     id: str
     title: str
     days: list[PlanDay] = Field(default_factory=list)
+    meta: dict | None = None  # goal, level, place, days per week, subtitle: the web shows the subtitle, apply_ops keeps it
 
 
 class PlanOp(BaseModel):

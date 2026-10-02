@@ -1265,10 +1265,10 @@
        },
        {
         "id": "2e87ae8d-9213-579d-9ffd-d0117bb88ca8",
-        "exercise_id": "91024f95-fc7d-5eb3-aed9-71b614cd0896",
-        "exercise_name": "Ягодичный мост со штангой",
+        "exercise_id": "8375447f-e4a1-51a1-aa2e-e939ed21c7f3",
+        "exercise_name": "Ягодичный мостик",
         "muscle_group": "ноги",
-        "equipment": "barbell",
+        "equipment": null,
         "target_sets": 3,
         "target_reps": 15
        },
@@ -1913,21 +1913,21 @@
        "rpe": 9
       },
       {
-       "exercise_name": "Ягодичный мост со штангой",
+       "exercise_name": "Ягодичный мостик",
        "set_index": 1,
        "reps": 15,
        "weight": 40,
        "rpe": 8
       },
       {
-       "exercise_name": "Ягодичный мост со штангой",
+       "exercise_name": "Ягодичный мостик",
        "set_index": 2,
        "reps": 14,
        "weight": null,
        "rpe": 9
       },
       {
-       "exercise_name": "Ягодичный мост со штангой",
+       "exercise_name": "Ягодичный мостик",
        "set_index": 3,
        "reps": 15,
        "weight": 50,
