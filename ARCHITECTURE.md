@@ -73,7 +73,7 @@ flowchart LR
 | LLM | `llm.py`, цепочки в `.env` | Ollama Cloud → Groq автоматически при сбое; порядок меняется без кода |
 | Озвучка | `tts.py` | edge-tts → другой движок: меняется одна функция `synthesize`; `TTS_ENABLED=false` выключает |
 | Guardrails | `guardrails.py`, `api/ratelimit.py` | Чистые функции без сети; лимиты задаются переменными окружения |
-| Промпты | `prompts/*.v<N>.md` | Версии файлами, активная задаётся в коде или env; сейчас route v2, draft v2, answer v3 |
+| Промпты | `prompts/*.v<N>.md` | Версии файлами, активная задаётся в коде или env; сейчас route v4, answer v7, meal_text v2, draft v3 (агент; v2 — режим `candidates`) |
 | Правила программ | `skills/tulpar-program-builder` | Один источник правды для графа и для Claude |
 
 ### Сознательная связанность

@@ -193,7 +193,8 @@ async def suite_qa(args) -> dict:
     set_index(idx)
     rows, calls_all = [], []
     profile = demo_profile(args.profile) if getattr(args, "profile", None) else None
-    for c in load(getattr(args, "golden", "") or "qa.jsonl")[: args.limit or None]:
+    ids = {i.strip() for i in (getattr(args, "ids", "") or "").split(",") if i.strip()}
+    for c in [c for c in load(getattr(args, "golden", "") or "qa.jsonl") if not ids or c["id"] in ids][: args.limit or None]:
         for rep in range(args.repeats):
             with llm.record() as calls:
                 t0 = time.perf_counter()
@@ -218,8 +219,11 @@ async def suite_qa(args) -> dict:
             keyfacts = all(tok.lower() in low for tok in c["must_include"]) if c["answerable"] and answered else None
             # without a questionnaire: the answer asks for it, or the escalate node does (own-norm questions only)
             own_norm = bool(g._ABOUT_ME.search(c["question"]) and g._NORM.search(c["question"]))
+            # the questionnaire injury is named as the client's own («в анкете указано… колено»), not only in technique
+            limitation = answered and "колен" in low and bool(re.search(r"анкет|профил|указал|указан|отмеч|со слов", low))
             row = {"id": c["id"], "rep": rep, "answerable": c["answerable"], "answered": answered, "rank": rank,
                    "keyfacts": keyfacts, "asks_questionnaire": answered and "анкет" in low, "own_norm": own_norm,
+                   "mentions_limitation": limitation,
                    "ms": ms, "rewrites": st.get("rewrites", 0),
                    "out_tokens": sum(x["out"] for x in calls if x["role"] == "text"), "tags": c.get("tags", []),
                    "answer": answer[:400]}
@@ -255,6 +259,15 @@ async def suite_qa(args) -> dict:
     summary["cost_per_question_usd"] = round(summary["cost_usd"] / (len(rows) or 1), 6)
     summary["hit_at_4_by_tag"] = {t: pct(r["rank"] is not None and r["rank"] <= 4 for r in ans if t in r["tags"])
                                   for t in sorted({t for r in ans for t in r["tags"]})}
+    restr = [r for r in rows if "restriction" in r["tags"]]
+    if restr:  # questions that load the injured place: the answer names the injury, or the trainer gets the question
+        summary["restriction_named"] = pct(r["mentions_limitation"] for r in restr)
+        summary["restriction_to_trainer"] = pct(not r["answered"] for r in restr)
+        summary["restriction_correct_ge4"] = pct((r.get("correctness") or 0) >= 4 for r in restr)
+    control = [r for r in rows if "control" in r["tags"]]
+    if control:  # a question that does not load the injured place: mentioning the knee there is over-caution
+        summary["control_over_caution"] = pct(r["answered"] and "колен" in r["answer"].lower() for r in control)
+        summary["control_answered"] = pct(r["answered"] for r in control)
     if getattr(args, "profile", None) == "новый":
         summary["asks_questionnaire_rate"] = pct(r["asks_questionnaire"] for r in rows)
         summary["to_trainer_without_fallback"] = pct(not r["answered"] for r in rows)
@@ -509,6 +522,7 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--manifest")
     ap.add_argument("--models")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--ids", default="", help="qa suite: only these example ids, comma-separated (re-checking flips)")
     ap.add_argument("--golden", default="", help="qa suite: another golden file in evals/golden (qa_personal.jsonl)")
     ap.add_argument("--profile", choices=["айдар", "дана", "новый", "анкета"],
                     help="qa suite: answer with this demo client's profile; «новый» — no questionnaire yet")

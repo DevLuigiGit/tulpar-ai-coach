@@ -462,3 +462,81 @@
 | arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | onboarding_filled | 18 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 94.4 | 0.0 | 5 | 4.82 | 3134.0 | 193 | 0.001071 |
+
+## qa_personal_aidar_v6 — 2026-10-02 13:09
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| personal_aidar_v6 | 18 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 100.0 | 0.0 | 5 | 5 | 3141.0 | 167 | 0.001232 |
+
+## qa_onboarding_filled_v6 — 2026-10-02 13:11
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| onboarding_filled_v6 | 45 | jina3 | False | 0.0 | 0.9 | 400 | 55.6 | 0.556 | 97.8 | 0.0 | 4.91 | 4.89 | 3512 | 195 | 0.001156 |
+
+## qa_onboarding_filled_v4 — 2026-10-02 13:11
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| onboarding_filled_v4 | 45 | jina3 | False | 0.0 | 0.9 | 400 | 55.6 | 0.556 | 97.8 | 0.0 | 4.86 | 4.64 | 3466 | 193 | 0.001043 |
+
+## qa_answer_v4_rerun — 2026-10-02 13:19
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_v4_rerun | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 86.3 | 100.0 | 4.66 | 4.53 | 5756.5 | 203 | 0.000903 |
+
+## qa_answer_v6 — 2026-10-02 13:19
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_v6 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 82.4 | 100.0 | 4.64 | 4.59 | 6588.0 | 216 | 0.000985 |
+
+## qa_flips_v4 — 2026-10-02 13:24
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| flips_v4 | 54 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.75 | 81.5 | 0.0 | None | None | 3726.0 | 218 | 0.000937 |
+
+## qa_onboarding_filled_v7 — 2026-10-02 13:25
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| onboarding_filled_v7 | 45 | jina3 | False | 0.0 | 0.9 | 400 | 55.6 | 0.556 | 100.0 | 0.0 | 4.96 | 4.91 | 3446 | 183 | 0.001186 |
+
+## qa_personal_aidar_v7 — 2026-10-02 13:27
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| personal_aidar_v7 | 18 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.833 | 100.0 | 0.0 | 5 | 5 | 3423.5 | 193 | 0.001264 |
+
+## qa_answer_v7 — 2026-10-02 13:27
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| answer_v7 | 56 | jina3 | False | 0.0 | 0.9 | 400 | 88.2 | 0.789 | 86.3 | 100.0 | 4.53 | 4.47 | 4686.0 | 196 | 0.001019 |
+
+## qa_flips_v6 — 2026-10-02 13:28
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| flips_v6 | 54 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.75 | 79.6 | 0.0 | None | None | 3667.5 | 210 | 0.001029 |
+
+## qa_contra_judge_v7 — 2026-10-02 13:31
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| contra_judge_v7 | 42 | jina3 | False | 0.0 | 0.9 | 400 | 85.7 | 0.786 | 83.3 | 0.0 | 4.21 | 4.44 | 2791.5 | 186 | 0.001074 |
+
+## qa_flips_v7 — 2026-10-02 13:31
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| flips_v7 | 54 | jina3 | False | 0.0 | 0.9 | 400 | 83.3 | 0.75 | 83.3 | 0.0 | None | None | 3120.5 | 199 | 0.001049 |
+
+## qa_contra_judge_v4 — 2026-10-02 13:31
+
+| arm | n | embedder | rerank | temperature | top_p | pdf_chunk | hit_at_4 | mrr | keyfact_accuracy | correct_refusal_rate | faithfulness_avg | correctness_avg | p50_ms | out_tokens_p95 | cost_per_question_usd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| contra_judge_v4 | 42 | jina3 | False | 0.0 | 0.9 | 400 | 85.7 | 0.786 | 85.7 | 0.0 | 4.28 | 4.3 | 2831.0 | 200 | 0.000946 |

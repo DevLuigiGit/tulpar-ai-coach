@@ -1,0 +1,889 @@
+{
+ "summary": {
+  "n": 42,
+  "rerank": false,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "max_tokens": 400,
+  "pdf_chunk": 400,
+  "embedder": "jina3",
+  "hit_at_4": 85.7,
+  "mrr": 0.786,
+  "answered_rate": 92.9,
+  "keyfact_accuracy": 83.3,
+  "correct_refusal_rate": 0.0,
+  "faithfulness_avg": 4.21,
+  "faithfulness_pass": 74.4,
+  "correctness_avg": 4.44,
+  "p50_ms": 2791.5,
+  "p95_ms": 4768,
+  "out_tokens_p95": 186,
+  "llm_calls": 42,
+  "tokens_in": 69918,
+  "tokens_out": 5018,
+  "cost_usd": 0.045126,
+  "fallbacks": 1,
+  "hedged": 1,
+  "rag_variant": "default",
+  "collection": "coach_jina3_400_p2_b064ec4f",
+  "jina_requests": 0,
+  "jina_tokens": 0,
+  "cost_per_question_usd": 0.001074,
+  "hit_at_4_by_tag": {
+   "contraindications": 85.7,
+   "replacement": 80.0
+  },
+  "gate": true
+ },
+ "rows": [
+  {
+   "id": "q18",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3445,
+   "rewrites": 0,
+   "out_tokens": 140,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "По карточке упражнения приседания со штангой [1]: при проблемах с коленями можно выполнять это упражнение, но нужно соблюдать осторожность — снизьте вес и строго следите за техникой (таз назад, колени не уходят внутрь, не сводите колени при подъёме, держите спину прямо). При любой боли в коленях скажите тренеру, чтобы он скорректировал нагрузку или подобрал замену.\n\nЭто общая информация, а не меди",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q18",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2033,
+   "rewrites": 0,
+   "out_tokens": 84,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Приседания со штангой при проблемах с коленями выполнять можно, но с осторожностью: снизьте вес и строго следите за техникой [1]. При боли в коленях обязательно скажите тренеру, чтобы он скорректировал нагрузку.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 5
+  },
+  {
+   "id": "q18",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2520,
+   "rewrites": 0,
+   "out_tokens": 99,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "По карточке упражнения [1] приседания со штангой выполнять можно, но при проблемах с коленями нужно соблюдать осторожность: снизьте вес и строго следите за техникой. Обязательно сообщите о дискомфорте в коленях тренеру, чтобы он скорректировал нагрузку.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q19",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 5022,
+   "rewrites": 0,
+   "out_tokens": 186,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При ноющих коленях после бега карточка бега на дорожке советует снизить скорость и наклон или заменить бег на ходьбу [1]. Как кардио с меньшей ударной нагрузкой подойдёт велотренажёр — он тренирует выносливость с минимальной нагрузкой на суставы, только при болях в коленях уменьшите сопротивление и проверьте высоту седла [4]. Скакалка при проблемах с коленями требует ограничить объём и приземлятьс",
+   "faithfulness": 3,
+   "correctness": 5
+  },
+  {
+   "id": "q19",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2372,
+   "rewrites": 0,
+   "out_tokens": 130,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "В карточке бега на дорожке при болях в коленях рекомендуют снизить скорость и наклон или заменить бег на ходьбу [1]. Хорошая альтернатива с минимальной ударной нагрузкой на суставы — велотренажёр: при болях в коленях уменьшите сопротивление и проверьте высоту седла [4]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q19",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2834,
+   "rewrites": 0,
+   "out_tokens": 177,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "По карточке бега на дорожке при болях в коленях рекомендуется снизить скорость и наклон или заменить бег на ходьбу [1]. Если нужна именно альтернатива с меньшей нагрузкой на суставы, в карточке велотренажёра сказано, что он тренирует выносливость с минимальной ударной нагрузкой на суставы, а при болях в коленях — уменьшить сопротивление и проверить высоту седла [4]. Других замен в источниках нет. ",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q20",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 4338,
+   "rewrites": 0,
+   "out_tokens": 181,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "По карточке упражнения [1] к нему нет специальных оговорок, но в карточке тяги верхнего блока к груди [2] прямо сказано: «Не заводите рукоять за голову при проблемах с плечами». Это относится и к тяге за голову [1] — при такой технике плечевой сустав уходит в крайнее положение. Лучше заменить на тягу верхнего блока к груди [2] или [4]: там рукоять идёт к верху груди, а не за голову, и плечи нагруж",
+   "faithfulness": 3,
+   "correctness": 4
+  },
+  {
+   "id": "q20",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3228,
+   "rewrites": 0,
+   "out_tokens": 158,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "В карточке упражнения [1] прямых указаний при проблемах с плечом нет, но в карточке похожего упражнения [2] сказано: «Не заводите рукоять за голову при проблемах с плечами» — это относится и к тяге за голову. Лучше заменить на тягу верхнего блока к груди [4] — там рукоять тянется к верху груди, а не за голову, и нагрузка на плечо мягче. При боли в плече обязательно скажите тренеру.\n\nЭто общая инфо",
+   "faithfulness": 4,
+   "correctness": 4
+  },
+  {
+   "id": "q20",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2544,
+   "rewrites": 0,
+   "out_tokens": 95,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "Тягу верхнего блока за голову при проблемах с плечами делать не стоит [1]. В качестве замены подойдёт тяга верхнего блока к груди [4] или тяга верхнего блока к верху груди [2]. При боли в плече скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 4
+  },
+  {
+   "id": "q21",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": false,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 9901,
+   "rewrites": 0,
+   "out_tokens": 162,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "Тренируйте подтягивания узким хватом, но из‑за боли в локтях уменьшите нагрузку: используйте вспомогательные средства (резинка, тренажёр) и контролируйте положение локтей, не перегружая их [4][1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 4
+  },
+  {
+   "id": "q21",
+   "rep": 1,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 4768,
+   "rewrites": 0,
+   "out_tokens": 166,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q21",
+   "rep": 2,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 4384,
+   "rewrites": 0,
+   "out_tokens": 223,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q22",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": false,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3130,
+   "rewrites": 0,
+   "out_tokens": 120,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При болях в запястьях в карточке отжиманий узким хватом рекомендуется уменьшить амплитуду или выполнять упражнение с колен [4]. Также в карточке молотковых сгибаний при болях в запястьях советуют уменьшить вес и следить за нейтральным положением кистей [3]. При боли обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 4,
+   "correctness": 2
+  },
+  {
+   "id": "q22",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": null,
+   "keyfacts": false,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3293,
+   "rewrites": 0,
+   "out_tokens": 148,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "В источниках есть карточка отжиманий узким хватом [4]: при болях в запястьях рекомендуется уменьшить амплитуду или выполнять с колен, контролируя технику. Закрепление силы и толщины предплечий, а также силы хвата дают молотковые сгибания [3]: при болях в запястьях в них уменьшают вес и следят за нейтральным положением кистей. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консул",
+   "faithfulness": 5,
+   "correctness": 2
+  },
+  {
+   "id": "q22",
+   "rep": 2,
+   "answerable": true,
+   "answered": false,
+   "rank": null,
+   "keyfacts": null,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3102,
+   "rewrites": 0,
+   "out_tokens": 221,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": ""
+  },
+  {
+   "id": "q23",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2516,
+   "rewrites": 0,
+   "out_tokens": 65,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При проблемах с вращательной манжетой используйте более широкий хват, не поднимайте локти выше плеч или замените упражнение [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q23",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1907,
+   "rewrites": 0,
+   "out_tokens": 84,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При проблемах с вращательной манжетой в карточке упражнения рекомендуется взять более широкий хват и не поднимать локти выше плеч, либо заменить упражнение [1]. При боли обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q23",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1968,
+   "rewrites": 0,
+   "out_tokens": 77,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При проблемах с вращательной манжетой в карточке упражнения указано: используйте более широкий хват, не поднимайте локти выше плеч или замените упражнение [1]. При боли обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q24",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 4011,
+   "rewrites": 0,
+   "out_tokens": 120,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Гиперэкстензию делать можно: в карточке упражнения указано, что оно укрепляет разгибатели спины, ягодицы и бицепсы бёдер, стабилизируя поясницу [1]. При болях в пояснице не переразгибайте спину в верхней точке и выполняйте упражнение без дополнительного отягощения [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q24",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2638,
+   "rewrites": 0,
+   "out_tokens": 101,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "В карточке упражнения «Гиперэкстензия» есть прямое указание: при болях в пояснице не переразгибайте спину в верхней точке и работайте без дополнительного отягощения [1]. То есть делать можно, но с этими ограничениями. Обязательно скажите тренеру о боли в пояснице.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q24",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2250,
+   "rewrites": 0,
+   "out_tokens": 111,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Гиперэкстензию делать можно, но с осторожностью: при болях в пояснице не переразгибайте спину в верхней точке и работайте без дополнительного отягощения [1]. Следите, чтобы в верхней точке корпус был в одну линию с ногами, без рывков [1][2]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q25",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": true,
+   "ms": 2340,
+   "rewrites": 0,
+   "out_tokens": 113,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Скакалка при варикозе не исключена полностью, но в карточке упражнения сказано ограничить объём и приземляться мягко на носок [1]. Также в карточке есть общее указание: при проблемах с коленями, голеностопом или варикозе действуйте аккуратнее [1]. При боли или дискомфорте скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q25",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2705,
+   "rewrites": 0,
+   "out_tokens": 112,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Прыгать на скакалке при варикозе можно, но с ограничениями: приземляйтесь мягко на носок и снизьте объём нагрузки [1]. Это не кардио без ограничений — при варикозе карточка упражнения прямо просит быть аккуратнее. Если почувствуете боль или тяжесть в ногах, скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q25",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2702,
+   "rewrites": 0,
+   "out_tokens": 113,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При варикозе скакалку можно, но в источнике [1] сказано ограничить объём и приземляться мягко на носок. Прыгайте невысоко, на носках, с мягкой амортизацией коленями, ровным ритмом [1]. Сообщите тренеру о варикозе, чтобы он скорректировал нагрузку.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 5
+  },
+  {
+   "id": "q26",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1989,
+   "rewrites": 0,
+   "out_tokens": 88,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "При проблемах с запястьями уберите отжимание и прыжок и делайте бёрпи в облегчённом варианте [1]. Двигайтесь в контролируемом темпе и держите корпус напряжённым [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 4
+  },
+  {
+   "id": "q26",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1955,
+   "rewrites": 0,
+   "out_tokens": 96,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "В карточке бёрпи прямо сказано: при проблемах с запястьями уберите отжимание и прыжок и выполняйте движение в облегчённом варианте [1]. Других замен для бёрпи в источниках нет. При боли в запястьях обязательно скажите об этом тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q26",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3873,
+   "rewrites": 0,
+   "out_tokens": 86,
+   "tags": [
+    "contraindications",
+    "replacement"
+   ],
+   "answer": "Если болят запястья, в карточке бёрпи противопоказание прямо указано — уберите отжимание и прыжок и делайте движение в облегчённом варианте [1]. При боли скажите тренеру, чтобы он подобрал вам замену.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q27",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1884,
+   "rewrites": 0,
+   "out_tokens": 49,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "У жима штанги стоя противопоказания — травмы плеч и поясницы [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q27",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 1876,
+   "rewrites": 0,
+   "out_tokens": 57,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "У жима штанги стоя противопоказания следующие: травмы плеч и поясницы [1]. Если есть что-то из этого, при боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q27",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2514,
+   "rewrites": 0,
+   "out_tokens": 78,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "У жима штанги стоя противопоказания — травмы плеч и поясницы [1]. При наличии таких проблем упражнение лучше не выполнять или согласовать нагрузку с тренером. Это всё, что указано в карточке упражнения.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q28",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3606,
+   "rewrites": 0,
+   "out_tokens": 161,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Да, при повышенном давлении планку можно делать, но с осторожностью [1]. Следите за тем, чтобы не прогибать поясницу: тело — прямая линия, таз не проваливается и не задирается, пресс и ягодицы напряжены, дыхание ровное [1]. Исследования показывают, что физическая активность при гипертензии полезна и снижает риск сердечно-сосудистых осложнений [2][4]. При любом дискомфорте скажите тренеру.\n\nЭто общ",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q28",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3553,
+   "rewrites": 0,
+   "out_tokens": 148,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "В карточке упражнения «Планка» указано: при повышенном давлении выполнять осторожно и не допускать прогиба поясницы [1]. По рекомендациям WHO при гипертензии полезны аэробные и силовые нагрузки, однако конкретных указаний по планке в источнике нет [2][3][4]. Делайте планку осторожно, контролируя положение тела, и обязательно сообщите тренеру о повышенном давлении.\n\nЭто общая информация, а не медиц",
+   "faithfulness": 5,
+   "correctness": 4
+  },
+  {
+   "id": "q28",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2914,
+   "rewrites": 0,
+   "out_tokens": 145,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "Планку при повышенном давлении выполнять можно, но осторожно: не допускайте прогиба поясницы [1]. В целом физическая активность при гипертензии полезна — она снижает систолическое давление примерно на 12,26 мм рт. ст. и диастолическое на 6,12 мм рт. ст. [4]. Если у вас есть ограничения от тренера или вы недавно наблюдали ухудшение самочувствия, обязательно сообщите тренеру перед выполнением.\n\nЭто ",
+   "faithfulness": 4,
+   "correctness": 4
+  },
+  {
+   "id": "q29",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": true,
+   "ms": 3483,
+   "rewrites": 0,
+   "out_tokens": 145,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "С больными коленями в жиме ногами придерживайтесь обычной техники: стопы на ширине плеч, поясница прижата к спинке, сгибайте колени примерно до 90° и не разгибайте их полностью в верхней точке [2]. Не опускайте платформу слишком глубоко и не отрывайте таз от спинки — это указано в противопоказаниях [2]. При боли в коленях обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская консуль",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q29",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3135,
+   "rewrites": 0,
+   "out_tokens": 142,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "По карточке упражнения [2] при проблемах с коленями жим ногами нужно делать осторожно: сгибайте колени только до угла около 90 градусов, не опускайте платформу слишком глубоко и не отрывайте таз от спинки; в верхней точке не разгибайте колени полностью. Постановка стоп — на ширине плеч, спина прижата к спинке. При боли в коленях обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская ",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q29",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 2,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2693,
+   "rewrites": 0,
+   "out_tokens": 115,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "При проблемах с коленями в жиме ногами главное — не опускать платформу слишком глубоко, сгибайте колени только до угла около 90 градусов, и не отрывайте таз от спинки [2]. Не разгибайте колени полностью в верхней точке [2][3]. При боли в коленях обязательно скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 5
+  },
+  {
+   "id": "q30",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3700,
+   "rewrites": 0,
+   "out_tokens": 94,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "У ягодичного мостика нет существенных противопоказаний [1]. Это упражнение с упором на лопатки: вы поднимаете таз и сжимаете ягодицы в верхней точке, оно полезно для сильных ягодиц и поддержки поясницы [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q30",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": false,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2829,
+   "rewrites": 0,
+   "out_tokens": 71,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "В карточке упражнения «Ягодичный мостик» существенных противопоказаний не указано [1]. Упражнение даёт сильные ягодицы и поддержку поясницы [1]. При боли скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q30",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2521,
+   "rewrites": 0,
+   "out_tokens": 69,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "У ягодичного мостика нет существенных противопоказаний [1]. Это упражнение укрепляет ягодицы и поддерживает поясницу [1]. При любой боли во время упражнения скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 5,
+   "correctness": 5
+  },
+  {
+   "id": "q31",
+   "rep": 0,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 3546,
+   "rewrites": 0,
+   "out_tokens": 91,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "По карточке упражнения [1]: при проблемах с шеей в шрагах со штангой рекомендуется снизить вес. Также нельзя делать круговые движения плечами, чтобы не получить травму [1]. При любой боли в шее скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 4
+  },
+  {
+   "id": "q31",
+   "rep": 1,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2754,
+   "rewrites": 0,
+   "out_tokens": 115,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "В карточке шрагов со штангой [1] указано, что при проблемах с шеей нужно снизить вес. Также там же [1] противопоказаны круговые движения плечами — их делать нельзя, чтобы не получить травму. Движение должно быть строго вверх к ушам, без вращения плечами. При боли в шее скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 4,
+   "correctness": 5
+  },
+  {
+   "id": "q31",
+   "rep": 2,
+   "answerable": true,
+   "answered": true,
+   "rank": 1,
+   "keyfacts": true,
+   "asks_questionnaire": false,
+   "own_norm": false,
+   "mentions_limitation": false,
+   "ms": 2302,
+   "rewrites": 0,
+   "out_tokens": 82,
+   "tags": [
+    "contraindications"
+   ],
+   "answer": "По карточке шрагов со штангой при проблемах с шеей рекомендуется снизить вес [1]. Также не делайте круговых движений плечами, чтобы избежать травмы [1]. При боли в шее скажите тренеру.\n\nЭто общая информация, а не медицинская консультация.",
+   "faithfulness": 3,
+   "correctness": 4
+  }
+ ]
+}
