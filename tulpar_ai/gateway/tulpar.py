@@ -83,6 +83,23 @@ class TulparGateway:
             raise LookupError("this Telegram account is not a Tulpar user on the local stand")
         return u
 
+    # The questionnaire lives in Tulpar itself (its own onboarding fills the profile this service reads): the coach
+    # only reads it here, and there are no guest clients on the local stand.
+    async def guest_user(self, key: str) -> User:
+        raise NotImplementedError("guest clients exist in demo mode only")
+
+    async def needs_onboarding(self, user: User) -> bool:
+        return False
+
+    async def client_profile(self, client_id: str) -> dict:
+        ctx = await self.client_context(client_id)
+        return {"name": ctx.name, **{k: ctx.profile.get(k) for k in ("sex", "age", "height_cm", "weight_kg", "goal",
+                                                                    "level", "place", "activity")},
+                "limitations": "", "onboarded": True}
+
+    async def update_profile(self, client_id: str, name: str, fields: dict) -> None:
+        raise NotImplementedError("the profile is edited in Tulpar")
+
     async def list_clients(self, trainer_id: str) -> list[ClientSummary]:
         rows = await self.pool.fetch(
             "SELECT u.id::text AS id, u.name, u.goal, u.level, u.place, COALESCE(n.injury,false) AS injury, "

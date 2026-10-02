@@ -39,7 +39,8 @@ export function ClientHero({ ctx }: { ctx: ClientContext }) {
             <span className="chip chip-accent">{goalLabel(p.goal)}</span>
             <span className="chip">{levelLabel(p.level)}</span>
             <span className="chip">{placeLabel(p.place)}</span>
-            {ctx.trainer_note?.injury && <span className="chip t-injury">ограничение</span>}
+            {(ctx.trainer_note?.injury || !!p.limitations) && <span className="chip t-injury">ограничение</span>}
+            {p.onboarded === false && <span className="chip status-drafting">анкета не заполнена</span>}
           </div>
         </div>
       </div>
@@ -51,6 +52,11 @@ export function ClientHero({ ctx }: { ctx: ClientContext }) {
           </div>
         ))}
       </dl>
+      {p.limitations && (
+        <div className="notice notice-warn t-hero-limits">
+          <b>Со слов клиента (анкета):</b> {p.limitations}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,0 +1,112 @@
+/* ---------- Анкета клиента: первый запуск и правка ---------- */
+
+.profile-first {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--s-6) var(--s-4);
+  background:
+    radial-gradient(600px 320px at 50% -10%, rgba(255, 80, 0, 0.16), transparent 70%),
+    var(--bg);
+}
+.profile-first-card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+.profile-first-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); }
+.profile-first-head .brand-mark { width: 40px; height: 40px; border-radius: var(--r-md); font-size: var(--fs-lg); }
+.profile-first-title { font-size: 26px; letter-spacing: -0.02em; }
+.profile-first-lead { color: var(--text-2); font-size: var(--fs-md); }
+.profile-out { align-self: center; }
+
+.profile-page {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: var(--s-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.profile-form { display: flex; flex-direction: column; gap: var(--s-4); }
+.profile-label { font-size: var(--fs-sm); font-weight: 600; color: var(--text-2); }
+.profile-hint { font-size: var(--fs-xs); color: var(--muted); line-height: 1.4; }
+.profile-error { font-size: var(--fs-xs); color: var(--red-text); }
+.profile-field.has-error .input { border-color: var(--red-line); }
+.profile-field.has-error .profile-choice { box-shadow: 0 0 0 1px var(--red-line); border-radius: var(--r-md); }
+
+.profile-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+.profile-num { position: relative; display: block; }
+.profile-num .input { padding-right: 40px; }
+.profile-unit {
+  position: absolute;
+  right: var(--s-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  pointer-events: none;
+}
+
+.profile-choice { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.profile-opt {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 6px var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.profile-opt:hover { border-color: var(--accent-line); }
+.profile-opt.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.profile-opt-hint { font-size: var(--fs-2xs); font-weight: 500; color: var(--muted); }
+.profile-opt.is-active .profile-opt-hint { color: var(--text-2); }
+
+.profile-actions { display: flex; gap: var(--s-2); }
+.profile-foot { color: var(--muted); font-size: var(--fs-sm); text-align: center; }
+
+/* Ссылка на анкету во вкладке «Программа». */
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: 12px var(--s-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.profile-link:hover { border-color: var(--border-strong); background: var(--surface-2); }
+.profile-link-text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.profile-link-title { font-weight: 650; }
+.profile-link-sub { font-size: var(--fs-sm); color: var(--text-2); }
+.profile-link svg { color: var(--muted); flex: 0 0 auto; }
+
+@media (max-width: 420px) {
+  .profile-numbers { gap: var(--s-2); }
+  .profile-num .input { padding-right: 30px; padding-left: var(--s-2); }
+  .profile-unit { right: var(--s-2); }
+}

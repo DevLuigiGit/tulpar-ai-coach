@@ -4,6 +4,7 @@
  * Props:
  *   user: User              — текущий клиент.
  *   onOpenChat: () => void  — вернуться во вкладку «Коуч» («Попросить изменить программу»).
+ *   onOpenProfile: () => void — открыть анкету (цель, вес, травмы).
  *
  * GET /api/my/plan → PlanView или пустое состояние; ниже «Запросы на изменение»
  * (GET /api/my/proposals) со статусом и резюме ИИ. Оба списка обновляются раз в 10 с.
@@ -16,6 +17,7 @@ import PlanView from "../../components/PlanView";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
 import ProposalItem from "./ProposalItem";
+import "./profile.css";
 import { ArrowRightIcon, BookIcon } from "./icons";
 import "./client.css";
 import "./plan.css";
@@ -23,11 +25,12 @@ import "./plan.css";
 export interface PlanPageProps {
   user: User;
   onOpenChat: () => void;
+  onOpenProfile: () => void;
 }
 
 const POLL_MS = 10_000;
 
-export default function PlanPage({ onOpenChat }: PlanPageProps) {
+export default function PlanPage({ onOpenChat, onOpenProfile }: PlanPageProps) {
   const [plan, setPlan] = useState<Plan | null | undefined>(undefined);
   const [proposals, setProposals] = useState<Proposal[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -108,6 +111,14 @@ export default function PlanPage({ onOpenChat }: PlanPageProps) {
           <ArrowRightIcon size={18} />
         </button>
       )}
+
+      <button className="profile-link" onClick={onOpenProfile}>
+        <span className="profile-link-text">
+          <span className="profile-link-title">Анкета</span>
+          <span className="profile-link-sub">Цель, вес, травмы — по ним коуч считает норму и проверяет программу.</span>
+        </span>
+        <ArrowRightIcon size={18} />
+      </button>
 
       <section className="plan-section">
         <div className="plan-section-head">

@@ -66,10 +66,11 @@ const LEVEL: Record<string, string> = {
 };
 const ACTIVITY: Record<string, string> = {
   sedentary: "Сидячая",
-  light: "Низкая",
+  light: "Лёгкая",
   moderate: "Средняя",
   high: "Высокая",
   very_high: "Очень высокая",
+  athlete: "Спортсмен",
 };
 const SEX: Record<string, string> = { male: "Мужской", female: "Женский" };
 const PLACE: Record<string, string> = {

@@ -18,7 +18,7 @@ from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import feedback, progress, service, tts
+from .. import feedback, guardrails, progress, service, tts
 from ..config import ROOT, get_settings
 from ..gateway import build_gateway, get_gateway, set_gateway
 from ..gateway.base import User
@@ -108,9 +108,58 @@ async def demo_login(body: DemoLogin):
     return {"token": issue_token(user), "user": user}
 
 
+class GuestLogin(BaseModel):
+    key: str = Field(min_length=16, max_length=128)  # random, kept by the browser: the same key is the same person
+
+
+@app.post("/api/auth/guest", dependencies=[Depends(limit_login)])
+async def guest_login(body: GuestLogin):
+    """«Новый клиент» on the web: a person of their own (not the shared demo client), with the questionnaire first."""
+    if not get_settings().allow_demo_login:
+        raise HTTPException(404)
+    try:
+        user = await get_gateway().guest_user(body.key)
+    except NotImplementedError:
+        raise HTTPException(404, "guest clients exist in demo mode only")
+    return {"token": issue_token(user), "user": user}
+
+
 @app.get("/api/me")
 async def me(user: User = Depends(current_user)):
-    return user
+    return {**user.model_dump(), "needs_onboarding": await get_gateway().needs_onboarding(user)}
+
+
+class ProfileIn(BaseModel):
+    """The first-launch questionnaire: what the norms (nutrition_calc.py) and the restriction checks need."""
+    name: str = Field(min_length=1, max_length=60)
+    sex: Literal["male", "female"]
+    age: int = Field(ge=12, le=100)
+    height_cm: float = Field(ge=100, le=250)
+    weight_kg: float = Field(ge=25, le=300)
+    goal: Literal["cut", "keep", "gain", "strength"]
+    level: Literal["beginner", "inter", "advanced"]
+    place: Literal["gym", "home"]
+    activity: Literal["sedentary", "light", "moderate", "high", "athlete"]
+    limitations: str = Field("", max_length=400)  # injuries and limits in the client's own words
+
+
+@app.get("/api/my/profile")
+async def my_profile(user: User = Depends(client_user)):
+    return await get_gateway().client_profile(user.id)
+
+
+@app.put("/api/my/profile")
+async def save_my_profile(body: ProfileIn, user: User = Depends(client_user)):
+    # The limitations text reaches the answer and draft prompts as part of the profile: only injections are refused,
+    # pain and injuries are exactly what it is for.
+    if body.limitations and guardrails.check_input(body.limitations, red_flag=True).category == "injection":
+        raise HTTPException(422, "В поле об ограничениях — только о здоровье и травмах")
+    fields = body.model_dump(exclude={"name"})
+    try:
+        await get_gateway().update_profile(user.id, body.name.strip(), fields)
+    except NotImplementedError:
+        raise HTTPException(501, "Профиль редактируется в Tulpar")
+    return await get_gateway().client_profile(user.id)
 
 
 # ── client ───────────────────────────────────────────────────────────────────

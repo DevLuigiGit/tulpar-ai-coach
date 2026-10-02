@@ -295,6 +295,10 @@ class Store:
         await self._exec("INSERT INTO demo_plans VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET plan_json=excluded.plan_json, "
                          "updated_at=excluded.updated_at", client_id, _j(plan), now())
 
+    async def delete_seed_diary(self, client_id: str) -> None:
+        """Diary rows copied from the demo client's seed (idem «seed:…»), not logged by this client."""
+        await self._exec("DELETE FROM demo_diary WHERE client_id=? AND idem LIKE 'seed:%'", client_id)
+
     async def add_demo_diary(self, client_id: str, rows: list[dict], idem: str | None = None) -> int:
         n = 0
         for i, r in enumerate(rows):

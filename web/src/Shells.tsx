@@ -2,11 +2,12 @@
 // данные и колбэки навигации — App и Shells агенты экранов не трогают.
 import { useEffect, useState, type ReactNode } from "react";
 import { queue } from "./api";
-import type { User } from "./types";
+import type { MyProfile, User } from "./types";
 import { initials } from "./format";
 import { navigate, useRoute } from "./route";
 import ChatPage from "./pages/client/ChatPage";
 import PlanPage from "./pages/client/PlanPage";
+import ProfilePage from "./pages/client/ProfilePage";
 import QueuePage from "./pages/trainer/QueuePage";
 import ClientsPage from "./pages/trainer/ClientsPage";
 import HistoryPage from "./pages/trainer/HistoryPage";
@@ -76,27 +77,36 @@ function Frame(props: { kind: "client" | "trainer"; header: ReactNode; tabs: Rea
   );
 }
 
-// ---------- Клиент: «Коуч» и «Программа» ----------
+// ---------- Клиент: «Коуч» и «Программа» (+ анкета из «Программы») ----------
 
 const CLIENT_TABS: TabDef[] = [
   { id: "coach", label: "Коуч" },
   { id: "plan", label: "Программа" },
 ];
 
-export function ClientShell({ user, onLogout }: ShellProps) {
+export function ClientShell({ user, onLogout, onProfileSaved }: ShellProps & { onProfileSaved: (p: MyProfile) => void }) {
   const route = useRoute();
-  const tab = CLIENT_TABS.some((t) => t.id === route.tab) ? route.tab : "coach";
+  const tab = route.tab === "profile" || CLIENT_TABS.some((t) => t.id === route.tab) ? route.tab : "coach";
   return (
     <Frame
       kind="client"
       header={<Header user={user} onLogout={onLogout} sub="AI Coach" />}
-      tabs={<Tabs tabs={CLIENT_TABS} active={tab} />}
+      tabs={<Tabs tabs={CLIENT_TABS} active={tab === "profile" ? "plan" : tab} />}
       fill={tab === "coach"}
     >
       {tab === "coach" ? (
         <ChatPage user={user} onOpenPlan={() => navigate("plan")} />
+      ) : tab === "profile" ? (
+        <ProfilePage
+          mode="edit"
+          onSaved={(p) => {
+            onProfileSaved(p);
+            navigate("plan");
+          }}
+          onCancel={() => navigate("plan")}
+        />
       ) : (
-        <PlanPage user={user} onOpenChat={() => navigate("coach")} />
+        <PlanPage user={user} onOpenChat={() => navigate("coach")} onOpenProfile={() => navigate("profile")} />
       )}
     </Frame>
   );

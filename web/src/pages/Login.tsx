@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { errorText, login } from "../api";
+import { errorText, guestLogin, login } from "../api";
 import type { Role, User } from "../types";
 import Spinner from "../components/Spinner";
 
@@ -9,16 +9,21 @@ interface LoginProps {
   notice?: string | null;
 }
 
-/** Демо-вход: одна кнопка на роль, без пароля. Токен сохраняет api.login. */
+type Choice = Role | "guest";
+
+/**
+ * Вход без пароля. «Новый клиент» — свой клиент этого браузера с анкетой на первом запуске;
+ * «Демо-клиент» — общий заполненный профиль с историей; «Тренер» — кабинет. Токен сохраняет api.
+ */
 export default function Login({ onLoggedIn, notice }: LoginProps) {
-  const [busy, setBusy] = useState<Role | null>(null);
+  const [busy, setBusy] = useState<Choice | null>(null);
   const [error, setError] = useState<string | null>(notice ?? null);
 
-  const go = async (role: Role) => {
-    setBusy(role);
+  const go = async (choice: Choice) => {
+    setBusy(choice);
     setError(null);
     try {
-      const res = await login(role);
+      const res = choice === "guest" ? await guestLogin() : await login(choice);
       onLoggedIn(res.user);
     } catch (e) {
       setError(errorText(e));
@@ -41,10 +46,17 @@ export default function Login({ onLoggedIn, notice }: LoginProps) {
         </div>
 
         <div className="login-actions">
-          <button className="btn btn-primary btn-lg login-choice" disabled={!!busy} onClick={() => go("client")}>
+          <button className="btn btn-primary btn-lg login-choice" disabled={!!busy} onClick={() => go("guest")}>
             <span className="login-choice-text">
-              <span>Войти как клиент</span>
-              <span className="login-choice-sub">Чат с коучем и программа</span>
+              <span>Новый клиент</span>
+              <span className="login-choice-sub">Анкета за минуту — и коуч считает вашу норму</span>
+            </span>
+            {busy === "guest" ? <Spinner size="sm" /> : <Arrow />}
+          </button>
+          <button className="btn btn-lg login-choice" disabled={!!busy} onClick={() => go("client")}>
+            <span className="login-choice-text">
+              <span>Демо-клиент</span>
+              <span className="login-choice-sub muted">Готовый профиль с историей: травма колена, дневник</span>
             </span>
             {busy === "client" ? <Spinner size="sm" /> : <Arrow />}
           </button>
@@ -59,7 +71,7 @@ export default function Login({ onLoggedIn, notice }: LoginProps) {
 
         {error && <div className="notice notice-error">{error}</div>}
 
-        <p className="login-foot">Демо-режим: вход без пароля, данные тестовые.</p>
+        <p className="login-foot">Демо-режим: вход без пароля. «Новый клиент» запоминается в этом браузере.</p>
       </div>
     </div>
   );

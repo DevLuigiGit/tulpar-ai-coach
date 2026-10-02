@@ -4,6 +4,7 @@ import type {
   ChatMessage,
   ChatReply,
   ClientContext,
+  MyProfile,
   ClientSummary,
   ConfirmMealRequest,
   ConfirmMealResponse,
@@ -12,6 +13,7 @@ import type {
   FeedbackResult,
   LoginResponse,
   Plan,
+  ProfileInput,
   Proposal,
   Role,
   TrainerFeedback,
@@ -142,6 +144,35 @@ export async function login(role: Role): Promise<LoginResponse> {
 }
 
 export const me = () => request<User>("/api/me");
+
+const GUEST_KEY = "tac_guest_key";
+
+/** «Новый клиент»: свой человек, а не общий демо-клиент. Ключ живёт в браузере — тот же браузер, тот же клиент. */
+export async function guestLogin(): Promise<LoginResponse> {
+  let key: string | null = null;
+  try {
+    key = localStorage.getItem(GUEST_KEY);
+  } catch {
+    /* приватный режим — ключ на одну сессию */
+  }
+  if (!key) {
+    key = typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join("");
+    try {
+      localStorage.setItem(GUEST_KEY, key);
+    } catch {
+      /* без сохранения */
+    }
+  }
+  const res = await request<LoginResponse>("/api/auth/guest", { json: { key } });
+  setToken(res.token);
+  return res;
+}
+
+export const myProfile = () => request<MyProfile>("/api/my/profile");
+export const saveProfile = (body: ProfileInput) =>
+  request<MyProfile>("/api/my/profile", { method: "PUT", json: body });
 
 // ---------- Клиент ----------
 

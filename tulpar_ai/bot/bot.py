@@ -79,6 +79,12 @@ async def start(m: Message):
     if user.role == "trainer":
         await m.answer("Вы вошли как тренер. Сюда будут приходить черновики изменений программ и сообщения клиентов, "
                        "которые требуют вашего решения. Очередь: /queue", reply_markup=open_app_kb(m.chat.type))
+    elif await get_gateway().needs_onboarding(user):
+        await m.answer(f"Привет, {user.name}! Я AI-коуч вашего клуба: отвечаю на вопросы о тренировках и питании со "
+                       "ссылками на источники, считаю калории по фото и голосу, а изменения программы передаю тренеру.\n\n"
+                       "Сначала минутная анкета — пол, возраст, рост, вес, цель и травмы. Без неё я не смогу посчитать "
+                       "вашу норму калорий и учесть ограничения.",
+                       reply_markup=open_app_kb(m.chat.type, "Заполнить анкету"))
     else:
         await m.answer("Привет! Я AI-коуч вашего клуба.\n• Пришлите фото еды или напишите «гречка 200 г» — посчитаю "
                        "калории и запишу в дневник.\n• Спросите про технику, питание или нормы активности — отвечу со "
@@ -103,6 +109,24 @@ async def queue_cmd(m: Message):
         await (_send_proposal(m.chat.id, p) if p["kind"] == "program" else _send_escalation(m.chat.id, p))
 
 
+_onboarding_hinted: set[str] = set()
+
+
+async def _hint_onboarding(m: Message, user: User) -> None:
+    """After the first answer to someone without the questionnaire: once per process, a reminder and not a nag.
+    The answer is already sent — a failure here must not turn it into an error message."""
+    if user.id in _onboarding_hinted:
+        return
+    try:
+        if not await get_gateway().needs_onboarding(user):
+            return
+        _onboarding_hinted.add(user.id)
+        await m.answer("Чтобы нормы и советы были про вас, заполните короткую анкету.",
+                       reply_markup=open_app_kb(m.chat.type, "Заполнить анкету"))
+    except Exception:
+        log.warning("onboarding hint failed", exc_info=True)
+
+
 async def _run_turn(m: Message, user: User, voice_reply: bool = False, **kw) -> None:
     await m.bot.send_chat_action(m.chat.id, "typing")
     try:
@@ -118,6 +142,7 @@ async def _run_turn(m: Message, user: User, voice_reply: bool = False, **kw) -> 
     await m.answer(_reply_text(r), reply_markup=kb)
     if voice_reply:
         await _send_voice_reply(m, r.get("reply") or "")
+    await _hint_onboarding(m, user)
 
 
 async def _send_voice_reply(m: Message, text: str) -> None:

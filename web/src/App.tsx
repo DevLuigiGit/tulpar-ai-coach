@@ -3,6 +3,7 @@ import { ApiError, errorText, getToken, LOGOUT_EVENT, logout, me } from "./api";
 import { closeTelegram, ensureTelegramSession, inTelegram, startTelegram } from "./telegram";
 import type { User } from "./types";
 import Login from "./pages/Login";
+import ProfilePage from "./pages/client/ProfilePage";
 import Spinner from "./components/Spinner";
 import { ClientShell, TrainerShell } from "./Shells";
 
@@ -16,6 +17,7 @@ type AuthState =
  * Корень: без токена — экран входа; с токеном — GET /api/me и оболочка по роли.
  * На 401 api.ts стирает токен и шлёт событие tac:logout — возвращаемся ко входу.
  * Внутри Telegram Mini App вход автоматический (telegram.ts): экран входа — только если он не удался.
+ * Новый клиент (needs_onboarding) сначала заполняет анкету, потом попадает в оболочку.
  */
 export default function App() {
   const [auth, setAuth] = useState<AuthState>(() =>
@@ -86,9 +88,9 @@ export default function App() {
       return (
         <Login
           notice={tgError}
-          onLoggedIn={(user) => {
+          onLoggedIn={() => {
             window.location.hash = "";
-            setAuth({ phase: "ready", user });
+            void loadMe(); // /api/me знает, нужна ли анкета
           }}
         />
       );
@@ -115,11 +117,23 @@ export default function App() {
           </div>
         </div>
       );
-    case "ready":
-      return auth.user.role === "trainer" ? (
-        <TrainerShell user={auth.user} onLogout={signOut} />
-      ) : (
-        <ClientShell user={auth.user} onLogout={signOut} />
-      );
+    case "ready": {
+      const user = auth.user;
+      const saved = (name: string | null) =>
+        setAuth({ phase: "ready", user: { ...user, name: name || user.name, needs_onboarding: false } });
+      if (user.role === "trainer") return <TrainerShell user={user} onLogout={signOut} />;
+      if (user.needs_onboarding)
+        return (
+          <ProfilePage
+            mode="first"
+            onSaved={(p) => {
+              window.location.hash = "";
+              saved(p.name);
+            }}
+            onLogout={inTelegram() ? undefined : signOut}
+          />
+        );
+      return <ClientShell user={user} onLogout={signOut} onProfileSaved={(p) => saved(p.name)} />;
+    }
   }
 }

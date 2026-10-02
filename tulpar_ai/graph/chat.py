@@ -484,7 +484,35 @@ async def program_request(state: ChatState) -> dict:
                      "программу, как только он её примет."}
 
 
+# «сколько белка мне есть», «какая у меня норма калорий»: a question about the client's own norm
+_ABOUT_ME = re.compile(r"(?<!\w)(?:мне|меня|мой|моя|мо[её]|мои|моей|моего|моих|я|маған|менің)(?!\w)", re.I)
+_NORM = re.compile(r"калори|ккал|бел[ок]|протеин|бжу|жир|углевод|вод[аыу]|норм|дефицит|профицит|похуд|набрать|имт",
+                   re.I)
+NEEDS_QUESTIONNAIRE = ("Чтобы посчитать это для вас, нужна анкета: пол, возраст, рост, вес, цель и травмы. Заполните её "
+                       "в приложении (кнопка «Открыть») — займёт минуту. На общие вопросы о тренировках и питании "
+                       "отвечу и без неё.")
+
+
+async def _needs_questionnaire(state: ChatState) -> bool:
+    """A question about the client's own norm that has no answer only because there is no questionnaire yet: the
+    model sometimes calls «the norm cannot be counted» an insufficient source. The trainer cannot help with that."""
+    if state.get("red_flag") or state.get("intent") != "question":
+        return False
+    text = _text(state)
+    if not (_ABOUT_ME.search(text) and _NORM.search(text)):
+        return False
+    try:
+        gw = get_gateway()
+        user = await gw.get_user(state["client_id"])
+        return bool(user) and await gw.needs_onboarding(user)
+    except Exception:  # noqa: BLE001 — when unsure, the trainer gets the question as before
+        log.warning("questionnaire check failed", exc_info=True)
+        return False
+
+
 async def escalate(state: ChatState) -> dict:
+    if await _needs_questionnaire(state):
+        return {"reply": NEEDS_QUESTIONNAIRE, "kind": "info"}
     gw, store = get_gateway(), get_store()
     trainer = await gw.trainer_of(state["client_id"])
     reason = state.get("reason") or ("нет ответа в базе знаний" if state.get("intent") == "question" else "red flag")

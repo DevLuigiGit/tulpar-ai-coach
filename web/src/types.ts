@@ -7,7 +7,34 @@ export interface User {
   id: string;
   role: Role;
   name: string;
+  /** GET /api/me: новый клиент ещё не заполнил анкету — сначала она. */
+  needs_onboarding?: boolean;
 }
+
+// ---------- Анкета клиента (первый запуск) ----------
+
+export type Sex = "male" | "female";
+export type Goal = "cut" | "keep" | "gain" | "strength";
+export type Level = "beginner" | "inter" | "advanced";
+export type Place = "gym" | "home";
+export type Activity = "sedentary" | "light" | "moderate" | "high" | "athlete";
+
+/** PUT /api/my/profile: всё обязательно, кроме ограничений. */
+export interface ProfileInput {
+  name: string;
+  sex: Sex;
+  age: number;
+  height_cm: number;
+  weight_kg: number;
+  goal: Goal;
+  level: Level;
+  place: Place;
+  activity: Activity;
+  limitations: string;
+}
+
+/** GET /api/my/profile: у незаполненной анкеты поля null. */
+export type MyProfile = { [K in keyof ProfileInput]: ProfileInput[K] | null } & { onboarded: boolean };
 
 export interface LoginResponse {
   token: string;
@@ -284,6 +311,9 @@ export interface ClientProfile {
   activity: string;
   weight_kg: number | null;
   goal_weight_kg: number | null;
+  /** Анкета первого запуска: травмы со слов клиента и заполнена ли она (у демо-клиентов полей нет). */
+  limitations?: string;
+  onboarded?: boolean;
 }
 
 export interface TrainerNote {

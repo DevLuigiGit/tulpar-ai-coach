@@ -98,6 +98,8 @@ def profile_source(ctx: dict) -> str | None:
     body = note.get("body") if isinstance(note, dict) else note
     if body:
         lines.append(f"Ограничения и заметка тренера: {mask(str(body))}")
+    if p.get("limitations"):
+        lines.append(f"Травмы и ограничения со слов клиента (анкета): {mask(str(p['limitations']))}")
     t = targets(p)
     if t:
         lines.append(
@@ -106,4 +108,9 @@ def profile_source(ctx: dict) -> str | None:
             f"({_percent(t['goal_delta'])}) — {t['kcal']} ккал в день; "
             f"белок {t['protein_g']} г (2 г на кг веса), жиры {t['fat_g']} г (25% калорий), углеводы {t['carbs_g']} г; "
             f"вода {_litres(t['water_ml'])} в день, в день тренировки {_litres(t['water_training_ml'])}.")
+    elif p.get("onboarded") is False:  # a new client who has not filled in the questionnaire yet
+        lines.append("Анкета клиента не заполнена: пол, возраст, рост и вес неизвестны, поэтому личную норму калорий, "
+                     "белка, жиров, углеводов и воды посчитать нельзя. На вопрос о его собственной норме это и есть "
+                     "ответ: скажи, что норму посчитаем после анкеты, и попроси заполнить её в приложении "
+                     "(кнопка «Открыть»).")
     return "\n".join(lines) or None
